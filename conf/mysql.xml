@@ -1,0 +1,30 @@
+<config>	
+	<default-bit-length>1</default-bit-length>
+	<default-tinyint-length>1</default-tinyint-length>
+	<default-smallint-length>1</default-smallint-length>
+	<default-integer-length>1</default-integer-length>
+	<default-bigint-length>1</default-bigint-length>
+	<default-float-length>1</default-float-length>
+	<default-float-decimal>1</default-float-decimal>
+	<default-double-length>1</default-double-length>
+	<default-double-decimal>1</default-double-decimal>
+	<default-real-length>1</default-real-length>
+	<default-real-decimal>1</default-real-decimal>
+	<default-numeric-length>1</default-numeric-length>
+	<default-numeric-decimal>1</default-numeric-decimal>
+	<default-decimal-length>1</default-decimal-length>
+	<default-decimal-decimal>1</default-decimal-decimal>
+	<default-char-length>1</default-char-length>
+	<default-varchar-length>1</default-varchar-length>
+	<default-longvarchar-length>1</default-longvarchar-length>
+	<default-date-length>1</default-date-length>
+	<default-time-length>1</default-time-length>
+	<default-timestamp-length>1</default-timestamp-length>
+	<default-binary-length>1</default-binary-length>
+	<default-varbinary-length>1</default-varbinary-length>
+	<default-longvarbinary-length>1</default-longvarbinary-length>
+	<default-other-length>1</default-other-length>
+	<default-java-object-length>1</default-java-object-length>
+	<default-blob-length>1</default-blob-length>
+	<default-clob-length>1</default-clob-length>
+</config>
