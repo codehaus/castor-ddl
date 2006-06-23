@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+	<description>one field type of bit test</description>
+	<class name="Simple">
+		<map-to table="simple" xml="product" />
+		<field name="field" type="bit">
+			<sql name="id" type="bit" />
+		</field>
+	</class>
+</mapping>
+

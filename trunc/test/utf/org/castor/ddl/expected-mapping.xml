@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+<mapping>
+	<description>Description of the mapping</description>
+	<class name="utf.org.castor.ddl.ExpectedResult" identity="id">
+ 		<field name="DdlsList" type="utf.org.castor.ddl.Ddl" collection="vector">
+			<bind-xml name="ddl"/>
+		</field>
+	</class>
+	<class name="utf.org.castor.ddl.Ddl" depends="utf.org.castor.ddl.ExpectedResult">
+		<field name="_matchtype" type="java.lang.String" direct="true">
+			<bind-xml name="matchtype" node="attribute" />
+		</field>
+		<field name="_engine" type="java.lang.String" direct="true">
+			<bind-xml name="engine" node="attribute" />
+		</field>
+		<field name="_casesensitive" type="boolean" direct="true">
+			<bind-xml name="casesensitive" node="attribute" />
+		</field>
+		<field name="_ddl" type="java.lang.String" direct="true">
+			<bind-xml name="ddl" node="text"/>
+		</field>
+		<field name="_index" type="int" direct="true">
+			<bind-xml name="index" node="attribute"/>
+		</field>
+	</class>
+</mapping>

@@ -1,0 +1,4 @@
+<expected-result>
+	<ddl matchtype="regexp" >drop table</ddl>
+	<ddl matchtype="regexp" engine="mysql">drop table if exists prod_group; create table prod_group \( id integer\({0}\) not null, name char\({1}\) not null, primary key \( id, name \) \); drop table if exists prod; create table prod \( id integer\({0}\) not null, name char\({1}\), group_id integer\({0}\), group_name char\({1}\), primary key \( id \) \);</ddl>
+</expected-result>
