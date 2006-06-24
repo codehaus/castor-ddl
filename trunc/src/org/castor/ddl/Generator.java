@@ -18,6 +18,9 @@ package org.castor.ddl;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import org.castor.ddl.schemaobject.Field;
+import org.castor.ddl.schemaobject.Schema;
+import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 
@@ -54,8 +57,5 @@ public interface Generator {
      * @param printer
 	 */
     public abstract void setPrinter(PrintStream printer);
-    	
-    	
-    	
     	
 }

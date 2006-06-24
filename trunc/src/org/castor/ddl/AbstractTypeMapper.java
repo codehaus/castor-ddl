@@ -17,6 +17,8 @@ package org.castor.ddl;
 
 import java.util.Map;
 
+import org.castor.ddl.typeinfo.TypeInfo;
+
 
 /**
  * this class is the base class for various TypeMapper for various DB
@@ -146,7 +148,7 @@ public abstract class AbstractTypeMapper implements TypeMapper {
      * @param key
      * @param value
      */
-	protected void setType(String key, TypeInfo value){
+	protected void addTypeInfo(String key, TypeInfo value){
 		typeMap.put(key, value);
 	}
 }

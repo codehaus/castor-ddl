@@ -19,7 +19,7 @@ package org.castor.ddl;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import org.castor.ddl.TypeInfo;
+import org.castor.ddl.typeinfo.TypeInfo;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;

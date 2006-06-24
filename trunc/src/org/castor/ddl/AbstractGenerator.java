@@ -21,6 +21,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.castor.ddl.schemaobject.ForeignKey;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.xml.ClassChoice;

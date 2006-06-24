@@ -15,6 +15,8 @@
  */
 package org.castor.ddl;
 
+import org.castor.ddl.typeinfo.TypeInfo;
+
 
 /**
  * 
