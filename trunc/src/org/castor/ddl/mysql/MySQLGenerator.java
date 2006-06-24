@@ -21,11 +21,11 @@ import java.util.Iterator;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.Configuration;
-import org.castor.ddl.ForeignKey;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.TypeInfo;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.TypeNotFoundException;
+import org.castor.ddl.schemaobject.ForeignKey;
+import org.castor.ddl.typeinfo.TypeInfo;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.MappingRoot;
@@ -282,26 +282,7 @@ public class MySQLGenerator extends AbstractGenerator {
      * @throws GeneratorException
      */
     private String getTypeInfoDDL(TypeInfo inf) throws GeneratorException{
-        //group_moderator mediumint(8) DEFAULT '0' NOT NULL,
-        if(inf.isRequireLength() && inf.getDefaultLength() == TypeInfo.UNDEFINED_LENGTH)
-            throw new GeneratorException("type '" + inf.getSqlName() + "' requires length but it is not defined" );
-
-        if(inf.isRequireDecimal() && inf.getDefaultDecimal() == TypeInfo.UNDEFINED_LENGTH)
-            throw new GeneratorException("type '" + inf.getSqlName() + "' requires decimal but it is not defined" );
-
-        boolean isUsedBracket = false;
-        String s = inf.getSqlName();
-        if(inf.getDefaultLength() != TypeInfo.UNDEFINED_LENGTH) {
-            isUsedBracket = true;
-            s += "(" + inf.getDefaultLength();
-        }
-        if(isUsedBracket &&inf.getDefaultDecimal() != TypeInfo.UNDEFINED_DECIMAL) {
-            s += ", " + inf.getDefaultDecimal() + ")";
-            isUsedBracket = false;
-        }
-        if(isUsedBracket)
-            s += ")";
-        return s;
+        return inf.getDDLString();        
     }
 
     /* (non-Javadoc)

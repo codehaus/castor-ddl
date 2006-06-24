@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.castor.ddl;
+package org.castor.ddl.schemaobject;
 
 /**
  * this class handle information for foreign key creation.
@@ -26,7 +26,7 @@ package org.castor.ddl;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class ForeignKey {
+public class ForeignKey implements SchemaObject {
     /** table name*/
     private String tableName = null;
     
