@@ -16,6 +16,7 @@
 
 package org.castor.ddl;
 
+
 /**
  * this class handles some basic configuration information for DDL generator
  * Created on Jun 12, 2006 - 12:11:52 AM
@@ -46,7 +47,6 @@ public class BaseConfiguration {
 
     /** define ddl generator configuration file*/
     public static final String DDLGEN_CONFIGURATION = "ddlgen_config_file";
-
     /**true string*/
     public final static String TRUE = "true";
 
@@ -55,5 +55,55 @@ public class BaseConfiguration {
 
     /**schema name*/
     public final static String SCHEMA_NAME = "schema_name";
-        
+
+    /** sql field delimeter key*/
+    public static final String SQL_FIELD_DELIMETER_KEY = "sql_field_delimeter";
+    
+    /**field delimeter*/
+    public static String SQL_FIELD_DELIMETER = ",";
+    
+
+    /** sql field delimeter key*/
+    public static final String SQL_STAT_DELIMETER_KEY = "sql_stat_delimeter";
+
+    /**statement delimeter*/
+    public static String SQL_STAT_DELIMETER = ";";
+    
+    /**line separator key*/
+    public static String LINE_SEPARATOR_KEY = "line.separator";
+
+    /**line separator*/
+    public static String LINE_SEPARATOR = System.getProperty("line.separator");
+    
+    /**line separator key*/
+    public static String LINE_INDENT_KEY = "line_indent";
+
+    /**Line indent*/
+    public static String LINE_INDENT = "    ";
+    
+    
+    /**ddl format case key*/
+    public static String DDL_FORMAT_CASE_KEY = "ddl_format_case";
+
+    /**ddl format case sensitive option*/
+    public static int DDL_FORMAT_CASESENSITIVE = 1;
+
+    /**ddl format case sensitive option*/
+    public static String DDL_FORMAT_CASESENSITIVE_STRING = "casesensitive";
+
+    /**ddl format case sensitive option*/
+    public static int DDL_FORMAT_UPPERCASE = 2;
+
+    /**ddl format case sensitive option*/
+    public static String DDL_FORMAT_UPPERCASE_STRING = "upper";
+
+    /**ddl format case sensitive option*/
+    public static int DDL_FORMAT_LOWERCASE = 3;
+
+    /**ddl format case sensitive option*/
+    public static String DDL_FORMAT_LOWERCASE_STRING = "lower";
+
+    /**Line indent*/
+    public static int DDL_FORMAT_CASE = DDL_FORMAT_CASESENSITIVE;
+    
 }

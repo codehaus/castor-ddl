@@ -37,5 +37,13 @@ public class WrongFormatException extends GeneratorException {
 		super(string);
 	}
 
+    /**
+     * Constructor 
+     * @param message An error message
+     * @param e The original exception that caused the problem.
+     */
+    public WrongFormatException (final String message, final Exception e) {
+        super(message, e);
+    }
 
 }

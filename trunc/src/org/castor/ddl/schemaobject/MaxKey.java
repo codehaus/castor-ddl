@@ -16,6 +16,8 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.exolab.castor.mapping.xml.KeyGeneratorDef;
+
 /**
  * 
  * Created on Jun 24, 2006 - 2:03:55 AM
@@ -23,13 +25,68 @@ package org.castor.ddl.schemaobject;
  */
 
 public class MaxKey implements KeyGenerator {
+    /** sequence name*/
+    public String _name = "IDENTITY";
+    
+    /** alias*/
+    private String _alias;
+    
+    /**
+     * Constructor for MaxKey
+     * @param name
+     * @param alias
+     */
+    public MaxKey(String name, String alias) {
+        super();
+        // TODO Auto-generated constructor stub
+        _name = name;
+        _alias = alias;
+    }
+
+    public MaxKey(KeyGeneratorDef keyGenDef){
+        _alias = keyGenDef.getAlias();
+        _name = keyGenDef.getName();
+    }
+    
+    /**
+     * 
+     * @return Returns the alias.
+     */
+    public final String getAlias() {
+        return _alias;
+    }
+
+    /**
+     * Set the alias by _alias.
+     * @param alias 
+     */
+    public final void setAlias(String alias) {
+        _alias = alias;
+    }
 
     /* (non-Javadoc)
      * @see org.castor.ddl.schemaobject.KeyGenerator#getHashKey()
      */
     public String getHashKey() {
-        // TODO Auto-generated method stub
-        return null;
+        if(_alias == null)
+            return _name;
+        return _alias;
     }
 
+    /**
+     * 
+     * @return Returns the name.
+     */
+    public final String getName() {
+        return _name;
+    }
+
+    /**
+     * Set the name by _name.
+     * @param name 
+     */
+    public final void setName(String name) {
+        _name = name;
+    }
+    
 }

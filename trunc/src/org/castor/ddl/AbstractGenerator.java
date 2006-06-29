@@ -58,6 +58,7 @@ public abstract class AbstractGenerator implements Generator {
     /** handle all foreignkey list*/
     protected Map _foreignKey;
 
+    /**line separator*/
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     
     /**
@@ -329,4 +330,7 @@ public abstract class AbstractGenerator implements Generator {
         resolveFm.setSql(sql);
     }    
     
+//    public void generatorException() {
+//        
+//    }
 }

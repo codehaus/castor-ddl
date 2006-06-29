@@ -27,6 +27,7 @@ import java.util.Vector;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.ForeignKey;
 import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.KeyRepository;
 import org.castor.ddl.schemaobject.Schema;
 import org.castor.ddl.schemaobject.Table;
 import org.castor.ddl.typeinfo.TypeInfo;
@@ -67,13 +68,13 @@ public abstract class AbstractGenerator2 implements Generator {
     
     /** schema */    
     private Schema _schema;
-
+    
     /**
      * Constructor for AbstractGenerator
      */
     public AbstractGenerator2() {
         super();
-        _schema = new Schema();
+        _mappingHelper = new MappingHelper();
         _resolveTable = new HashMap();
     }
 
@@ -111,16 +112,35 @@ public abstract class AbstractGenerator2 implements Generator {
      */
     private void generateDDL() throws GeneratorException {
         createSchema();
-        _printer.println(generateHeader());
-        _printer.println(generateSchema());
-        _printer.println(generateDrop());
-        _printer.println(generateCreate());
-        _printer.println(generateForeignKey());
-        _printer.println(generateKeyGenerator());
-        _printer.println(generateIndex());
-        _printer.println(generateTrigger());
+        write(generateHeader());
+        write(generateSchema());
+        write(generateDrop());
+        write(generateCreate());
+        write(generatePrimaryKey());
+        write(generateForeignKey());
+        write(generateKeyGenerator());
+        write(generateIndex());
+        write(generateTrigger());
     }
     
+    /**
+     * @return
+     */
+    private String generatePrimaryKey() {
+        Vector tables = _schema.getTables();
+        StringBuffer buff = new StringBuffer();
+        
+        for(Iterator i = tables.iterator(); i.hasNext(); ) {
+            Table table = (Table)i.next();
+            buff.append(Configuration.LINE_SEPARATOR);
+            buff.append(createPrimaryKeyDDL(table));
+            buff.append(Configuration.LINE_SEPARATOR);
+        }
+        return buff.toString();
+    }
+
+
+
     /**
      * @return
      */
@@ -130,7 +150,9 @@ public abstract class AbstractGenerator2 implements Generator {
         
         for(Iterator i = keys.entrySet().iterator(); i.hasNext(); ) {
             KeyGenerator keygen = (KeyGenerator)keys.get(i.next());
+            buff.append(Configuration.LINE_SEPARATOR);
             buff.append(createKeyGeneratorDDL(keygen));
+            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -145,7 +167,9 @@ public abstract class AbstractGenerator2 implements Generator {
         
         for(Iterator i = tables.iterator(); i.hasNext(); ) {
             Table table = (Table)i.next();
+            buff.append(Configuration.LINE_SEPARATOR);
             buff.append(createTriggerDDL(table));
+            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -159,7 +183,9 @@ public abstract class AbstractGenerator2 implements Generator {
         
         for(Iterator i = tables.iterator(); i.hasNext(); ) {
             Table table = (Table)i.next();
+            buff.append(Configuration.LINE_SEPARATOR);
             buff.append(createIndexDDL(table));
+            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -173,7 +199,9 @@ public abstract class AbstractGenerator2 implements Generator {
         
         for(Iterator i = tables.iterator(); i.hasNext(); ) {
             Table table = (Table)i.next();
-            buff.append(createDropDDL(table));
+            buff.append(createDropDDL(table));            
+            buff.append(Configuration.SQL_STAT_DELIMETER);
+            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -181,7 +209,7 @@ public abstract class AbstractGenerator2 implements Generator {
     /**
      * @return
      */
-    private Object generateHeader() {
+    private String generateHeader() {
         String s = "";
         s += "# " + new java.util.Date() + "\n";
         s += "# Castor DDL Generator from _mapping\n";
@@ -200,7 +228,7 @@ public abstract class AbstractGenerator2 implements Generator {
         if(schema == null || "".equals(schema))
             return "";
         
-        return "USE " + schema;
+        return "USE " + schema + ";";
     }
 
     /**
@@ -215,7 +243,9 @@ public abstract class AbstractGenerator2 implements Generator {
         
         for(Iterator i = tables.iterator(); i.hasNext(); ) {
             Table table = (Table)i.next();
+            buff.append(Configuration.LINE_SEPARATOR);
             buff.append(createCreateDDL(table));
+            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -300,6 +330,15 @@ public abstract class AbstractGenerator2 implements Generator {
     private void createSchema() throws GeneratorException {
 //        _schema
         MappingRoot root = _mapping.getRoot();
+        _schema = new Schema();
+
+        //generate key generator definition
+        Enumeration ekg = root.enumerateKeyGeneratorDef();
+        while (ekg.hasMoreElements()) {
+            KeyGeneratorDef kg = (KeyGeneratorDef) ekg.nextElement();
+            KeyGenerator keygen = KeyRepository.createKey(kg);
+            _schema.putKeyGenerator(keygen.getHashKey(), keygen);
+        }        
 
         Enumeration ec = root.enumerateClassMapping();
         while (ec.hasMoreElements()) {
@@ -314,31 +353,6 @@ public abstract class AbstractGenerator2 implements Generator {
             Table table = createTable(cm);
             _schema.addTable(table);
         }
-
-        //generate key generator definition
-        Enumeration ekg = root.enumerateKeyGeneratorDef();
-        while (ekg.hasMoreElements()) {
-            KeyGeneratorDef kg = (KeyGeneratorDef) ekg.nextElement();
-            KeyGenerator keygen = createKeyGeneratorDef(kg);
-            _schema.putKeyGenerator(keygen.getHashKey(), keygen);
-        }        
-    }
-    
-    /**
-     * @param kg
-     * @return
-     */
-    private KeyGenerator createKeyGeneratorDef(KeyGeneratorDef kg) {
-        
-        //todo implement later
-//        KeyGenerator keygen = new KeyGenerator(kg.getName(), kg.getAlias());
-//        
-//        int count = kg.getParamCount();
-//        for(int i = 0; i < count; i++) {
-//            
-//        }
-//        return keygen;
-        return null;
     }
 
     /**
@@ -371,7 +385,7 @@ public abstract class AbstractGenerator2 implements Generator {
                 if(fm.getSql().getManyTable() != null) {
                     //checking for many-table case just
                     // 1. generate DDL for creating relationship, with MySQL, not need
-                    addManyManyForeignKey(table, fm);
+//                    addManyManyForeignKey(table, fm);
                     
                     // 2. generate resolving table for many-many relationship                    
                     addResolveField(fm, cm.getKeyGenerator());
@@ -458,7 +472,7 @@ public abstract class AbstractGenerator2 implements Generator {
         fk.setReferenceTableName(cm.getMapTo().getTable());
         fk.setReferenceKeyList(_mappingHelper.getClassMappingIdentity(cm));
         
-        fk.setRelationshipType(ForeignKey.ONE_MANY);
+        fk.setRelationshipType(ForeignKey.MANY_MANY);
         
 //      _foreignKey.put(fk.getConstraintName(), fk);
         table.addForeignKey(fk);
@@ -554,37 +568,254 @@ public abstract class AbstractGenerator2 implements Generator {
     /**
      * @param table
      * @return
+     * @throws GeneratorException 
      */
-    protected abstract String createCreateDDL(Table table);
+    protected String createCreateDDL(Table table) throws GeneratorException {
+        StringBuffer buff = new StringBuffer();
+        
+        //pre create table ddl
+        buff.append(preCreateTable(table));
+        
+        Vector fields = table.getFields();
+        for(Iterator i = fields.iterator(); i.hasNext();) {
+            Field field = (Field)i.next();
+            buff.append(Configuration.LINE_SEPARATOR);
+            buff.append(Configuration.LINE_INDENT);
+            buff.append(createFieldDDL(field));
+            if(i.hasNext()) 
+                buff.append(Configuration.SQL_FIELD_DELIMETER);
+        }
+        
+        buff.append(Configuration.LINE_SEPARATOR);
+        buff.append(postCreateTable(table));
+        buff.append(Configuration.SQL_STAT_DELIMETER);
+        return buff.toString();
+    }
 
     /**
      * @param table
      * @return
      */
-    protected abstract String createDropDDL(Table table);
+    protected String postCreateTable(Table table) {
+        return ")";
+    }
+
+    /**
+     * @param field
+     * @return
+     * @throws GeneratorException 
+     */
+    protected String createFieldDDL(Field field) throws GeneratorException {
+        StringBuffer buff = new StringBuffer();
+        buff.append(field.getName());
+        buff.append(" ");
+        buff.append(field.getType().getDDLString());
+        if(field.isIdentity())
+            buff.append(" NOT NULL ");
+        
+        return buff.toString();
+    }
+
+    /**
+     * @param table
+     * @return
+     */
+    private String preCreateTable(Table table) {
+        return "CREATE TABLE " + table.getName() + " (";
+    }
+
+    /**
+     * @param table
+     * @return
+     */
+    protected String createDropDDL(Table table) {
+        return "DROP " + table.getName() + " IF EXISTS";
+    }
 
     
     /**
      * @param table
      * @return
      */
-    protected abstract String createForeignKeyDDL(Table table);
+    protected String createForeignKeyDDL(Table table) {
+       StringBuffer buff = new StringBuffer();
+
+       for(Iterator i = table.getForeignKey().iterator(); i.hasNext();) {
+           ForeignKey fk = (ForeignKey)i.next();
+           buff.append(Configuration.LINE_SEPARATOR);
+           buff.append(createForeignKeyDDL(fk));
+           buff.append(Configuration.SQL_STAT_DELIMETER);
+       }                  
+       return buff.toString();
+    }
         
-    /**
-     * @param table
+    /** alter table category_prod 
+     *      add constraint category_prod_categories 
+     *      foreign key category_prod_categories \(category_id \) 
+     *      references category \(id \) ;
+     * @param fk
      * @return
      */
-    protected abstract String createIndexDDL(Table table);
+    protected String createForeignKeyDDL(ForeignKey fk) {
+        StringBuffer buff = new StringBuffer();
+        
+        buff.append("ALTER TABLE ");
+        buff.append(fk.getTableName());
+        
+        //constraint
+        buff.append(Configuration.LINE_SEPARATOR);
+        buff.append(Configuration.LINE_INDENT);        
+        buff.append("ADD CONSTRAINT ");
+        buff.append(fk.getConstraintName());
+        
+        //foreign key
+        buff.append(Configuration.LINE_SEPARATOR);
+        buff.append(Configuration.LINE_INDENT);        
+        buff.append("FOREIGN KEY  ");
+        buff.append(fk.getFkName());
+        buff.append(makeListofParams(fk.getFkkeyList()));
+        
+        //references
+        buff.append(Configuration.LINE_SEPARATOR);
+        buff.append(Configuration.LINE_INDENT);        
+        buff.append("REFERENCES  ");
+        buff.append(fk.getReferenceTableName());
+        buff.append(makeListofParams(fk.getReferenceKeyList()));
+        
+        return buff.toString();
+    }
+
+    /**
+     * @param fkkeyList
+     * @return
+     */
+    protected String makeListofParams(String[] list) {
+        StringBuffer buff = new StringBuffer();
+        
+        boolean isFirstField = true;
+        buff.append(" ( ");
+        for(int i = 0; i < list.length; i++) {
+            if(!isFirstField) {
+                buff.append(Configuration.SQL_FIELD_DELIMETER);
+                buff.append(" ");                    
+            }
+            isFirstField = false;
+            buff.append(list[i]);
+        }
+        buff.append(" )");
+        
+        return buff.toString();
+    }
 
     /**
      * @param table
      * @return
      */
-    protected abstract String createTriggerDDL(Table table);
+    protected String createIndexDDL(Table table) {
+        return "";
+    }
+
+    /**
+     * @param table
+     * @return
+     */
+    protected String createTriggerDDL(Table table) {
+        return "";
+    }
     /**
      * @param keygen
      * @return
      */
-    protected abstract String createKeyGeneratorDDL(KeyGenerator keygen);
+    protected String createKeyGeneratorDDL(KeyGenerator keygen) {
+        return "";
+    }
 
+    /**
+     * @param table
+     * @return
+     */
+    protected String createPrimaryKeyDDL(Table table) {
+        StringBuffer buff = new StringBuffer("ALTER TABLE ");
+        buff.append(table.getName());
+        buff.append(Configuration.LINE_SEPARATOR);
+        buff.append(Configuration.LINE_INDENT);
+        buff.append("ADD PRIMARY KEY ( ");
+        
+        Vector fields = table.getFields();
+        boolean isFirstField = true;
+        for(Iterator i = fields.iterator(); i.hasNext();) {
+            Field field = (Field)i.next();
+            if(field.isIdentity()) {
+                if(!isFirstField) {
+                    buff.append(Configuration.SQL_FIELD_DELIMETER);
+                    buff.append(" ");                    
+                }
+                isFirstField = false;
+                buff.append(field.getName());
+            }
+        }
+        buff.append(" )");
+        buff.append(Configuration.SQL_STAT_DELIMETER);
+        
+        return buff.toString();
+    }
+
+    /**
+     * 
+     * @return Returns the mappingHelper.
+     */
+    public final MappingHelper getMappingHelper() {
+        return _mappingHelper;
+    }
+
+    /**
+     * Set the mappingHelper by _mappingHelper.
+     * @param mappingHelper 
+     */
+    public final void setMappingHelper(MappingHelper mappingHelper) {
+        _mappingHelper = mappingHelper;
+    }
+
+    /**
+     * 
+     * @return Returns the schema.
+     */
+    public final Schema getSchema() {
+        return _schema;
+    }
+
+    /**
+     * Set the schema by _schema.
+     * @param schema 
+     */
+    public final void setSchema(Schema schema) {
+        _schema = schema;
+    }
+
+    /**
+     * 
+     * @return Returns the typeMapper.
+     */
+    public final TypeMapper getTypeMapper() {
+        return _typeMapper;
+    }
+    
+    /**
+     * 
+     * @param s
+     * @return
+     */
+    protected String format(String s) {
+        if(Configuration.DDL_FORMAT_CASE == Configuration.DDL_FORMAT_LOWERCASE) {
+            return s.toLowerCase();
+        }
+        if(Configuration.DDL_FORMAT_CASE == Configuration.DDL_FORMAT_UPPERCASE) {
+            return s.toUpperCase();
+        }
+        return s;
+    }
+    
+    protected void write(String s) {
+        _printer.println(format(s));
+    }
 }

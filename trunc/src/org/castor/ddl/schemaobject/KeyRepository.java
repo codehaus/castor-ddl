@@ -19,6 +19,9 @@ package org.castor.ddl.schemaobject;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.castor.ddl.GeneratorException;
+import org.exolab.castor.mapping.xml.KeyGeneratorDef;
+
 /**
  * 
  * Created on Jun 24, 2006 - 2:10:05 AM
@@ -26,6 +29,7 @@ import java.util.Map;
  */
 
 public final class KeyRepository {
+
     /**table list*/
     private Map _keyGenerator;
 
@@ -73,5 +77,24 @@ public final class KeyRepository {
         return (KeyGenerator)_keyGenerator.get(key);
     }
     
+    public static KeyGenerator createKey(KeyGeneratorDef kg) throws GeneratorException {
+        String name = kg.getName();
+        
+        if(KeyGenerator.MAX_KEY.equalsIgnoreCase(name))
+            return new MaxKey(kg);
 
+        if(KeyGenerator.HIGH_LOW_KEY.equalsIgnoreCase(name))
+            return new HighLowKey(kg);
+
+        if(KeyGenerator.UUID_KEY.equalsIgnoreCase(name))
+            return new UUIDKey(kg);
+        
+        if(KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(name))
+            return new IdentityKey(kg);
+        
+        if(KeyGenerator.SEQUENCE_KEY.equalsIgnoreCase(name))
+            return new SequenceKey(kg);
+                
+        return null; 
+    }    
 }

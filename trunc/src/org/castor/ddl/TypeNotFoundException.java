@@ -36,5 +36,13 @@ public class TypeNotFoundException extends GeneratorException {
 		super(arg0);
 		// TODO Auto-generated constructor stub
 	}
+    /**
+     * Constructor 
+     * @param message An error message
+     * @param e The original exception that caused the problem.
+     */
+    public TypeNotFoundException (final String message, final Exception e) {
+        super(message, e);
+    }
 
 }

@@ -48,6 +48,7 @@ public class Schema implements SchemaObject {
         super();
         _tables = new Vector();
         _keyRepository = new KeyRepository();
+        addDefaultKey();
     }
 
     /**
@@ -59,6 +60,7 @@ public class Schema implements SchemaObject {
         _name = name;
         _tables = new Vector();
         _keyRepository = new KeyRepository();
+        addDefaultKey();
     }
 
     /**
@@ -119,5 +121,12 @@ public class Schema implements SchemaObject {
     
     public void putKeyGenerator(String key, KeyGenerator value) {
         _keyRepository.putKeyGenerator(key, value);
+    }
+    
+    private void addDefaultKey() {
+        _keyRepository.putKeyGenerator(KeyGenerator.IDENTITY_KEY, new IdentityKey(KeyGenerator.IDENTITY_KEY, null));
+        _keyRepository.putKeyGenerator(KeyGenerator.MAX_KEY, new MaxKey(KeyGenerator.MAX_KEY, null));
+        _keyRepository.putKeyGenerator(KeyGenerator.UUID_KEY, new UUIDKey(KeyGenerator.UUID_KEY, null));
+        
     }
 }

@@ -24,6 +24,36 @@ package org.castor.ddl.schemaobject;
  */
 
 public interface KeyGenerator extends SchemaObject {
+    /**max key*/
+    public static String MAX_KEY = "MAX";
 
+    /**high-low key*/
+    public static String HIGH_LOW_KEY = "HIGH-LOW";
+
+    /**uuid key*/
+    public static String UUID_KEY = "UUID";
+
+    /**identity key*/
+    public static String IDENTITY_KEY = "IDENTITY";
+
+    /**sequence key*/
+    public static String SEQUENCE_KEY = "SEQUENCE";
+
+    /**
+     * 
+     * @return hashkey
+     */
     public String getHashKey();
+    
+    /**
+     * 
+     * @return name
+     */
+    public String getName();
+    
+    /**
+     * 
+     * @return alias
+     */
+    public String getAlias();
 }

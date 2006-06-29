@@ -31,7 +31,16 @@ public class GeneratorException extends Exception {
      * Constructor for GeneratorException
      * @param arg0
      */
-	public GeneratorException(String arg0) {
+	public GeneratorException(final String arg0) {
 		super(arg0);
 	}
+    /**
+     * Constructor 
+     * @param message An error message
+     * @param e The original exception that caused the problem.
+     */
+    public GeneratorException (final String message, final Exception e) {
+        super(message, e);
+    }
+    
 }
