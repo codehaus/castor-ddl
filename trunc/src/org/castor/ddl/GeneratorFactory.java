@@ -69,7 +69,7 @@ public class GeneratorFactory {
         
         //adjust database engine
         if(eng == null) {
-            eng = prop.getProperty(BaseConfiguration.DATABASE_ENGINE);
+            eng = prop.getProperty(BaseConfiguration.DATABASE_ENGINE_KEY);
         }
         
         //no db engine

@@ -35,8 +35,8 @@ public class Field implements SchemaObject {
     /** is identity */
     private boolean _isIdentity;
 
-    /** is autoincrement */
-    private boolean _isAutoIncrement;
+//    /** is autoincrement */
+//    private boolean _isAutoIncrement;
 
     /** handle key generator keyword */
     private String _keyGenerator;
@@ -67,35 +67,33 @@ public class Field implements SchemaObject {
      *            type infor
      * @param isIdentity
      *            is identity
-     * @param isAutoIncrement
-     *            is auto increment
      */
     public Field(final String name, final TypeInfo type,
-            final boolean isIdentity, final boolean isAutoIncrement) {
+            final boolean isIdentity) {
         super();
         _name = name;
         _type = type;
         _isIdentity = isIdentity;
-        _isAutoIncrement = isAutoIncrement;
+//        _isAutoIncrement = isAutoIncrement;
     }
-
-    /**
-     * 
-     * @return Returns the isAutoIncrement.
-     */
-    public boolean isAutoIncrement() {
-        return _isAutoIncrement;
-    }
-
-    /**
-     * Set the isAutoIncrement by _isAutoIncrement.
-     * 
-     * @param isAutoIncrement
-     */
-    public void setAutoIncrement(boolean isAutoIncrement) {
-        _isAutoIncrement = isAutoIncrement;
-    }
-
+//
+//    /**
+//     * 
+//     * @return Returns the isAutoIncrement.
+//     */
+//    public boolean isAutoIncrement() {
+//        return _isAutoIncrement;
+//    }
+//
+//    /**
+//     * Set the isAutoIncrement by _isAutoIncrement.
+//     * 
+//     * @param isAutoIncrement
+//     */
+//    public void setAutoIncrement(boolean isAutoIncrement) {
+//        _isAutoIncrement = isAutoIncrement;
+//    }
+//
     /**
      * 
      * @return Returns the isIdentity.

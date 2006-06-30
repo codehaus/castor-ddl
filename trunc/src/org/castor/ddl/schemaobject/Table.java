@@ -33,6 +33,9 @@ public class Table implements SchemaObject {
     /**table name*/
     private String _name = null;
     
+    /**handle key generator*/
+    private String _keyGenerator = null;
+    
     /**list of field*/
     private Vector _fields;
     
@@ -253,5 +256,21 @@ public class Table implements SchemaObject {
      */
     public int getForeignKeyCount() {
         return _foreignKey.size();
+    }
+
+    /**
+     * 
+     * @return Returns the keyGenerator.
+     */
+    public final String getKeyGenerator() {
+        return _keyGenerator;
+    }
+
+    /**
+     * Set the keyGenerator by _keyGenerator.
+     * @param keyGenerator 
+     */
+    public final void setKeyGenerator(String keyGenerator) {
+        _keyGenerator = keyGenerator;
     }
 }

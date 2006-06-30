@@ -90,6 +90,7 @@ public abstract class AbstractGenerator2 implements Generator {
         _mappingHelper.setMapping(_mapping);
         _mappingHelper.setTypeMapper(_typeMapper);
         
+        createSchema();
         generateDDL();
     }
 
@@ -103,24 +104,75 @@ public abstract class AbstractGenerator2 implements Generator {
         _mappingHelper.setMapping(mappingDoc);
         _mappingHelper.setTypeMapper(_typeMapper);
         
+        createSchema();
         generateDDL();
+    }
+
+    
+    /**
+     * 
+     */
+    private void generateDDL() throws GeneratorException {
+        String groupBy = _conf.getStringValue(Configuration.GROUP_DDL_BY_KEY, Configuration.GROUP_DDL_BY_TABLE);
+        if(Configuration.GROUP_DDL_BY_TABLE.equalsIgnoreCase(groupBy)) {
+            generateDDLGroupByTable();
+        }else if(Configuration.GROUP_DDL_BY_DDLTYPE.equalsIgnoreCase(groupBy)) {
+            generateDDLGroupByDDLType();
+        }else {
+            throw new GeneratorException("group ddl by do not support: " + groupBy);
+        }
     }
 
     /**
      * generate ddl 
      *
      */
-    private void generateDDL() throws GeneratorException {
-        createSchema();
+    private void generateDDLGroupByDDLType() throws GeneratorException {
         write(generateHeader());
         write(generateSchema());
         write(generateDrop());
         write(generateCreate());
         write(generatePrimaryKey());
         write(generateForeignKey());
-        write(generateKeyGenerator());
         write(generateIndex());
+        write(generateKeyGenerator());
         write(generateTrigger());
+    }
+    
+    private void generateDDLGroupByTable() throws GeneratorException {
+        Vector tables = _schema.getTables();
+        
+        write(generateHeader());
+        write(generateSchema());
+        
+        for(Iterator i = tables.iterator(); i.hasNext(); ) {
+            StringBuffer buff = new StringBuffer();
+            Table table = (Table)i.next();
+
+            //drop
+            buff.append(createDropDDL(table));            
+
+            //create
+            buff.append(createCreateDDL(table));
+            
+            //primary key
+            buff.append(createPrimaryKeyDDL(table));
+
+            //foreign key
+            buff.append(createForeignKeyDDL(table));
+
+//            index
+            buff.append(createIndexDDL(table));
+
+            //KeyGenerator
+            buff.append(createKeyGeneratorDDL(table));
+            
+            //trigger
+            buff.append(createTriggerDDL(table));
+            
+            write(buff.toString());
+        }
+        
     }
     
     /**
@@ -134,7 +186,6 @@ public abstract class AbstractGenerator2 implements Generator {
             Table table = (Table)i.next();
             buff.append(Configuration.LINE_SEPARATOR);
             buff.append(createPrimaryKeyDDL(table));
-            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -145,16 +196,15 @@ public abstract class AbstractGenerator2 implements Generator {
      * @return
      */
     private String generateKeyGenerator() {
-        Map keys = _schema.getKeyRepository().getKeyGenerator();
+        Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         
-        for(Iterator i = keys.entrySet().iterator(); i.hasNext(); ) {
-            KeyGenerator keygen = (KeyGenerator)keys.get(i.next());
-            buff.append(Configuration.LINE_SEPARATOR);
-            buff.append(createKeyGeneratorDDL(keygen));
-            buff.append(Configuration.LINE_SEPARATOR);
+        for(Iterator i = tables.iterator(); i.hasNext(); ) {
+            Table table = (Table)i.next();
+            buff.append(createKeyGeneratorDDL(table));
         }
         return buff.toString();
+        
     }
 
 
@@ -167,9 +217,7 @@ public abstract class AbstractGenerator2 implements Generator {
         
         for(Iterator i = tables.iterator(); i.hasNext(); ) {
             Table table = (Table)i.next();
-            buff.append(Configuration.LINE_SEPARATOR);
             buff.append(createTriggerDDL(table));
-            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -183,9 +231,7 @@ public abstract class AbstractGenerator2 implements Generator {
         
         for(Iterator i = tables.iterator(); i.hasNext(); ) {
             Table table = (Table)i.next();
-            buff.append(Configuration.LINE_SEPARATOR);
             buff.append(createIndexDDL(table));
-            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -200,8 +246,6 @@ public abstract class AbstractGenerator2 implements Generator {
         for(Iterator i = tables.iterator(); i.hasNext(); ) {
             Table table = (Table)i.next();
             buff.append(createDropDDL(table));            
-            buff.append(Configuration.SQL_STAT_DELIMETER);
-            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -210,11 +254,14 @@ public abstract class AbstractGenerator2 implements Generator {
      * @return
      */
     private String generateHeader() {
-        String s = "";
-        s += "# " + new java.util.Date() + "\n";
-        s += "# Castor DDL Generator from _mapping\n";
-        s += "# \n";
-        return s;
+        StringBuffer buff = new StringBuffer("# ");
+        buff.append(new java.util.Date());
+        buff.append("\n");
+        
+        buff.append("# Castor DDL Generator from _mapping\n");
+        buff.append("#\n");
+        buff.append(_conf.getStringValue(Configuration.HEADER_COMMENT_TEXT_KEY, ""));
+        return buff.toString();
     }
 
     /**
@@ -224,11 +271,11 @@ public abstract class AbstractGenerator2 implements Generator {
      * @throws GeneratorException
      */
     public String generateSchema() throws GeneratorException{
-        String schema = _conf.getStringValue(BaseConfiguration.SCHEMA_NAME, "");
+        String schema = _conf.getStringValue(BaseConfiguration.SCHEMA_NAME_KEY, "");
         if(schema == null || "".equals(schema))
             return "";
         
-        return "USE " + schema + ";";
+        return "USE " + schema + ";" ;
     }
 
     /**
@@ -245,7 +292,6 @@ public abstract class AbstractGenerator2 implements Generator {
             Table table = (Table)i.next();
             buff.append(Configuration.LINE_SEPARATOR);
             buff.append(createCreateDDL(table));
-            buff.append(Configuration.LINE_SEPARATOR);
         }
         return buff.toString();
     }
@@ -362,6 +408,8 @@ public abstract class AbstractGenerator2 implements Generator {
      */
     private Table createTable(ClassMapping cm) throws GeneratorException {
         Table table = new Table(cm.getMapTo().getTable());
+        table.setKeyGenerator(cm.getKeyGenerator());
+
         boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(cm);
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
 
@@ -571,8 +619,8 @@ public abstract class AbstractGenerator2 implements Generator {
      * @throws GeneratorException 
      */
     protected String createCreateDDL(Table table) throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
-        
+        StringBuffer buff = new StringBuffer(Configuration.LINE_SEPARATOR);
+                
         //pre create table ddl
         buff.append(preCreateTable(table));
         
@@ -589,6 +637,7 @@ public abstract class AbstractGenerator2 implements Generator {
         buff.append(Configuration.LINE_SEPARATOR);
         buff.append(postCreateTable(table));
         buff.append(Configuration.SQL_STAT_DELIMETER);
+        
         return buff.toString();
     }
 
@@ -629,7 +678,14 @@ public abstract class AbstractGenerator2 implements Generator {
      * @return
      */
     protected String createDropDDL(Table table) {
-        return "DROP " + table.getName() + " IF EXISTS";
+        StringBuffer buff = new StringBuffer(Configuration.LINE_SEPARATOR);
+        
+        buff.append("DROP ");
+        buff.append(table.getName());
+        buff.append(" IF EXISTS");
+        buff.append(Configuration.SQL_STAT_DELIMETER);
+        
+        return buff.toString();
     }
 
     
@@ -644,8 +700,8 @@ public abstract class AbstractGenerator2 implements Generator {
            ForeignKey fk = (ForeignKey)i.next();
            buff.append(Configuration.LINE_SEPARATOR);
            buff.append(createForeignKeyDDL(fk));
-           buff.append(Configuration.SQL_STAT_DELIMETER);
        }                  
+
        return buff.toString();
     }
         
@@ -657,7 +713,7 @@ public abstract class AbstractGenerator2 implements Generator {
      * @return
      */
     protected String createForeignKeyDDL(ForeignKey fk) {
-        StringBuffer buff = new StringBuffer();
+        StringBuffer buff = new StringBuffer(Configuration.LINE_SEPARATOR);
         
         buff.append("ALTER TABLE ");
         buff.append(fk.getTableName());
@@ -671,17 +727,17 @@ public abstract class AbstractGenerator2 implements Generator {
         //foreign key
         buff.append(Configuration.LINE_SEPARATOR);
         buff.append(Configuration.LINE_INDENT);        
-        buff.append("FOREIGN KEY  ");
+        buff.append("FOREIGN KEY ");
         buff.append(fk.getFkName());
         buff.append(makeListofParams(fk.getFkkeyList()));
         
         //references
         buff.append(Configuration.LINE_SEPARATOR);
         buff.append(Configuration.LINE_INDENT);        
-        buff.append("REFERENCES  ");
+        buff.append("REFERENCES ");
         buff.append(fk.getReferenceTableName());
-        buff.append(makeListofParams(fk.getReferenceKeyList()));
-        
+        buff.append(makeListofParams(fk.getReferenceKeyList()));        
+        buff.append(Configuration.SQL_STAT_DELIMETER);
         return buff.toString();
     }
 
@@ -722,11 +778,12 @@ public abstract class AbstractGenerator2 implements Generator {
     protected String createTriggerDDL(Table table) {
         return "";
     }
+    
     /**
      * @param keygen
      * @return
      */
-    protected String createKeyGeneratorDDL(KeyGenerator keygen) {
+    protected String createKeyGeneratorDDL(Table table) {
         return "";
     }
 
@@ -735,7 +792,9 @@ public abstract class AbstractGenerator2 implements Generator {
      * @return
      */
     protected String createPrimaryKeyDDL(Table table) {
-        StringBuffer buff = new StringBuffer("ALTER TABLE ");
+        StringBuffer buff = new StringBuffer(Configuration.LINE_SEPARATOR);
+
+        buff.append("ALTER TABLE ");
         buff.append(table.getName());
         buff.append(Configuration.LINE_SEPARATOR);
         buff.append(Configuration.LINE_INDENT);
@@ -805,7 +864,7 @@ public abstract class AbstractGenerator2 implements Generator {
      * @param s
      * @return
      */
-    protected String format(String s) {
+    private String format(String s) {
         if(Configuration.DDL_FORMAT_CASE == Configuration.DDL_FORMAT_LOWERCASE) {
             return s.toLowerCase();
         }

@@ -76,7 +76,7 @@ public class MySQLGenerator extends AbstractGenerator {
         boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(cm);
         StringBuffer sb = new StringBuffer();
         
-        if(_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_DROP, false)) {
+        if(_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_DROP_KEY, false)) {
             sb.append(dropTable(cm.getMapTo().getTable()));
             sb.append(LINE_SEPARATOR);
         }
@@ -350,7 +350,7 @@ public class MySQLGenerator extends AbstractGenerator {
      * @see org.castor.ddl.AbstractGenerator#generateSchemaDDL()
      */
     public String generateSchemaDDL() throws GeneratorException {
-        String schema = _conf.getStringValue(BaseConfiguration.SCHEMA_NAME, "");
+        String schema = _conf.getStringValue(BaseConfiguration.SCHEMA_NAME_KEY, "");
         if(schema == null || "".equals(schema))
             return "";
         

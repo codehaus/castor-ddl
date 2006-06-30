@@ -34,19 +34,19 @@ public class BaseConfiguration {
     }
 
     /** option for generate DDL for CREATE statement*/
-    public static final String GENERATE_DDL_FOR_CREATE = "generate_ddl_for_create";
+    public static final String GENERATE_DDL_FOR_CREATE_KEY = "generate_ddl_for_create";
 
     /** option for generate DDL for ALTER statement*/
-    public static final String GENERATE_DDL_FOR_ALTER = "generate_ddl_for_alter";
+    public static final String GENERATE_DDL_FOR_ALTER_KEY = "generate_ddl_for_alter";
 
     /** option for generate DDL for DROP statement*/
-    public static final String GENERATE_DDL_FOR_DROP = "generate_ddl_for_drop";
+    public static final String GENERATE_DDL_FOR_DROP_KEY = "generate_ddl_for_drop";
 
     /** define database engine*/
-    public static final String DATABASE_ENGINE = "databas_engine";
+    public static final String DATABASE_ENGINE_KEY = "database_engine";
 
     /** define ddl generator configuration file*/
-    public static final String DDLGEN_CONFIGURATION = "ddlgen_config_file";
+    public static final String DDLGEN_CONFIGURATION_KEY = "ddlgen_config_file";
     /**true string*/
     public final static String TRUE = "true";
 
@@ -54,7 +54,7 @@ public class BaseConfiguration {
     public final static String FALSE = "false";
 
     /**schema name*/
-    public final static String SCHEMA_NAME = "schema_name";
+    public final static String SCHEMA_NAME_KEY = "schema_name";
 
     /** sql field delimeter key*/
     public static final String SQL_FIELD_DELIMETER_KEY = "sql_field_delimeter";
@@ -106,4 +106,15 @@ public class BaseConfiguration {
     /**Line indent*/
     public static int DDL_FORMAT_CASE = DDL_FORMAT_CASESENSITIVE;
     
+    /**header comment text key*/
+    public static String HEADER_COMMENT_TEXT_KEY = "header_comment_text";
+    
+    /**group ddl by key*/
+    public static String GROUP_DDL_BY_KEY = "group_ddl_by";
+            
+    /**group ddl by table*/
+    public static String GROUP_DDL_BY_TABLE = "table";
+
+    /**group ddl by ddltype*/
+    public static String GROUP_DDL_BY_DDLTYPE = "ddltype";
 }
