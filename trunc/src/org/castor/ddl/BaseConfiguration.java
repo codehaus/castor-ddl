@@ -34,14 +34,29 @@ public class BaseConfiguration {
     }
 
     /** option for generate DDL for CREATE statement*/
-    public static final String GENERATE_DDL_FOR_CREATE_KEY = "generate_ddl_for_create";
+    public static final String GENERATE_DDL_FOR_SCHEMA_KEY = "generate_ddl_for_schema";
 
-    /** option for generate DDL for ALTER statement*/
-    public static final String GENERATE_DDL_FOR_ALTER_KEY = "generate_ddl_for_alter";
+    /** option for generate DDL for CREATE statement*/
+    public static final String GENERATE_DDL_FOR_CREATE_KEY = "generate_ddl_for_create";
 
     /** option for generate DDL for DROP statement*/
     public static final String GENERATE_DDL_FOR_DROP_KEY = "generate_ddl_for_drop";
 
+    /** option for generate DDL for PRIMARY KEY statement*/
+    public static final String GENERATE_DDL_FOR_PRIMARYKEY_KEY = "generate_ddl_for_primarykey";
+
+    /** option for generate DDL for FOREIGN KEY statement*/
+    public static final String GENERATE_DDL_FOR_FOREIRNKEY_KEY = "generate_ddl_for_foreignkey";
+
+    /** option for generate DDL for INDEX statement*/
+    public static final String GENERATE_DDL_FOR_INDEX_KEY = "generate_ddl_for_index";
+
+    /** option for generate DDL for KEY GENERATOR statement*/
+    public static final String GENERATE_DDL_FOR_KEYGENERATOR_KEY = "generate_ddl_for_keygenerator";
+
+    /** option for generate DDL for TRIGGER statement*/
+    public static final String GENERATE_DDL_FOR_TRIGGER_KEY = "generate_ddl_for_trigger";
+    
     /** define database engine*/
     public static final String DATABASE_ENGINE_KEY = "database_engine";
 

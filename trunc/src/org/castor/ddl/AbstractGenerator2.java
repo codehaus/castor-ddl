@@ -142,33 +142,50 @@ public abstract class AbstractGenerator2 implements Generator {
     private void generateDDLGroupByTable() throws GeneratorException {
         Vector tables = _schema.getTables();
         
+        boolean genSchema = _conf.getBoolValue(Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
+        boolean genDrop = _conf.getBoolValue(Configuration.GENERATE_DDL_FOR_DROP_KEY, true);
+        boolean genCreate = _conf.getBoolValue(Configuration.GENERATE_DDL_FOR_CREATE_KEY, true);
+        boolean genPrimaryKey = _conf.getBoolValue(Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
+        boolean genForeignKey = _conf.getBoolValue(Configuration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
+        boolean genIndex = _conf.getBoolValue(Configuration.GENERATE_DDL_FOR_INDEX_KEY, true);
+        boolean genKeyGen = _conf.getBoolValue(Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
+        boolean genTrigger = _conf.getBoolValue(Configuration.GENERATE_DDL_FOR_TRIGGER_KEY, true);
+        
         write(generateHeader());
-        write(generateSchema());
+        if(genSchema)
+            write(generateSchema());
         
         for(Iterator i = tables.iterator(); i.hasNext(); ) {
             StringBuffer buff = new StringBuffer();
             Table table = (Table)i.next();
 
             //drop
-            buff.append(createDropDDL(table));            
+            if(genDrop)
+                buff.append(createDropDDL(table));            
 
             //create
-            buff.append(createCreateDDL(table));
+            if(genCreate)
+                buff.append(createCreateDDL(table));
             
             //primary key
-            buff.append(createPrimaryKeyDDL(table));
+            if(genPrimaryKey)
+                buff.append(createPrimaryKeyDDL(table));
 
             //foreign key
-            buff.append(createForeignKeyDDL(table));
+            if(genForeignKey)
+                buff.append(createForeignKeyDDL(table));
 
-//            index
-            buff.append(createIndexDDL(table));
+            //index
+            if(genIndex)
+                buff.append(createIndexDDL(table));
 
             //KeyGenerator
-            buff.append(createKeyGeneratorDDL(table));
+            if(genKeyGen)
+                buff.append(createKeyGeneratorDDL(table));
             
             //trigger
-            buff.append(createTriggerDDL(table));
+            if(genTrigger)
+                buff.append(createTriggerDDL(table));
             
             write(buff.toString());
         }
@@ -178,7 +195,11 @@ public abstract class AbstractGenerator2 implements Generator {
     /**
      * @return
      */
-    private String generatePrimaryKey() {
+    public String generatePrimaryKey() {
+        if(!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true)) {
+            return "";
+        }
+            
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         
@@ -195,7 +216,11 @@ public abstract class AbstractGenerator2 implements Generator {
     /**
      * @return
      */
-    private String generateKeyGenerator() {
+    public String generateKeyGenerator() {
+        if(!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true)) {
+            return "";
+        }
+            
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         
@@ -211,7 +236,11 @@ public abstract class AbstractGenerator2 implements Generator {
     /**
      * @return
      */
-    protected String generateTrigger() {
+    public String generateTrigger() {
+        if(!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_TRIGGER_KEY, true)) {
+            return "";
+        }
+            
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         
@@ -225,7 +254,11 @@ public abstract class AbstractGenerator2 implements Generator {
     /**
      * @return
      */
-    protected String generateIndex() {
+    public String generateIndex() {
+        if(!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_INDEX_KEY, true)) {
+            return "";
+        }
+            
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         
@@ -239,7 +272,11 @@ public abstract class AbstractGenerator2 implements Generator {
     /**
      * @return
      */
-    protected String generateDrop() {
+    public String generateDrop() {
+        if(!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_DROP_KEY, true)) {
+            return "";
+        }
+            
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         
@@ -253,7 +290,7 @@ public abstract class AbstractGenerator2 implements Generator {
     /**
      * @return
      */
-    private String generateHeader() {
+    public String generateHeader() {
         StringBuffer buff = new StringBuffer("# ");
         buff.append(new java.util.Date());
         buff.append("\n");
@@ -271,6 +308,10 @@ public abstract class AbstractGenerator2 implements Generator {
      * @throws GeneratorException
      */
     public String generateSchema() throws GeneratorException{
+        if(!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true)) {
+            return "";
+        }
+
         String schema = _conf.getStringValue(BaseConfiguration.SCHEMA_NAME_KEY, "");
         if(schema == null || "".equals(schema))
             return "";
@@ -285,6 +326,10 @@ public abstract class AbstractGenerator2 implements Generator {
      * @throws GeneratorException
      */
     public String generateCreate() throws GeneratorException{
+        if(!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_CREATE_KEY, true)) {
+            return "";
+        }
+            
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         
@@ -306,6 +351,10 @@ public abstract class AbstractGenerator2 implements Generator {
      * @throws GeneratorException
      */
     public String generateForeignKey() throws GeneratorException{
+        if(!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true)) {
+            return "";
+        }
+            
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         
@@ -373,7 +422,7 @@ public abstract class AbstractGenerator2 implements Generator {
         _mappingHelper.setTypeMapper(_typeMapper);
     }
 
-    private void createSchema() throws GeneratorException {
+    public void createSchema() throws GeneratorException {
 //        _schema
         MappingRoot root = _mapping.getRoot();
         _schema = new Schema();
