@@ -762,7 +762,7 @@ public abstract class BaseGeneratorTest extends TestCase {
           
           String schema = "test";
           Ddl expectedDDL = new Ddl("use " + schema, Ddl.MATCHTYPE_REGEXP, false);
-          conf.setProperty(Configuration.SCHEMA_NAME, schema);
+          conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
           String ddl = _generator.generateSchemaDDL();
           
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -770,7 +770,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           schema = "";
           expectedDDL = new Ddl("", Ddl.MATCHTYPE_EXACT, false);
-          conf.setProperty(Configuration.SCHEMA_NAME, schema);
+          conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
           ddl = _generator.generateSchemaDDL();
           
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"

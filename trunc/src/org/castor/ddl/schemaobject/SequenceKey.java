@@ -83,7 +83,7 @@ public class SequenceKey implements KeyGenerator {
             if(SEQUENCE.equals(pname.toLowerCase())) {
                 _sequence = params[i].getValue();
             } else if(RETURNING.equals(pname.toLowerCase())) {
-                _isReturning = Boolean.parseBoolean(pname);
+                _isReturning = Boolean.valueOf(pname).booleanValue();
             } else if(INCREMENT.equals(pname.toLowerCase())) {
                 try {
                 _increment = Integer.parseInt(pname);
@@ -92,7 +92,7 @@ public class SequenceKey implements KeyGenerator {
                     throw new GeneratorException("can not parse integer" + pname, nfe);
                 }
             } else if(TRIGGER.equals(pname.toLowerCase())) {
-                _isTrigger = Boolean.parseBoolean(pname);
+                _isTrigger = Boolean.valueOf(pname).booleanValue();
             }            
         }                
     }

@@ -15,12 +15,12 @@
  */
 package org.castor.ddl;
 
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 
 import org.castor.ddl.mysql.MySQLGenerator;
-import org.castor.ddl.mysql.MySQLGenerator2;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.util.CommandLineOptions;
 
@@ -85,8 +85,8 @@ public class Main {
 	    try {
 	        
 //            Generator generator = GeneratorFactory.createDDLGenerator(engine, globalConfig, specificConfig);
-            Generator generator = new MySQLGenerator2(globalConfig, specificConfig);            
-            generator.setPrinter(new PrintStream(ddlName));
+            Generator generator = new MySQLGenerator(globalConfig, specificConfig);            
+            generator.setPrinter(new PrintStream(new FileOutputStream(ddlName)));
             Mapping mapping = new Mapping();
             mapping.loadMapping(mappingName);
             generator.generateDDL(mapping);            

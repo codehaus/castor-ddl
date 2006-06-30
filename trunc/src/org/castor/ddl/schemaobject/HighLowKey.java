@@ -89,9 +89,9 @@ public class HighLowKey implements KeyGenerator {
                     throw new GeneratorException("can not parse integer" + pname, nfe);
                 }
             } else if(SAME_CONNECTION.equalsIgnoreCase(pname)) {
-                _isSameConnection = Boolean.parseBoolean(pname);
+                _isSameConnection = Boolean.valueOf(pname).booleanValue();
             } else if(GLOBAL.equals(pname.toLowerCase())) {
-                _isGlobal = Boolean.parseBoolean(pname);
+                _isGlobal = Boolean.valueOf(pname).booleanValue();
             }            
         }                
     }
