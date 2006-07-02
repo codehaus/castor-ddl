@@ -13,83 +13,70 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.castor.ddl.mysql;
 
 import org.castor.ddl.AbstractTypeMapper;
 import org.castor.ddl.Configuration;
-import org.castor.ddl.typeinfo.LengthDecimalType;
-import org.castor.ddl.typeinfo.LengthType;
 import org.castor.ddl.typeinfo.NoParamType;
-import org.castor.ddl.typeinfo.TypeInfo;
-
+import org.castor.ddl.typeinfo.OptionalLengthType;
+import org.castor.ddl.typeinfo.OptionalPrecisionDecimalsType;
+import org.castor.ddl.typeinfo.OptionalPrecisionType;
+import org.castor.ddl.typeinfo.RequiredLengthType;
 
 /**
- * TypeMapper for MySQL
- * Created on Jun 4, 2006 - 10:32:57 AM
+ * Final TypeMapper for MySQL database.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public class MySQLTypeMapper extends AbstractTypeMapper {
-
-	/**
-	 * 
-	 */
+public final class MySQLTypeMapper extends AbstractTypeMapper {
+    /**
+     * Construct a TypeMapper for MySQL database using given configuration to get default
+     * parameters for parameterized types.
+     * 
+     * @param conf The configuration to get default parameter values from.
+     */
 	public MySQLTypeMapper(Configuration conf) {
 		super(conf);
-		doMap();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.ddl.mapper.AbstractTypeMapper#doMap()
+	/**
+	 * @see org.castor.ddl.AbstractTypeMapper#initialize(org.castor.ddl.Configuration)
+     * {@inheritDoc}
 	 */
-	public void doMap() {
-		this.addTypeInfo("bit", new NoParamType("TINYINT(1)"));
-		this.addTypeInfo("tinyint", new LengthType("TINYINT", conf.getIntegerValue(
-				DEFAULT_TINYINT_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false));
-		this.addTypeInfo("smallint", new LengthType("SMALLINT", conf.getIntegerValue(
-				DEFAULT_SMALLINT_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false));
-		this.addTypeInfo("integer", new LengthType("INTEGER", conf.getIntegerValue(
-				DEFAULT_INTEGER_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false));
-		this.addTypeInfo("bigint", new LengthType("BIGINT", conf.getIntegerValue(
-				DEFAULT_BIGINT_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false));
-		this.addTypeInfo("float", new LengthDecimalType("FLOAT", conf.getIntegerValue(
-				DEFAULT_FLOAT_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false, conf.getIntegerValue(
-				DEFAULT_FLOAT_DECIMAL_KEY, TypeInfo.UNDEFINED_DECIMAL), false));
-		this.addTypeInfo("double", new LengthDecimalType("DOUBLE", conf.getIntegerValue(
-				DEFAULT_DOUBLE_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false, conf.getIntegerValue(
-						DEFAULT_DOUBLE_DECIMAL_KEY, TypeInfo.UNDEFINED_DECIMAL), false));
-		this.addTypeInfo("real", new LengthDecimalType("REAL", conf.getIntegerValue(
-				DEFAULT_REAL_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false, conf.getIntegerValue(
-						DEFAULT_REAL_DECIMAL_KEY, TypeInfo.UNDEFINED_DECIMAL), false));
-		this.addTypeInfo("numeric", new LengthDecimalType("NUMERIC", conf.getIntegerValue(
-				DEFAULT_NUMERIC_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false, conf.getIntegerValue(
-						DEFAULT_NUMERIC_DECIMAL_KEY, TypeInfo.UNDEFINED_DECIMAL), false));
-		this.addTypeInfo("decimal", new LengthDecimalType("DECIMAL", conf.getIntegerValue(
-				DEFAULT_DECIMAL_LENGTH_KEY, -1), false, conf.getIntegerValue(
-						DEFAULT_DECIMAL_DECIMAL_KEY, TypeInfo.UNDEFINED_LENGTH), false));
-		this.addTypeInfo("char", new LengthType("CHAR", conf.getIntegerValue(
-				DEFAULT_CHAR_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false));
-		this.addTypeInfo("varchar", new LengthType("VARCHAR", conf.getIntegerValue(
-				DEFAULT_VARCHAR_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false));
-		this.addTypeInfo("longvarchar", new LengthType("VARCHAR", conf.getIntegerValue(
-				DEFAULT_LONGVARCHAR_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), false));
-		this.addTypeInfo("date", new NoParamType("DATE"));
-		this.addTypeInfo("time", new NoParamType("TIME"));
-		this.addTypeInfo("timestamp", new LengthType("TIMESTAMP", conf.getIntegerValue(
-				DEFAULT_TIMESTAMP_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), true));
-		this.addTypeInfo("binary", new LengthType("BINARY", conf.getIntegerValue(
-				DEFAULT_BINARY_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), true));
-		this.addTypeInfo("varbinary", new LengthType("VARBINARY", conf.getIntegerValue(
-				DEFAULT_VARBINARY_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), true));
-		this.addTypeInfo("longvarbinary", new LengthType("VARBINARY", conf.getIntegerValue(
-				DEFAULT_LONGVARBINARY_LENGTH_KEY, TypeInfo.UNDEFINED_LENGTH), true));
-		
-		// TODO review later 
-		this.addTypeInfo("other", new NoParamType("BLOB"));
-		this.addTypeInfo("javaobject", new NoParamType("BLOB"));
-		this.addTypeInfo("blob", new NoParamType("BLOB"));
-		this.addTypeInfo("clob", new NoParamType("TEXT"));
-	}
+	protected void initialize(final Configuration conf) {
+        // numeric types
+		this.add(new NoParamType("bit", "TINYINT(1)"));
+		this.add(new OptionalPrecisionType("tinyint", "TINYINT", conf));
+		this.add(new OptionalPrecisionType("smallint", "SMALLINT", conf));
+		this.add(new OptionalPrecisionType("integer", "INTEGER", conf));
+		this.add(new OptionalPrecisionType("bigint", "BIGINT", conf));
+        
+		this.add(new OptionalPrecisionDecimalsType("float", "FLOAT", conf));
+		this.add(new OptionalPrecisionDecimalsType("double", "DOUBLE", conf));
+		this.add(new OptionalPrecisionDecimalsType("real", "REAL", conf));
+		this.add(new OptionalPrecisionDecimalsType("numeric", "NUMERIC", conf));
+		this.add(new OptionalPrecisionDecimalsType("decimal", "DECIMAL", conf));
 
+        // character types
+		this.add(new OptionalLengthType("char", "CHAR", conf));
+		this.add(new OptionalLengthType("varchar", "VARCHAR", conf));
+		this.add(new OptionalLengthType("longvarchar", "VARCHAR", conf));
+        
+        // date and time types
+		this.add(new NoParamType("date", "DATE"));
+		this.add(new NoParamType("time", "TIME"));
+		this.add(new OptionalPrecisionType("timestamp", "TIMESTAMP", conf));
+        
+        // other types
+		this.add(new RequiredLengthType("binary", "BINARY", conf));
+		this.add(new RequiredLengthType("varbinary", "VARBINARY", conf));
+		this.add(new RequiredLengthType("longvarbinary", "VARBINARY", conf));
+		
+		this.add(new NoParamType("other", "BLOB"));
+		this.add(new NoParamType("javaobject", "BLOB"));
+		this.add(new NoParamType("blob", "BLOB"));
+		this.add(new NoParamType("clob", "TEXT"));
+	}
 }

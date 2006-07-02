@@ -707,7 +707,7 @@ public abstract class AbstractGenerator2 implements Generator {
         StringBuffer buff = new StringBuffer();
         buff.append(field.getName());
         buff.append(" ");
-        buff.append(field.getType().getDDLString());
+        buff.append(field.getType().toDDL(null));
         if(field.isIdentity())
             buff.append(" NOT NULL ");
         

@@ -22,7 +22,6 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.castor.ddl.AbstractGenerator;
-import org.castor.ddl.AbstractTypeMapper;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.mysql.MySQLTypeMapper;
@@ -127,12 +126,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf
-                                    .getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)),
-                    new Integer(
-                            conf
-                                    .getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) };
+                    conf.getInteger("default_integer_precision"),
+                    conf.getInteger("default_char_length")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -173,10 +168,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)),
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) };
+                    conf.getInteger("default_integer_precision"),
+                    conf.getInteger("default_char_length")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -202,10 +195,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)),
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) };
+                    conf.getInteger("default_integer_precision"),
+                    conf.getInteger("default_char_length")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -231,10 +222,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)),
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) };
+                    conf.getInteger("default_integer_precision"),
+                    conf.getInteger("default_char_length")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -260,10 +249,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)),
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) };
+                    conf.getInteger("default_integer_precision"),
+                    conf.getInteger("default_char_length")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -289,10 +276,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)),
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) };
+                    conf.getInteger("default_integer_precision"),
+                    conf.getInteger("default_char_length")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -318,28 +303,32 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer( conf.getIntegerValue(AbstractTypeMapper.DEFAULT_TINYINT_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_SMALLINT_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_BIGINT_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_FLOAT_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_FLOAT_DECIMAL_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_DOUBLE_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_DOUBLE_DECIMAL_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_REAL_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_REAL_DECIMAL_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_NUMERIC_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_NUMERIC_DECIMAL_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_DECIMAL_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_DECIMAL_DECIMAL_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_VARCHAR_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_LONGVARCHAR_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_TIMESTAMP_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_BINARY_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_VARBINARY_LENGTH_KEY))
-                    , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_LONGVARBINARY_LENGTH_KEY))
-                    };
+                    conf.getInteger("default_tinyint_precision"),
+                    conf.getInteger("default_smallint_precision"),
+                    conf.getInteger("default_integer_precision"),
+                    conf.getInteger("default_bigint_precision"),
+                    
+                    conf.getInteger("default_float_precision"),
+                    conf.getInteger("default_float_decimals"),
+                    conf.getInteger("default_double_precision"),
+                    conf.getInteger("default_double_decimals"),
+                    conf.getInteger("default_real_precision"),
+                    conf.getInteger("default_real_decimals"),
+                    conf.getInteger("default_numeric_precision"),
+                    conf.getInteger("default_numeric_decimals"),
+                    conf.getInteger("default_decimal_precision"),
+                    conf.getInteger("default_decimal_decimals"),
+                    
+                    conf.getInteger("default_char_length"),
+                    conf.getInteger("default_varchar_length"),
+                    conf.getInteger("default_longvarchar_length"),
+                    
+                    conf.getInteger("default_timestamp_precision"),
+                    
+                    conf.getInteger("default_binary_length"),
+                    conf.getInteger("default_varbinary_length"),
+                    conf.getInteger("default_longvarbinary_length")};
+            
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -365,9 +354,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                            };
+                    conf.getInteger("default_integer_precision")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -393,9 +380,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                            };
+                    conf.getInteger("default_integer_precision")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -421,9 +406,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                            };
+                    conf.getInteger("default_integer_precision")};
             String ddl = _generator.generateTableDDL();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -450,9 +433,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             //test
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                            };
+                    conf.getInteger("default_integer_precision")};
                      
             String ddl = _generator.generateTableDDL();
             
@@ -480,9 +461,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             //test
             Object[] params = new Object[] {
-                    new Integer(
-                            conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                            };
+                    conf.getInteger("default_integer_precision")};
                      
             String ddl = _generator.generateTableDDL();
             
@@ -510,9 +489,8 @@ public abstract class BaseGeneratorTest extends TestCase {
 
            //test
            Object[] params = new Object[] {
-                   new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                   , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) 
-                           };
+                   conf.getInteger("default_integer_precision"),
+                   conf.getInteger("default_char_length")};
                     
            String ddl = _generator.generateTableDDL();           
            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
@@ -545,9 +523,8 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                  , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) 
-                          };
+                  conf.getInteger("default_integer_precision"),
+                  conf.getInteger("default_char_length")};
                    
           String ddl = _generator.generateTableDDL();
           
@@ -580,9 +557,8 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                  , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) 
-                          };
+                  conf.getInteger("default_integer_precision"),
+                  conf.getInteger("default_char_length")};
                    
           String ddl = _generator.generateTableDDL();          
           boolean b = _expectedDDL.match(_engine, 0, ddl, params);
@@ -620,9 +596,8 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                  , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) 
-                          };
+                  conf.getInteger("default_integer_precision"),
+                  conf.getInteger("default_char_length")};
                    
           String ddl = _generator.generateTableDDL();
           
@@ -649,8 +624,7 @@ public abstract class BaseGeneratorTest extends TestCase {
           _generator.setTypeMapper(typeMapper);
 
           Object[] params = new Object[] {
-                  new Integer(
-                          conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY))};
+                  conf.getInteger("default_integer_precision")};
           String ddl = _generator.generateTableDDL();
 
           boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -676,8 +650,8 @@ public abstract class BaseGeneratorTest extends TestCase {
           _generator.setTypeMapper(typeMapper);
 
           Object[] params = new Object[] {
-                  new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)),
-                  new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY))};
+                  conf.getInteger("default_integer_precision"),
+                  conf.getInteger("default_char_length")};
           String ddl = _generator.generateTableDDL();
 
           boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -703,9 +677,8 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                  , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) 
-                          };
+                  conf.getInteger("default_integer_precision"),
+                  conf.getInteger("default_char_length")};
                    
           String ddl = _generator.generateTableDDL();
           
@@ -733,9 +706,8 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_INTEGER_LENGTH_KEY)) 
-                  , new Integer(conf.getIntegerValue(AbstractTypeMapper.DEFAULT_CHAR_LENGTH_KEY)) 
-                          };
+                  conf.getInteger("default_integer_precision"),
+                  conf.getInteger("default_char_length")};
                    
           String ddl = _generator.generateTableDDL();
           

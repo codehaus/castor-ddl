@@ -282,7 +282,7 @@ public class MySQLGenerator extends AbstractGenerator {
      * @throws GeneratorException
      */
     private String getTypeInfoDDL(TypeInfo inf) throws GeneratorException{
-        return inf.getDDLString();        
+        return inf.toDDL(null);        
     }
 
     /* (non-Javadoc)

@@ -13,31 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.castor.ddl.typeinfo;
 
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.schemaobject.Field;
 
 /**
- * Interface that assoiziates SQL type and its attributes.
- * Created on Jun 4, 2006 - 10:31:12 AM
+ * Interface associates JDBC to SQL type and its parameters.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public interface TypeInfo {
-
     /**
-     * undefined length value in the configuration file
+     * Get JDBC type.
+     * 
+     * @return The JDBC type.
      */
-    public static final int UNDEFINED_LENGTH = -1;
+    String getJdbcType();
     
     /**
-     * undefined decimal value in the configuration file
+     * Get SQL type.
+     * 
+     * @return The SQL type.
      */
-    public static final int UNDEFINED_DECIMAL = -1;
-
+    String getSqlType();
+    
     /**
-     * return the ddl formated string
-     * @return
-     * @throws GeneratorException 
+     * Build DDL string with SQL type and parameters.
+     * 
+     * @param field The field to get specific parameters from.
+     * @return Type string for DDL.
+     * @throws GeneratorException If required parameters is not defined.
      */
-    public String getDDLString() throws GeneratorException;
+    String toDDL(Field field) throws GeneratorException;
 }

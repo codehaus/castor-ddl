@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.castor.ddl;
 
 import org.castor.ddl.typeinfo.TypeInfo;
 
-
 /**
+ * Interface associates JDBC type to TypeInfo.
  * 
- * Created on Jun 4, 2006 - 10:33:19 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public interface TypeMapper {
-	
     /**
-     * get typeInfor for given key
-     * getType
-     * @param key
-     * @return
-     * @throws TypeNotFoundException
+     * Get TypeInfo for given JDBC type.
+     * 
+     * @param jdbcType JDBC type to get TypeInfo for.
+     * @return TypeInfo for the given JDBC type.
      */
-	public TypeInfo getType(String key);
-	
+	TypeInfo getType(String jdbcType);
 }

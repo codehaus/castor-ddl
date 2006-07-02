@@ -48,24 +48,6 @@ public class Configuration extends BaseConfiguration{
 		}
 	}
 
-	/**
-	 * get integer value associated with key in the configuration files.
-	 * @param key
-	 * @return return value associated with key. If not exists, throw an exception
-	 * @throws WrongFormatException
-	 * @throws KeyNotFoundException
-	 */
-	public int getIntegerValue(String key) throws WrongFormatException, KeyNotFoundException{
-		String value = this.getStringValue(key);
-		int ivalue = 0;
-		try{
-			ivalue = Integer.parseInt(value);
-		}catch(NumberFormatException nfe){
-			throw new WrongFormatException("require an integer, receive " + value);
-		}
-		return ivalue;
-	}
-
     /**
      * get boolean value associated with key in the configuration files.
      * @param key
@@ -116,21 +98,59 @@ public class Configuration extends BaseConfiguration{
     }
     
 	
-	/**
-	 * get integer value associated with key in the  configuration file
-	 * @param key
-	 * @param defaultValue
-	 * @return return value associated with key. If not exists, return default value
-	 */
-	public int getIntegerValue(String key, int defaultValue){
-		int ivalue = defaultValue;
-		try{
-			ivalue = this.getIntegerValue(key);
-		}catch(GeneratorException dge){
-			//do not thing, return default value
-		}
-		return ivalue;
-	}
+    /**
+     * get integer value associated with key in the configuration files.
+     * @param key
+     * @return return value associated with key. If not exists, throw an exception
+     * @throws WrongFormatException
+     * @throws KeyNotFoundException
+     */
+    public int getIntegerValue(String name)
+    throws WrongFormatException, KeyNotFoundException{
+        String value = conf.getProperty(name);
+        try{
+            return Integer.parseInt(value);
+        }catch(NumberFormatException nfe){
+            throw new WrongFormatException("require an integer, receive " + value);
+        }
+    }
+
+    /**
+     * Get property with given name as int value. If property is not available or can
+     * not be interpreted as integer the given default int value will be returned. 
+     * 
+     * @param name Name of the property.
+     * @param defaultValue  Default int value to return if property is not available or
+     *                      can not be interpreted as integer.
+     * @return The configured int property or the default int value if property is
+     *         not available or can not be interpreted as integer.
+     */
+    public int getIntegerValue(final String name, final int defaultValue) {
+        String value = conf.getProperty(name);
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException ex) {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Get property with given name as Integer value. If property is not available or can
+     * not be interpreted as integer null will be returned. 
+     * 
+     * @param name Name of the property.
+     * @return The configured Integer property or null if property is not available or
+     *         can not be interpreted as integer.
+     */
+    public Integer getInteger(final String name) {
+        String value = conf.getProperty(name);
+        if (value == null) { return null; }
+        try {
+            return Integer.valueOf(value);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
 
 	/**
 	 * get String value associated with key in the configuration files.

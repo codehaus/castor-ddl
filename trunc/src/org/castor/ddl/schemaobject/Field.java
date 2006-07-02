@@ -160,5 +160,10 @@ public class Field implements SchemaObject {
     public void setKeyGenerator(String keyGenerator) {
         _keyGenerator = keyGenerator;
     }
+    
+    public Integer getLength() { return null; }
 
+    public Integer getPrecision() { return null; }
+
+    public Integer getDecimals() { return null; }
 }

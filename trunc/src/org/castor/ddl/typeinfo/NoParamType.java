@@ -16,53 +16,30 @@
 
 package org.castor.ddl.typeinfo;
 
+import org.castor.ddl.schemaobject.Field;
 
 /**
- * 
- * Created on Jun 23, 2006 - 11:06:38 PM
+ * Final TypeInfo for types having no parameters.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-
-public class NoParamType implements TypeInfo {
-
-    /** SQL type */
-    private String _sqlName;
-
+public final class NoParamType extends AbstractType {
     /**
-     * Construct a new TypeInfo instance with given SQL type name, SQL type
-     * name,
+     * Construct a new TypeInfo instance with given Configuration, JDBC type and SQL type.
      * 
-     * @param name
+     * @param jdbcType The JDBC type.
+     * @param sqlType The SQL type.
      */
-    public NoParamType(String name) {
-        super();
-        _sqlName = name;
+    public NoParamType(final String jdbcType, final String sqlType) {
+        super(jdbcType, sqlType);
     }
 
     /**
-     * @return Returns the _sqlName.
+     * @see org.castor.ddl.typeinfo.TypeInfo#toDDL(org.castor.ddl.schemaobject.Field)
+     * {@inheritDoc}
      */
-    public final String getSqlName() {
-        return _sqlName;
+    public String toDDL(final Field field) {
+        return getSqlType();
     }
-
-    /**
-     * Set the sqlName by _sqlName.
-     * 
-     * @param sqlName
-     */
-    public void setSqlName(String sqlName) {
-        _sqlName = sqlName;
-    }
-
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.castor.ddl.typeinfo.TypeInfo#getDDLString()
-     */
-    public String getDDLString() {
-        return _sqlName;
-    }
-
 }

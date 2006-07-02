@@ -86,7 +86,7 @@ public class MySQLGeneratorTest extends BaseGeneratorTest{
      */
     protected void setUp() throws Exception {
         super.setUp();
-        _globalConf = "conf/config.properties";
+        _globalConf = "conf/ddl.properties";
         _dbConf = "conf/mysql.properties";
         _generator = new MySQLGenerator(_globalConf, _dbConf);
         _generator.setMapping(_mapping);

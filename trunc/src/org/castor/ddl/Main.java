@@ -41,7 +41,7 @@ public class Main {
         allOptions.addFlag("m", "mapping.xml", "input mapping file.");
 
         //-- configuration file
-        allOptions.addFlag("c", "config.properties", "configuration file.", true);
+        allOptions.addFlag("c", "ddl.properties", "configuration file.", true);
 
         //-- specific database configuration file
         allOptions.addFlag("d", "mysql.properties", "specific database configuration file.", true);

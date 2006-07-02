@@ -51,7 +51,7 @@ public class GeneratorFactory {
      */
     public static Generator createDDLGenerator(String engine, String globalConf, String specificConf) throws GeneratorException{
         /** define the configuration file name of DDL Generator*/
-        String globConf = "conf/config.properties";
+        String globConf = "conf/ddl.properties";
         String eng = engine;
         
         //verify the global configuration
