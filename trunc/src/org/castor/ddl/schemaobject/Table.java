@@ -55,10 +55,9 @@ public class Table implements SchemaObject {
      * Constructor for Table
      * @param name
      */
-    public Table(String name) {
+    public Table() {
         super();
         // TODO Auto-generated constructor stub
-        _name = name;
         _fields = new Vector();
         _identities = new Vector();
         _triggers = new Vector();
@@ -272,5 +271,13 @@ public class Table implements SchemaObject {
      */
     public final void setKeyGenerator(String keyGenerator) {
         _keyGenerator = keyGenerator;
+    }
+
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

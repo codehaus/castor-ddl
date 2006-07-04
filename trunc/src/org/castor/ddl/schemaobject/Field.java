@@ -166,4 +166,12 @@ public class Field implements SchemaObject {
     public Integer getPrecision() { return null; }
 
     public Integer getDecimals() { return null; }
+
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

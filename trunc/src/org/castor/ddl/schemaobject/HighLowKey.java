@@ -73,20 +73,21 @@ public class HighLowKey implements KeyGenerator {
         Param []params = keyGenDef.getParam();
         for(int i = 0; i < params.length; i++) {
             String pname = params[i].getName();
+            String pvalue = params[i].getValue();
             if(pname == null)
                 continue;
-            if(TABLE.equalsIgnoreCase(pname)) {
+            if(TABLE.equalsIgnoreCase(pvalue)) {
                 _table = params[i].getValue();
-            } else if(KEY_COLUMN.equalsIgnoreCase(pname)) {
+            } else if(KEY_COLUMN.equalsIgnoreCase(pvalue)) {
                 _keyColumn = params[i].getValue();
-            } else if(VALUE_COLUMN.equalsIgnoreCase(pname)) {
+            } else if(VALUE_COLUMN.equalsIgnoreCase(pvalue)) {
                 _valueColumn = params[i].getValue();
-            } else if(GRAB_SIZE.equalsIgnoreCase(pname)) {
+            } else if(GRAB_SIZE.equalsIgnoreCase(pvalue)) {
                 try {
-                _grabSize = Integer.parseInt(pname);
+                _grabSize = Integer.parseInt(pvalue);
                 }catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
-                    throw new GeneratorException("can not parse integer" + pname, nfe);
+                    throw new GeneratorException("can not parse integer" + pvalue, nfe);
                 }
             } else if(SAME_CONNECTION.equalsIgnoreCase(pname)) {
                 _isSameConnection = Boolean.valueOf(pname).booleanValue();
@@ -256,6 +257,14 @@ public class HighLowKey implements KeyGenerator {
         super();
         _name = name;
         _alias = alias;
+    }
+
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

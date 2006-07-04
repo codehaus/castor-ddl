@@ -129,4 +129,12 @@ public class Schema implements SchemaObject {
         _keyRepository.putKeyGenerator(KeyGenerator.UUID_KEY, new UUIDKey(KeyGenerator.UUID_KEY, null));
         
     }
+
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

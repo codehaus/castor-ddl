@@ -176,4 +176,12 @@ public class ForeignKey implements SchemaObject {
         this.relationshipType = relationshipType;
     }
 
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

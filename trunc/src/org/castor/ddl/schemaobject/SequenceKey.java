@@ -223,4 +223,12 @@ public class SequenceKey implements KeyGenerator {
         _name = name;
         _alias = alias;
     }
+
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

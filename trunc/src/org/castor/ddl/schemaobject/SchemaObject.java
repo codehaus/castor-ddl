@@ -23,8 +23,10 @@ package org.castor.ddl.schemaobject;
  */
 
 public interface SchemaObject {
-
-    /**line separator*/
-    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
+    
+    /**
+     * create DDL string
+     * @return
+     */
+    public String toDDL();
 }

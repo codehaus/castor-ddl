@@ -89,4 +89,12 @@ public class UUIDKey implements KeyGenerator {
         _name = name;
     }
 
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

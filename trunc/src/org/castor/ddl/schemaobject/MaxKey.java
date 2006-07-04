@@ -88,5 +88,13 @@ public class MaxKey implements KeyGenerator {
     public final void setName(String name) {
         _name = name;
     }
+
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 }

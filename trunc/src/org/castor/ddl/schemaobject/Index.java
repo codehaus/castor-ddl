@@ -24,4 +24,12 @@ package org.castor.ddl.schemaobject;
 
 public class Index implements SchemaObject {
 
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     */
+    public String toDDL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

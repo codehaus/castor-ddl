@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.schemaobject;
+package org.castor.ddl.mysql.schemaobject;
+
+import org.castor.ddl.schemaobject.Table;
 
 /**
  * 
- * Created on Jun 23, 2006 - 6:26:24 PM
+ * Created on Jul 3, 2006 - 5:32:53 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class Trigger implements SchemaObject {
-
-    /* (non-Javadoc)
-     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
-     */
-    public String toDDL() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class MySQLTable extends Table {
 
 }
