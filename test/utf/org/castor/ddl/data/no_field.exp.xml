@@ -1,0 +1,4 @@
+<expected-result>
+	<ddl matchtype="regexp" ></ddl>
+	<ddl matchtype="regexp" engine="mysql">create table simple \( \);</ddl>
+</expected-result>

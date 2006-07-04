@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<project default="main">
+	<target name="main" depends="cleanup, init, setup, compile" description="Main target">
+		<echo>Building the .jar file.</echo>
+	</target>
+
+	<target name="init">
+		<property file="build.properties" />
+	</target>
+
+	<target name="setup" depends="init">
+		<mkdir dir="${basedir}/${dest}" />
+	</target>
+
+	<target name="cleanup" depends="init">
+		<delete dir="${basedir}/${dest}" />
+	</target>
+
+	<target name="compile" description="Compilation target" depends="init">
+		<javac srcdir="${source}" destdir="${basedir}/${dest}" classpath="${basedir}/${lib}/castor-1.0.jar;${lib}/junit_3.8.1.jar" />
+	</target>
+
+	<target name="jar" description="create jar file" depends="init">
+		<jar jarfile="${basedir}/${jarfile}" basedir="${basedir}/${dest}" includes="**" manifest="MANIFEST.MF"/>
+	</target>
+
+	<target name="test-compile" description="Compilation test" depends="init">
+		<javac srcdir="${source};${test-source}" destdir="${basedir}/${dest}" classpath="${basedir}/${lib}/castor-1.0.jar;${lib}/junit_3.8.1.jar" />
+	</target>
+
+	<target name="run-test" description="run test" depends="init, test-compile">
+		<java jar=""
+			classpath="${basedir}/${lib}/castor-1.0.jar;${lib}/junit_3.8.1.jar;${lib}/xerces.jar" 
+		/>
+	</target>
+</project>

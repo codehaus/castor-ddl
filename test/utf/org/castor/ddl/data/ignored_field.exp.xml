@@ -1,0 +1,4 @@
+<expected-result>
+	<ddl matchtype="regexp" >drop table</ddl>
+	<ddl matchtype="regexp" engine="mysql">create table prod \( id integer\({0}\) not null \);</ddl>
+</expected-result>
