@@ -147,7 +147,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testSingleTable: " + e.getMessage(), false);
         }
     }
 
@@ -175,7 +176,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testIgnoredTable: " + e.getMessage(), false);
         }
     }
 
@@ -203,7 +205,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testNoTable: " + e.getMessage(), false);
         }
     }
 
@@ -228,7 +231,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testDropTable: " + e.getMessage(), false);
         }
     }
     
@@ -260,7 +264,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);                        
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testClassId: " + e.getMessage(), false);
         }
     }
 
@@ -293,7 +298,8 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
             
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testClassMultipleId: " + e.getMessage(), false);
         }
     }
 
@@ -325,7 +331,8 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
 
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testFieldId: " + e.getMessage(), false);
         }
     }
     
@@ -358,7 +365,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testFieldMultipleId: " + e.getMessage(), false);
         }
     }
 
@@ -393,7 +401,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue("test exception: " + e.getMessage(), false);
+            assertTrue("testNoId: " + e.getMessage(), false);
         }
     }
 
@@ -421,7 +429,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testMultipleTable: " + e.getMessage(), false);
         }
     }
 
@@ -468,7 +477,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testSingleFieldForAll: " + e.getMessage(), false);
         }
     }
 
@@ -497,7 +507,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue("test exception: " + e.getMessage(), false);
+            assertTrue("testSingleField: " + e.getMessage(), false);
         }
     }
 
@@ -532,7 +542,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testKeyGenIdentity: " + e.getMessage(), false);
         }
     }
 
@@ -566,7 +577,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue("test exception: " + e.getMessage(), false);
+            assertTrue("testKeyGenHighLow: " + e.getMessage(), false);
         }
     }
 
@@ -599,7 +610,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue("test exception: " + e.getMessage(), false);
+            assertTrue("testKeyGenMax: " + e.getMessage(), false);
         }
     }
     
@@ -635,7 +646,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue("test exception: " + e.getMessage(), false);
+            assertTrue("testKeyGenSequence: " + e.getMessage(), false);
         }
     }
 
@@ -670,7 +681,8 @@ public abstract class BaseGeneratorTest extends TestCase {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
-            assertTrue("test exception: " + e.getMessage(), false);
+            e.printStackTrace();
+            assertTrue("testKeyGenUUID: " + e.getMessage(), false);
         }
     }
 
@@ -704,7 +716,8 @@ public abstract class BaseGeneratorTest extends TestCase {
                    + _expectedDDL.getMessage(), b);
            
        } catch (Exception e) {
-           assertTrue("test exception: " + e.getMessage(), false);
+           e.printStackTrace();
+           assertTrue("testOneOneRelationship: " + e.getMessage(), false);
        }
    }
 
@@ -738,7 +751,8 @@ public abstract class BaseGeneratorTest extends TestCase {
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + _expectedDDL.getMessage(), b);
       } catch (Exception e) {
-          assertTrue("test exception: " + e.getMessage(), false);
+          e.printStackTrace();
+          assertTrue("testOneManyRelationship: " + e.getMessage(), false);
       }
   }
   
@@ -772,7 +786,8 @@ public abstract class BaseGeneratorTest extends TestCase {
                   + _expectedDDL.getMessage(), b);
                     
       } catch (Exception e) {
-          assertTrue("test exception: " + e.getMessage(), false);
+          e.printStackTrace();
+          assertTrue("testManyManyRelationship: " + e.getMessage(), false);
       }
   }
   
@@ -801,7 +816,8 @@ public abstract class BaseGeneratorTest extends TestCase {
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + _expectedDDL.getMessage(), b);
       } catch (Exception e) {
-          assertTrue("test exception: " + e.getMessage(), false);
+          e.printStackTrace();
+          assertTrue("test2LevelsReference: " + e.getMessage(), false);
       }
   }    
 
@@ -828,7 +844,8 @@ public abstract class BaseGeneratorTest extends TestCase {
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + _expectedDDL.getMessage(), b);
       } catch (Exception e) {
-          assertTrue("test exception: " + e.getMessage(), false);
+          e.printStackTrace();
+          assertTrue("testIgnoredField: " + e.getMessage(), false);
       }
   }
 
@@ -853,7 +870,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                   + _expectedDDL.getMessage(), b);
       } catch (Exception e) {
           e.printStackTrace();
-          assertTrue("test exception: " + e.getMessage(), false);
+          assertTrue("testNoField: " + e.getMessage(), false);
       }
   }
 
@@ -882,7 +899,8 @@ public abstract class BaseGeneratorTest extends TestCase {
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + _expectedDDL.getMessage(), b);
       } catch (Exception e) {
-          assertTrue("test exception: " + e.getMessage(), false);
+          e.printStackTrace();
+          assertTrue("testOverwriteFieldId: " + e.getMessage(), false);
       }
   }
   /**
@@ -910,7 +928,8 @@ public abstract class BaseGeneratorTest extends TestCase {
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + _expectedDDL.getMessage(), b);
       } catch (Exception e) {
-          assertTrue("test exception: " + e.getMessage(), false);
+          e.printStackTrace();
+          assertTrue("testManyKeysReference: " + e.getMessage(), false);
       }
   }
 
@@ -939,7 +958,8 @@ public abstract class BaseGeneratorTest extends TestCase {
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + _expectedDDL.getMessage(), b);
       } catch (Exception e) {
-          assertTrue("test exception: " + e.getMessage(), false);
+          e.printStackTrace();
+          assertTrue("testManyClassKeysReference: " + e.getMessage(), false);
       }
   }
   
@@ -973,7 +993,8 @@ public abstract class BaseGeneratorTest extends TestCase {
                   + expectedDDL.toString(), expectedDDL.match(ddl));
 
       } catch (Exception e) {
-          assertTrue("test exception: " + e.getMessage(), false);
+          e.printStackTrace();
+          assertTrue("testCreateSchema: " + e.getMessage(), false);
       }
   }
   
@@ -998,9 +1019,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                   + _expectedDDL.getMessage(), b);
       } catch (Exception e) {
           e.printStackTrace();
-          assertTrue("test exception: " + e.getMessage(), false);
+          assertTrue("testCreateIndex: " + e.getMessage(), false);
       }
-  }
-
-  
+  }  
 }

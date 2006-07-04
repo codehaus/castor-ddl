@@ -59,9 +59,9 @@ public class MySQLGeneratorTest extends BaseGeneratorTest {
         TestSuite suite = new TestSuite("All org.castor.ddl.mysql tests");
 
         // schema test
-        suite.addTest(new MySQLGeneratorTest("testCreateSchema", true));
+//        suite.addTest(new MySQLGeneratorTest("testCreateSchema", true));
         // drop test
-        suite.addTest(new MySQLGeneratorTest("testDropTable", true));
+//        suite.addTest(new MySQLGeneratorTest("testDropTable", true));
         
         // table test
         suite.addTest(new MySQLGeneratorTest("testSingleTable", true));
