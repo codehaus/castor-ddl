@@ -236,6 +236,7 @@ public class Configuration extends BaseConfiguration{
         LINE_INDENT = getStringValue(LINE_INDENT_KEY, LINE_INDENT);
         
         String s = getStringValue(DDL_FORMAT_CASE_KEY, DDL_FORMAT_CASESENSITIVE_STRING);
+        
         if(DDL_FORMAT_LOWERCASE_STRING.equalsIgnoreCase(s)) {
             DDL_FORMAT_CASE = DDL_FORMAT_LOWERCASE;
         }else if(DDL_FORMAT_UPPERCASE_STRING.equalsIgnoreCase(s)) {

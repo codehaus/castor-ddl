@@ -142,7 +142,7 @@ public class MappingHelper {
      */
     public synchronized String[] resolveTypeReferenceForIds(String className)throws GeneratorException {
         //get the reference's class _mapping 
-        
+        System.out.println("classname=" + className);
         ClassMapping cm = getClassMappingByName(className);
         String []ids = cm.getIdentity();
         Vector types = new Vector();
@@ -193,7 +193,14 @@ public class MappingHelper {
 //                        if(sqlnames[i].equals(ids[j])) {//found reference type
                         if(fieldName.equals(ids[j])) {  
                         //checking for type if this table is a reference table
-                            TypeInfo typeinfo = _typeMapper.getType(fm.getType());
+                            
+                            TypeInfo typeinfo = null;
+                            String sqltype = fm.getSql().getType();//field type
+                            
+                            //verify if sqltype exists 
+                            if(sqltype != null)
+                                typeinfo = _typeMapper.getType(sqltype);
+                            
                             if(typeinfo == null) {
                                 String []refRefType = resolveTypeReferenceForIds(fm.getType());
                                 for(int l = 0; l < refRefType.length; l++) {
