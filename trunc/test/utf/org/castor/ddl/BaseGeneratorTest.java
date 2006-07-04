@@ -40,6 +40,17 @@ import org.exolab.castor.mapping.Mapping;
  */
 
 public abstract class BaseGeneratorTest extends TestCase {
+    protected static final String PARAM_PREFIX = "default_";
+    
+    /** Prostfix of length parameters for types in ddl.properties file. */
+    protected static final String PARAM_POSTFIX_LENGTH = "_length";
+    
+    /** Prostfix of precision parameters for types in ddl.properties file. */
+    protected static final String PARAM_POSTFIX_PRECISION = "_precision";
+    
+    /** Prostfix of decimals parameters for types in ddl.properties file. */
+    protected static final String PARAM_POSTFIX_DECIMALS = "_decimals";
+    
     /** expected result for specific database engine*/
     protected String _engine = ExpectedResult.ENGINE_GENERIC;
     
@@ -84,6 +95,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             _mapping.loadMapping(BaseGeneratorTest.class.getResource(dataDir
                     + mappingFile));
             _generator.setMapping(_mapping);
+            _generator.createSchema();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,6 +116,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             _mapping.loadMapping(BaseGeneratorTest.class.getResource(dataDir
                     + mappingFile));
             _generator.setMapping(_mapping);
+            _generator.createSchema();            
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -126,10 +139,10 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision"),
-                    conf.getInteger("default_char_length")};
-            String ddl = _generator.generateTableDDL();
-
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
+            
             boolean b = _expectedDDL.match(_engine, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
@@ -138,13 +151,27 @@ public abstract class BaseGeneratorTest extends TestCase {
         }
     }
 
-    public void testFieldBit() {
+
+    /**
+     * test for ignored table in the mapping
+     * 
+     */
+    public void testIgnoredTable() {
         try {
             // load test data
-            loadData("single_field_bit.xml", "single_field_bit.exp.xml");
+            loadData("ignored_table.xml", "ignored_table.exp.xml");
 
-            String ddl = _generator.generateTableDDL();
-            boolean b = _expectedDDL.match(_engine, ddl);
+            // setup
+            Configuration conf = _generator.getConf();
+            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            _generator.setTypeMapper(typeMapper);
+
+            Object[] params = new Object[] {
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
+            
+            boolean b = _expectedDDL.match(_engine, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
@@ -153,6 +180,58 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
 
+    /**
+     * test for no table in the mapping
+     * 
+     */
+    public void testNoTable() {
+        try {
+            // load test data
+            loadData("no_table.xml", "no_table.exp.xml");
+
+            // setup
+            Configuration conf = _generator.getConf();
+            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            _generator.setTypeMapper(typeMapper);
+
+            Object[] params = new Object[] {
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
+            
+            boolean b = _expectedDDL.match(_engine, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+        } catch (Exception e) {
+            assertTrue("test exception: " + e.getMessage(), false);
+        }
+    }
+
+
+    /**
+     * test single table
+     * 
+     */
+    public void testDropTable() {
+        try {
+            // load test data
+            loadData("drop_table.xml", "drop_table.exp.xml");
+
+            // setup
+            Configuration conf = _generator.getConf();
+            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            _generator.setTypeMapper(typeMapper);
+
+            String ddl = _generator.generateDrop();
+            
+            boolean b = _expectedDDL.match(_engine, ddl);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+        } catch (Exception e) {
+            assertTrue("test exception: " + e.getMessage(), false);
+        }
+    }
+    
     /**
      * test the identity is defined in the class tag
      * 
@@ -168,13 +247,18 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision"),
-                    conf.getInteger("default_char_length")};
-            String ddl = _generator.generateTableDDL();
-
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            
+            String ddl = _generator.generateCreate();
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
+            
+            ddl = _generator.generatePrimaryKey();
+            b = _expectedDDL.match(_engine, 1, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);                        
         } catch (Exception e) {
             assertTrue("test exception: " + e.getMessage(), false);
         }
@@ -195,13 +279,19 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision"),
-                    conf.getInteger("default_char_length")};
-            String ddl = _generator.generateTableDDL();
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
 
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
+            
+            ddl = _generator.generatePrimaryKey();
+            b = _expectedDDL.match(_engine, 1, ddl, null);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+            
         } catch (Exception e) {
             assertTrue("test exception: " + e.getMessage(), false);
         }
@@ -222,13 +312,18 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision"),
-                    conf.getInteger("default_char_length")};
-            String ddl = _generator.generateTableDDL();
-
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
+
+            ddl = _generator.generatePrimaryKey();
+            b = _expectedDDL.match(_engine, 1, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+
         } catch (Exception e) {
             assertTrue("test exception: " + e.getMessage(), false);
         }
@@ -249,17 +344,59 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision"),
-                    conf.getInteger("default_char_length")};
-            String ddl = _generator.generateTableDDL();
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
 
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+
+            ddl = _generator.generatePrimaryKey();
+
+            b = _expectedDDL.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
             assertTrue("test exception: " + e.getMessage(), false);
         }
     }
+
+    
+    /**
+     * test for no id definition
+     * 
+     */
+    public void testNoId() {
+        try {
+            // load test data
+            loadData("no_id.xml", "no_id.exp.xml");
+
+            // setup
+            Configuration conf = _generator.getConf();
+            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            _generator.setTypeMapper(typeMapper);
+
+            Object[] params = new Object[] {
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
+
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+
+            ddl = _generator.generatePrimaryKey();
+
+            b = _expectedDDL.match(_engine, 1, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue("test exception: " + e.getMessage(), false);
+        }
+    }
+
 
     /**
      * test to create many table in a mapping
@@ -276,9 +413,9 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision"),
-                    conf.getInteger("default_char_length")};
-            String ddl = _generator.generateTableDDL();
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -303,34 +440,30 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_tinyint_precision"),
-                    conf.getInteger("default_smallint_precision"),
-                    conf.getInteger("default_integer_precision"),
-                    conf.getInteger("default_bigint_precision"),
-                    
-                    conf.getInteger("default_float_precision"),
-                    conf.getInteger("default_float_decimals"),
-                    conf.getInteger("default_double_precision"),
-                    conf.getInteger("default_double_decimals"),
-                    conf.getInteger("default_real_precision"),
-                    conf.getInteger("default_real_decimals"),
-                    conf.getInteger("default_numeric_precision"),
-                    conf.getInteger("default_numeric_decimals"),
-                    conf.getInteger("default_decimal_precision"),
-                    conf.getInteger("default_decimal_decimals"),
-                    
-                    conf.getInteger("default_char_length"),
-                    conf.getInteger("default_varchar_length"),
-                    conf.getInteger("default_longvarchar_length"),
-                    
-                    conf.getInteger("default_timestamp_precision"),
-                    
-                    conf.getInteger("default_binary_length"),
-                    conf.getInteger("default_varbinary_length"),
-                    conf.getInteger("default_longvarbinary_length")};
-            
-            String ddl = _generator.generateTableDDL();
+                    conf.getInteger(PARAM_PREFIX + "tinyint" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "smallint" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "bigint" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_DECIMALS)
+                    , conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_DECIMALS)
+                    , conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_DECIMALS)
+                    , conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_DECIMALS)
+                    , conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_DECIMALS)
+                    , conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH)
+                    , conf.getInteger(PARAM_PREFIX + "varchar" + PARAM_POSTFIX_LENGTH)
+                    , conf.getInteger(PARAM_PREFIX + "longvarchar" + PARAM_POSTFIX_LENGTH)
+                    , conf.getInteger(PARAM_PREFIX + "timestamp" + PARAM_POSTFIX_PRECISION)
+                    , conf.getInteger(PARAM_PREFIX + "binary" + PARAM_POSTFIX_LENGTH)
+                    , conf.getInteger(PARAM_PREFIX + "varbinary" + PARAM_POSTFIX_LENGTH)
+                    , conf.getInteger(PARAM_PREFIX + "longvarbinary" + PARAM_POSTFIX_LENGTH)
+                    };
 
+            String ddl = _generator.generateCreate();
             boolean b = _expectedDDL.match(_engine, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
@@ -339,6 +472,37 @@ public abstract class BaseGeneratorTest extends TestCase {
         }
     }
 
+
+    /**
+     * test single table
+     * 
+     */
+    public void testSingleField() {
+        try {
+            // load test data
+            loadData("single_field.xml", "single_field.exp.xml");
+
+            // setup
+            Configuration conf = _generator.getConf();
+            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            _generator.setTypeMapper(typeMapper);
+
+            Object[] params = new Object[] {
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
+            
+            boolean b = _expectedDDL.match(_engine, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue("test exception: " + e.getMessage(), false);
+        }
+    }
+
+
+    
     /**
      * test to create identity for key generator
      * 
@@ -354,10 +518,17 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision")};
-            String ddl = _generator.generateTableDDL();
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
 
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+
+            ddl = _generator.generateKeyGenerator();
+
+            b = _expectedDDL.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
@@ -380,13 +551,21 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision")};
-            String ddl = _generator.generateTableDDL();
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
 
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+
+            ddl = _generator.generateIndex();
+
+            b = _expectedDDL.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
+            e.printStackTrace();
             assertTrue("test exception: " + e.getMessage(), false);
         }
     }
@@ -406,13 +585,20 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision")};
-            String ddl = _generator.generateTableDDL();
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+            String ddl = _generator.generateCreate();
 
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+
+            ddl = _generator.generateIndex();
+            b = _expectedDDL.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
+            e.printStackTrace();
             assertTrue("test exception: " + e.getMessage(), false);
         }
     }
@@ -433,14 +619,22 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             //test
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision")};
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
                      
-            String ddl = _generator.generateTableDDL();
+            String ddl = _generator.generateCreate();
             
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+
+            ddl = _generator.generateIndex();
+            
+            b = _expectedDDL.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
+            e.printStackTrace();
             assertTrue("test exception: " + e.getMessage(), false);
         }
     }
@@ -461,11 +655,18 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             //test
             Object[] params = new Object[] {
-                    conf.getInteger("default_integer_precision")};
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
                      
-            String ddl = _generator.generateTableDDL();
+            String ddl = _generator.generateCreate();
             
-            boolean b = _expectedDDL.match(_engine, ddl, params);
+            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + _expectedDDL.getMessage(), b);
+            
+            ddl = _generator.generateIndex();
+            
+            b = _expectedDDL.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
         } catch (Exception e) {
@@ -489,10 +690,10 @@ public abstract class BaseGeneratorTest extends TestCase {
 
            //test
            Object[] params = new Object[] {
-                   conf.getInteger("default_integer_precision"),
-                   conf.getInteger("default_char_length")};
+                   conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                   conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
                     
-           String ddl = _generator.generateTableDDL();           
+           String ddl = _generator.generateCreate();           
            boolean b = _expectedDDL.match(_engine, 0, ddl, params);
            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                    + _expectedDDL.getMessage(), b);
@@ -523,10 +724,10 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  conf.getInteger("default_integer_precision"),
-                  conf.getInteger("default_char_length")};
+                  conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                  conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
                    
-          String ddl = _generator.generateTableDDL();
+          String ddl = _generator.generateCreate();
           
           boolean b = _expectedDDL.match(_engine, 0, ddl, params);
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -557,24 +758,19 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  conf.getInteger("default_integer_precision"),
-                  conf.getInteger("default_char_length")};
+                  conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                  conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
                    
-          String ddl = _generator.generateTableDDL();          
+          String ddl = _generator.generateCreate();          
           boolean b = _expectedDDL.match(_engine, 0, ddl, params);
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + _expectedDDL.getMessage(), b);
 
-          ddl = _generator.generateResolvingTable();          
+          ddl = _generator.generateForeignKey();          
           b = _expectedDDL.match(_engine, 1, ddl, params);
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + _expectedDDL.getMessage(), b);
-          
-          
-          ddl = _generator.generateForeignKey();           
-          b = _expectedDDL.match(_engine, 2, ddl, params);
-          assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
-                  + _expectedDDL.getMessage(), b);
+                    
       } catch (Exception e) {
           assertTrue("test exception: " + e.getMessage(), false);
       }
@@ -596,10 +792,10 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  conf.getInteger("default_integer_precision"),
-                  conf.getInteger("default_char_length")};
+                  conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                  conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
                    
-          String ddl = _generator.generateTableDDL();
+          String ddl = _generator.generateCreate();
           
           boolean b = _expectedDDL.match(_engine, ddl, params);
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -613,10 +809,10 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test single table
    * 
    */
-  public void testIgnoreField() {
+  public void testIgnoredField() {
       try {
           // load test data
-          loadData("ignore_field.xml", "ignore_field.exp.xml");
+          loadData("ignored_field.xml", "ignored_field.exp.xml");
 
           // setup
           Configuration conf = _generator.getConf();
@@ -624,8 +820,9 @@ public abstract class BaseGeneratorTest extends TestCase {
           _generator.setTypeMapper(typeMapper);
 
           Object[] params = new Object[] {
-                  conf.getInteger("default_integer_precision")};
-          String ddl = _generator.generateTableDDL();
+                  conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                  conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+          String ddl = _generator.generateCreate();
 
           boolean b = _expectedDDL.match(_engine, ddl, params);
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -634,7 +831,34 @@ public abstract class BaseGeneratorTest extends TestCase {
           assertTrue("test exception: " + e.getMessage(), false);
       }
   }
-  
+
+  /**
+   * test field bit
+   *
+   */
+  public void testNoField() {
+      try {
+          // load test data
+          loadData("no_field.xml", "no_field.exp.xml");
+
+          // setup
+          Configuration conf = _generator.getConf();
+          TypeMapper typeMapper = new MySQLTypeMapper(conf);
+          _generator.setTypeMapper(typeMapper);
+
+          String ddl = _generator.generateCreate();
+
+          boolean b = _expectedDDL.match(_engine, ddl);
+          assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                  + _expectedDDL.getMessage(), b);
+      } catch (Exception e) {
+          e.printStackTrace();
+          assertTrue("test exception: " + e.getMessage(), false);
+      }
+  }
+
+
+
   /**
    * test overwrite identity by field'id
    * 
@@ -650,9 +874,9 @@ public abstract class BaseGeneratorTest extends TestCase {
           _generator.setTypeMapper(typeMapper);
 
           Object[] params = new Object[] {
-                  conf.getInteger("default_integer_precision"),
-                  conf.getInteger("default_char_length")};
-          String ddl = _generator.generateTableDDL();
+                  conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                  conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
+          String ddl = _generator.generateCreate();
 
           boolean b = _expectedDDL.match(_engine, ddl, params);
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -677,10 +901,10 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  conf.getInteger("default_integer_precision"),
-                  conf.getInteger("default_char_length")};
+                  conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                  conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
                    
-          String ddl = _generator.generateTableDDL();
+          String ddl = _generator.generateCreate();
           
           boolean b = _expectedDDL.match(_engine, ddl, params);
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -706,10 +930,10 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           //test
           Object[] params = new Object[] {
-                  conf.getInteger("default_integer_precision"),
-                  conf.getInteger("default_char_length")};
+                  conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                  conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH) };
                    
-          String ddl = _generator.generateTableDDL();
+          String ddl = _generator.generateCreate();
           
           boolean b = _expectedDDL.match(_engine, ddl, params);
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -733,9 +957,9 @@ public abstract class BaseGeneratorTest extends TestCase {
           _generator.setTypeMapper(typeMapper);
           
           String schema = "test";
-          Ddl expectedDDL = new Ddl("use " + schema, Ddl.MATCHTYPE_REGEXP, false);
+          Ddl expectedDDL = new Ddl("use " + schema + Configuration.SQL_STAT_DELIMETER, Ddl.MATCHTYPE_REGEXP, false);
           conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
-          String ddl = _generator.generateSchemaDDL();
+          String ddl = _generator.generateSchema();
           
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + expectedDDL.toString(), expectedDDL.match(ddl));
@@ -743,7 +967,7 @@ public abstract class BaseGeneratorTest extends TestCase {
           schema = "";
           expectedDDL = new Ddl("", Ddl.MATCHTYPE_EXACT, false);
           conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
-          ddl = _generator.generateSchemaDDL();
+          ddl = _generator.generateSchema();
           
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                   + expectedDDL.toString(), expectedDDL.match(ddl));
@@ -751,5 +975,32 @@ public abstract class BaseGeneratorTest extends TestCase {
       } catch (Exception e) {
           assertTrue("test exception: " + e.getMessage(), false);
       }
-  }  
+  }
+  
+  /**
+   * test for create index, there are no ddl createdfor now
+   * 
+   */
+  public void testCreateIndex() {
+      try {
+          // load test data
+          loadData("index_creation.xml", "index_creation.exp.xml");
+
+          // setup
+          Configuration conf = _generator.getConf();
+          TypeMapper typeMapper = new MySQLTypeMapper(conf);
+          _generator.setTypeMapper(typeMapper);
+
+          String ddl = _generator.generateIndex();
+
+          boolean b = _expectedDDL.match(_engine, ddl);
+          assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                  + _expectedDDL.getMessage(), b);
+      } catch (Exception e) {
+          e.printStackTrace();
+          assertTrue("test exception: " + e.getMessage(), false);
+      }
+  }
+
+  
 }
