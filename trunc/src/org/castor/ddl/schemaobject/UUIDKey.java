@@ -24,7 +24,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class UUIDKey implements KeyGenerator {
+public class UUIDKey extends KeyGenerator {
     /** sequence name*/
     public String _name;
     

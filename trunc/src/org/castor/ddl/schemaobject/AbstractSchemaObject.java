@@ -14,39 +14,33 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.mysql.schemaobject;
+package org.castor.ddl.schemaobject;
 
-import org.castor.ddl.mysql.MySQLConfigurationKey;
-import org.castor.ddl.schemaobject.Table;
+import org.castor.ddl.Configuration;
 
 /**
  * 
- * Created on Jul 3, 2006 - 5:32:53 PM
+ * Created on Jul 4, 2006 - 2:20:35 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLTable extends Table {
+public abstract class AbstractSchemaObject implements SchemaObject {
+    /**configuration */
+    Configuration _conf;
     
-    /**
-     * Constructor for MySQLTable
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaObject#setConfiguration(org.castor.ddl.Configuration)
      */
-    public MySQLTable() {
-        super();
-    }
-
-    private String createEngineStatement() {
-        String engine = getConfiguration().getStringValue(MySQLConfigurationKey.STORAGE_ENGINE, null);
-        if(engine == null || "".equals(engine))
-            return "";
-        return " ENGINE=" + engine;
+    public void setConfiguration(Configuration conf) {
+        _conf = conf;
+        
     }
 
     /* (non-Javadoc)
-     * @see org.castor.ddl.schemaobject.Table#postCreateTable()
+     * @see org.castor.ddl.schemaobject.SchemaObject#getConfiguration()
      */
-    protected String postCreateTable() {
-        return ")" + createEngineStatement();
+    public Configuration getConfiguration() {
+        return _conf;
     }
-   
 
 }

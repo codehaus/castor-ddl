@@ -22,7 +22,7 @@ package org.castor.ddl.schemaobject;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class Trigger implements SchemaObject {
+public class Trigger extends AbstractSchemaObject {
 
     /* (non-Javadoc)
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()

@@ -16,37 +16,37 @@
 
 package org.castor.ddl.mysql.schemaobject;
 
-import org.castor.ddl.mysql.MySQLConfigurationKey;
+import org.castor.ddl.schemaobject.Field;
+import org.castor.ddl.schemaobject.SchemaFactory;
 import org.castor.ddl.schemaobject.Table;
 
 /**
  * 
- * Created on Jul 3, 2006 - 5:32:53 PM
+ * Created on Jul 4, 2006 - 3:06:14 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLTable extends Table {
-    
+public class MySQLSchemaFactory extends SchemaFactory {
+
     /**
-     * Constructor for MySQLTable
+     * Constructor for MySQLSchemaFactory
      */
-    public MySQLTable() {
+    public MySQLSchemaFactory() {
         super();
     }
 
-    private String createEngineStatement() {
-        String engine = getConfiguration().getStringValue(MySQLConfigurationKey.STORAGE_ENGINE, null);
-        if(engine == null || "".equals(engine))
-            return "";
-        return " ENGINE=" + engine;
+    /* (non-Javadoc)
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
+     */
+    public Field createField() {
+        return new MySQLField();
     }
 
     /* (non-Javadoc)
-     * @see org.castor.ddl.schemaobject.Table#postCreateTable()
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createTable()
      */
-    protected String postCreateTable() {
-        return ")" + createEngineStatement();
+    public Table createTable() {
+        return new MySQLTable();
     }
-   
 
 }

@@ -16,6 +16,7 @@
 
 package org.castor.ddl.schemaobject;
 
+
 /**
  * this class handle information for foreign key creation.
  * <pre>ALTER TABLE `prod_group` ADD CONSTRAINT `FK_prod_group_1` FOREIGN KEY `FK_prod_group_1` (`id`, `name`)
@@ -26,7 +27,7 @@ package org.castor.ddl.schemaobject;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class ForeignKey implements SchemaObject {
+public class ForeignKey extends AbstractSchemaObject  {
     /** table name*/
     private String tableName = null;
     

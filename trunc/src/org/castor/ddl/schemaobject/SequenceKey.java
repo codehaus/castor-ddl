@@ -27,7 +27,7 @@ import org.exolab.castor.mapping.xml.Param;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class SequenceKey implements KeyGenerator {
+public class SequenceKey extends KeyGenerator {
     /** sequence name*/
     public String _name;
     

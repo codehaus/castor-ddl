@@ -62,7 +62,7 @@ public class Main {
         String  specificConfig  = options.getProperty("d");
         String  engine  = options.getProperty("e");
         
-        if (options.getProperty("h") != null) {
+        if (options.getProperty("h") != null || mappingName == null) {
             PrintWriter pw = new PrintWriter(System.out, true);
             allOptions.printHelp(pw);
             pw.flush();
@@ -84,7 +84,6 @@ public class Main {
 	    try {
 	        
             Generator generator = GeneratorFactory.createDDLGenerator(engine, globalConfig, specificConfig);
-//            Generator generator = new MySQLGenerator(globalConfig, specificConfig);            
             generator.setPrinter(new PrintStream(new FileOutputStream(ddlName)));
             Mapping mapping = new Mapping();
             mapping.loadMapping(mappingName);

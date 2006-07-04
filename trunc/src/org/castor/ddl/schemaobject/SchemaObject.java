@@ -16,6 +16,8 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.castor.ddl.Configuration;
+
 /**
  * 
  * Created on Jun 23, 2006 - 6:15:17 PM
@@ -23,10 +25,16 @@ package org.castor.ddl.schemaobject;
  */
 
 public interface SchemaObject {
+
+    /**
+     * set configuration
+     * @param conf
+     */
+    public void setConfiguration(Configuration conf);
     
     /**
-     * create DDL string
+     * get configuration
      * @return
      */
-    public String toDDL();
+    public Configuration getConfiguration();
 }

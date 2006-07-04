@@ -24,7 +24,7 @@ import java.util.Vector;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class Schema implements SchemaObject {
+public class Schema extends AbstractSchemaObject {
 
     /**schema name*/
     private String _name = null;
@@ -46,18 +46,6 @@ public class Schema implements SchemaObject {
      */
     public Schema() {
         super();
-        _tables = new Vector();
-        _keyRepository = new KeyRepository();
-        addDefaultKey();
-    }
-
-    /**
-     * Constructor for Schema
-     * @param name
-     */
-    public Schema(String name) {
-        super();
-        _name = name;
         _tables = new Vector();
         _keyRepository = new KeyRepository();
         addDefaultKey();

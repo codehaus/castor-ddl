@@ -16,7 +16,11 @@
 
 package org.castor.ddl.schemaobject;
 
+import java.util.Iterator;
 import java.util.Vector;
+
+import org.castor.ddl.Configuration;
+import org.castor.ddl.GeneratorException;
 
 /**
  * 
@@ -29,7 +33,7 @@ import java.util.Vector;
  * Created on Jun 23, 2006 - 6:22:33 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class Table implements SchemaObject {
+public class Table extends AbstractSchemaObject {
     /**table name*/
     private String _name = null;
     
@@ -273,11 +277,41 @@ public class Table implements SchemaObject {
         _keyGenerator = keyGenerator;
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+    /**
+     * 
+     * @return
      */
-    public String toDDL() {
-        // TODO Auto-generated method stub
-        return null;
+    protected String preCreateTable() {
+        return "CREATE TABLE " + _name + " (";
+    }
+
+    /**
+     * 
+     * @param table
+     * @return
+     */
+    protected String postCreateTable() {
+        return ")";
+    }
+
+    public String toCreateDDL() throws GeneratorException {
+        StringBuffer buff = new StringBuffer(Configuration.LINE_SEPARATOR);
+        
+        //pre create table ddl
+        buff.append(preCreateTable());
+        
+        for(Iterator i = _fields.iterator(); i.hasNext();) {
+            Field field = (Field)i.next();
+            buff.append(Configuration.LINE_SEPARATOR).append(Configuration.LINE_INDENT);
+            buff.append(field.toDDL());
+            if(i.hasNext()) 
+                buff.append(Configuration.SQL_FIELD_DELIMETER);
+        }
+        
+        buff.append(Configuration.LINE_SEPARATOR);
+        buff.append(postCreateTable());
+        buff.append(Configuration.SQL_STAT_DELIMETER);
+        
+        return buff.toString();
     }
 }

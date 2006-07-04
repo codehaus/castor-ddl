@@ -16,13 +16,22 @@
 
 package org.castor.ddl.schemaobject;
 
+
 /**
  * 
  * Created on Jun 23, 2006 - 6:25:09 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class Index implements SchemaObject {
+public class Index extends AbstractSchemaObject {
+
+    /**
+     * Constructor for Index
+     * @param conf
+     */
+    public Index() {
+        super();
+    }
 
     /* (non-Javadoc)
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()

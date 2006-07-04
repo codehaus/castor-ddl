@@ -17,13 +17,22 @@
 package org.castor.ddl.schemaobject;
 
 
+
 /**
  * 
  * Created on Jun 23, 2006 - 5:44:13 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public interface KeyGenerator extends SchemaObject {
+public abstract class KeyGenerator extends AbstractSchemaObject {
+    /**
+     * Constructor for KeyGenerator
+     * @param conf
+     */
+    public KeyGenerator() {
+        super();
+    }
+
     /**max key*/
     public static String MAX_KEY = "MAX";
 
@@ -43,17 +52,17 @@ public interface KeyGenerator extends SchemaObject {
      * 
      * @return hashkey
      */
-    public String getHashKey();
+    public abstract String getHashKey();
     
     /**
      * 
      * @return name
      */
-    public String getName();
+    public abstract String getName();
     
     /**
      * 
      * @return alias
      */
-    public String getAlias();
+    public abstract String getAlias();
 }

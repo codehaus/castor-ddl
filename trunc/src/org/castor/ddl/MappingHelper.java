@@ -142,7 +142,6 @@ public class MappingHelper {
      */
     public synchronized String[] resolveTypeReferenceForIds(String className)throws GeneratorException {
         //get the reference's class _mapping 
-        System.out.println("classname=" + className);
         ClassMapping cm = getClassMappingByName(className);
         String []ids = cm.getIdentity();
         Vector types = new Vector();

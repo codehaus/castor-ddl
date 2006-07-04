@@ -16,6 +16,7 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.castor.ddl.GeneratorException;
 import org.castor.ddl.typeinfo.TypeInfo;
 
 /**
@@ -25,7 +26,7 @@ import org.castor.ddl.typeinfo.TypeInfo;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class Field implements SchemaObject {
+public class Field extends AbstractSchemaObject {
     /** field name */
     private String _name;
 
@@ -35,65 +36,20 @@ public class Field implements SchemaObject {
     /** is identity */
     private boolean _isIdentity;
 
-//    /** is autoincrement */
-//    private boolean _isAutoIncrement;
-
     /** handle key generator keyword */
-    private String _keyGenerator;
+    private KeyGenerator _keyGenerator;
     
     /**
      * Constructor for Field
      */
     public Field() {
         super();
+        _name = null;
+        _type = null;
+        _keyGenerator = null;
     }
-
-    /**
-     * Constructor for Field
-     * @param name
-     */
-    public Field(String name) {
-        super();
-        // TODO Auto-generated constructor stub
-        _name = name;
-    }
-
-    /**
-     * Constructor for Field
-     * 
-     * @param name
-     *            field'name
-     * @param type
-     *            type infor
-     * @param isIdentity
-     *            is identity
-     */
-    public Field(final String name, final TypeInfo type,
-            final boolean isIdentity) {
-        super();
-        _name = name;
-        _type = type;
-        _isIdentity = isIdentity;
-//        _isAutoIncrement = isAutoIncrement;
-    }
-//
-//    /**
-//     * 
-//     * @return Returns the isAutoIncrement.
-//     */
-//    public boolean isAutoIncrement() {
-//        return _isAutoIncrement;
-//    }
-//
-//    /**
-//     * Set the isAutoIncrement by _isAutoIncrement.
-//     * 
-//     * @param isAutoIncrement
-//     */
-//    public void setAutoIncrement(boolean isAutoIncrement) {
-//        _isAutoIncrement = isAutoIncrement;
-//    }
-//
+    
+    
     /**
      * 
      * @return Returns the isIdentity.
@@ -149,7 +105,7 @@ public class Field implements SchemaObject {
      * 
      * @return Returns the keyGenerator.
      */
-    public String getKeyGenerator() {
+    public KeyGenerator getKeyGenerator() {
         return _keyGenerator;
     }
 
@@ -157,7 +113,7 @@ public class Field implements SchemaObject {
      * Set the keyGenerator by _keyGenerator.
      * @param keyGenerator 
      */
-    public void setKeyGenerator(String keyGenerator) {
+    public void setKeyGenerator(KeyGenerator keyGenerator) {
         _keyGenerator = keyGenerator;
     }
     
@@ -170,8 +126,14 @@ public class Field implements SchemaObject {
     /* (non-Javadoc)
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
      */
-    public String toDDL() {
-        // TODO Auto-generated method stub
-        return null;
+    public String toDDL() throws GeneratorException {
+        StringBuffer buff = new StringBuffer();
+        buff.append(_name).append(" ");
+        /** todo review later null or field*/
+        buff.append(_type.toDDL(this));
+        if(_isIdentity)
+            buff.append(" NOT NULL");
+        
+        return buff.toString();
     }
 }

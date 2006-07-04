@@ -24,7 +24,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class IdentityKey implements KeyGenerator {
+public class IdentityKey extends KeyGenerator {
     /** sequence name*/
     public String _name;
     
@@ -44,6 +44,7 @@ public class IdentityKey implements KeyGenerator {
     }
 
     public IdentityKey(KeyGeneratorDef keyGenDef){
+        super();
         _alias = keyGenDef.getAlias();
         _name = keyGenDef.getName();
     }

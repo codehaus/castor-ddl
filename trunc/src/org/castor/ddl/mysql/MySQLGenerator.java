@@ -20,6 +20,7 @@ import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.TypeMapper;
+import org.castor.ddl.mysql.schemaobject.MySQLSchemaFactory;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.ForeignKey;
 import org.castor.ddl.schemaobject.KeyGenerator;
@@ -45,6 +46,8 @@ public class MySQLGenerator extends AbstractGenerator {
         
         TypeMapper typeMapper = new MySQLTypeMapper(conf);
         setTypeMapper(typeMapper);
+        
+        setSchemaFactory(new MySQLSchemaFactory());
     }
     
     /**
@@ -74,11 +77,8 @@ public class MySQLGenerator extends AbstractGenerator {
         buff.append(field.getName()).append(" ");
         buff.append(field.getType().toDDL(field));
 
-        if(field.getKeyGenerator() != null) {
-            KeyGenerator keyGen = getSchema().getKeyRepository().getKeyGenerator(field.getKeyGenerator().toUpperCase());
-            if(keyGen == null)
-                throw new GeneratorException("key-generator is not found: " + field.getKeyGenerator());
-
+        KeyGenerator keyGen = field.getKeyGenerator();
+        if(keyGen != null) {
             if(KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(keyGen.getName()))
                 buff.append(" AUTO_INCREMENT");
         }
@@ -147,5 +147,4 @@ public class MySQLGenerator extends AbstractGenerator {
         
         return "USE " + schema + ";" ;
     }
-    
 }

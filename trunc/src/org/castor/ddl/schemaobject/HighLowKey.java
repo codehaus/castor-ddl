@@ -26,7 +26,7 @@ import org.exolab.castor.mapping.xml.Param;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class HighLowKey implements KeyGenerator {
+public class HighLowKey extends KeyGenerator {
 
     /***name of key*/
     public String _name = "HIGH-LOW";
@@ -61,6 +61,7 @@ public class HighLowKey implements KeyGenerator {
      * @throws GeneratorException
      */
     public HighLowKey(KeyGeneratorDef keyGenDef) throws GeneratorException{
+        super();
         String TABLE = "table";
         String KEY_COLUMN = "key-column";
         String VALUE_COLUMN = "value-column";
@@ -246,17 +247,6 @@ public class HighLowKey implements KeyGenerator {
      */
     public final void setName(String name) {
         _name = name;
-    }
-
-    /**
-     * Constructor for HighLowKey
-     * @param name
-     * @param alias
-     */
-    public HighLowKey(String name, String alias) {
-        super();
-        _name = name;
-        _alias = alias;
     }
 
     /* (non-Javadoc)

@@ -24,7 +24,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MaxKey implements KeyGenerator {
+public class MaxKey extends KeyGenerator {
     /** sequence name*/
     public String _name = "IDENTITY";
     

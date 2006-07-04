@@ -14,39 +14,35 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.mysql.schemaobject;
-
-import org.castor.ddl.mysql.MySQLConfigurationKey;
-import org.castor.ddl.schemaobject.Table;
+package org.castor.ddl.schemaobject;
 
 /**
- * 
- * Created on Jul 3, 2006 - 5:32:53 PM
+ * Factory provides a way to create schema objects
+ * Created on Jul 4, 2006 - 3:01:20 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLTable extends Table {
-    
+public class SchemaFactory {
+
     /**
-     * Constructor for MySQLTable
+     * Constructor for SchemaFactory
      */
-    public MySQLTable() {
+    public SchemaFactory() {
         super();
     }
 
-    private String createEngineStatement() {
-        String engine = getConfiguration().getStringValue(MySQLConfigurationKey.STORAGE_ENGINE, null);
-        if(engine == null || "".equals(engine))
-            return "";
-        return " ENGINE=" + engine;
-    }
-
-    /* (non-Javadoc)
-     * @see org.castor.ddl.schemaobject.Table#postCreateTable()
+    /**
+     * create table object
+     * @return
      */
-    protected String postCreateTable() {
-        return ")" + createEngineStatement();
+    public Table createTable() {
+        return new Table();
     }
-   
-
+    /**
+     * create field object
+     * @return
+     */
+    public Field createField() {
+        return new Field();
+    }
 }
