@@ -1,6 +1,5 @@
 <expected-result>
 	<ddl matchtype="regexp" >drop table</ddl>
-	<ddl matchtype="regexp" engine="mysql" index="0">drop table if exists prod; create table prod \( id integer\({0}\) not null, name char\({1}\), primary key \( id \) \); drop table if exists category; create table category \( id char\({1}\) not null, name char\({1}\), primary key \( id \) \);</ddl>
-	<ddl matchtype="regexp" engine="mysql" index="1">drop table if exists category_prod; create table category_prod \( category_id char\({1}\) not null, prod_id integer\({0}\) not null, primary key \( category_id, prod_id \) \);</ddl>
-	<ddl matchtype="regexp" engine="mysql" index="2">alter table category_prod add constraint category_prod_categories foreign key category_prod_categories \(category_id \) references category \(id \) ; alter table category_prod add constraint category_prod_products foreign key category_prod_products \(prod_id \) references prod \(id \) ;</ddl>
+	<ddl matchtype="regexp" engine="mysql" index="0">create table prod \( id integer\({0}\) not null, name char\({1}\) \); create table category \( id char\({1}\) not null, name char\({1}\) \); create table category_prod \( category_id char\({1}\) not null, prod_id integer\({0}\) not null \);</ddl>
+	<ddl matchtype="regexp" engine="mysql" index="1">alter table category_prod add constraint category_prod_categories foreign key category_prod_categories \( category_id \) references category \( id \) on delete cascade on update restrict; alter table category_prod add constraint category_prod_products foreign key category_prod_products \( prod_id \) references prod \( id \) on delete cascade on update restrict;</ddl>
 </expected-result>

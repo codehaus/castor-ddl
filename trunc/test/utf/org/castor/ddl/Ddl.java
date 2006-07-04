@@ -19,7 +19,7 @@ package utf.org.castor.ddl;
 
 import java.text.MessageFormat;
 
-import org.castor.ddl.AbstractGenerator;
+import org.castor.ddl.Configuration;
 
 /**
  * This class represents the expected ddl entry.
@@ -103,13 +103,14 @@ public class Ddl {
      * @return
      */
     private boolean matchExact(String actualResult) {
+        if(_ddl == null ) _ddl = "";
         if(actualResult == null || _ddl == null) {
             if( actualResult == _ddl)
                 return true;
             else 
                 return false;
         }
-        
+
         String expDDL = _ddl;
         if(!_casesensitive) {
             actualResult = actualResult.toLowerCase();
@@ -124,6 +125,8 @@ public class Ddl {
      * @return
      */
     private boolean matchPlain(String actualResult) {
+        if(_ddl == null ) _ddl = "";
+        
         if(actualResult == null || _ddl == null) {
             if( actualResult == _ddl)
                 return true;
@@ -137,10 +140,10 @@ public class Ddl {
             expDDL = expDDL.toLowerCase();
         }
         
-        actualResult = actualResult.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
-        actualResult = actualResult.replaceAll("[ \t]+", " ");
+        actualResult = actualResult.replaceAll(Configuration.LINE_SEPARATOR, " ");
+        actualResult = actualResult.replaceAll("[ \t]+", " ").trim();
         
-        expDDL = expDDL.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
+        expDDL = expDDL.replaceAll(Configuration.LINE_SEPARATOR, " ");
         expDDL = expDDL.replaceAll("[ \t]+", " ");
         return actualResult.equals(expDDL);
     }
@@ -150,6 +153,7 @@ public class Ddl {
      * @return
      */
     private boolean matchRegExp(String actualResult) {
+        if(_ddl == null ) _ddl = "";
         if(_ddl == null) {
             if( actualResult == _ddl)
                 return true;
@@ -167,11 +171,13 @@ public class Ddl {
             expDDL = expDDL.toLowerCase().trim();
         }
         
-        actualResult = actualResult.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
+//        actualResult = actualResult.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
+        actualResult = actualResult.replaceAll(Configuration.LINE_SEPARATOR, " ");
+        actualResult = actualResult.replaceAll(Configuration.LINE_INDENT, " ");
         actualResult = actualResult.replaceAll("[ \t]+", " ");
         System.out.println(actualResult);
         
-        expDDL = expDDL.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
+        expDDL = expDDL.replaceAll(Configuration.LINE_SEPARATOR, " ");
         expDDL = expDDL.replaceAll("[ \t]+", " ");
         System.out.println(expDDL);
         return actualResult.matches(expDDL);
@@ -185,6 +191,8 @@ public class Ddl {
     }
     
     public void format(Object[]args) {
+        if(_ddl == null || "".equals(_ddl))
+            return;
         _ddl = MessageFormat.format(_ddl, args);
     }
 }

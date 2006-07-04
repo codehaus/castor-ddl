@@ -16,40 +16,29 @@
 
 package utf.org.castor.ddl;
 
-import utf.org.castor.ddl.mysql.MySQLGeneratorTest;
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
+import org.castor.ddl.TypeMapper;
 
 /**
  * 
- * Created on Jun 13, 2006 - 6:50:48 PM
+ * Created on Jul 3, 2006 - 10:46:05 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class TestAll extends TestCase {
-
-    /**
-     * Constructor for TestAll
-     * @param arg0
+public class TypeMapperTest extends TestCase {
+    TypeMapper _mapper = null;
+    
+    /*
+     * @see TestCase#setUp()
      */
-    public TestAll(final String name) {super(name); }
-
-    public static void main(String[] args) {
-        junit.swingui.TestRunner.run(TestAll.class);
+    protected void setUp() throws Exception {
+        super.setUp();
     }
 
 
-    public static Test suite() throws Exception {
-        TestSuite suite = new TestSuite("All org.castor.ddl tests");
+    public void testBitMapping() {
         
-        //GeneratorFactory test
-        suite.addTest(GeneratorFactoryTest.suite());
-        
-        //MySQL generator
-        suite.addTest(MySQLGeneratorTest.suite());
-
-        return suite;
     }
     
 }

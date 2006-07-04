@@ -1,0 +1,4 @@
+<expected-result>
+	<ddl matchtype="regexp" >drop table</ddl>
+	<ddl matchtype="plain" engine="mysql"></ddl>
+</expected-result>

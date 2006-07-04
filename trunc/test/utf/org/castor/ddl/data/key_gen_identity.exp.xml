@@ -1,4 +1,5 @@
 <expected-result>
 	<ddl matchtype="regexp" >drop table </ddl>
-	<ddl matchtype="regexp" engine="mysql">drop table if exists simple; create table simple \( fieldinterger integer\({0}\) auto_increment not null, fieldinterger2 integer\({0}\), primary key \( fieldinterger \) \);</ddl>
+	<ddl matchtype="regexp" engine="mysql" index="0">create table simple \( fieldinterger integer\({0}\) auto_increment not null, fieldinterger2 integer\({0}\) \);</ddl>
+	<ddl matchtype="plain" engine="mysql" index="1"></ddl>
 </expected-result>
