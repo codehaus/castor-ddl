@@ -1,0 +1,3 @@
+<expected-result>
+	<ddl matchtype="regexp" >create table table_all \( fieldint integer\({0}\) \);</ddl>
+</expected-result>

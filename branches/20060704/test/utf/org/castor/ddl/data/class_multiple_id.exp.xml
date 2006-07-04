@@ -1,0 +1,5 @@
+<expected-result>
+	<ddl matchtype="regexp" >xx</ddl>
+	<ddl matchtype="regexp" engine="mysql" index="0">create table prod \( id integer\({0}\) not null, name char\({1}\) not null \);</ddl>
+	<ddl matchtype="regexp" engine="mysql" index="1">alter table prod add primary key \( id, name \);</ddl>
+</expected-result>
