@@ -68,7 +68,7 @@ public final class OptionalPrecisionDecimalsType extends AbstractType {
         } else if ((presision == null) || (decimals == null)) {
             throw new GeneratorException(
                     "Precision or decimal attribute missing for field '" + field.getName()
-                    + "' of type '"+ getJdbcType() + "'");
+                    + "' of type '" + getJdbcType() + "'");
         }
         
         StringBuffer sb = new StringBuffer();

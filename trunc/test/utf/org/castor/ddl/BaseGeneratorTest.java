@@ -22,6 +22,7 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.castor.ddl.AbstractGenerator;
+import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.mysql.MySQLTypeMapper;
@@ -30,9 +31,9 @@ import org.exolab.castor.mapping.Mapping;
 /**
  * This class handles all testcase for all database. The specific database will inherite 
  * this class. Expecting that all testcase use the same scenarios for all database. The 
- * expected result maybe differ within each other. The _engine defines which expected result
- * will be loaded to the testcase. The inherited class may redefine this variable to 
- * reuse the test scenarios, but _engine. 
+ * expected result maybe differ within each other. The _engine defines which expected
+ * result will be loaded to the testcase. The inherited class may redefine this variable
+ * to reuse the test scenarios, but _engine. 
  *  
  * Created on Jun 13, 2006 - 6:15:36 PM
  * 
@@ -58,7 +59,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     protected Mapping _mapping = null;
 
     /** handle expected ddl*/
-    protected ExpectedResult _expectedDDL = null;
+    private ExpectedResult _expectedDDL = null;
 
     /** handle the generator*/
     protected AbstractGenerator _generator = null;
@@ -83,8 +84,8 @@ public abstract class BaseGeneratorTest extends TestCase {
      * @param expectedFile
      * @throws Exception
      */
-    protected void loadData(String mappingFile, String expectedFile)
-            throws Exception {
+    protected final void loadData(final String mappingFile, final String expectedFile)
+    throws Exception {
         String dataDir = "data" + File.separator;
 
         try {
@@ -107,8 +108,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * @param mappingFile
      * @throws Exception
      */
-    protected void loadData(String mappingFile)
-            throws Exception {
+    protected final void loadData(final String mappingFile) throws Exception {
         String dataDir = "data" + File.separator;
 
         try {
@@ -128,7 +128,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test single table
      * 
      */
-    public void testSingleTable() {
+    public final void testSingleTable() {
         try {
             // load test data
             loadData("single_table.xml", "single_table.exp.xml");
@@ -157,7 +157,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test for ignored table in the mapping
      * 
      */
-    public void testIgnoredTable() {
+    public final void testIgnoredTable() {
         try {
             // load test data
             loadData("ignored_table.xml", "ignored_table.exp.xml");
@@ -186,7 +186,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test for no table in the mapping
      * 
      */
-    public void testNoTable() {
+    public final void testNoTable() {
         try {
             // load test data
             loadData("no_table.xml", "no_table.exp.xml");
@@ -215,7 +215,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test single table
      * 
      */
-    public void testDropTable() {
+    public final void testDropTable() {
         try {
             // load test data
             loadData("drop_table.xml", "drop_table.exp.xml");
@@ -240,7 +240,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test the identity is defined in the class tag
      * 
      */
-    public void testClassId() {
+    public final void testClassId() {
         try {
             // load test data
             loadData("class_id.xml", "class_id.exp.xml");
@@ -273,7 +273,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test the identity is defined in the class tag and there are multiple ids
      * 
      */
-    public void testClassMultipleId() {
+    public final void testClassMultipleId() {
         try {
             // load test data
             loadData("class_multiple_id.xml", "class_multiple_id.exp.xml");
@@ -307,7 +307,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test the identity is defined in the field tag 
      * 
      */
-    public void testFieldId() {
+    public final void testFieldId() {
         try {
             // load test data
             loadData("field_id.xml", "field_id.exp.xml");
@@ -340,7 +340,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test the identity is defined in the field tag and there are multiple ids
      * 
      */
-    public void testFieldMultipleId() {
+    public final void testFieldMultipleId() {
         try {
             // load test data
             loadData("field_multiple_id.xml", "field_multiple_id.exp.xml");
@@ -375,7 +375,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test for no id definition
      * 
      */
-    public void testNoId() {
+    public final void testNoId() {
         try {
             // load test data
             loadData("no_id.xml", "no_id.exp.xml");
@@ -410,7 +410,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test to create many table in a mapping
      * 
      */
-    public void testMultipleTable() {
+    public final void testMultipleTable() {
         try {
             // load test data
             loadData("multiple_table.xml", "multiple_table.exp.xml");
@@ -438,7 +438,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * Create a table with 23 fields represented to each data type
      * 
      */
-    public void testSingleFieldForAll() {
+    public final void testSingleFieldForAll() {
         try {
             // load test data
             loadData("single_field_for_all.xml", "single_field_for_all.exp.xml");
@@ -449,27 +449,27 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger(PARAM_PREFIX + "tinyint" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "smallint" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "bigint" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "varchar" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "longvarchar" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "timestamp" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "binary" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "varbinary" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "longvarbinary" + PARAM_POSTFIX_LENGTH)
+                    conf.getInteger(PARAM_PREFIX + "tinyint" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "smallint" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "bigint" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "varchar" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "longvarchar" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "timestamp" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "binary" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "varbinary" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "longvarbinary" + PARAM_POSTFIX_LENGTH)
                     };
 
             String ddl = _generator.generateCreate();
@@ -487,7 +487,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test single table
      * 
      */
-    public void testSingleField() {
+    public final void testSingleField() {
         try {
             // load test data
             loadData("single_field.xml", "single_field.exp.xml");
@@ -517,7 +517,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test to create identity for key generator
      * 
      */
-    public void testKeyGenIdentity() {
+    public final void testKeyGenIdentity() {
         try {
             // load test data
             loadData("key_gen_identity.xml", "key_gen_identity.exp.xml");
@@ -551,7 +551,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test to create high-low key generator
      * 
      */
-    public void testKeyGenHighLow() {
+    public final void testKeyGenHighLow() {
         try {
             // load test data
             loadData("key_gen_high-low.xml", "key_gen_high-low.exp.xml");
@@ -585,7 +585,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test to create MAX key generator
      * 
      */
-    public void testKeyGenMax() {
+    public final void testKeyGenMax() {
         try {
             // load test data
             loadData("key_gen_max.xml", "key_gen_max.exp.xml");
@@ -618,7 +618,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test to create Sequence key generator
      * 
      */
-    public void testKeyGenSequence() {
+    public final void testKeyGenSequence() {
         try {
             // load test data
             loadData("key_gen_sequence.xml", "key_gen_sequence.exp.xml");
@@ -654,7 +654,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * test to create Sequence key generator
      * 
      */
-    public void testKeyGenUUID() {
+    public final void testKeyGenUUID() {
         try {
             // load test data
             loadData("key_gen_uuid.xml", "key_gen_uuid.exp.xml");
@@ -690,7 +690,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     * test to create one-one relationship
     * 
     */
-   public void testOneOneRelationship() {
+   public final void testOneOneRelationship() {
        try {
            // load test data
            loadData("relationship_1_1.xml", "relationship_1_1.exp.xml");
@@ -725,7 +725,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test to create one-many relationship
    * 
    */
-  public void testOneManyRelationship() {
+  public final void testOneManyRelationship() {
       try {
           // load test data
           loadData("relationship_1_n.xml", "relationship_1_n.exp.xml");
@@ -760,7 +760,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test to create many-many relationship
    * 
    */
-  public void testManyManyRelationship() {
+  public final void testManyManyRelationship() {
       try {
           // load test data
           loadData("relationship_m_n.xml", "relationship_m_n.exp.xml");
@@ -795,7 +795,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test to create one-one relationship
    * 
    */
-  public void test2LevelsReference() {
+  public final void test2LevelsReference() {
       try {
           // load test data
           loadData("2levels_reference.xml", "2levels_reference.exp.xml");
@@ -825,7 +825,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test single table
    * 
    */
-  public void testIgnoredField() {
+  public final void testIgnoredField() {
       try {
           // load test data
           loadData("ignored_field.xml", "ignored_field.exp.xml");
@@ -853,7 +853,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test field bit
    *
    */
-  public void testNoField() {
+  public final void testNoField() {
       try {
           // load test data
           loadData("no_field.xml", "no_field.exp.xml");
@@ -880,7 +880,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test overwrite identity by field'id
    * 
    */
-  public void testOverwriteFieldId() {
+  public final void testOverwriteFieldId() {
       try {
           // load test data
           loadData("overwrite_field_id.xml", "overwrite_field_id.exp.xml");
@@ -907,7 +907,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test to many keys reference
    * 
    */
-  public void testManyKeysReference() {
+  public final void testManyKeysReference() {
       try {
           // load test data
           loadData("many_keys_reference.xml", "many_keys_reference.exp.xml");
@@ -937,7 +937,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test to many class's keys reference
    * 
    */
-  public void testManyClassKeysReference() {
+  public final void testManyClassKeysReference() {
       try {
           // load test data
           loadData("many_class_keys_reference.xml", "many_class_keys_reference.exp.xml");
@@ -968,7 +968,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test to many class's keys reference
    * 
    */
-  public void testCreateSchema() {
+  public final void testCreateSchema() {
       try {
           loadData("empty.xml");
           // setup
@@ -977,8 +977,10 @@ public abstract class BaseGeneratorTest extends TestCase {
           _generator.setTypeMapper(typeMapper);
           
           String schema = "test";
-          Ddl expectedDDL = new Ddl("use " + schema + Configuration.SQL_STAT_DELIMETER, Ddl.MATCHTYPE_REGEXP, false);
-          conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
+          Ddl expectedDDL = new Ddl(
+                  "use " + schema + BaseConfiguration.SQL_STAT_DELIMETER,
+                  Ddl.MATCHTYPE_REGEXP, false);
+          conf.setProperty(BaseConfiguration.SCHEMA_NAME_KEY, schema);
           String ddl = _generator.generateSchema();
           
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -986,7 +988,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           schema = "";
           expectedDDL = new Ddl("", Ddl.MATCHTYPE_EXACT, false);
-          conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
+          conf.setProperty(BaseConfiguration.SCHEMA_NAME_KEY, schema);
           ddl = _generator.generateSchema();
           
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -1002,7 +1004,7 @@ public abstract class BaseGeneratorTest extends TestCase {
    * test for create index, there are no ddl createdfor now
    * 
    */
-  public void testCreateIndex() {
+  public final void testCreateIndex() {
       try {
           // load test data
           loadData("index_creation.xml", "index_creation.exp.xml");

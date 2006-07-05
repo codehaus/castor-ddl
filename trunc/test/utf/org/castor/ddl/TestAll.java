@@ -33,9 +33,9 @@ public class TestAll extends TestCase {
      * Constructor for TestAll
      * @param arg0
      */
-    public TestAll(final String name) {super(name); }
+    public TestAll(final String name) { super(name); }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         junit.swingui.TestRunner.run(TestAll.class);
     }
 

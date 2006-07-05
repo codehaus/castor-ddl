@@ -29,14 +29,13 @@ import junit.framework.TestSuite;
  * Created on Jun 20, 2006 - 11:56:16 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class GeneratorFactoryTest extends TestCase {
+public final class GeneratorFactoryTest extends TestCase {
 
     /**
      * Constructor for GeneratorFactoryTest
      * @param testcase
      */
-    public GeneratorFactoryTest(String testcase) {
+    public GeneratorFactoryTest(final String testcase) {
         super(testcase);
     }
 
@@ -57,10 +56,11 @@ public class GeneratorFactoryTest extends TestCase {
     /*
      * Test method for 'org.castor.ddl.GeneratorFactory.getMySQLDDLGenerator()'
      */
-    public final void testGetMySQLDDLGenerator() {
+    public void testGetMySQLDDLGenerator() {
         
         try {
-            MySQLGenerator generator= (MySQLGenerator)GeneratorFactory.createDDLGenerator("mysql", null, null);
+            MySQLGenerator generator = (MySQLGenerator) GeneratorFactory
+                .createDDLGenerator("mysql", null, null);
             assertEquals(generator.getClass(), MySQLGenerator.class);
         } catch (GeneratorException e) {
             assertTrue(e.getMessage(), false);

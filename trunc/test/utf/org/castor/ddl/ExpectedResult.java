@@ -34,24 +34,24 @@ import org.xml.sax.InputSource;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class ExpectedResult {
+public final class ExpectedResult {
     /** expected result mapping file*/
     public static final String EXPECTED_RESULT_MAPPING = "expected-mapping.xml";
 
     /** generic database engine*/
-    public final static String ENGINE_GENERIC = null;
+    public static final String ENGINE_GENERIC = null;
 
     /** mysql database engine*/
-    public final static String ENGINE_MYSQL = "mysql";
+    public static final String ENGINE_MYSQL = "mysql";
 
     /** postgreSQL database engine*/
-    public final static String ENGINE_POSTGRESQL = "postgresql";
+    public static final String ENGINE_POSTGRESQL = "postgresql";
 
     /** hanlde expected ddls  for various databsed*/
     private Vector _ddls;
 
     /** hanlde error message*/
-    private String message;
+    private String _message;
 
     /**
      * Constructor for Expected
@@ -64,7 +64,7 @@ public class ExpectedResult {
      * 
      * @param ddls
      */
-    public void setDdlsList(Vector ddls) {
+    public void setDdlsList(final Vector ddls) {
         _ddls = ddls;
     }
 
@@ -91,7 +91,7 @@ public class ExpectedResult {
      * @return
      * @throws Exception
      */
-    public static ExpectedResult getExpectedResult(URL url) throws Exception {
+    public static ExpectedResult getExpectedResult(final URL url) throws Exception {
         return getExpectedResult(url.toExternalForm());
     }
 
@@ -101,8 +101,8 @@ public class ExpectedResult {
      * @return
      * @throws Exception
      */
-    public static ExpectedResult getExpectedResult(String expFile)
-            throws Exception {
+    public static ExpectedResult getExpectedResult(final String expFile)
+    throws Exception {
         Mapping mapping = new Mapping();
         ExpectedResult er = null;
 
@@ -130,32 +130,28 @@ public class ExpectedResult {
         return er;
     }
 
-    private Ddl getDdlByEngine(String engine) {
+    private Ddl getDdlByEngine(final String engine) {
         for (int i = 0; i < _ddls.size(); i++) {
             Ddl d = (Ddl) _ddls.get(i);
-            if (d._engine == null)
-                if (engine == null)
-                    return d;
-                else
-                    continue;
+            if (d._engine == null) {
+                if (engine == null) { return d; }
+                continue;
+            }
 
-            if (d._engine.equals(engine))
-                return d;
+            if (d._engine.equals(engine)) { return d; }
         }
         return null;
     }
 
-    private Ddl getDdlByEngineandIndex(String engine, int index) {
+    private Ddl getDdlByEngineandIndex(final String engine, final int index) {
         for (int i = 0; i < _ddls.size(); i++) {
             Ddl d = (Ddl) _ddls.get(i);
-            if (d._engine == null)
-                if (engine == null && index == d._index)
-                    return d;
-                else
-                    continue;
+            if (d._engine == null) {
+                if (engine == null && index == d._index) { return d; }
+                continue;
+            }
 
-            if (d._engine.equals(engine) && d._index == index)
-                return d;
+            if (d._engine.equals(engine) && d._index == index) { return d; }
         }
         return null;
     }
@@ -165,7 +161,7 @@ public class ExpectedResult {
      * @param actualResult
      * @return
      */
-    public boolean match(String actualResult) {
+    public boolean match(final String actualResult) {
         return match(ENGINE_GENERIC, actualResult);
     }
 
@@ -175,7 +171,7 @@ public class ExpectedResult {
      * @param actualResult
      * @return
      */
-    public boolean match(String engine, String actualResult) {
+    public boolean match(final String engine, final String actualResult) {
         return match(engine, actualResult, new Object[0]);
     }
 
@@ -185,7 +181,7 @@ public class ExpectedResult {
      * @param params
      * @return
      */
-    public boolean match(String actualResult, Object []params) {
+    public boolean match(final String actualResult, final Object []params) {
         return match(ENGINE_GENERIC, actualResult, params);
     }
 
@@ -196,8 +192,10 @@ public class ExpectedResult {
      * @param params
      * @return
      */
-    public boolean match(String engine, String actualResult, Object[]params) {
-        message = "";
+    public boolean match(final String engine, final String actualResult,
+            final Object[]params) {
+        
+        _message = "";
         Ddl ddl = getDdlByEngine(engine);
         
         ddl.format(params);
@@ -208,7 +206,7 @@ public class ExpectedResult {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        message = ddl.toString();
+        _message = ddl.toString();
         return r;
     }
 
@@ -220,8 +218,10 @@ public class ExpectedResult {
      * @param params
      * @return
      */
-    public boolean match(String engine, int index, String actualResult, Object[]params) {
-        message = "";
+    public boolean match(final String engine, final int index, final String actualResult,
+            final Object[]params) {
+        
+        _message = "";
         Ddl ddl = getDdlByEngineandIndex(engine, index);
         
         ddl.format(params);
@@ -232,7 +232,7 @@ public class ExpectedResult {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        message = ddl.toString();
+        _message = ddl.toString();
         return r;
     }
 
@@ -241,8 +241,8 @@ public class ExpectedResult {
      * 
      * @return Returns the message.
      */
-    public final String getMessage() {
-        return message;
+    public String getMessage() {
+        return _message;
     }
     
 }

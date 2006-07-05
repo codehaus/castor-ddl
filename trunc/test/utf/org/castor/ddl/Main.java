@@ -23,17 +23,17 @@ import java.text.MessageFormat;
  * Created on Jun 15, 2006 - 3:46:59 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class Main {
+public final class Main {
 
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         String msg = "Hello {0}, and {1}";
         Object[]arg = new Object[] {"Bao", new Integer(1)};
         
         System.out.println(MessageFormat.format(msg, arg));
     }
 
+    private Main() { }
 }

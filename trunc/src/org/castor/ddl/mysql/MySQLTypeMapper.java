@@ -37,46 +37,46 @@ public final class MySQLTypeMapper extends AbstractTypeMapper {
      * 
      * @param conf The configuration to get default parameter values from.
      */
-	public MySQLTypeMapper(Configuration conf) {
-		super(conf);
-	}
+    public MySQLTypeMapper(final Configuration conf) {
+        super(conf);
+    }
 
-	/**
-	 * @see org.castor.ddl.AbstractTypeMapper#initialize(org.castor.ddl.Configuration)
+    /**
+     * @see org.castor.ddl.AbstractTypeMapper#initialize(org.castor.ddl.Configuration)
      * {@inheritDoc}
-	 */
-	protected void initialize(final Configuration conf) {
+     */
+    protected void initialize(final Configuration conf) {
         // numeric types
-		this.add(new NoParamType("bit", "TINYINT(1)"));
-		this.add(new OptionalPrecisionType("tinyint", "TINYINT", conf));
-		this.add(new OptionalPrecisionType("smallint", "SMALLINT", conf));
-		this.add(new OptionalPrecisionType("integer", "INTEGER", conf));
-		this.add(new OptionalPrecisionType("bigint", "BIGINT", conf));
+        add(new NoParamType("bit", "TINYINT(1)"));
+        add(new OptionalPrecisionType("tinyint", "TINYINT", conf));
+        add(new OptionalPrecisionType("smallint", "SMALLINT", conf));
+        add(new OptionalPrecisionType("integer", "INTEGER", conf));
+        add(new OptionalPrecisionType("bigint", "BIGINT", conf));
         
-		this.add(new OptionalPrecisionDecimalsType("float", "FLOAT", conf));
-		this.add(new OptionalPrecisionDecimalsType("double", "DOUBLE", conf));
-		this.add(new OptionalPrecisionDecimalsType("real", "REAL", conf));
-		this.add(new OptionalPrecisionDecimalsType("numeric", "NUMERIC", conf));
-		this.add(new OptionalPrecisionDecimalsType("decimal", "DECIMAL", conf));
+        add(new OptionalPrecisionDecimalsType("float", "FLOAT", conf));
+        add(new OptionalPrecisionDecimalsType("double", "DOUBLE", conf));
+        add(new OptionalPrecisionDecimalsType("real", "REAL", conf));
+        add(new OptionalPrecisionDecimalsType("numeric", "NUMERIC", conf));
+        add(new OptionalPrecisionDecimalsType("decimal", "DECIMAL", conf));
 
         // character types
-		this.add(new OptionalLengthType("char", "CHAR", conf));
-		this.add(new OptionalLengthType("varchar", "VARCHAR", conf));
-		this.add(new OptionalLengthType("longvarchar", "VARCHAR", conf));
+        add(new OptionalLengthType("char", "CHAR", conf));
+        add(new OptionalLengthType("varchar", "VARCHAR", conf));
+        add(new OptionalLengthType("longvarchar", "VARCHAR", conf));
         
         // date and time types
-		this.add(new NoParamType("date", "DATE"));
-		this.add(new NoParamType("time", "TIME"));
-		this.add(new OptionalPrecisionType("timestamp", "TIMESTAMP", conf));
+        add(new NoParamType("date", "DATE"));
+        add(new NoParamType("time", "TIME"));
+        add(new OptionalPrecisionType("timestamp", "TIMESTAMP", conf));
         
         // other types
-		this.add(new RequiredLengthType("binary", "BINARY", conf));
-		this.add(new RequiredLengthType("varbinary", "VARBINARY", conf));
-		this.add(new RequiredLengthType("longvarbinary", "VARBINARY", conf));
-		
-		this.add(new NoParamType("other", "BLOB"));
-		this.add(new NoParamType("javaobject", "BLOB"));
-		this.add(new NoParamType("blob", "BLOB"));
-		this.add(new NoParamType("clob", "TEXT"));
-	}
+        add(new RequiredLengthType("binary", "BINARY", conf));
+        add(new RequiredLengthType("varbinary", "VARBINARY", conf));
+        add(new RequiredLengthType("longvarbinary", "VARBINARY", conf));
+        
+        add(new NoParamType("other", "BLOB"));
+        add(new NoParamType("javaobject", "BLOB"));
+        add(new NoParamType("blob", "BLOB"));
+        add(new NoParamType("clob", "TEXT"));
+    }
 }

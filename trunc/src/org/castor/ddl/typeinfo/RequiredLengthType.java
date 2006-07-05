@@ -56,7 +56,7 @@ public final class RequiredLengthType extends AbstractType {
         if (length == null) {
             throw new GeneratorException(
                     "Reguired length attribute missing for field '" + field.getName()
-                    + "' of type '"+ getJdbcType() + "'");
+                    + "' of type '" + getJdbcType() + "'");
         }
         
         StringBuffer sb = new StringBuffer();

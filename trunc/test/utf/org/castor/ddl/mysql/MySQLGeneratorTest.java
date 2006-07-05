@@ -31,13 +31,13 @@ import utf.org.castor.ddl.ExpectedResult;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLGeneratorTest extends BaseGeneratorTest {
+public final class MySQLGeneratorTest extends BaseGeneratorTest {
     /**
      * Constructor for MySQLGeneratorTest
      * 
      * @param testcase
      */
-    public MySQLGeneratorTest(String testcase) {
+    public MySQLGeneratorTest(final String testcase) {
         super(testcase);
     }
 
@@ -48,7 +48,7 @@ public class MySQLGeneratorTest extends BaseGeneratorTest {
      * @param testcase
      * @param mySqlEngine
      */
-    public MySQLGeneratorTest(String testcase, boolean useMySqlEngine) {
+    public MySQLGeneratorTest(final String testcase, final boolean useMySqlEngine) {
         super(testcase);
         if (useMySqlEngine) {
             _engine = ExpectedResult.ENGINE_MYSQL;
