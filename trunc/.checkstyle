@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileset-config file-format-version="1.2.0" simple-config="false">
+    <local-check-config name="castor-main-checks" location="castor-main-checks.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="true"/>
+    </local-check-config>
+    <local-check-config name="castor-test-checks" location="castor-test-checks.xml" type="project" description="">
+        <additional-data name="protect-config-file" value="true"/>
+    </local-check-config>
+    <fileset name="src/main/java" enabled="true" check-config-name="castor-main-checks" local="true">
+        <file-match-pattern match-pattern="src\\org\\castor\\.*\.java" include-pattern="true"/>
+    </fileset>
+    <fileset name="src/test/java" enabled="true" check-config-name="castor-test-checks" local="true">
+        <file-match-pattern match-pattern="test\\.*\.java" include-pattern="true"/>
+    </fileset>
+</fileset-config>
