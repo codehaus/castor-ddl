@@ -27,18 +27,18 @@ public class Index extends AbstractSchemaObject {
 
     /**
      * Constructor for Index
-     * @param conf
+     * @param _conf
      */
-    public Index() {
+    protected Index() {
         super();
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() {
-        // TODO Auto-generated method stub
-        return null;
+        return "";
     }
 
 }

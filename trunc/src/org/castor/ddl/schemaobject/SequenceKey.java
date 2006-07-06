@@ -16,6 +16,8 @@
 
 package org.castor.ddl.schemaobject;
 
+import java.util.Iterator;
+
 import org.castor.ddl.GeneratorException;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.Param;
@@ -49,50 +51,43 @@ public class SequenceKey extends KeyGenerator {
      * */
     private boolean _isTrigger = false;
     
-
+    /**handle to table which use this SequenceKey*/
+    private Table _table = null;
+    
     /**
      * Constructor for SequenceKey
-     * @param alias
+     * @param keyGenDef key generator def
+     * @throws GeneratorException generator error
      */
-    public SequenceKey(String alias) {
-        super();
-        _alias = alias;
-    }
-
-    /**
-     * Constructor for SequenceKey
-     * @param keyGenDef
-     * @throws GeneratorException
-     */
-    public SequenceKey(KeyGeneratorDef keyGenDef) throws GeneratorException{
-//        String name = keyGenDef.getName();
-        String SEQUENCE = "sequence";
-        String RETURNING = "returning";
-        String INCREMENT = "increment";
-        String TRIGGER = "trigger";
+    protected SequenceKey(final KeyGeneratorDef keyGenDef) 
+        throws GeneratorException {
+        String sequenceKey = "sequence";
+        String returningKey = "returning";
+        String incrementKey = "increment";
+        String triggerKey = "trigger";
         
-//        if(name == null || _name.equals(name.toUpperCase()))
-//            throw new GeneratorException("can not create sequence key for name" + name);
         _alias = keyGenDef.getAlias();
         _name = keyGenDef.getName();
         Param []params = keyGenDef.getParam();
-        for(int i = 0; i < params.length; i++) {
+        for (int i = 0; i < params.length; i++) {
             String pname = params[i].getName();
-            if(pname == null)
+            String pval = params[i].getValue();
+            if (pname == null) {
                 continue;
-            if(SEQUENCE.equals(pname.toLowerCase())) {
-                _sequence = params[i].getValue();
-            } else if(RETURNING.equals(pname.toLowerCase())) {
-                _isReturning = Boolean.valueOf(pname).booleanValue();
-            } else if(INCREMENT.equals(pname.toLowerCase())) {
+            }
+            if (sequenceKey.equals(pname.toLowerCase())) {
+                _sequence = pval;
+            } else if (returningKey.equals(pname.toLowerCase())) {
+                _isReturning = Boolean.valueOf(pval).booleanValue();
+            } else if (incrementKey.equals(pname.toLowerCase())) {
                 try {
-                _increment = Integer.parseInt(pname);
-                }catch (NumberFormatException nfe) {
+                _increment = Integer.parseInt(pval);
+                } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
                     throw new GeneratorException("can not parse integer" + pname, nfe);
                 }
-            } else if(TRIGGER.equals(pname.toLowerCase())) {
-                _isTrigger = Boolean.valueOf(pname).booleanValue();
+            } else if (triggerKey.equals(pname.toLowerCase())) {
+                _isTrigger = Boolean.valueOf(pval).booleanValue();
             }            
         }                
     }
@@ -108,9 +103,9 @@ public class SequenceKey extends KeyGenerator {
 
     /**
      * Set the alias by _alias.
-     * @param alias 
+     * @param alias  alias
      */
-    public final void setAlias(String alias) {
+    public final void setAlias(final String alias) {
         _alias = alias;
     }
 
@@ -126,9 +121,9 @@ public class SequenceKey extends KeyGenerator {
 
     /**
      * Set the increment by _increment.
-     * @param increment 
+     * @param increment increment 
      */
-    public final void setIncrement(int increment) {
+    public final void setIncrement(final int increment) {
         _increment = increment;
     }
 
@@ -144,9 +139,9 @@ public class SequenceKey extends KeyGenerator {
 
     /**
      * Set the isReturning by _isReturning.
-     * @param isReturning 
+     * @param isReturning  returning
      */
-    public final void setReturning(boolean isReturning) {
+    public final void setReturning(final boolean isReturning) {
         _isReturning = isReturning;
     }
 
@@ -162,9 +157,9 @@ public class SequenceKey extends KeyGenerator {
 
     /**
      * Set the isTrigger by _isTrigger.
-     * @param isTrigger 
+     * @param isTrigger trigger
      */
-    public final void setTrigger(boolean isTrigger) {
+    public final void setTrigger(final boolean isTrigger) {
         _isTrigger = isTrigger;
     }
 
@@ -180,19 +175,21 @@ public class SequenceKey extends KeyGenerator {
 
     /**
      * Set the sequence by _sequence.
-     * @param sequence 
+     * @param sequence sequence
      */
-    public final void setSequence(String sequence) {
+    public final void setSequence(final String sequence) {
         _sequence = sequence;
     }
 
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.KeyGenerator#getHashKey()
+     * {@inheritDoc}
      */
     public String getHashKey() {
-        if(_alias == null)
+        if (_alias == null) {
             return _name;
+        }
         return _alias;
     }
 
@@ -206,29 +203,60 @@ public class SequenceKey extends KeyGenerator {
 
     /**
      * Set the name by _name.
-     * @param name 
+     * @param name name
      */
-    public final void setName(String name) {
+    public final void setName(final String name) {
         _name = name;
     }
 
     /**
-     * Constructor for SequenceKey
-     * @param name
-     * @param alias
+     * 
+     * @return Returns the table.
      */
-    public SequenceKey(String name, String alias) {
-        super();
-        // TODO Auto-generated constructor stub
-        _name = name;
-        _alias = alias;
+    public final Table getTable() {
+        return _table;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Set the table by _table.
+     * @param table table
+     */
+    public final void setTable(final Table table) {
+        _table = table;
+    }
+
+    /**
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() {
-        // TODO Auto-generated method stub
-        return null;
+        return "";
+    }
+    
+    /**
+     * 
+     * @return primary key list
+     */
+    protected String toPrimaryKeyList() {
+        boolean isHasPK = false;
+        StringBuffer buff = new StringBuffer();
+
+        boolean isFirstField = true;
+        for (Iterator i = _table.getFields().iterator(); i.hasNext();) {
+            Field field = (Field) i.next();
+            if (field.isIdentity()) {
+                isHasPK = true;
+                if (!isFirstField) {
+                    buff.append("_");
+                }
+                isFirstField = false;
+                buff.append(field.getName());
+            }
+        }
+        //have no primary key
+        if (!isHasPK) {
+            return "";
+        }
+        return buff.toString();
     }
 }

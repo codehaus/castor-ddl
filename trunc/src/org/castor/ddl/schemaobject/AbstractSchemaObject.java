@@ -26,20 +26,23 @@ import org.castor.ddl.Configuration;
 
 public abstract class AbstractSchemaObject implements SchemaObject {
     /**configuration */
-    Configuration _conf;
+    private Configuration _conf;
     
-    /* (non-Javadoc)
-     * @see org.castor.ddl.schemaobject.SchemaObject#setConfiguration(org.castor.ddl.Configuration)
+    /**
+     * @see org.castor.ddl.schemaobject.SchemaObject#setConf
+     * (org.castor.ddl.Configuration)
+     * {@inheritDoc}
      */
-    public void setConfiguration(Configuration conf) {
+    public void setConf(final Configuration conf) {
         _conf = conf;
         
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.ddl.schemaobject.SchemaObject#getConfiguration()
+    /**
+     * @see org.castor.ddl.schemaobject.SchemaObject#getConf()
+     * {@inheritDoc}
      */
-    public Configuration getConfiguration() {
+    public Configuration getConf() {
         return _conf;
     }
 

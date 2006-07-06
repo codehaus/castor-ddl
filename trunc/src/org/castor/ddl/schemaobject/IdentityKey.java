@@ -18,6 +18,7 @@ package org.castor.ddl.schemaobject;
 
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
+
 /**
  * 
  * Created on Jun 24, 2006 - 2:05:57 AM
@@ -33,22 +34,27 @@ public class IdentityKey extends KeyGenerator {
     
     /**
      * Constructor for IdentityKey
-     * @param name
-     * @param alias
+     * @param name name
+     * @param alias alias
      */
-    public IdentityKey(String name, String alias) {
+    protected IdentityKey(final String name, final String alias) {
         super();
-        // TODO Auto-generated constructor stub
         _name = name;
         _alias = alias;
     }
-
-    public IdentityKey(KeyGeneratorDef keyGenDef){
+    
+    /**
+     * 
+     * Constructor for IdentityKey
+     * @param keyGenDef key generator def
+     */
+    protected IdentityKey(final KeyGeneratorDef keyGenDef) {
         super();
         _alias = keyGenDef.getAlias();
         _name = keyGenDef.getName();
     }
     
+
     /**
      * 
      * @return Returns the alias.
@@ -59,18 +65,20 @@ public class IdentityKey extends KeyGenerator {
 
     /**
      * Set the alias by _alias.
-     * @param alias 
+     * @param alias alias
      */
-    public final void setAlias(String alias) {
+    public final void setAlias(final String alias) {
         _alias = alias;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.KeyGenerator#getHashKey()
+     * {@inheritDoc}
      */
     public String getHashKey() {
-        if(_alias == null)
+        if (_alias == null) {
             return _name;
+        }
         return _alias;
     }
 
@@ -84,18 +92,34 @@ public class IdentityKey extends KeyGenerator {
 
     /**
      * Set the name by _name.
-     * @param name 
+     * @param name name
      */
-    public final void setName(String name) {
+    public final void setName(final String name) {
         _name = name;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() {
-        // TODO Auto-generated method stub
+        return "";
+    }
+
+    /**
+     * @see org.castor.ddl.schemaobject.KeyGenerator#getTable()
+     * {@inheritDoc}
+     */
+    public Table getTable() {
         return null;
+    }
+
+    /**
+     * @see org.castor.ddl.schemaobject.KeyGenerator#setTable
+     * (org.castor.ddl.schemaobject.Table)
+     * {@inheritDoc}
+     */
+    public void setTable(final Table table) {
     }
 
 }

@@ -28,13 +28,13 @@ public interface SchemaObject {
 
     /**
      * set configuration
-     * @param conf
+     * @param conf configuration
      */
-    public void setConfiguration(Configuration conf);
+    void setConf(Configuration conf);
     
     /**
      * get configuration
-     * @return
+     * @return configuration
      */
-    public Configuration getConfiguration();
+    Configuration getConf();
 }

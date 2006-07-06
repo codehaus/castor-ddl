@@ -1,17 +1,17 @@
 /*
  * Copyright 2006 Le Duc Bao
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.castor.ddl.schemaobject;
@@ -23,90 +23,107 @@ import org.exolab.castor.mapping.xml.Param;
 /**
  * 
  * Created on Jun 24, 2006 - 2:04:24 AM
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
 public class HighLowKey extends KeyGenerator {
 
-    /***name of key*/
+    /** *name of key */
     public String _name = "HIGH-LOW";
 
-    /** alias*/
+    /** alias */
     private String _alias;
-        
+
     /** The name of the special sequence table. */
-    private String _table; 
-        
-    /** The name of the column which contains table names*/
+    private String _tableName;
+
+    /** The name of the column which contains table names */
     private String _keyColumn;
-        
-    /** The name of the column which is used to reserve primary key values*/
+
+    /** The name of the column which is used to reserve primary key values */
     private String _valueColumn;
-        
-    /** The number of new keys the key generator should grab from the sequence table at a time.*/
-    private int _grabSize = 10;
-    
-    /** To use the same Connection for writing to the sequence table, 
-     * values: "true"/"false". This is needed when working in EJB environment, 
-     * though less efficient. Optional, default="false"*/
+
+    /**
+     * The number of new keys the key generator should grab from the sequence
+     * table at a time.
+     */
+    private int _grabSize;
+
+    /**
+     * To use the same Connection for writing to the sequence table, values:
+     * "true"/"false". This is needed when working in EJB environment, though
+     * less efficient. Optional, default="false"
+     */
     private boolean _isSameConnection = false;
-    
-    /** To generate globally unique keys, values: "true"/"false". Optional, default="false"*/
+
+    /**
+     * To generate globally unique keys, values: "true"/"false". Optional,
+     * default="false"
+     */
     private boolean _isGlobal = false;
-    
+
     /**
      * 
      * Constructor for HighLowKey
+     * 
      * @param keyGenDef
+     *            key generator definition
      * @throws GeneratorException
+     *             generator error
      */
-    public HighLowKey(KeyGeneratorDef keyGenDef) throws GeneratorException{
+    protected HighLowKey(final KeyGeneratorDef keyGenDef)
+            throws GeneratorException {
         super();
-        String TABLE = "table";
-        String KEY_COLUMN = "key-column";
-        String VALUE_COLUMN = "value-column";
-        String GRAB_SIZE = "grab-size";
-        String SAME_CONNECTION = "same-connection";
-        String GLOBAL = "global";
-        
+        String tableKey = "table";
+        String keyColumnKey = "key-column";
+        String valueColumnKey = "value-column";
+        String grabSizeKey = "grab-size";
+        String sameConnectionKey = "same-connection";
+        String globalKey = "global";
+
         _alias = keyGenDef.getAlias();
         _name = keyGenDef.getName();
-        Param []params = keyGenDef.getParam();
-        for(int i = 0; i < params.length; i++) {
+        Param[] params = keyGenDef.getParam();
+        for (int i = 0; i < params.length; i++) {
             String pname = params[i].getName();
             String pvalue = params[i].getValue();
-            if(pname == null)
+            if (pname == null) {
                 continue;
-            if(TABLE.equalsIgnoreCase(pvalue)) {
-                _table = params[i].getValue();
-            } else if(KEY_COLUMN.equalsIgnoreCase(pvalue)) {
+            }
+            
+            if (tableKey.equalsIgnoreCase(pvalue)) {
+                _tableName = params[i].getValue();
+            } else if (keyColumnKey.equalsIgnoreCase(pvalue)) {
                 _keyColumn = params[i].getValue();
-            } else if(VALUE_COLUMN.equalsIgnoreCase(pvalue)) {
+            } else if (valueColumnKey.equalsIgnoreCase(pvalue)) {
                 _valueColumn = params[i].getValue();
-            } else if(GRAB_SIZE.equalsIgnoreCase(pvalue)) {
+            } else if (grabSizeKey.equalsIgnoreCase(pvalue)) {
                 try {
-                _grabSize = Integer.parseInt(pvalue);
-                }catch (NumberFormatException nfe) {
+                    _grabSize = Integer.parseInt(pvalue);
+                } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
-                    throw new GeneratorException("can not parse integer" + pvalue, nfe);
+                    throw new GeneratorException("can not parse integer"
+                            + pvalue, nfe);
                 }
-            } else if(SAME_CONNECTION.equalsIgnoreCase(pname)) {
+            } else if (sameConnectionKey.equalsIgnoreCase(pname)) {
                 _isSameConnection = Boolean.valueOf(pname).booleanValue();
-            } else if(GLOBAL.equals(pname.toLowerCase())) {
+            } else if (globalKey.equals(pname.toLowerCase())) {
                 _isGlobal = Boolean.valueOf(pname).booleanValue();
-            }            
-        }                
+            }
+        }
     }
 
-    /* (non-Javadoc)
+    /** 
      * @see org.castor.ddl.schemaobject.KeyGenerator#getHashKey()
+     * {@inheritDoc}
      */
     public String getHashKey() {
-        if(_alias == null)
+        if (_alias == null) {
             return _name;
+        }
         return _alias;
     }
-
 
     /**
      * 
@@ -116,15 +133,14 @@ public class HighLowKey extends KeyGenerator {
         return _alias;
     }
 
-
     /**
      * Set the alias by _alias.
-     * @param alias 
+     * 
+     * @param alias alias
      */
-    public final void setAlias(String alias) {
+    public final void setAlias(final String alias) {
         _alias = alias;
     }
-
 
     /**
      * 
@@ -134,15 +150,14 @@ public class HighLowKey extends KeyGenerator {
         return _grabSize;
     }
 
-
     /**
      * Set the grabSize by _grabSize.
-     * @param grabSize 
+     * 
+     * @param grabSize grab size
      */
-    public final void setGrabSize(int grabSize) {
+    public final void setGrabSize(final int grabSize) {
         _grabSize = grabSize;
     }
-
 
     /**
      * 
@@ -152,15 +167,14 @@ public class HighLowKey extends KeyGenerator {
         return _isGlobal;
     }
 
-
     /**
      * Set the isGlobal by _isGlobal.
-     * @param isGlobal 
+     * 
+     * @param isGlobal is global
      */
-    public final void setGlobal(boolean isGlobal) {
+    public final void setGlobal(final boolean isGlobal) {
         _isGlobal = isGlobal;
     }
-
 
     /**
      * 
@@ -170,15 +184,14 @@ public class HighLowKey extends KeyGenerator {
         return _isSameConnection;
     }
 
-
     /**
      * Set the isSameConnection by _isSameConnection.
-     * @param isSameConnection 
+     * 
+     * @param isSameConnection is same connection
      */
-    public final void setSameConnection(boolean isSameConnection) {
+    public final void setSameConnection(final boolean isSameConnection) {
         _isSameConnection = isSameConnection;
     }
-
 
     /**
      * 
@@ -188,33 +201,31 @@ public class HighLowKey extends KeyGenerator {
         return _keyColumn;
     }
 
-
     /**
      * Set the keyColumn by _keyColumn.
-     * @param keyColumn 
+     * 
+     * @param keyColumn key column
      */
-    public final void setKeyColumn(String keyColumn) {
+    public final void setKeyColumn(final String keyColumn) {
         _keyColumn = keyColumn;
     }
-
 
     /**
      * 
      * @return Returns the table.
      */
-    public final String getTable() {
-        return _table;
+    public final String getTableName() {
+        return _tableName;
     }
-
 
     /**
-     * Set the table by _table.
-     * @param table 
+     * Set the table by _tableName.
+     * 
+     * @param table table
      */
-    public final void setTable(String table) {
-        _table = table;
+    public final void setTableName(final String table) {
+        _tableName = table;
     }
-
 
     /**
      * 
@@ -224,12 +235,12 @@ public class HighLowKey extends KeyGenerator {
         return _valueColumn;
     }
 
-
     /**
      * Set the valueColumn by _valueColumn.
-     * @param valueColumn 
+     * 
+     * @param valueColumn value column
      */
-    public final void setValueColumn(String valueColumn) {
+    public final void setValueColumn(final String valueColumn) {
         _valueColumn = valueColumn;
     }
 
@@ -243,18 +254,36 @@ public class HighLowKey extends KeyGenerator {
 
     /**
      * Set the name by _name.
-     * @param name 
+     * 
+     * @param name name
      */
-    public final void setName(String name) {
+    public final void setName(final String name) {
         _name = name;
     }
 
-    /* (non-Javadoc)
+    /** 
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() {
-        // TODO Auto-generated method stub
+        return "";
+    }
+
+    /** 
+     * @see org.castor.ddl.schemaobject.KeyGenerator#setTable
+     * (org.castor.ddl.schemaobject.Table)
+     * {@inheritDoc}
+     */
+    public void setTable(final Table table) {
+
+    }
+
+    /**
+     * @see org.castor.ddl.schemaobject.KeyGenerator#getTable()
+     * {@inheritDoc}
+     */
+    public Table getTable() {
         return null;
     }
-    
+
 }

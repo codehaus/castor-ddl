@@ -27,26 +27,26 @@ package org.castor.ddl.schemaobject;
 public abstract class KeyGenerator extends AbstractSchemaObject {
     /**
      * Constructor for KeyGenerator
-     * @param conf
+     * @param _conf
      */
-    public KeyGenerator() {
+    protected KeyGenerator() {
         super();
     }
 
     /**max key*/
-    public static String MAX_KEY = "MAX";
+    public static final String MAX_KEY = "MAX";
 
     /**high-low key*/
-    public static String HIGH_LOW_KEY = "HIGH-LOW";
+    public static final String HIGH_LOW_KEY = "HIGH-LOW";
 
     /**uuid key*/
-    public static String UUID_KEY = "UUID";
+    public static final String UUID_KEY = "UUID";
 
     /**identity key*/
-    public static String IDENTITY_KEY = "IDENTITY";
+    public static final String IDENTITY_KEY = "IDENTITY";
 
     /**sequence key*/
-    public static String SEQUENCE_KEY = "SEQUENCE";
+    public static final String SEQUENCE_KEY = "SEQUENCE";
 
     /**
      * 
@@ -65,4 +65,22 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
      * @return alias
      */
     public abstract String getAlias();
+
+    /**
+     * 
+     * @return Table
+     */
+    public abstract Table getTable();
+
+    /**
+     * 
+     * @param table table
+     */
+    public abstract void setTable(final Table table);
+    
+    /**
+     * generate DDL script
+     * @return ddl script
+     */
+    public abstract String toDDL();
 }

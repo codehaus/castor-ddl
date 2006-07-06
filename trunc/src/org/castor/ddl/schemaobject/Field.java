@@ -36,20 +36,21 @@ public class Field extends AbstractSchemaObject {
     /** is identity */
     private boolean _isIdentity;
 
-    /** handle key generator keyword */
+    /** handle key generator */
     private KeyGenerator _keyGenerator;
     
     /**
      * Constructor for Field
      */
-    public Field() {
+    protected Field() {
         super();
         _name = null;
         _type = null;
         _keyGenerator = null;
     }
     
-    
+
+
     /**
      * 
      * @return Returns the isIdentity.
@@ -61,9 +62,9 @@ public class Field extends AbstractSchemaObject {
     /**
      * Set the isIdentity by _isIdentity.
      * 
-     * @param isIdentity
+     * @param isIdentity is identity
      */
-    public void setIdentity(boolean isIdentity) {
+    public void setIdentity(final boolean isIdentity) {
         _isIdentity = isIdentity;
     }
 
@@ -78,9 +79,9 @@ public class Field extends AbstractSchemaObject {
     /**
      * Set the name by _name.
      * 
-     * @param name
+     * @param name field name
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         _name = name;
     }
 
@@ -95,9 +96,9 @@ public class Field extends AbstractSchemaObject {
     /**
      * Set the type by _type.
      * 
-     * @param type
+     * @param type type info
      */
-    public void setType(TypeInfo type) {
+    public void setType(final TypeInfo type) {
         _type = type;
     }
 
@@ -111,28 +112,42 @@ public class Field extends AbstractSchemaObject {
 
     /**
      * Set the keyGenerator by _keyGenerator.
-     * @param keyGenerator 
+     * @param keyGenerator key generator
      */
-    public void setKeyGenerator(KeyGenerator keyGenerator) {
+    public void setKeyGenerator(final KeyGenerator keyGenerator) {
         _keyGenerator = keyGenerator;
     }
     
+    /**
+     * 
+     * @return length
+     */
     public Integer getLength() { return null; }
 
+    /**
+     * 
+     * @return precision
+     */
     public Integer getPrecision() { return null; }
 
+    /**
+     * 
+     * @return decimals
+     */
     public Integer getDecimals() { return null; }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() throws GeneratorException {
         StringBuffer buff = new StringBuffer();
         buff.append(_name).append(" ");
         /** todo review later null or field*/
         buff.append(_type.toDDL(this));
-        if(_isIdentity)
+        if (_isIdentity) {
             buff.append(" NOT NULL");
+        }
         
         return buff.toString();
     }

@@ -19,9 +19,6 @@ package org.castor.ddl.schemaobject;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.castor.ddl.GeneratorException;
-import org.exolab.castor.mapping.xml.KeyGeneratorDef;
-
 /**
  * 
  * Created on Jun 24, 2006 - 2:10:05 AM
@@ -37,7 +34,7 @@ public final class KeyRepository {
     /**
      * Constructor for KeyRepository
      */
-    public KeyRepository() {
+    protected KeyRepository() {
         super();
         _keyGenerator = new HashMap();
         // TODO Auto-generated constructor stub
@@ -53,48 +50,27 @@ public final class KeyRepository {
 
     /**
      * Set the keygens by _keygens.
-     * @param keygens 
+     * @param keygens key generator
      */
-    public void setKeyGenerator(Map keygens) {
+    public void setKeyGenerator(final Map keygens) {
         _keyGenerator = keygens;
     }
 
     /**
      * 
-     * @param key
-     * @param kg
+     * @param key key
+     * @param kg key generator
      */
-    public void putKeyGenerator(String key, KeyGenerator kg) {
+    public void putKeyGenerator(final String key, final KeyGenerator kg) {
         _keyGenerator.put(key, kg);
     }
     
     /**
      * 
-     * @param key
-     * @return
+     * @param key key
+     * @return key generator associates to key
      */
-    public KeyGenerator getKeyGenerator(String key) {
-        return (KeyGenerator)_keyGenerator.get(key);
-    }
-    
-    public static KeyGenerator createKey(KeyGeneratorDef kg) throws GeneratorException {
-        String name = kg.getName();
-        
-        if(KeyGenerator.MAX_KEY.equalsIgnoreCase(name))
-            return new MaxKey(kg);
-
-        if(KeyGenerator.HIGH_LOW_KEY.equalsIgnoreCase(name))
-            return new HighLowKey(kg);
-
-        if(KeyGenerator.UUID_KEY.equalsIgnoreCase(name))
-            return new UUIDKey(kg);
-        
-        if(KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(name))
-            return new IdentityKey(kg);
-        
-        if(KeyGenerator.SEQUENCE_KEY.equalsIgnoreCase(name))
-            return new SequenceKey(kg);
-                
-        return null; 
+    public KeyGenerator getKeyGenerator(final String key) {
+        return (KeyGenerator) _keyGenerator.get(key);
     }    
 }

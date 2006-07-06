@@ -19,7 +19,6 @@ package org.castor.ddl.schemaobject;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 
 /**
@@ -37,17 +36,17 @@ public class Table extends AbstractSchemaObject {
     /**table name*/
     private String _name = null;
     
-    /**handle key generator*/
-    private String _keyGenerator = null;
+    /** handle key generator */
+    private KeyGenerator _keyGenerator;
     
     /**list of field*/
     private Vector _fields;
     
-    /**identity*/
-    private Vector _identities;
-    
-    /**triggers*/
-    private Vector _triggers;
+//    /**identity*/
+//    private Vector _identities;
+//    
+//    /**triggers*/
+//    private Vector _triggers;
     
     /**indexes*/
     private Vector _indexes;
@@ -59,14 +58,15 @@ public class Table extends AbstractSchemaObject {
      * Constructor for Table
      * @param name
      */
-    public Table() {
+    protected Table() {
         super();
         // TODO Auto-generated constructor stub
         _fields = new Vector();
-        _identities = new Vector();
-        _triggers = new Vector();
+//        _identities = new Vector();
+//        _triggers = new Vector();
         _indexes = new Vector();
         _foreignKey = new Vector();
+        _keyGenerator = null;
     }
 
     /**
@@ -79,80 +79,80 @@ public class Table extends AbstractSchemaObject {
 
     /**
      * Set the fields by _fields.
-     * @param fields 
+     * @param fields fields
      */
-    public void setFields(Vector fields) {
+    public void setFields(final Vector fields) {
         _fields = fields;
     }
 
     /**
      * 
-     * @param field
+     * @param field field
      */
-    public void addField(Field field) {
+    public void addField(final Field field) {
         _fields.add(field);
     }
     
     /**
      * 
-     * @param index
-     * @return
+     * @param index index
+     * @return field
      */
-    public Field getField(int index) {
-        return (Field)_fields.get(index);
+    public Field getField(final int index) {
+        return (Field) _fields.get(index);
         
     }
     
     /**
      * 
-     * @return
+     * @return field count
      */
     public int getFieldCount() {
         return _fields.size();
     }
-    
-    /**
-     * 
-     * @return Returns the identities.
-     */
-    public Vector getIdentities() {
-        return _identities;
-    }
-
-    /**
-     * Set the identities by _identities.
-     * @param identities 
-     */
-    public void setIdentities(Vector identities) {
-        _identities = identities;
-    }
-
-    /**
-     * 
-     * @param name
-     */
-    public void addIdentity(String name) {
-        _identities.add(name);
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public int getIdentityCount() {
-        return _identities.size();
-        
-    }
-    
-    /**
-     * 
-     * @param index
-     * @return
-     */
-    public String getIdentity(int index) {
-        
-        return (String) _identities.get(index);
-    }
+//    
+//    /**
+//     * 
+//     * @return Returns the identities.
+//     */
+//    public Vector getIdentities() {
+//        return _identities;
+//    }
+//
+//    /**
+//     * Set the identities by _identities.
+//     * @param identities 
+//     */
+//    public void setIdentities(Vector identities) {
+//        _identities = identities;
+//    }
+//
+//    /**
+//     * 
+//     * @param name
+//     */
+//    public void addIdentity(String name) {
+//        _identities.add(name);
+//    }
+//    
+//    /**
+//     * 
+//     * @return
+//     */
+//    public int getIdentityCount() {
+//        return _identities.size();
+//        
+//    }
+//    
+//    /**
+//     * 
+//     * @param index
+//     * @return
+//     */
+//    public String getIdentity(int index) {
+//        
+//        return (String) _identities.get(index);
+//    }
     /**
      * 
      * @return Returns the indexes.
@@ -163,22 +163,27 @@ public class Table extends AbstractSchemaObject {
 
     /**
      * Set the indexes by _indexes.
-     * @param indexes 
+     * @param indexes index 
      */
-    public void setIndexes(Vector indexes) {
+    public void setIndexes(final Vector indexes) {
         _indexes = indexes;
     }
 
     /**
      * 
-     * @param index
+     * @param index index
      */
-    public void setIndex(Index index) {        
+    public void setIndex(final Index index) {        
         _indexes.add(index);
     }
     
-    public Index getIndex(int index) {
-        return (Index)_indexes.get(index);        
+    /**
+     * 
+     * @param index index
+     * @return Index
+     */
+    public Index getIndex(final int index) {
+        return (Index) _indexes.get(index);        
     }
     
     /**
@@ -191,44 +196,44 @@ public class Table extends AbstractSchemaObject {
 
     /**
      * Set the name by _name.
-     * @param name 
+     * @param name name
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         _name = name;
     }
 
-    /**
-     * 
-     * @return Returns the triggers.
-     */
-    public Vector getTriggers() {
-        return _triggers;
-    }
-
-    /**
-     * Set the triggers by _triggers.
-     * @param triggers 
-     */
-    public void setTriggers(Vector triggers) {
-        _triggers = triggers;
-    }
-
-    /**
-     * 
-     * @param trigger
-     */
-    public void addTrigger(Trigger trigger) {
-        _triggers.add(trigger);       
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public int getTriggerCount() {
-        return _triggers.size();
-    }
-    
+//    /**
+//     * 
+//     * @return Returns the triggers.
+//     */
+//    public Vector getTriggers() {
+//        return _triggers;
+//    }
+//
+//    /**
+//     * Set the triggers by _triggers.
+//     * @param triggers 
+//     */
+//    public void setTriggers(Vector triggers) {
+//        _triggers = triggers;
+//    }
+//
+//    /**
+//     * 
+//     * @param trigger
+//     */
+//    public void addTrigger(Trigger trigger) {
+//        _triggers.add(trigger);       
+//    }
+//    
+//    /**
+//     * 
+//     * @return
+//     */
+//    public int getTriggerCount() {
+//        return _triggers.size();
+//    }
+//    
     /**
      * 
      * @return Returns the foreignKey.
@@ -239,23 +244,23 @@ public class Table extends AbstractSchemaObject {
 
     /**
      * Set the foreignKey by _foreignKey.
-     * @param foreignKey 
+     * @param foreignKey foreign key
      */
-    public void setForeignKey(Vector foreignKey) {
+    public void setForeignKey(final Vector foreignKey) {
         _foreignKey = foreignKey;
     }
 
     /**
      * 
-     * @param fk
+     * @param fk foreign key
      */
-    public void addForeignKey(ForeignKey fk) {
+    public void addForeignKey(final ForeignKey fk) {
        _foreignKey.add(fk);       
     }
     
     /**
      * 
-     * @return
+     * @return foreign key count
      */
     public int getForeignKeyCount() {
         return _foreignKey.size();
@@ -265,53 +270,117 @@ public class Table extends AbstractSchemaObject {
      * 
      * @return Returns the keyGenerator.
      */
-    public final String getKeyGenerator() {
+    public final KeyGenerator getKeyGenerator() {
         return _keyGenerator;
     }
 
     /**
      * Set the keyGenerator by _keyGenerator.
-     * @param keyGenerator 
+     * @param keyGenerator key generator
      */
-    public final void setKeyGenerator(String keyGenerator) {
+    public final void setKeyGenerator(final KeyGenerator keyGenerator) {
         _keyGenerator = keyGenerator;
     }
 
     /**
      * 
-     * @return
+     * @return pre-create table
      */
     protected String preCreateTable() {
         return "CREATE TABLE " + _name + " (";
     }
 
     /**
-     * 
-     * @param table
-     * @return
+     * @return DDL script for creating table
      */
     protected String postCreateTable() {
         return ")";
     }
 
+    /**
+     * @return create creation ddl
+     * @throws GeneratorException generator error
+     */
     public String toCreateDDL() throws GeneratorException {
-        StringBuffer buff = new StringBuffer(Configuration.LINE_SEPARATOR);
+        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+        buff.append(getConf().getLineSeparator());
         
         //pre create table ddl
         buff.append(preCreateTable());
         
-        for(Iterator i = _fields.iterator(); i.hasNext();) {
-            Field field = (Field)i.next();
-            buff.append(Configuration.LINE_SEPARATOR).append(Configuration.LINE_INDENT);
+        for (Iterator i = _fields.iterator(); i.hasNext();) {
+            Field field = (Field) i.next();
+            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
             buff.append(field.toDDL());
-            if(i.hasNext()) 
-                buff.append(Configuration.SQL_FIELD_DELIMETER);
+            if (i.hasNext()) {
+                buff.append(getConf().getSqlFieldDelimeter());
+            }
         }
         
-        buff.append(Configuration.LINE_SEPARATOR);
+        buff.append(getConf().getLineSeparator());
         buff.append(postCreateTable());
-        buff.append(Configuration.SQL_STAT_DELIMETER);
+        buff.append(getConf().getSqlStatDelimeter());
         
         return buff.toString();
     }
+
+    /**
+     * @return DDL script for dropping table 
+     */
+    public String toDropDDL() {
+        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+        buff.append(getConf().getLineSeparator());
+
+        buff.append("DROP TABLE ").append(_name);
+        buff.append(getConf().getSqlStatDelimeter());
+
+        return buff.toString();
+    }
+
+    /**
+     * @return DDL script for creating primary key
+     */
+    public String toPrimaryKeyDDL() {
+        boolean isHasPK = false;
+        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+        buff.append(getConf().getLineSeparator());
+
+        buff.append("ALTER TABLE ").append(_name);
+        buff.append(getConf().getLineSeparator()).append(
+                getConf().getLineIndent());
+        buff.append("ADD PRIMARY KEY ( ");
+
+        boolean isFirstField = true;
+        for (Iterator i = _fields.iterator(); i.hasNext();) {
+            Field field = (Field) i.next();
+            if (field.isIdentity()) {
+                isHasPK = true;
+                if (!isFirstField) {
+                    buff.append(getConf().getSqlFieldDelimeter());
+                    buff.append(" ");
+                }
+                isFirstField = false;
+                buff.append(field.getName());
+            }
+        }
+        buff.append(" )").append(getConf().getSqlStatDelimeter());
+
+        //have no primary key
+        if (!isHasPK) {
+            return "";
+        }
+        return buff.toString();
+    }
+
+    /**
+     * @return DDL script for creating primary key
+     */
+    public String toKeyGeneratorDDL() {
+        if (_keyGenerator == null) {
+            return "";
+        }
+        _keyGenerator.setTable(this);
+        return _keyGenerator.toDDL();
+    }
+    
 }

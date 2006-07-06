@@ -16,10 +16,10 @@
 
 package org.castor.ddl.schemaobject;
 
-
 /**
  * this class handle information for foreign key creation.
- * <pre>ALTER TABLE `prod_group` ADD CONSTRAINT `FK_prod_group_1` FOREIGN KEY `FK_prod_group_1` (`id`, `name`)
+ * <pre>ALTER TABLE `prod_group` ADD CONSTRAINT `FK_prod_group_1` 
+ * FOREIGN KEY `FK_prod_group_1` (`id`, `name`)
  * REFERENCES `category` (`id`, `name`)
  * ON DELETE SET NULL
  * ON UPDATE CASCADE;</pre> 
@@ -29,25 +29,25 @@ package org.castor.ddl.schemaobject;
 
 public class ForeignKey extends AbstractSchemaObject  {
     /** table name*/
-    private String tableName = null;
+    private String _tableName = null;
     
     /** constraint name*/
-    private String constraintName = null;
+    private String _constraintName = null;
     
     /** foreign key name*/
-    private String fkName = null;
+    private String _fkName = null;
 
     /** foreign key key list*/
-    private String []fkkeyList = null;
+    private String []_fkkeyList = null;
 
     /** reference table*/
-    private String referenceTableName = null;
+    private String _referenceTableName = null;
     
     /** reference key key list*/
-    private String []referenceKeyList = null;
+    private String []_referenceKeyList = null;
 
     /** relationship type */
-    private int relationshipType = ONE_ONE;
+    private int _relationshipType = ONE_ONE;
     
     /** one-one ralationship*/
     public static final int ONE_ONE = 0;
@@ -61,128 +61,170 @@ public class ForeignKey extends AbstractSchemaObject  {
     /**
      * Constructor for ForeignKey
      */
-    public ForeignKey() {
+    protected ForeignKey() {
         super();
     }
 
     /**
      * 
-     * @return Returns the constraintName.
+     * @return Returns the _constraintName.
      */
     public final String getConstraintName() {
-        return constraintName;
+        return _constraintName;
     }
 
     /**
-     * Set the constraintName by constraintName.
-     * @param constraintName 
+     * Set the _constraintName by _constraintName.
+     * @param constraintName constraint name
      */
-    public final void setConstraintName(String constraintName) {
-        this.constraintName = constraintName;
+    public final void setConstraintName(final String constraintName) {
+        this._constraintName = constraintName;
     }
 
     /**
      * 
-     * @return Returns the fkkeyList.
+     * @return Returns the _fkkeyList.
      */
     public final String[] getFkkeyList() {
-        return fkkeyList;
+        return _fkkeyList;
     }
 
     /**
-     * Set the fkkeyList by fkkeyList.
-     * @param fkkeyList 
+     * Set the _fkkeyList by _fkkeyList.
+     * @param fkkeyList foreign key list
      */
-    public final void setFkkeyList(String[] fkkeyList) {
-        this.fkkeyList = fkkeyList;
+    public final void setFkkeyList(final String[] fkkeyList) {
+        this._fkkeyList = fkkeyList;
     }
 
     /**
      * 
-     * @return Returns the fkName.
+     * @return Returns the _fkName.
      */
     public final String getFkName() {
-        return fkName;
+        return _fkName;
     }
 
     /**
-     * Set the fkName by fkName.
-     * @param fkName 
+     * Set the _fkName by _fkName.
+     * @param fkName foreign key name
      */
-    public final void setFkName(String fkName) {
-        this.fkName = fkName;
+    public final void setFkName(final String fkName) {
+        this._fkName = fkName;
     }
 
     /**
      * 
-     * @return Returns the referenceKeyList.
+     * @return Returns the _referenceKeyList.
      */
     public final String[] getReferenceKeyList() {
-        return referenceKeyList;
+        return _referenceKeyList;
     }
 
     /**
-     * Set the referenceKeyList by referenceKeyList.
-     * @param referenceKeyList 
+     * Set the _referenceKeyList by _referenceKeyList.
+     * @param referenceKeyList reference key list
      */
-    public final void setReferenceKeyList(String[] referenceKeyList) {
-        this.referenceKeyList = referenceKeyList;
+    public final void setReferenceKeyList(final String[] referenceKeyList) {
+        this._referenceKeyList = referenceKeyList;
     }
 
     /**
      * 
-     * @return Returns the referenceTableName.
+     * @return Returns the _referenceTableName.
      */
     public final String getReferenceTableName() {
-        return referenceTableName;
+        return _referenceTableName;
     }
 
     /**
-     * Set the referenceTableName by referenceTableName.
-     * @param referenceTableName 
+     * Set the _referenceTableName by _referenceTableName.
+     * @param referenceTableName reference table name
      */
-    public final void setReferenceTableName(String referenceTableName) {
-        this.referenceTableName = referenceTableName;
+    public final void setReferenceTableName(final String referenceTableName) {
+        this._referenceTableName = referenceTableName;
     }
 
     /**
      * 
-     * @return Returns the tableName.
+     * @return Returns the _tableName.
      */
     public final String getTableName() {
-        return tableName;
+        return _tableName;
     }
 
     /**
-     * Set the tableName by tableName.
-     * @param tableName 
+     * Set the _tableName by _tableName.
+     * @param tableName table name
      */
-    public final void setTableName(String tableName) {
-        this.tableName = tableName;
+    public final void setTableName(final String tableName) {
+        this._tableName = tableName;
     }
 
     /**
      * 
-     * @return Returns the relationshipType.
+     * @return Returns the _relationshipType.
      */
     public final int getRelationshipType() {
-        return relationshipType;
+        return _relationshipType;
     }
 
     /**
-     * Set the relationshipType by relationshipType.
-     * @param relationshipType 
+     * Set the _relationshipType by _relationshipType.
+     * @param relationshipType relationship type
      */
-    public final void setRelationshipType(int relationshipType) {
-        this.relationshipType = relationshipType;
+    public final void setRelationshipType(final int relationshipType) {
+        this._relationshipType = relationshipType;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() {
-        // TODO Auto-generated method stub
-        return null;
+        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+        buff.append(getConf().getLineSeparator());
+
+        buff.append("ALTER TABLE ").append(_tableName);
+
+        // constraint
+        buff.append(getConf().getLineSeparator()).append(
+                getConf().getLineIndent());
+        buff.append("ADD CONSTRAINT ").append(_constraintName);
+
+        // foreign key
+        buff.append(getConf().getLineSeparator()).append(
+                getConf().getLineIndent());
+        buff.append("FOREIGN KEY ").append(_fkName);
+        buff.append(makeListofParams(_fkkeyList));
+
+        // references
+        buff.append(getConf().getLineSeparator()).append(
+                getConf().getLineIndent());
+        buff.append("REFERENCES ").append(_referenceTableName);
+        buff.append(makeListofParams(_referenceKeyList));
+        buff.append(getConf().getSqlStatDelimeter());
+        return buff.toString();
+    }
+
+    /**
+     * @param list  key list
+     * @return  formated key list
+     */
+    protected String makeListofParams(final String[] list) {
+        StringBuffer buff = new StringBuffer();
+        boolean isFirstField = true;
+        buff.append(" ( ");
+        for (int i = 0; i < list.length; i++) {
+            if (!isFirstField) {
+                buff.append(getConf().getSqlFieldDelimeter());
+                buff.append(" ");
+            }
+            isFirstField = false;
+            buff.append(list[i]);
+        }
+        buff.append(" )");
+        return buff.toString();
     }
 
 }

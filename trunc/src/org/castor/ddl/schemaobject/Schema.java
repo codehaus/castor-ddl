@@ -1,38 +1,43 @@
 /*
  * Copyright 2006 Le Duc Bao
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package org.castor.ddl.schemaobject;
 
 import java.util.Vector;
 
+import org.castor.ddl.BaseConfiguration;
+
 /**
  * 
  * Created on Jun 23, 2006 - 5:55:43 PM
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
 public class Schema extends AbstractSchemaObject {
 
-    /**schema name*/
+    /** schema name */
     private String _name = null;
 
-    /**table list*/
+    /** table list */
     private Vector _tables;
 
+    /** key repositoty */
     KeyRepository _keyRepository;
+
     /**
      * 
      * @return Returns the name.
@@ -44,7 +49,7 @@ public class Schema extends AbstractSchemaObject {
     /**
      * Constructor for Schema
      */
-    public Schema() {
+    protected Schema() {
         super();
         _tables = new Vector();
         _keyRepository = new KeyRepository();
@@ -53,9 +58,11 @@ public class Schema extends AbstractSchemaObject {
 
     /**
      * Set the name by _name.
-     * @param name 
+     * 
+     * @param name
+     *            name
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         _name = name;
     }
 
@@ -69,23 +76,26 @@ public class Schema extends AbstractSchemaObject {
 
     /**
      * Set the tables by _tables.
-     * @param tables 
+     * 
+     * @param tables
+     *            tables
      */
-    public void setTables(Vector tables) {
+    public void setTables(final Vector tables) {
         _tables = tables;
     }
-    
+
     /**
      * 
      * @param table
+     *            table
      */
-    public void addTable(Table table) {
+    public void addTable(final Table table) {
         _tables.add(table);
     }
-    
+
     /**
      * 
-     * @return
+     * @return table count
      */
     public int getTableCount() {
         return _tables.size();
@@ -101,28 +111,50 @@ public class Schema extends AbstractSchemaObject {
 
     /**
      * Set the keyrep by _keyrep.
-     * @param keyrep 
+     * 
+     * @param keyrep
+     *            key repository
      */
-    public void setKeyRepository(KeyRepository keyrep) {
+    public void setKeyRepository(final KeyRepository keyrep) {
         _keyRepository = keyrep;
     }
-    
-    public void putKeyGenerator(String key, KeyGenerator value) {
+
+    /**
+     * 
+     * @param key
+     *            key
+     * @param value
+     *            value
+     */
+    public void putKeyGenerator(final String key, final KeyGenerator value) {
         _keyRepository.putKeyGenerator(key, value);
     }
-    
+
+    /**
+     * add default key
+     * 
+     */
     private void addDefaultKey() {
-        _keyRepository.putKeyGenerator(KeyGenerator.IDENTITY_KEY, new IdentityKey(KeyGenerator.IDENTITY_KEY, null));
-        _keyRepository.putKeyGenerator(KeyGenerator.MAX_KEY, new MaxKey(KeyGenerator.MAX_KEY, null));
-        _keyRepository.putKeyGenerator(KeyGenerator.UUID_KEY, new UUIDKey(KeyGenerator.UUID_KEY, null));
-        
+        _keyRepository.putKeyGenerator(KeyGenerator.IDENTITY_KEY,
+                new IdentityKey(KeyGenerator.IDENTITY_KEY, null));
+        _keyRepository.putKeyGenerator(KeyGenerator.MAX_KEY, new MaxKey(
+                KeyGenerator.MAX_KEY, null));
+        _keyRepository.putKeyGenerator(KeyGenerator.UUID_KEY, new UUIDKey(
+                KeyGenerator.UUID_KEY, null));
+
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() {
-        // TODO Auto-generated method stub
-        return null;
+        String schema = getConf().getStringValue(BaseConfiguration.SCHEMA_NAME_KEY,
+                "");
+        if (schema == null || "".equals(schema)) {
+            return "";
+        }
+
+        return "CREATE " + schema + ";";
     }
 }
