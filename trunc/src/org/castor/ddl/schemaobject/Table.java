@@ -23,12 +23,6 @@ import org.castor.ddl.GeneratorException;
 
 /**
  * 
- * Created on Jun 23, 2006 - 5:43:29 PM
- * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
- */
-
-/**
- * 
  * Created on Jun 23, 2006 - 6:22:33 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

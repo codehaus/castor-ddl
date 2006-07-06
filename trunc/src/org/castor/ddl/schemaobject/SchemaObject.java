@@ -20,21 +20,21 @@ import org.castor.ddl.Configuration;
 
 /**
  * 
- * Created on Jun 23, 2006 - 6:15:17 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-
 public interface SchemaObject {
-
     /**
-     * set configuration
-     * @param conf configuration
+     * Set configuration.
+     * 
+     * @param conf Configuration.
      */
     void setConf(Configuration conf);
     
     /**
-     * get configuration
-     * @return configuration
+     * Get configuration.
+     * 
+     * @return Configuration.
      */
     Configuration getConf();
 }
