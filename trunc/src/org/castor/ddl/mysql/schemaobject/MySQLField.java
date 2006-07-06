@@ -31,12 +31,13 @@ public class MySQLField extends Field {
     /**
      * Constructor for MySQLField
      */
-    public MySQLField() {
+    protected MySQLField() {
         super();
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.Field#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() throws GeneratorException {
         StringBuffer buff = new StringBuffer();
@@ -44,13 +45,15 @@ public class MySQLField extends Field {
         buff.append(getType().toDDL(this));
 
         KeyGenerator keyGen = getKeyGenerator();
-        if(keyGen != null && isIdentity()) {
-            if(KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(keyGen.getName()))
+        if (keyGen != null && isIdentity()) {
+            if (KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(keyGen.getName())) {
                 buff.append(" AUTO_INCREMENT");
+            }
         }
         
-        if(isIdentity())
+        if (isIdentity()) {
             buff.append(" NOT NULL");
+        }
         
         return buff.toString();
     }

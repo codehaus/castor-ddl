@@ -17,6 +17,8 @@
 package org.castor.ddl.mysql.schemaobject;
 
 import org.castor.ddl.schemaobject.Field;
+import org.castor.ddl.schemaobject.ForeignKey;
+import org.castor.ddl.schemaobject.Schema;
 import org.castor.ddl.schemaobject.SchemaFactory;
 import org.castor.ddl.schemaobject.Table;
 
@@ -35,18 +37,36 @@ public class MySQLSchemaFactory extends SchemaFactory {
         super();
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
+     * {@inheritDoc}
      */
     public Field createField() {
         return new MySQLField();
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.castor.ddl.schemaobject.SchemaFactory#createTable()
+     * {@inheritDoc}
      */
     public Table createTable() {
         return new MySQLTable();
+    }
+
+    /**
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createForeignKey()
+     * {@inheritDoc}
+     */
+    public ForeignKey createForeignKey() {
+        return new MySQLForeignKey();
+    }
+
+    /**
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createSchema()
+     * {@inheritDoc}
+     */
+    public Schema createSchema() {
+        return new MySQLSchema();
     }
 
 }
