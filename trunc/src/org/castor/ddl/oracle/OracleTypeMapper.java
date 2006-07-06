@@ -47,36 +47,36 @@ public final class OracleTypeMapper extends AbstractTypeMapper {
      */
     protected void initialize(final Configuration conf) {
         // numeric types
-        add(new NoParamType("bit", "BOOLEAN"));
-        add(new NoParamType("tinyint", "SMALLINT"));
-        add(new NoParamType("smallint", "SMALLINT"));
-        add(new NoParamType("integer", "INTEGER"));
-        add(new NoParamType("bigint", "INTEGER"));
+        this.add(new NoParamType("bit", "BOOLEAN"));
+        this.add(new NoParamType("tinyint", "SMALLINT"));
+        this.add(new NoParamType("smallint", "SMALLINT"));
+        this.add(new NoParamType("integer", "INTEGER"));
+        this.add(new NoParamType("bigint", "INTEGER"));
         
-        add(new OptionalPrecisionDecimalsType("float", "FLOAT", conf));
-        add(new OptionalPrecisionDecimalsType("double", "DOUBLE PRECISION", conf));
-        add(new NoParamType("real", "REAL"));
-        add(new OptionalPrecisionDecimalsType("numeric", "NUMERIC", conf));
-        add(new OptionalPrecisionDecimalsType("decimal", "DECIMAL", conf));
+        this.add(new OptionalPrecisionType("float", "FLOAT", conf));
+        this.add(new NoParamType("double", "DOUBLE PRECISION"));
+        this.add(new NoParamType("real", "REAL"));
+        this.add(new OptionalPrecisionDecimalsType("numeric", "NUMERIC", conf));
+        this.add(new OptionalPrecisionDecimalsType("decimal", "DECIMAL", conf));
 
         // character types
-        add(new OptionalLengthType("char", "CHAR", conf));
-        add(new RequiredLengthType("varchar", "VARCHAR2", conf));
-        add(new OptionalLengthType("longvarchar", "VARCHAR2", conf));
+        this.add(new OptionalLengthType("char", "CHAR", conf));
+        this.add(new RequiredLengthType("varchar", "VARCHAR2", conf));
+        this.add(new RequiredLengthType("longvarchar", "VARCHAR2", conf));
         
         // date and time types
-        add(new NoParamType("date", "DATE"));
-        add(new NoParamType("time", "DATE"));
-        add(new OptionalPrecisionType("timestamp", "TIMESTAMP", conf));
+        this.add(new NoParamType("date", "DATE"));
+        this.add(new NoParamType("time", "DATE"));
+        this.add(new OptionalPrecisionType("timestamp", "TIMESTAMP", conf));
         
         // other types
-        add(new RequiredLengthType("binary", "RAW", conf));
-        add(new NoParamType("varbinary", "LONG RAW"));
-        add(new NoParamType("longvarbinary", "LONG RAW"));
+        this.add(new NoParamType("binary", "BLOB"));
+        this.add(new NoParamType("varbinary", "BLOB"));
+        this.add(new NoParamType("longvarbinary", "BLOB"));
         
-        add(new NoParamType("other", "BLOB"));
-        add(new NoParamType("javaobject", "BLOB"));
-        add(new NoParamType("blob", "BLOB"));
-        add(new NoParamType("clob", "CLOB"));
+        this.add(new NoParamType("other", "BLOB"));
+        this.add(new NoParamType("javaobject", "BLOB"));
+        this.add(new NoParamType("blob", "BLOB"));
+        this.add(new NoParamType("clob", "CLOB"));
     }
 }
