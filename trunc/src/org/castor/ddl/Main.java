@@ -28,12 +28,19 @@ import org.exolab.castor.util.CommandLineOptions;
  * Created on Jun 4, 2006 - 10:28:41 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class Main {
+public final class Main {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+    /**
+     * Constructor for Main
+     */
+    private Main() {
+        super();
+    }
+
+    /**
+     * @param args options
+     */
+    public static void main(final String[] args) {
         CommandLineOptions allOptions = new CommandLineOptions();
         
         //-- input mapping file
@@ -43,10 +50,12 @@ public class Main {
         allOptions.addFlag("c", "ddl.properties", "configuration file.", true);
 
         //-- specific database configuration file
-        allOptions.addFlag("d", "mysql.properties", "specific database configuration file.", true);
+        allOptions.addFlag("d", "mysql.properties", 
+                "specific database configuration file.", true);
 
         //-- database engine
-        allOptions.addFlag("e", "MySQL", "database engine, for example MySQL, Oracle", true);
+        allOptions.addFlag("e", "MySQL", 
+                "database engine, for example MySQL, Oracle", true);
 
         //out put file
         allOptions.addFlag("o", "output.sql", "output ddl file", true);
@@ -70,26 +79,28 @@ public class Main {
         }
         
         // verify and adjust output file
-        if(ddlName == null) {
+        if (ddlName == null) {
             ddlName = mappingName.replaceAll(".xml", ".sql");
         }        
         
         System.out.println("mapping file: " + mappingName);
-        System.out.println("ddl output file: "+ ddlName);
-        System.out.println("global configuration file: "+ globalConfig);
-        System.out.println("specific database configuration file: "+ specificConfig);
-        System.out.println("database: "+ engine);
+        System.out.println("ddl output file: " + ddlName);
+        System.out.println("global configuration file: " + globalConfig);
+        System.out.println("specific database configuration file: " + specificConfig);
+        System.out.println("database: " + engine);
         
         // create generator and generate ddl
-	    try {
-	        
-            Generator generator = GeneratorFactory.createDDLGenerator(engine, globalConfig, specificConfig);
+        try {
+            
+            Generator generator = GeneratorFactory.
+                createDDLGenerator(engine, globalConfig, specificConfig);
             generator.setPrinter(new PrintStream(new FileOutputStream(ddlName)));
             Mapping mapping = new Mapping();
             mapping.loadMapping(mappingName);
             generator.generateDDL(mapping);            
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Error: " + e.getMessage());
         }
-	}
+    }
 }

@@ -28,18 +28,18 @@ import org.castor.ddl.typeinfo.TypeInfo;
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public abstract class AbstractTypeMapper implements TypeMapper {
-	/** Map of known types which associates JDBC type to corresponding TypeInfo. */
-	private final Map _types = new HashMap();
-	
+    /** Map of known types which associates JDBC type to corresponding TypeInfo. */
+    private final Map _types = new HashMap();
+    
     /**
      * Construct an abstract TypeMapper using given configuration to get default
      * parameters for parameterized types.
      * 
      * @param conf The configuration to get default parameter values from.
      */
-	public AbstractTypeMapper(final Configuration conf){
+    public AbstractTypeMapper(final Configuration conf) {
         initialize(conf);
-	}
+    }
     
     /**
      * Initialize map of known types using given configuration to get default parameters
@@ -57,12 +57,12 @@ public abstract class AbstractTypeMapper implements TypeMapper {
     protected final void add(final TypeInfo type) {
         _types.put(type.getJdbcType(), type);
     }
-	
-	/**
-	 * @see org.castor.ddl.TypeMapper#getType(java.lang.String)
+    
+    /**
+     * @see org.castor.ddl.TypeMapper#getType(java.lang.String)
      * {@inheritDoc}
-	 */
-	public final TypeInfo getType(final String jdcbType){
-		return (TypeInfo) _types.get(jdcbType.toLowerCase());
-	}
+     */
+    public final TypeInfo getType(final String jdcbType) {
+        return (TypeInfo) _types.get(jdcbType.toLowerCase());
+    }
 }

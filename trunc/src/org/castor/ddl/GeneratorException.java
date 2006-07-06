@@ -29,11 +29,11 @@ public class GeneratorException extends Exception {
 
     /**
      * Constructor for GeneratorException
-     * @param arg0
+     * @param arg0 exception message
      */
-	public GeneratorException(final String arg0) {
-		super(arg0);
-	}
+    public GeneratorException(final String arg0) {
+        super(arg0);
+    }
     /**
      * Constructor 
      * @param message An error message

@@ -31,11 +31,11 @@ public class KeyNotFoundException extends GeneratorException {
     /**
      * 
      * Constructor for KeyNotFoundException
-     * @param string
+     * @param string message
      */
-	public KeyNotFoundException(String string) {
-		super(string);
-	}
+    public KeyNotFoundException(final String string) {
+        super(string);
+    }
 
     /**
      * Constructor 

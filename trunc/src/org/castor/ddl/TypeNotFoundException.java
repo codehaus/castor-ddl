@@ -30,12 +30,11 @@ public class TypeNotFoundException extends GeneratorException {
     /**
      * 
      * Constructor for TypeNotFoundException
-     * @param arg0
+     * @param arg0 message
      */
-	public TypeNotFoundException(String arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
+   public TypeNotFoundException(final String arg0) {
+      super(arg0);
+   }
     /**
      * Constructor 
      * @param message An error message

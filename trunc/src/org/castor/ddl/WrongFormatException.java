@@ -31,11 +31,11 @@ public class WrongFormatException extends GeneratorException {
     /**
      * 
      * Constructor for WrongFormatException
-     * @param string
+     * @param string message
      */
-	public WrongFormatException(String string) {
-		super(string);
-	}
+    public WrongFormatException(final String string) {
+        super(string);
+    }
 
     /**
      * Constructor 
