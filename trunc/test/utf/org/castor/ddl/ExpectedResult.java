@@ -18,8 +18,10 @@ package utf.org.castor.ddl;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Vector;
 
+import org.castor.ddl.Configuration;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.xml.MarshalException;
@@ -52,6 +54,28 @@ public final class ExpectedResult {
 
     /** hanlde error message*/
     private String _message;
+    
+    private Configuration _conf;
+
+    /**
+     * 
+     * @return Returns the conf.
+     */
+    public final Configuration getConf() {
+        return _conf;
+    }
+
+    /**
+     * Set the conf by _conf.
+     * @param conf 
+     */
+    public final void setConf(final Configuration conf) {
+        _conf = conf;
+        for(Iterator i = _ddls.iterator(); i.hasNext();) {
+            Ddl ddl = (Ddl) i.next();
+            ddl.setConf(conf);
+        }
+    }
 
     /**
      * Constructor for Expected
@@ -113,6 +137,7 @@ public final class ExpectedResult {
             // 2. Unmarshal the data
             Unmarshaller unmar = new Unmarshaller(mapping);
             er = (ExpectedResult) unmar.unmarshal(new InputSource(expFile));
+            
         } catch (MappingException e) {
             e.printStackTrace();
             throw e;
