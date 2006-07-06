@@ -31,5 +31,5 @@ public interface TypeMapper {
      * @param jdbcType JDBC type to get TypeInfo for.
      * @return TypeInfo for the given JDBC type.
      */
-    TypeInfo getType(String jdbcType);
+    TypeInfo getType(final String jdbcType);
 }
