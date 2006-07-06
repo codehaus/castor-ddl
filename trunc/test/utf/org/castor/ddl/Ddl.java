@@ -19,7 +19,7 @@ package utf.org.castor.ddl;
 
 import java.text.MessageFormat;
 
-import org.castor.ddl.BaseConfiguration;
+import org.castor.ddl.Configuration;
 
 /**
  * This class represents the expected ddl entry.
@@ -27,30 +27,32 @@ import org.castor.ddl.BaseConfiguration;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public final class Ddl {
+public class Ddl {
     /** matching type, regular expression*/
-    public static final String MATCHTYPE_REGEXP = "regexp";
+    public final static String MATCHTYPE_REGEXP = "regexp";
 
     /** matching type, plain text*/
-    public static final String MATCHTYPE_PLAIN = "plain";
+    public final static String MATCHTYPE_PLAIN = "plain";
 
     /** matching type, exact match*/
-    public static final String MATCHTYPE_EXACT = "exact";
+    public final static String MATCHTYPE_EXACT = "exact";
 
     /** ddl string*/    
-    private String _ddl;
+    public java.lang.String _ddl;
 
     /** matching type*/    
-    private String _matchtype;
+    public java.lang.String _matchtype;
 
     /** database engine*/
-    public String _engine;
+    public java.lang.String _engine;
 
     /** is case sensitive*/
-    private boolean _casesensitive;
+    public boolean _casesensitive;
 
     /** index*/
     public int _index;
+    
+    private Configuration _conf;
     
     /**
      * Constructor for Ddl
@@ -67,7 +69,7 @@ public final class Ddl {
      * @param engine
      * @param casesensitive
      */
-    public Ddl(final String ddl, final String matchtype, final boolean casesensitive) {
+    public Ddl(String ddl, String matchtype, boolean casesensitive) {
         super();
         // TODO Auto-generated constructor stub
         _ddl = ddl;
@@ -82,16 +84,16 @@ public final class Ddl {
      * @return
      * @throws Exception
      */
-    public boolean match(final String actualResult) throws Exception {
-        if (_matchtype == null || _matchtype.equals(MATCHTYPE_REGEXP)) {
+    public boolean match(String actualResult) throws Exception{
+        if(_matchtype == null || _matchtype.equals(MATCHTYPE_REGEXP)) {
             return matchRegExp(actualResult);
         }
         
-        if (_matchtype.equals(MATCHTYPE_PLAIN)) {
+        if(_matchtype.equals(MATCHTYPE_PLAIN)) {
             return matchPlain(actualResult);
         }
         
-        if (_matchtype.equals(MATCHTYPE_EXACT)) {
+        if(_matchtype.equals(MATCHTYPE_EXACT)) {
             return matchExact(actualResult);            
         }
         
@@ -102,16 +104,17 @@ public final class Ddl {
      * @param actualResult
      * @return
      */
-    private boolean matchExact(final String result) {
-        String actualResult = result;
-        
-        if (_ddl == null) { _ddl = ""; }
-        if (actualResult == null || _ddl == null) {
-            return (actualResult == _ddl);
+    private boolean matchExact(String actualResult) {
+        if(_ddl == null ) _ddl = "";
+        if(actualResult == null || _ddl == null) {
+            if( actualResult == _ddl)
+                return true;
+            else 
+                return false;
         }
 
         String expDDL = _ddl;
-        if (!_casesensitive) {
+        if(!_casesensitive) {
             actualResult = actualResult.toLowerCase();
             expDDL = expDDL.toLowerCase();
         }
@@ -123,25 +126,26 @@ public final class Ddl {
      * @param actualResult
      * @return
      */
-    private boolean matchPlain(final String result) {
-        String actualResult = result;
+    private boolean matchPlain(String actualResult) {
+        if(_ddl == null ) _ddl = "";
         
-        if (_ddl == null) { _ddl = ""; }
-        
-        if (actualResult == null || _ddl == null) {
-            return (actualResult == _ddl);
+        if(actualResult == null || _ddl == null) {
+            if( actualResult == _ddl)
+                return true;
+            else 
+                return false;
         }
         
         String expDDL = _ddl;
-        if (!_casesensitive) {
+        if(!_casesensitive) {
             actualResult = actualResult.toLowerCase();
             expDDL = expDDL.toLowerCase();
         }
         
-        actualResult = actualResult.replaceAll(BaseConfiguration.LINE_SEPARATOR, " ");
+        actualResult = actualResult.replaceAll(_conf.getLineSeparator(), " ");
         actualResult = actualResult.replaceAll("[ \t]+", " ").trim();
         
-        expDDL = expDDL.replaceAll(BaseConfiguration.LINE_SEPARATOR, " ");
+        expDDL = expDDL.replaceAll(_conf.getLineSeparator(), " ");
         expDDL = expDDL.replaceAll("[ \t]+", " ");
         return actualResult.equals(expDDL);
     }
@@ -150,29 +154,32 @@ public final class Ddl {
      * @param actualResult
      * @return
      */
-    private boolean matchRegExp(final String result) {
-        String actualResult = result;
-        
-        if (_ddl == null) { _ddl = ""; }
-        if (_ddl == null) {
-            return (actualResult == _ddl);
+    private boolean matchRegExp(String actualResult) {
+        if(_ddl == null ) _ddl = "";
+        if(_ddl == null) {
+            if( actualResult == _ddl)
+                return true;
+            else 
+                return false;
         }
 
-        if (actualResult == null) { return _ddl.matches(null); }
+        if(actualResult == null)
+            return _ddl.matches(null);
         
         System.out.println(actualResult);
         String expDDL = _ddl;
-        if (!_casesensitive) {
+        if(!_casesensitive) {
             actualResult = actualResult.toLowerCase().trim();
             expDDL = expDDL.toLowerCase().trim();
         }
         
-        actualResult = actualResult.replaceAll(BaseConfiguration.LINE_SEPARATOR, " ");
-        actualResult = actualResult.replaceAll(BaseConfiguration.LINE_INDENT, " ");
+//        actualResult = actualResult.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
+        actualResult = actualResult.replaceAll(_conf.getLineSeparator(), " ");
+        actualResult = actualResult.replaceAll(_conf.getLineIndent(), " ");
         actualResult = actualResult.replaceAll("[ \t]+", " ");
         System.out.println(actualResult);
         
-        expDDL = expDDL.replaceAll(BaseConfiguration.LINE_SEPARATOR, " ");
+        expDDL = expDDL.replaceAll(_conf.getLineSeparator(), " ");
         expDDL = expDDL.replaceAll("[ \t]+", " ");
         System.out.println(expDDL);
         return actualResult.matches(expDDL);
@@ -182,12 +189,32 @@ public final class Ddl {
      * toString
      */
     public String toString() {
-        return " ddl: " + _ddl + "\n matchtype: " + _matchtype + "\n engine: "
-            + _engine + "\n casesensitive: " + _casesensitive;
+        return " ddl: " + _ddl + "\n matchtype: " + _matchtype + "\n engine: " + _engine + "\n casesensitive: " + _casesensitive;
     }
     
-    public void format(final Object[]args) {
-        if (_ddl == null || "".equals(_ddl)) { return; }
+    public void format(Object[]args) {
+        if(_ddl == null || "".equals(_ddl))
+            return;
         _ddl = MessageFormat.format(_ddl, args);
     }
+
+
+    /**
+     * 
+     * @return Returns the conf.
+     */
+    public final Configuration getConf() {
+        return _conf;
+    }
+
+
+    /**
+     * Set the conf by _conf.
+     * @param conf 
+     */
+    public final void setConf(Configuration conf) {
+        _conf = conf;
+    }
+    
+    
 }
