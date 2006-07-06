@@ -22,6 +22,7 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.castor.ddl.AbstractGenerator;
+import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.mysql.MySQLTypeMapper;
@@ -30,9 +31,9 @@ import org.exolab.castor.mapping.Mapping;
 /**
  * This class handles all testcase for all database. The specific database will inherite 
  * this class. Expecting that all testcase use the same scenarios for all database. The 
- * expected result maybe differ within each other. The _engine defines which expected result
- * will be loaded to the testcase. The inherited class may redefine this variable to 
- * reuse the test scenarios, but _engine. 
+ * expected result maybe differ within each other. The _engine defines which expected
+ * result will be loaded to the testcase. The inherited class may redefine this variable
+ * to reuse the test scenarios, but _engine. 
  *  
  * Created on Jun 13, 2006 - 6:15:36 PM
  * 
@@ -83,8 +84,8 @@ public abstract class BaseGeneratorTest extends TestCase {
      * @param expectedFile
      * @throws Exception
      */
-    protected void loadData(String mappingFile, String expectedFile)
-            throws Exception {
+    protected void loadData(final String mappingFile, final String expectedFile)
+    throws Exception {
         String dataDir = "data" + File.separator;
 
         try {
@@ -109,8 +110,7 @@ public abstract class BaseGeneratorTest extends TestCase {
      * @param mappingFile
      * @throws Exception
      */
-    protected void loadData(String mappingFile)
-            throws Exception {
+    protected void loadData(final String mappingFile) throws Exception {
         String dataDir = "data" + File.separator;
 
         try {
@@ -451,27 +451,27 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger(PARAM_PREFIX + "tinyint" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "smallint" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "bigint" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_DECIMALS)
-                    , conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "varchar" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "longvarchar" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "timestamp" + PARAM_POSTFIX_PRECISION)
-                    , conf.getInteger(PARAM_PREFIX + "binary" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "varbinary" + PARAM_POSTFIX_LENGTH)
-                    , conf.getInteger(PARAM_PREFIX + "longvarbinary" + PARAM_POSTFIX_LENGTH)
+                    conf.getInteger(PARAM_PREFIX + "tinyint" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "smallint" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "integer" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "bigint" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "float" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "double" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "real" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "numeric" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "decimal" + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "char" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "varchar" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "longvarchar" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "timestamp" + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "binary" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "varbinary" + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "longvarbinary" + PARAM_POSTFIX_LENGTH)
                     };
 
             String ddl = _generator.generateCreate();
@@ -979,9 +979,10 @@ public abstract class BaseGeneratorTest extends TestCase {
           _generator.setTypeMapper(typeMapper);
           
           String schema = "test";
-          Ddl expectedDDL = new Ddl("use " + schema + conf.getSqlStatDelimeter(), Ddl.MATCHTYPE_REGEXP, false);
+          Ddl expectedDDL = new Ddl("use " + schema + conf.getSqlStatDelimeter(),
+                  Ddl.MATCHTYPE_REGEXP, false);
           expectedDDL.setConf(conf);
-          conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
+          conf.setProperty(BaseConfiguration.SCHEMA_NAME_KEY, schema);
           String ddl = _generator.getSchema().toDDL();
           
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -989,7 +990,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
           schema = "";
           expectedDDL = new Ddl("", Ddl.MATCHTYPE_EXACT, false);
-          conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
+          conf.setProperty(BaseConfiguration.SCHEMA_NAME_KEY, schema);
           ddl = _generator.getSchema().toDDL();
           
           assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"

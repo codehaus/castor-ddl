@@ -16,7 +16,7 @@
 package org.castor.ddl.mysql;
 
 import org.castor.ddl.AbstractGenerator;
-import org.castor.ddl.Configuration;
+import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.mysql.schemaobject.MySQLSchemaFactory;
@@ -26,7 +26,7 @@ import org.castor.ddl.mysql.schemaobject.MySQLSchemaFactory;
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class MySQLGenerator extends AbstractGenerator {
+public final class MySQLGenerator extends AbstractGenerator {
 
     /**
      * 
@@ -61,7 +61,7 @@ public class MySQLGenerator extends AbstractGenerator {
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineSeparator());
         buff.append(getConf().getStringValue(
-                Configuration.HEADER_COMMENT_TEXT_KEY, ""));
+                BaseConfiguration.HEADER_COMMENT_TEXT_KEY, ""));
         return buff.toString();
     }
 }

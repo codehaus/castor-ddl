@@ -29,22 +29,22 @@ import org.castor.ddl.Configuration;
 
 public class Ddl {
     /** matching type, regular expression*/
-    public final static String MATCHTYPE_REGEXP = "regexp";
+    public static final String MATCHTYPE_REGEXP = "regexp";
 
     /** matching type, plain text*/
-    public final static String MATCHTYPE_PLAIN = "plain";
+    public static final String MATCHTYPE_PLAIN = "plain";
 
     /** matching type, exact match*/
-    public final static String MATCHTYPE_EXACT = "exact";
+    public static final String MATCHTYPE_EXACT = "exact";
 
     /** ddl string*/    
-    public java.lang.String _ddl;
+    public String _ddl;
 
     /** matching type*/    
-    public java.lang.String _matchtype;
+    public String _matchtype;
 
     /** database engine*/
-    public java.lang.String _engine;
+    public String _engine;
 
     /** is case sensitive*/
     public boolean _casesensitive;
@@ -69,7 +69,7 @@ public class Ddl {
      * @param engine
      * @param casesensitive
      */
-    public Ddl(String ddl, String matchtype, boolean casesensitive) {
+    public Ddl(final String ddl, final String matchtype, final boolean casesensitive) {
         super();
         // TODO Auto-generated constructor stub
         _ddl = ddl;
@@ -84,16 +84,16 @@ public class Ddl {
      * @return
      * @throws Exception
      */
-    public boolean match(String actualResult) throws Exception{
-        if(_matchtype == null || _matchtype.equals(MATCHTYPE_REGEXP)) {
+    public boolean match(final String actualResult) throws Exception {
+        if (_matchtype == null || _matchtype.equals(MATCHTYPE_REGEXP)) {
             return matchRegExp(actualResult);
         }
         
-        if(_matchtype.equals(MATCHTYPE_PLAIN)) {
+        if (_matchtype.equals(MATCHTYPE_PLAIN)) {
             return matchPlain(actualResult);
         }
         
-        if(_matchtype.equals(MATCHTYPE_EXACT)) {
+        if (_matchtype.equals(MATCHTYPE_EXACT)) {
             return matchExact(actualResult);            
         }
         
@@ -104,17 +104,16 @@ public class Ddl {
      * @param actualResult
      * @return
      */
-    private boolean matchExact(String actualResult) {
-        if(_ddl == null ) _ddl = "";
-        if(actualResult == null || _ddl == null) {
-            if( actualResult == _ddl)
-                return true;
-            else 
-                return false;
+    private boolean matchExact(final String result) {
+        String actualResult = result;
+        
+        if (_ddl == null) { _ddl = ""; }
+        if (actualResult == null || _ddl == null) {
+            return (actualResult == _ddl);
         }
 
         String expDDL = _ddl;
-        if(!_casesensitive) {
+        if (!_casesensitive) {
             actualResult = actualResult.toLowerCase();
             expDDL = expDDL.toLowerCase();
         }
@@ -126,18 +125,17 @@ public class Ddl {
      * @param actualResult
      * @return
      */
-    private boolean matchPlain(String actualResult) {
-        if(_ddl == null ) _ddl = "";
+    private boolean matchPlain(final String result) {
+        String actualResult = result;
         
-        if(actualResult == null || _ddl == null) {
-            if( actualResult == _ddl)
-                return true;
-            else 
-                return false;
+        if (_ddl == null) { _ddl = ""; }
+        
+        if (actualResult == null || _ddl == null) {
+            return (actualResult == _ddl);
         }
         
         String expDDL = _ddl;
-        if(!_casesensitive) {
+        if (!_casesensitive) {
             actualResult = actualResult.toLowerCase();
             expDDL = expDDL.toLowerCase();
         }
@@ -154,26 +152,25 @@ public class Ddl {
      * @param actualResult
      * @return
      */
-    private boolean matchRegExp(String actualResult) {
-        if(_ddl == null ) _ddl = "";
-        if(_ddl == null) {
-            if( actualResult == _ddl)
-                return true;
-            else 
-                return false;
+    private boolean matchRegExp(final String result) {
+        String actualResult = result;
+        
+        if (_ddl == null) { _ddl = ""; }
+        if (_ddl == null) {
+            return (actualResult == _ddl);
         }
 
-        if(actualResult == null)
+        if (actualResult == null) {
             return _ddl.matches(null);
+        }
         
         System.out.println(actualResult);
         String expDDL = _ddl;
-        if(!_casesensitive) {
+        if (!_casesensitive) {
             actualResult = actualResult.toLowerCase().trim();
             expDDL = expDDL.toLowerCase().trim();
         }
         
-//        actualResult = actualResult.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
         actualResult = actualResult.replaceAll(_conf.getLineSeparator(), " ");
         actualResult = actualResult.replaceAll(_conf.getLineIndent(), " ");
         actualResult = actualResult.replaceAll("[ \t]+", " ");
@@ -189,12 +186,12 @@ public class Ddl {
      * toString
      */
     public String toString() {
-        return " ddl: " + _ddl + "\n matchtype: " + _matchtype + "\n engine: " + _engine + "\n casesensitive: " + _casesensitive;
+        return " ddl: " + _ddl + "\n matchtype: " + _matchtype + "\n engine: "
+            + _engine + "\n casesensitive: " + _casesensitive;
     }
     
-    public void format(Object[]args) {
-        if(_ddl == null || "".equals(_ddl))
-            return;
+    public void format(final Object[]args) {
+        if (_ddl == null || "".equals(_ddl)) { return; }
         _ddl = MessageFormat.format(_ddl, args);
     }
 
@@ -212,9 +209,7 @@ public class Ddl {
      * Set the conf by _conf.
      * @param conf 
      */
-    public final void setConf(Configuration conf) {
+    public final void setConf(final Configuration conf) {
         _conf = conf;
     }
-    
-    
 }

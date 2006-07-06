@@ -124,11 +124,11 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException generator error
      */
     private void generateDDL() throws GeneratorException {
-        String groupBy = _conf.getStringValue(Configuration.GROUP_DDL_BY_KEY,
-                Configuration.GROUP_DDL_BY_TABLE);
-        if (Configuration.GROUP_DDL_BY_TABLE.equalsIgnoreCase(groupBy)) {
+        String groupBy = _conf.getStringValue(BaseConfiguration.GROUP_DDL_BY_KEY,
+                BaseConfiguration.GROUP_DDL_BY_TABLE);
+        if (BaseConfiguration.GROUP_DDL_BY_TABLE.equalsIgnoreCase(groupBy)) {
             generateDDLGroupByTable();
-        } else if (Configuration.GROUP_DDL_BY_DDLTYPE.equalsIgnoreCase(groupBy)) {
+        } else if (BaseConfiguration.GROUP_DDL_BY_DDLTYPE.equalsIgnoreCase(groupBy)) {
             generateDDLGroupByDDLType();
         } else {
             throw new GeneratorException("group ddl by do not support: "
@@ -142,19 +142,19 @@ public abstract class AbstractGenerator implements Generator {
      */
     private void generateDDLGroupByDDLType() throws GeneratorException {
         boolean genSchema = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
         boolean genDrop = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_DROP_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_DROP_KEY, true);
         boolean genCreate = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_CREATE_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_CREATE_KEY, true);
         boolean genPrimaryKey = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
         boolean genForeignKey = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
         boolean genIndex = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_INDEX_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_INDEX_KEY, true);
         boolean genKeyGen = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
         write(generateHeader());
         if (genSchema) {
@@ -194,19 +194,19 @@ public abstract class AbstractGenerator implements Generator {
         Vector tables = _schema.getTables();
 
         boolean genSchema = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
         boolean genDrop = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_DROP_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_DROP_KEY, true);
         boolean genCreate = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_CREATE_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_CREATE_KEY, true);
         boolean genPrimaryKey = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
         boolean genForeignKey = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
         boolean genIndex = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_INDEX_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_INDEX_KEY, true);
         boolean genKeyGen = _conf.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
         write(generateHeader());
         if (genSchema) {
@@ -256,7 +256,8 @@ public abstract class AbstractGenerator implements Generator {
      * @return  primary key creation ddl
      */
     public String generatePrimaryKey() {
-        if (!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true)) {
+        if (!_conf.getBoolValue(
+                BaseConfiguration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true)) {
             return "";
         }
         Vector tables = _schema.getTables();
@@ -287,7 +288,7 @@ public abstract class AbstractGenerator implements Generator {
      * @return index creation ddl
      */
     public String generateIndex() {
-        if (!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_INDEX_KEY, true)) {
+        if (!_conf.getBoolValue(BaseConfiguration.GENERATE_DDL_FOR_INDEX_KEY, true)) {
             return "";
         }
 
@@ -305,7 +306,7 @@ public abstract class AbstractGenerator implements Generator {
      * @return drop creation ddl
      */
     public String generateDrop() {
-        if (!_conf.getBoolValue(Configuration.GENERATE_DDL_FOR_DROP_KEY, true)) {
+        if (!_conf.getBoolValue(BaseConfiguration.GENERATE_DDL_FOR_DROP_KEY, true)) {
             return "";
         }
 
@@ -356,9 +357,8 @@ public abstract class AbstractGenerator implements Generator {
      * </pre>
      * 
      * @return foreign key creation ddl
-     * @throws GeneratorException generator error
      */
-    public String generateForeignKey() throws GeneratorException {
+    public String generateForeignKey() {
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
@@ -828,10 +828,10 @@ public abstract class AbstractGenerator implements Generator {
      * @return format string base on Configuration._ddlFormatCase
      */
     private String format(final String s) {
-        if (_conf.getDdlFormatCase() == Configuration.DDL_FORMAT_LOWERCASE) {
+        if (_conf.getDdlFormatCase() == BaseConfiguration.DDL_FORMAT_LOWERCASE) {
             return s.toLowerCase();
         }
-        if (_conf.getDdlFormatCase() == Configuration.DDL_FORMAT_UPPERCASE) {
+        if (_conf.getDdlFormatCase() == BaseConfiguration.DDL_FORMAT_UPPERCASE) {
             return s.toUpperCase();
         }
         return s;

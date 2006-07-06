@@ -61,7 +61,7 @@ public final class ExpectedResult {
      * 
      * @return Returns the conf.
      */
-    public final Configuration getConf() {
+    public Configuration getConf() {
         return _conf;
     }
 
@@ -69,9 +69,9 @@ public final class ExpectedResult {
      * Set the conf by _conf.
      * @param conf 
      */
-    public final void setConf(final Configuration conf) {
+    public void setConf(final Configuration conf) {
         _conf = conf;
-        for(Iterator i = _ddls.iterator(); i.hasNext();) {
+        for (Iterator i = _ddls.iterator(); i.hasNext();) {
             Ddl ddl = (Ddl) i.next();
             ddl.setConf(conf);
         }
