@@ -1,5 +1,7 @@
 <expected-result>
-	<ddl matchtype="regexp" >drop </ddl>
 	<ddl matchtype="regexp" engine="mysql" index="0">create table simple \( fieldinterger integer\({0}\) not null, fieldinterger2 integer\({0}\) \);</ddl>
 	<ddl matchtype="plain" engine="mysql" index="1"></ddl>
+
+	<ddl matchtype="regexp" engine="oracle" index="0">create table simple \( fieldinterger integer not null, fieldinterger2 integer \);</ddl>
+	<ddl matchtype="regexp" engine="oracle" index="1">create sequence a_seq_simple_fieldinterger maxvalue 2147483647 increment by 1 start with 1;</ddl>
 </expected-result>

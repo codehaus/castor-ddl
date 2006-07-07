@@ -1,0 +1,11 @@
+<expected-result>
+	<ddl matchtype="regexp" index="0">create schema {0};</ddl>
+	<ddl matchtype="plain" index="1"></ddl>
+
+	<ddl matchtype="regexp" engine="mysql" index="0">use {0};</ddl>
+	<ddl matchtype="plain" engine="mysql" index="1"></ddl>
+
+	<ddl matchtype="plain" engine="oracle" index="0"></ddl>
+	<ddl matchtype="plain" engine="oracle" index="1"></ddl>
+
+</expected-result>

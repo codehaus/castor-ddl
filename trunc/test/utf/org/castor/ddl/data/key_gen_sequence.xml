@@ -13,7 +13,7 @@
 		</field>
 	</class>
 	<key-generator name="SEQUENCE" alias="A">
-		<param name="sequence" value="a_seq" />
+		<param name="sequence" value="a_seq_{0}_{1}" />
 	</key-generator>
 </mapping>
 

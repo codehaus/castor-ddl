@@ -1,4 +1,5 @@
 <expected-result>
-	<ddl matchtype="regexp" >drop table if exists simple; create table simple \( id boolean \);</ddl>
 	<ddl matchtype="regexp" engine="mysql">drop table if exists simple; create table simple \( id tinyint\(1\) \);</ddl>
+
+	<ddl matchtype="regexp" engine="oracle">drop table if exists simple; create table simple \( id tinyint\(1\) \);</ddl>
 </expected-result>

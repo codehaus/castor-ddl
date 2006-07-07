@@ -1,5 +1,7 @@
 <expected-result>
-	<ddl matchtype="regexp" >drop table</ddl>
 	<ddl matchtype="regexp" engine="mysql" index="0">create table prod \( id integer\({0}\), name char\({1}\) \);</ddl>
 	<ddl matchtype="plain" engine="mysql" index="1"></ddl>
+
+	<ddl matchtype="regexp" engine="oracle" index="0">create table prod \( id integer, name char\({1}\) \);</ddl>
+	<ddl matchtype="plain" engine="oracle" index="1"></ddl>
 </expected-result>
