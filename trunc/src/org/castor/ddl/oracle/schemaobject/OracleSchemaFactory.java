@@ -18,6 +18,7 @@ package org.castor.ddl.oracle.schemaobject;
 
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.Schema;
 import org.castor.ddl.schemaobject.SchemaFactory;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
@@ -51,6 +52,14 @@ public class OracleSchemaFactory extends SchemaFactory {
         }
 
         return super.createKeyGenerator(kg);
+    }
+
+    /**
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createSchema()
+     * {@inheritDoc}
+     */
+    public Schema createSchema() {
+        return new OracleSchema();
     }
 
 }
