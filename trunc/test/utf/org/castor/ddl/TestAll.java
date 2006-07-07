@@ -17,6 +17,7 @@
 package utf.org.castor.ddl;
 
 import utf.org.castor.ddl.mysql.MySQLGeneratorTest;
+import utf.org.castor.ddl.oracle.OracleGeneratorTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -31,23 +32,35 @@ public class TestAll extends TestCase {
 
     /**
      * Constructor for TestAll
-     * @param arg0
+     * @param name name
      */
     public TestAll(final String name) { super(name); }
 
+    /**
+     * 
+     * @param args params
+     */
     public static void main(final String[] args) {
         junit.swingui.TestRunner.run(TestAll.class);
     }
 
 
+    /**
+     * 
+     * @return Test
+     * @throws Exception exception
+     */
     public static Test suite() throws Exception {
         TestSuite suite = new TestSuite("All org.castor.ddl tests");
         
         //GeneratorFactory test
         suite.addTest(GeneratorFactoryTest.suite());
         
-        //MySQL generator
+        //MySQL generator test
         suite.addTest(MySQLGeneratorTest.suite());
+
+        //Oracle generator test
+        suite.addTest(OracleGeneratorTest.suite());
 
         return suite;
     }

@@ -27,16 +27,22 @@ import org.castor.ddl.TypeMapper;
  */
 
 public class TypeMapperTest extends TestCase {
+
+    /**type mapper*/
     TypeMapper _mapper = null;
     
-    /*
+    /**
      * @see TestCase#setUp()
+     * {@inheritDoc}
      */
     protected void setUp() throws Exception {
         super.setUp();
     }
 
-
+    /**
+     * test
+     *
+     */
     public void testBitMapping() {
         
     }

@@ -9,19 +9,19 @@
 		</field>
 	</class>
 	<class name="utf.org.castor.ddl.Ddl" depends="utf.org.castor.ddl.ExpectedResult">
-		<field name="_matchtype" type="java.lang.String" direct="true">
+		<field name="matchtype" type="java.lang.String" >
 			<bind-xml name="matchtype" node="attribute" />
 		</field>
-		<field name="_engine" type="java.lang.String" direct="true">
+		<field name="engine" type="java.lang.String" >
 			<bind-xml name="engine" node="attribute" />
 		</field>
-		<field name="_casesensitive" type="boolean" direct="true">
+		<field name="casesensitive" type="boolean" >
 			<bind-xml name="casesensitive" node="attribute" />
 		</field>
-		<field name="_ddl" type="java.lang.String" direct="true">
+		<field name="ddl" type="java.lang.String" >
 			<bind-xml name="ddl" node="text"/>
 		</field>
-		<field name="_index" type="int" direct="true">
+		<field name="index" type="int" >
 			<bind-xml name="index" node="attribute"/>
 		</field>
 	</class>

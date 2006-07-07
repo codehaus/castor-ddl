@@ -33,28 +33,31 @@ public final class GeneratorFactoryTest extends TestCase {
 
     /**
      * Constructor for GeneratorFactoryTest
-     * @param testcase
+     * @param testcase  test case
      */
     public GeneratorFactoryTest(final String testcase) {
         super(testcase);
     }
 
-    /*
+    /**
      * @see TestCase#setUp()
+     * {@inheritDoc}
      */
     protected void setUp() throws Exception {
         super.setUp();
     }
 
-    /*
+    /**
      * @see TestCase#tearDown()
+     * {@inheritDoc}
      */
     protected void tearDown() throws Exception {
         super.tearDown();
     }
 
-    /*
+    /**
      * Test method for 'org.castor.ddl.GeneratorFactory.getMySQLDDLGenerator()'
+     * {@inheritDoc}
      */
     public void testGetMySQLDDLGenerator() {
         
@@ -67,6 +70,11 @@ public final class GeneratorFactoryTest extends TestCase {
         } 
     }
     
+    /**
+     * 
+     * @return  Test
+     * @throws Exception exception
+     */
     public static Test suite() throws Exception {
         TestSuite suite = new TestSuite("DDL generator factory tests");
         suite.addTest(new GeneratorFactoryTest("testGetMySQLDDLGenerator"));
