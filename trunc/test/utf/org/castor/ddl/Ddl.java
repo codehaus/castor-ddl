@@ -38,20 +38,21 @@ public class Ddl {
     public static final String MATCHTYPE_EXACT = "exact";
 
     /** ddl string*/    
-    public String _ddl;
+    private java.lang.String _ddl;
 
     /** matching type*/    
-    public String _matchtype;
+    private java.lang.String _matchtype;
 
     /** database engine*/
-    public String _engine;
+    private java.lang.String _engine;
 
     /** is case sensitive*/
-    public boolean _casesensitive;
+    private boolean _casesensitive;
 
     /** index*/
-    public int _index;
+    private int _index;
     
+    /***configuration*/
     private Configuration _conf;
     
     /**
@@ -63,15 +64,14 @@ public class Ddl {
     
     
     /**
+     * 
      * Constructor for Ddl
-     * @param ddl
-     * @param matchtype
-     * @param engine
-     * @param casesensitive
+     * @param ddl ddl 
+     * @param matchtype match type
+     * @param casesensitive is case sensitive
      */
     public Ddl(final String ddl, final String matchtype, final boolean casesensitive) {
         super();
-        // TODO Auto-generated constructor stub
         _ddl = ddl;
         _matchtype = matchtype;
         _casesensitive = casesensitive;
@@ -79,10 +79,9 @@ public class Ddl {
 
 
     /**
-     * matching with actual result
-     * @param actualResult
-     * @return
-     * @throws Exception
+     * @param actualResult actual result
+     * @return true if matched
+     * @throws Exception exception
      */
     public boolean match(final String actualResult) throws Exception {
         if (_matchtype == null || _matchtype.equals(MATCHTYPE_REGEXP)) {
@@ -101,97 +100,115 @@ public class Ddl {
     }
 
     /**
-     * @param actualResult
-     * @return
+     * 
+     * @param actualResult actual result
+     * @return true if matched
      */
-    private boolean matchExact(final String result) {
-        String actualResult = result;
+    private boolean matchExact(final String actualResult) {
+        if (_ddl == null) { 
+            _ddl = "";
+        }
+        if (actualResult == null && _ddl == null) {
+            return true;
+        }
         
-        if (_ddl == null) { _ddl = ""; }
         if (actualResult == null || _ddl == null) {
-            return (actualResult == _ddl);
+            return false;
         }
 
         String expDDL = _ddl;
+        String actual = actualResult;
         if (!_casesensitive) {
-            actualResult = actualResult.toLowerCase();
+            actual = actualResult.toLowerCase();
             expDDL = expDDL.toLowerCase();
         }
         
-        return actualResult.equals(expDDL);
+        return actual.equals(expDDL);
     }
 
     /**
-     * @param actualResult
-     * @return
+     * 
+     * @param actualResult actual result
+     * @return true if matched
      */
-    private boolean matchPlain(final String result) {
-        String actualResult = result;
-        
-        if (_ddl == null) { _ddl = ""; }
+    private boolean matchPlain(final String actualResult) {
+        if (_ddl == null) {
+            _ddl = "";
+        }
+        if (actualResult == null && _ddl == null) {
+            return true;
+        }
         
         if (actualResult == null || _ddl == null) {
-            return (actualResult == _ddl);
+            return false;
         }
         
         String expDDL = _ddl;
+        String actual = actualResult;
         if (!_casesensitive) {
-            actualResult = actualResult.toLowerCase();
+            actual = actualResult.toLowerCase();
             expDDL = expDDL.toLowerCase();
         }
         
-        actualResult = actualResult.replaceAll(_conf.getLineSeparator(), " ");
-        actualResult = actualResult.replaceAll("[ \t]+", " ").trim();
+        actual = actual.replaceAll(_conf.getLineSeparator(), " ");
+        actual = actual.replaceAll("[ \t]+", " ").trim();
         
         expDDL = expDDL.replaceAll(_conf.getLineSeparator(), " ");
         expDDL = expDDL.replaceAll("[ \t]+", " ");
-        return actualResult.equals(expDDL);
+        return actual.equals(expDDL);
     }
 
     /**
-     * @param actualResult
-     * @return
+     * 
+     * @param actualResult actual result
+     * @return true if matched
      */
-    private boolean matchRegExp(final String result) {
-        String actualResult = result;
+    private boolean matchRegExp(final String actualResult) {
+        if (_ddl == null && actualResult == null) {
+            return true;
+        }
         
-        if (_ddl == null) { _ddl = ""; }
         if (_ddl == null) {
-            return (actualResult == _ddl);
+            _ddl = "";
         }
 
-        if (actualResult == null) {
-            return _ddl.matches(null);
-        }
-        
         System.out.println(actualResult);
         String expDDL = _ddl;
+        String actual = actualResult;
         if (!_casesensitive) {
-            actualResult = actualResult.toLowerCase().trim();
+            actual = actualResult.toLowerCase().trim();
             expDDL = expDDL.toLowerCase().trim();
         }
         
-        actualResult = actualResult.replaceAll(_conf.getLineSeparator(), " ");
-        actualResult = actualResult.replaceAll(_conf.getLineIndent(), " ");
-        actualResult = actualResult.replaceAll("[ \t]+", " ");
-        System.out.println(actualResult);
+//        actualResult = actualResult.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
+        actual = actual.replaceAll(_conf.getLineSeparator(), " ");
+        actual = actual.replaceAll(_conf.getLineIndent(), " ");
+        actual = actual.replaceAll("[ \t]+", " ");
+        System.out.println(actual);
         
         expDDL = expDDL.replaceAll(_conf.getLineSeparator(), " ");
         expDDL = expDDL.replaceAll("[ \t]+", " ");
         System.out.println(expDDL);
-        return actualResult.matches(expDDL);
+        return actual.matches(expDDL);
     }
     
     /**
      * toString
+     * @return string
      */
     public String toString() {
-        return " ddl: " + _ddl + "\n matchtype: " + _matchtype + "\n engine: "
+        return " ddl: " + _ddl + "\n matchtype: " + _matchtype + "\n engine: " 
             + _engine + "\n casesensitive: " + _casesensitive;
     }
     
+    /**
+     * 
+     * @param args params
+     */
     public void format(final Object[]args) {
-        if (_ddl == null || "".equals(_ddl)) { return; }
+        if (_ddl == null || "".equals(_ddl)) { 
+            return;
+        }
         _ddl = MessageFormat.format(_ddl, args);
     }
 
@@ -207,9 +224,101 @@ public class Ddl {
 
     /**
      * Set the conf by _conf.
-     * @param conf 
+     * @param conf configuration
      */
     public final void setConf(final Configuration conf) {
         _conf = conf;
     }
+
+
+    /**
+     * 
+     * @return Returns the casesensitive.
+     */
+    public final boolean isCasesensitive() {
+        return _casesensitive;
+    }
+
+
+    /**
+     * Set the casesensitive by _casesensitive.
+     * @param casesensitive case sensitive
+     */
+    public final void setCasesensitive(final boolean casesensitive) {
+        _casesensitive = casesensitive;
+    }
+
+
+    /**
+     * 
+     * @return Returns the ddl.
+     */
+    public final java.lang.String getDdl() {
+        return _ddl;
+    }
+
+
+    /**
+     * Set the ddl by _ddl.
+     * @param ddl ddl 
+     */
+    public final void setDdl(final String ddl) {
+        _ddl = ddl;
+    }
+
+
+    /**
+     * 
+     * @return Returns the engine.
+     */
+    public final java.lang.String getEngine() {
+        return _engine;
+    }
+
+
+    /**
+     * Set the engine by _engine.
+     * @param engine engine
+     */
+    public final void setEngine(final String engine) {
+        _engine = engine;
+    }
+
+
+    /**
+     * 
+     * @return Returns the index.
+     */
+    public final int getIndex() {
+        return _index;
+    }
+
+
+    /**
+     * Set the index by _index.
+     * @param index index
+     */
+    public final void setIndex(final int index) {
+        _index = index;
+    }
+
+
+    /**
+     * 
+     * @return Returns the matchtype.
+     */
+    public final String getMatchtype() {
+        return _matchtype;
+    }
+
+
+    /**
+     * Set the matchtype by _matchtype.
+     * @param matchtype match type
+     */
+    public final void setMatchtype(final String matchtype) {
+        _matchtype = matchtype;
+    }
+    
+    
 }
