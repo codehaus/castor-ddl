@@ -36,12 +36,6 @@ public class Table extends AbstractSchemaObject {
     /**list of field*/
     private Vector _fields;
     
-//    /**identity*/
-//    private Vector _identities;
-//    
-//    /**triggers*/
-//    private Vector _triggers;
-    
     /**indexes*/
     private Vector _indexes;
     
@@ -54,10 +48,7 @@ public class Table extends AbstractSchemaObject {
      */
     protected Table() {
         super();
-        // TODO Auto-generated constructor stub
         _fields = new Vector();
-//        _identities = new Vector();
-//        _triggers = new Vector();
         _indexes = new Vector();
         _foreignKey = new Vector();
         _keyGenerator = null;
@@ -104,49 +95,7 @@ public class Table extends AbstractSchemaObject {
     public int getFieldCount() {
         return _fields.size();
     }
-//    
-//    /**
-//     * 
-//     * @return Returns the identities.
-//     */
-//    public Vector getIdentities() {
-//        return _identities;
-//    }
-//
-//    /**
-//     * Set the identities by _identities.
-//     * @param identities 
-//     */
-//    public void setIdentities(Vector identities) {
-//        _identities = identities;
-//    }
-//
-//    /**
-//     * 
-//     * @param name
-//     */
-//    public void addIdentity(String name) {
-//        _identities.add(name);
-//    }
-//    
-//    /**
-//     * 
-//     * @return
-//     */
-//    public int getIdentityCount() {
-//        return _identities.size();
-//        
-//    }
-//    
-//    /**
-//     * 
-//     * @param index
-//     * @return
-//     */
-//    public String getIdentity(int index) {
-//        
-//        return (String) _identities.get(index);
-//    }
+
     /**
      * 
      * @return Returns the indexes.
@@ -196,38 +145,6 @@ public class Table extends AbstractSchemaObject {
         _name = name;
     }
 
-//    /**
-//     * 
-//     * @return Returns the triggers.
-//     */
-//    public Vector getTriggers() {
-//        return _triggers;
-//    }
-//
-//    /**
-//     * Set the triggers by _triggers.
-//     * @param triggers 
-//     */
-//    public void setTriggers(Vector triggers) {
-//        _triggers = triggers;
-//    }
-//
-//    /**
-//     * 
-//     * @param trigger
-//     */
-//    public void addTrigger(Trigger trigger) {
-//        _triggers.add(trigger);       
-//    }
-//    
-//    /**
-//     * 
-//     * @return
-//     */
-//    public int getTriggerCount() {
-//        return _triggers.size();
-//    }
-//    
     /**
      * 
      * @return Returns the foreignKey.
