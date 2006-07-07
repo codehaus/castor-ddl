@@ -35,7 +35,7 @@ public final class MySQLGeneratorTest extends BaseGeneratorTest {
     /**
      * Constructor for MySQLGeneratorTest
      * 
-     * @param testcase
+     * @param testcase test case
      */
     public MySQLGeneratorTest(final String testcase) {
         super(testcase);
@@ -45,23 +45,28 @@ public final class MySQLGeneratorTest extends BaseGeneratorTest {
      * this constructor aims to reuse all test scenerios, except _engine
      * Constructor for MySQLGeneratorTest
      * 
-     * @param testcase
-     * @param mySqlEngine
+     * @param testcase test case
+     * @param useDBlEngine is use mysql engine
      */
-    public MySQLGeneratorTest(final String testcase, final boolean useMySqlEngine) {
+    public MySQLGeneratorTest(final String testcase, final boolean useDBlEngine) {
         super(testcase);
-        if (useMySqlEngine) {
-            _engine = ExpectedResult.ENGINE_MYSQL;
+        if (useDBlEngine) {
+            setEngine(ExpectedResult.ENGINE_MYSQL);
         }
     }
 
+    /**
+     * 
+     * @return Test
+     * @throws Exception exception
+     */
     public static Test suite() throws Exception {
         TestSuite suite = new TestSuite("All org.castor.ddl.mysql tests");
 
         // schema test
-//        suite.addTest(new MySQLGeneratorTest("testCreateSchema", true));
-        // drop test
-//        suite.addTest(new MySQLGeneratorTest("testDropTable", true));
+        suite.addTest(new MySQLGeneratorTest("testCreateSchema", true));
+//         drop test
+        suite.addTest(new MySQLGeneratorTest("testDropTable", true));
         
         // table test
         suite.addTest(new MySQLGeneratorTest("testSingleTable", true));
@@ -70,10 +75,10 @@ public final class MySQLGeneratorTest extends BaseGeneratorTest {
         suite.addTest(new MySQLGeneratorTest("testNoTable", false));
 
         //field test
-        suite.addTest(new MySQLGeneratorTest("testSingleField", false));
+        suite.addTest(new MySQLGeneratorTest("testSingleField", true));
         suite.addTest(new MySQLGeneratorTest("testSingleFieldForAll", true));
         suite.addTest(new MySQLGeneratorTest("testIgnoredField", true));
-        suite.addTest(new MySQLGeneratorTest("testNoField", true));
+        suite.addTest(new MySQLGeneratorTest("testNoField", false));
         suite.addTest(new MySQLGeneratorTest("testManyKeysReference", true));
         suite.addTest(new MySQLGeneratorTest("testManyClassKeysReference", true));
         suite.addTest(new MySQLGeneratorTest("test2LevelsReference", true));
@@ -92,7 +97,7 @@ public final class MySQLGeneratorTest extends BaseGeneratorTest {
         suite.addTest(new MySQLGeneratorTest("testManyManyRelationship", true));
 
         // index test - 
-        suite.addTest(new MySQLGeneratorTest("testCreateIndex", true));        
+        suite.addTest(new MySQLGeneratorTest("testCreateIndex", false));        
         
         // key generator test
         suite.addTest(new MySQLGeneratorTest("testKeyGenIdentity", true));
@@ -106,28 +111,25 @@ public final class MySQLGeneratorTest extends BaseGeneratorTest {
         return suite;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see junit.framework.TestCase#setUp()
+     * {@inheritDoc}
      */
     protected void setUp() throws Exception {
         super.setUp();
-        _globalConf = "conf/ddl.properties";
-        _dbConf = "conf/mysql.properties";
-        _generator = new MySQLGenerator(_globalConf, _dbConf);
-        _generator.setMapping(_mapping);
+        setGlobalConf("conf/ddl.properties");
+        setDbConf("conf/mysql.properties");
+        setGenerator(new MySQLGenerator(getGlobalConf(), getDbConf()));
+        getGenerator().setMapping(getMapping());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see junit.framework.TestCase#tearDown()
+     * {@inheritDoc}
      */
     protected void tearDown() throws Exception {
-        // TODO Auto-generated method stub
         super.tearDown();
-        _generator = null;
+        setGenerator(null);
     }
 
 }

@@ -26,8 +26,9 @@ import utf.org.castor.ddl.TypeMapperTest;
 
 public class MySQLTypeMapperTest extends TypeMapperTest {
 
-    /*
+    /**
      * @see TypeMapperTest#setUp()
+     * {@inheritDoc}
      */
     protected void setUp() throws Exception {
         super.setUp();
