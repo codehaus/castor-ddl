@@ -16,6 +16,8 @@
 
 package org.castor.ddl.oracle;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.AbstractTypeMapper;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.typeinfo.NoParamType;
@@ -31,6 +33,9 @@ import org.castor.ddl.typeinfo.RequiredLengthType;
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class OracleTypeMapper extends AbstractTypeMapper {
+    /**logging*/
+    private static final Log LOG = LogFactory.getLog(OracleTypeMapper.class);
+
     /**
      * Construct a TypeMapper for Oracle database using given configuration to get default
      * parameters for parameterized types.
@@ -48,10 +53,12 @@ public final class OracleTypeMapper extends AbstractTypeMapper {
     protected void initialize(final Configuration conf) {
         // numeric types
         this.add(new NoParamType("bit", "BOOLEAN"));
+        LOG.warn("Oracle does not support 'TINYINT' type, use SMALLINT instead.");
         this.add(new NoParamType("tinyint", "SMALLINT"));
         this.add(new NoParamType("smallint", "SMALLINT"));
         this.add(new NoParamType("integer", "INTEGER"));
-        this.add(new NoParamType("bigint", "INTEGER"));
+        LOG.warn("Oracle does not support 'BIGINT' type, use NUMERIC instead.");
+        this.add(new NoParamType("bigint", "NUMERIC"));
         
         this.add(new OptionalPrecisionType("float", "FLOAT", conf));
         this.add(new NoParamType("double", "DOUBLE PRECISION"));
@@ -62,7 +69,7 @@ public final class OracleTypeMapper extends AbstractTypeMapper {
         // character types
         this.add(new OptionalLengthType("char", "CHAR", conf));
         this.add(new RequiredLengthType("varchar", "VARCHAR2", conf));
-        this.add(new RequiredLengthType("longvarchar", "VARCHAR2", conf));
+        this.add(new NoParamType("longvarchar", "LONG"));
         
         // date and time types
         this.add(new NoParamType("date", "DATE"));
@@ -70,8 +77,12 @@ public final class OracleTypeMapper extends AbstractTypeMapper {
         this.add(new OptionalPrecisionType("timestamp", "TIMESTAMP", conf));
         
         // other types
+        LOG.warn("Oracle does not support 'BINARY' type, use BLOB instead.");        
         this.add(new NoParamType("binary", "BLOB"));
+        LOG.warn("Oracle does not support 'VARBINARY' type, use BLOB instead.");        
         this.add(new NoParamType("varbinary", "BLOB"));
+        LOG.warn("Oracle does not support 'LONGVARBINARY' type, " 
+                + "use BLOB instead.");        
         this.add(new NoParamType("longvarbinary", "BLOB"));
         
         this.add(new NoParamType("other", "BLOB"));

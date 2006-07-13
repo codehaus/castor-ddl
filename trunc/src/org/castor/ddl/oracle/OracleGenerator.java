@@ -16,12 +16,13 @@
 package org.castor.ddl.oracle;
 
 import org.castor.ddl.AbstractGenerator;
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.oracle.schemaobject.OracleSchemaFactory;
 
 /**
- * generator for MySQL Created on Jun 4, 2006 - 10:29:02 AM
+ * generator for Oracle Created on Jun 4, 2006 - 10:29:02 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
@@ -29,7 +30,7 @@ public class OracleGenerator extends AbstractGenerator {
 
     /**
      * 
-     * Constructor for OracleGenerator
+     * Constructor for DerbyGenerator
      * 
      * @param globConf
      *            global configuration file
@@ -45,5 +46,24 @@ public class OracleGenerator extends AbstractGenerator {
         setTypeMapper(typeMapper);
 
         setSchemaFactory(new OracleSchemaFactory());
+    }
+
+    /**
+     * @see org.castor.ddl.AbstractGenerator#generateHeader()
+     * {@inheritDoc}
+     */
+    public String generateHeader() {
+        StringBuffer buff = new StringBuffer("/* ");
+        buff.append(getConf().getLineSeparator());
+        buff.append(new java.util.Date());
+        buff.append(getConf().getLineSeparator());
+
+        buff.append("Castor DDL Generator from mapping for Oracle");
+        buff.append(getConf().getLineSeparator());
+        buff.append(getConf().getStringValue(
+                Configuration.HEADER_COMMENT_TEXT_KEY, ""));
+        buff.append(getConf().getLineSeparator());
+        buff.append("*/");
+        return buff.toString();
     }
 }

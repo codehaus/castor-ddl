@@ -41,25 +41,31 @@ public class OracleSequenceKey extends SequenceKey {
     }
 
     /**
-     * <pre>CREATE SEQUENCE SEQ_PCV_LIEFERANT
+     * <pre>
+     * CREATE TABLE TAB_PCV_LIEFERANT (
+     *     PCLI_ID NUMERIC(12, 13) NOT NULL,
+     *     PCLI_NAME CHAR(16)
+     * );
+     * 
+     * CREATE SEQUENCE SEQ_PCV_LIEFERANT
      * MAXVALUE 2147483647
      * INCREMENT BY 1 START WITH 1
      * 
      * for trigger
      * CREATE TRIGGER TRG_PCV_LIEFERANT
-     * BEFORE INSERT OR UPDATE ON TAB_PCV_LIEFERANT
+     * BEFORE INSERT OR UPDATE ON <tablename>
      * FOR EACH ROW
      * DECLARE
-     *    iCounter TAB_PCV_LIEFERANT.PCLI_ID%TYPE;
+     *    iCounter <tablename>.<id>%TYPE;
      *    cannot_change_counter EXCEPTION;
      * BEGIN
      *     IF INSERTING THEN
-     *         Select SEQ_PCV_LIEFERANT.NEXTVAL INTO iCounter FROM Dual;
-     *         :new.PCLI_ID := iCounter;
+     *         Select <seq_name>.NEXTVAL INTO iCounter FROM Dual;
+     *         :new.<id> := iCounter;
      *     END IF;
      *     
      *     IF UPDATING THEN
-     *          IF NOT (:new.PCLI_ID = :old.PCLI_ID) THEN
+     *          IF NOT (:new.<id> = :old.<id>) THEN
      *              RAISE cannot_change_counter;
      *          END IF;
      *     END IF;
@@ -110,7 +116,8 @@ public class OracleSequenceKey extends SequenceKey {
             buff.append("DECLARE");
             
             buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append("iCounter TAB_PCV_LIEFERANT.PCLI_ID%TYPE;");
+            buff.append("iCounter ").append(tableName).append('.');
+            buff.append(pk).append("%TYPE;");
             
             buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
             buff.append("cannot_change_counter EXCEPTION;");
@@ -128,7 +135,7 @@ public class OracleSequenceKey extends SequenceKey {
             
             buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
             buff.append(getConf().getLineIndent());
-            buff.append(":new.PCLI_ID := iCounter;");
+            buff.append(":new.").append(pk).append(" := iCounter;");
             
             buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
             buff.append("END IF;");
@@ -139,7 +146,8 @@ public class OracleSequenceKey extends SequenceKey {
 
             buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
             buff.append(getConf().getLineIndent());
-            buff.append("IF NOT (:new.PCLI_ID = :old.PCLI_ID) THEN");
+            buff.append("IF NOT (:new.").append(pk);
+            buff.append(" = :old.").append(pk).append(") THEN");
             
             buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
             buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());

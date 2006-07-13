@@ -32,7 +32,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 public class OracleSchemaFactory extends SchemaFactory {
 
     /**
-     * Constructor for MySQLSchemaFactory
+     * Constructor for OracleSchemaFactory
      */
     public OracleSchemaFactory() {
         super();
