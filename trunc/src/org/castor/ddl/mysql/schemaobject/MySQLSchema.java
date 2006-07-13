@@ -17,6 +17,7 @@
 package org.castor.ddl.mysql.schemaobject;
 
 import org.castor.ddl.BaseConfiguration;
+import org.castor.ddl.Configuration;
 import org.castor.ddl.schemaobject.Schema;
 
 /**
@@ -26,12 +27,12 @@ import org.castor.ddl.schemaobject.Schema;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public final class MySQLSchema extends Schema {
+public class MysqlSchema extends Schema {
 
     /**
-     * Constructor for MySQLSchema
+     * Constructor for MysqlSchema
      */
-    protected MySQLSchema() {
+    protected MysqlSchema() {
         super();
     }
 
@@ -41,7 +42,7 @@ public final class MySQLSchema extends Schema {
      */
     public String toDDL() {
         if (!getConf().getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true)) {
+                Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true)) {
             return "";
         }
 
