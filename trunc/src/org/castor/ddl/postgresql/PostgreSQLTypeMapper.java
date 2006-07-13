@@ -16,6 +16,8 @@
 
 package org.castor.ddl.postgresql;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.AbstractTypeMapper;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.typeinfo.NoParamType;
@@ -29,14 +31,17 @@ import org.castor.ddl.typeinfo.OptionalPrecisionType;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public final class PostgreSQLTypeMapper extends AbstractTypeMapper {
+public final class PostgresqlTypeMapper extends AbstractTypeMapper {
+    /**logging*/
+    private static final Log LOG = LogFactory.getLog(PostgresqlTypeMapper.class);
+
     /**
      * Construct a TypeMapper for MySQL database using given configuration to get default
      * parameters for parameterized types.
      * 
      * @param conf The configuration to get default parameter values from.
      */
-    public PostgreSQLTypeMapper(final Configuration conf) {
+    public PostgresqlTypeMapper(final Configuration conf) {
         super(conf);
     }
 
@@ -47,6 +52,7 @@ public final class PostgreSQLTypeMapper extends AbstractTypeMapper {
     protected void initialize(final Configuration conf) {
         // numeric types
         this.add(new NoParamType("bit", "BOOLEAN"));
+        LOG.warn("PostgreSQL does not support 'TINYINT' type, use SMALLINT instead.");
         this.add(new NoParamType("tinyint", "SMALLINT"));
         this.add(new NoParamType("smallint", "SMALLINT"));
         this.add(new NoParamType("integer", "INTEGER"));
@@ -59,8 +65,9 @@ public final class PostgreSQLTypeMapper extends AbstractTypeMapper {
         this.add(new OptionalPrecisionDecimalsType("decimal", "DECIMAL", conf));
 
         // character types
-        this.add(new OptionalLengthType("char", "CHARACTER", conf));
+        this.add(new OptionalLengthType("char", "CHAR", conf));
         this.add(new OptionalLengthType("varchar", "VARCHAR", conf));
+        LOG.warn("PostgreSQL does not support 'LONGVARCHAR' type, use VARCHAR instead.");
         this.add(new OptionalLengthType("longvarchar", "VARCHAR", conf));
         
         // date and time types
@@ -69,8 +76,11 @@ public final class PostgreSQLTypeMapper extends AbstractTypeMapper {
         this.add(new OptionalPrecisionType("timestamp", "TIMESTAMP", conf));
         
         // other types
+        LOG.warn("PostgreSQL does not support 'BINARY' type, use BYTEA instead.");
         this.add(new NoParamType("binary", "BYTEA"));
+        LOG.warn("PostgreSQL does not support 'VARBINARY' type, use BYTEA instead.");
         this.add(new NoParamType("varbinary", "BYTEA"));
+        LOG.warn("PostgreSQL does not support 'LONGVARBINARY' type, use BYTEA instead.");
         this.add(new NoParamType("longvarbinary", "BYTEA"));
         
         this.add(new NoParamType("other", "BYTEA"));
