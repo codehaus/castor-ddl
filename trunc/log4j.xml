@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+        
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss.SSS} [%p] [%t] [%c] - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="file" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="ddlgenerator-log.txt"/>
+        <param name="MaxFileSize" value="2MB"/>
+        <param name="MaxBackupIndex" value="2"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss.SSS} [%p] [%t] [%c] - %m%n"/>
+        </layout>
+    </appender>
+
+    <category name="org.castor.ddl.Main">
+    </category>
+
+    <category name="org.castor.ddl.db2.Db2TypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.derby.DerbyTypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.mssql.MssqlTypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.mysql.MysqlTypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.oracle.OracleTypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.pointbase.PointBaseTypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.postgresql.PostgresqlTypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.sapdb.SapdbTypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.sybase.SybaseTypeMapper">
+    </category>
+
+    <category name="org.castor.ddl.hsql.HsqlTypeMapper">
+    </category>
+
+    <root>
+        <priority value="error" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </root>
+
+</log4j:configuration>
