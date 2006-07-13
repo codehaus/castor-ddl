@@ -16,21 +16,21 @@
 package org.castor.ddl.mysql;
 
 import org.castor.ddl.AbstractGenerator;
-import org.castor.ddl.BaseConfiguration;
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.mysql.schemaobject.MySQLSchemaFactory;
+import org.castor.ddl.mysql.schemaobject.MysqlSchemaFactory;
 
 /**
  * generator for MySQL Created on Jun 4, 2006 - 10:29:02 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class MySQLGenerator extends AbstractGenerator {
+public class MysqlGenerator extends AbstractGenerator {
 
     /**
      * 
-     * Constructor for MySQLGenerator
+     * Constructor for MysqlGenerator
      * 
      * @param globConf
      *            global configuration file
@@ -39,13 +39,13 @@ public final class MySQLGenerator extends AbstractGenerator {
      * @throws GeneratorException
      *             generator error
      */
-    public MySQLGenerator(final String globConf, final String dbConf)
+    public MysqlGenerator(final String globConf, final String dbConf)
             throws GeneratorException {
         super(globConf, dbConf);
-        TypeMapper typeMapper = new MySQLTypeMapper(getConf());
+        TypeMapper typeMapper = new MysqlTypeMapper(getConf());
         setTypeMapper(typeMapper);
 
-        setSchemaFactory(new MySQLSchemaFactory());
+        setSchemaFactory(new MysqlSchemaFactory());
     }
 
     /**
@@ -61,7 +61,7 @@ public final class MySQLGenerator extends AbstractGenerator {
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineSeparator());
         buff.append(getConf().getStringValue(
-                BaseConfiguration.HEADER_COMMENT_TEXT_KEY, ""));
+                Configuration.HEADER_COMMENT_TEXT_KEY, ""));
         return buff.toString();
     }
 }

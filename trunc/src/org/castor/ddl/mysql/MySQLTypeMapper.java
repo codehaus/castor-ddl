@@ -16,6 +16,8 @@
 
 package org.castor.ddl.mysql;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.AbstractTypeMapper;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.typeinfo.NoParamType;
@@ -30,14 +32,17 @@ import org.castor.ddl.typeinfo.RequiredLengthType;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public final class MySQLTypeMapper extends AbstractTypeMapper {
+public final class MysqlTypeMapper extends AbstractTypeMapper {
+    /**logging*/
+    private static final Log LOG = LogFactory.getLog(MysqlTypeMapper.class);
+
     /**
      * Construct a TypeMapper for MySQL database using given configuration to 
      * get default parameters for parameterized types.
      * 
      * @param conf The configuration to get default parameter values from.
      */
-    public MySQLTypeMapper(final Configuration conf) {
+    public MysqlTypeMapper(final Configuration conf) {
         super(conf);
     }
 
@@ -62,6 +67,7 @@ public final class MySQLTypeMapper extends AbstractTypeMapper {
         // character types
         this.add(new OptionalLengthType("char", "CHAR", conf));
         this.add(new OptionalLengthType("varchar", "VARCHAR", conf));
+        LOG.warn("MySql does not support 'LONGVARCHAR' type, use VARCHAR instead.");
         this.add(new OptionalLengthType("longvarchar", "VARCHAR", conf));
         
         // date and time types
@@ -72,6 +78,7 @@ public final class MySQLTypeMapper extends AbstractTypeMapper {
         // other types
         this.add(new RequiredLengthType("binary", "BINARY", conf));
         this.add(new RequiredLengthType("varbinary", "VARBINARY", conf));
+        LOG.warn("MySql does not support 'LONGBINARY' type, use VARBINARY instead.");
         this.add(new RequiredLengthType("longvarbinary", "VARBINARY", conf));
         
         this.add(new NoParamType("other", "BLOB"));
