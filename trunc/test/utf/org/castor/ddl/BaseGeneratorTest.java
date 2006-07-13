@@ -78,6 +78,8 @@ public abstract class BaseGeneratorTest extends TestCase {
      */
     public BaseGeneratorTest(final String testcase) {
         super(testcase);
+        setGlobalConf(BaseGeneratorTest.class.getResource("test_ddl.properties").getFile());
+
     }
 
     /**
@@ -150,10 +152,10 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger(PARAM_PREFIX + "integer"
-                            + PARAM_POSTFIX_PRECISION),
-                    conf.getInteger(PARAM_PREFIX + "char"
-                            + PARAM_POSTFIX_LENGTH) };
+                    conf.getStringValue(PARAM_PREFIX + "integer"
+                            + PARAM_POSTFIX_PRECISION, ""),
+                    conf.getStringValue(PARAM_PREFIX + "char"
+                            + PARAM_POSTFIX_LENGTH, "") };
             String ddl = _generator.generateCreate();
 
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -505,27 +507,27 @@ public abstract class BaseGeneratorTest extends TestCase {
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "varchar" // 15
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getInteger(PARAM_PREFIX + "longvarchar"
+                    conf.getStringValue(PARAM_PREFIX + "longvarchar"
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "timestamp"
                             + PARAM_POSTFIX_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "binary"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getInteger(PARAM_PREFIX + "varbinary"
+                    conf.getStringValue(PARAM_PREFIX + "varbinary"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getInteger(PARAM_PREFIX + "longvarbinary" // 20
+                    conf.getStringValue(PARAM_PREFIX + "longvarbinary" // 20
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "time"
                             + PARAM_POSTFIX_PRECISION),                     
-                    conf.getInteger(PARAM_PREFIX + "bigint" 
+                    conf.getStringValue(PARAM_PREFIX + "bigint" 
                                     + PARAM_POSTFIX_DECIMALS),
-                    conf.getInteger(PARAM_PREFIX + "other"
+                    conf.getStringValue(PARAM_PREFIX + "other"
                             + PARAM_POSTFIX_LENGTH),                     
-                    conf.getInteger(PARAM_PREFIX + "javaobject" 
+                    conf.getStringValue(PARAM_PREFIX + "javaobject" 
                                     + PARAM_POSTFIX_LENGTH),
-                    conf.getInteger(PARAM_PREFIX + "blob" //25
+                    conf.getStringValue(PARAM_PREFIX + "blob" //25
                             + PARAM_POSTFIX_LENGTH),                     
-                    conf.getInteger(PARAM_PREFIX + "clob" 
+                    conf.getStringValue(PARAM_PREFIX + "clob" 
                                     + PARAM_POSTFIX_LENGTH)
                     };
 
@@ -879,10 +881,10 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // test
             Object[] params = new Object[] {
-                    conf.getInteger(PARAM_PREFIX + "integer"
-                            + PARAM_POSTFIX_PRECISION),
-                    conf.getInteger(PARAM_PREFIX + "char"
-                            + PARAM_POSTFIX_LENGTH) };
+                    conf.getStringValue(PARAM_PREFIX + "integer"
+                            + PARAM_POSTFIX_PRECISION, ""),
+                    conf.getStringValue(PARAM_PREFIX + "char"
+                            + PARAM_POSTFIX_LENGTH, "") };
 
             String ddl = _generator.generateCreate();
 

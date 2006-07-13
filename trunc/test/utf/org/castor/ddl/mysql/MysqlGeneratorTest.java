@@ -14,7 +14,7 @@
  * the License.
  */
 
-package utf.org.castor.ddl.pointbase;
+package utf.org.castor.ddl.mysql;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -22,8 +22,8 @@ import junit.framework.TestSuite;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.pointbase.PointBaseGenerator;
-import org.castor.ddl.pointbase.PointBaseTypeMapper;
+import org.castor.ddl.mysql.MysqlGenerator;
+import org.castor.ddl.mysql.MysqlTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;
@@ -35,27 +35,27 @@ import utf.org.castor.ddl.ExpectedResult;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public final class PointBaseGeneratorTest extends BaseGeneratorTest {
+public final class MysqlGeneratorTest extends BaseGeneratorTest {
     /**
-     * Constructor for PointBaseGeneratorTest
+     * Constructor for MysqlGeneratorTest
      * 
      * @param testcase test case
      */
-    public PointBaseGeneratorTest(final String testcase) {
+    public MysqlGeneratorTest(final String testcase) {
         super(testcase);
     }
 
     /**
      * this constructor aims to reuse all test scenerios, except _engine
-     * Constructor for PointBaseGeneratorTest
+     * Constructor for MysqlGeneratorTest
      * 
      * @param testcase test case
      * @param useDBlEngine is use mysql engine
      */
-    public PointBaseGeneratorTest(final String testcase, final boolean useDBlEngine) {
+    public MysqlGeneratorTest(final String testcase, final boolean useDBlEngine) {
         super(testcase);
         if (useDBlEngine) {
-            setEngine(ExpectedResult.ENGINE_POINTBASE);
+            setEngine(ExpectedResult.ENGINE_MYSQL);
         }
     }
 
@@ -65,52 +65,50 @@ public final class PointBaseGeneratorTest extends BaseGeneratorTest {
      * @throws Exception exception
      */
     public static Test suite() throws Exception {
-        TestSuite suite = new TestSuite("All org.castor.ddl.pointbase tests");
+        TestSuite suite = new TestSuite("All org.castor.ddl.mysql tests");
 
-         //schema test
-        suite.addTest(new PointBaseGeneratorTest("testCreateSchema", true));
-        // drop test
-        suite.addTest(new PointBaseGeneratorTest("testDropTable", false));
+        // schema test
+        suite.addTest(new MysqlGeneratorTest("testCreateSchema", true));
+//         drop test
+        suite.addTest(new MysqlGeneratorTest("testDropTable", true));
         
         // table test
-        suite.addTest(new PointBaseGeneratorTest("testSingleTable", false));
-        suite.addTest(new PointBaseGeneratorTest("testMultipleTable", false));
-        suite.addTest(new PointBaseGeneratorTest("testIgnoredTable", false));
-        suite.addTest(new PointBaseGeneratorTest("testNoTable", false));
+        suite.addTest(new MysqlGeneratorTest("testSingleTable", true));
+        suite.addTest(new MysqlGeneratorTest("testMultipleTable", true));
+        suite.addTest(new MysqlGeneratorTest("testIgnoredTable", true));
+        suite.addTest(new MysqlGeneratorTest("testNoTable", false));
 
         //field test
-        suite.addTest(new PointBaseGeneratorTest("testSingleField", false));
-        suite.addTest(new PointBaseGeneratorTest("testSingleFieldForAll", true));
-        suite.addTest(new PointBaseGeneratorTest("testIgnoredField", false));
-        suite.addTest(new PointBaseGeneratorTest("testNoField", false));
-        suite.addTest(new PointBaseGeneratorTest("testManyKeysReference", false));
-        suite.addTest(new PointBaseGeneratorTest("testManyClassKeysReference", false));
-        suite.addTest(new PointBaseGeneratorTest("test2LevelsReference", false));
+        suite.addTest(new MysqlGeneratorTest("testSingleField", true));
+        suite.addTest(new MysqlGeneratorTest("testSingleFieldForAll", true));
+        suite.addTest(new MysqlGeneratorTest("testIgnoredField", true));
+        suite.addTest(new MysqlGeneratorTest("testNoField", false));
+        suite.addTest(new MysqlGeneratorTest("testManyKeysReference", true));
+        suite.addTest(new MysqlGeneratorTest("testManyClassKeysReference", true));
+        suite.addTest(new MysqlGeneratorTest("test2LevelsReference", true));
         
         // primary key test
-        suite.addTest(new PointBaseGeneratorTest("testClassId", true));
-        suite.addTest(new PointBaseGeneratorTest("testClassMultipleId", true));
-        suite.addTest(new PointBaseGeneratorTest("testFieldId", true));
-        suite.addTest(new PointBaseGeneratorTest("testFieldMultipleId", true));
-        suite.addTest(new PointBaseGeneratorTest("testOverwriteFieldId", false));
-        suite.addTest(new PointBaseGeneratorTest("testNoId", false));
+        suite.addTest(new MysqlGeneratorTest("testClassId", true));
+        suite.addTest(new MysqlGeneratorTest("testClassMultipleId", true));
+        suite.addTest(new MysqlGeneratorTest("testFieldId", true));
+        suite.addTest(new MysqlGeneratorTest("testFieldMultipleId", true));
+        suite.addTest(new MysqlGeneratorTest("testOverwriteFieldId", true));
+        suite.addTest(new MysqlGeneratorTest("testNoId", true));
 
         // foreign key test
-        suite.addTest(new PointBaseGeneratorTest("testOneOneRelationship", false));
-        suite.addTest(new PointBaseGeneratorTest("testOneManyRelationship", false));
-        suite.addTest(new PointBaseGeneratorTest("testManyManyRelationship", false));
+        suite.addTest(new MysqlGeneratorTest("testOneOneRelationship", true));
+        suite.addTest(new MysqlGeneratorTest("testOneManyRelationship", true));
+        suite.addTest(new MysqlGeneratorTest("testManyManyRelationship", true));
 
         // index test - 
-        suite.addTest(new PointBaseGeneratorTest("testCreateIndex", false));        
+        suite.addTest(new MysqlGeneratorTest("testCreateIndex", false));        
         
         // key generator test
-        suite.addTest(new PointBaseGeneratorTest("testKeyGenIdentity", true));
-        suite.addTest(new PointBaseGeneratorTest("testKeyGenHighLow", false));
-        suite.addTest(new PointBaseGeneratorTest("testKeyGenMax", false));
-        suite.addTest(new PointBaseGeneratorTest("testKeyGenSequence", false));
-        suite.addTest(new PointBaseGeneratorTest("testKeyGenUUID", false));
-        
-        // trigger test - not yet
+        suite.addTest(new MysqlGeneratorTest("testKeyGenIdentity", true));
+        suite.addTest(new MysqlGeneratorTest("testKeyGenHighLow", true));
+        suite.addTest(new MysqlGeneratorTest("testKeyGenMax", true));
+        suite.addTest(new MysqlGeneratorTest("testKeyGenSequence", true));
+        suite.addTest(new MysqlGeneratorTest("testKeyGenUUID", true));
 
         return suite;
     }
@@ -121,8 +119,8 @@ public final class PointBaseGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setDbConf(PointBaseGeneratorTest.class.getResource("pointbase.properties").getFile());
-        setGenerator(new PointBaseGenerator(getGlobalConf(), getDbConf()));
+        setDbConf(MysqlGeneratorTest.class.getResource("mysql.properties").getFile());
+        setGenerator(new MysqlGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }
 
@@ -146,7 +144,7 @@ public final class PointBaseGeneratorTest extends BaseGeneratorTest {
 
             // setup
             Configuration conf = getGenerator().getConf();
-            TypeMapper typeMapper = new PointBaseTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 
             // test

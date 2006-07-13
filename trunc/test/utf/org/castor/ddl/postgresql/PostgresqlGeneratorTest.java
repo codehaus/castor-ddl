@@ -115,8 +115,7 @@ public final class PostgresqlGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setGlobalConf("conf/ddl.properties");
-        setDbConf("conf/postgresql.properties");
+        setDbConf(PostgresqlGeneratorTest.class.getResource("postgresql.properties").getFile());
         setGenerator(new PostgresqlGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }

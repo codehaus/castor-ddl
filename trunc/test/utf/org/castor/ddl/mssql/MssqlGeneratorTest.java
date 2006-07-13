@@ -121,8 +121,7 @@ public final class MssqlGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setGlobalConf("conf/ddl.properties");
-        setDbConf("conf/mssql.properties");
+        setDbConf(MssqlGeneratorTest.class.getResource("mssql.properties").getFile());
         setGenerator(new MssqlGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }

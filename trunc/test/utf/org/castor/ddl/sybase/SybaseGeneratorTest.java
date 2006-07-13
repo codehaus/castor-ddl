@@ -121,8 +121,7 @@ public final class SybaseGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setGlobalConf("conf/ddl.properties");
-        setDbConf("conf/sybase.properties");
+        setDbConf(SybaseGeneratorTest.class.getResource("sybase.properties").getFile());
         setGenerator(new SybaseGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }

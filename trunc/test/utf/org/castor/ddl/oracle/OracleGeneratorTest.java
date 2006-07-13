@@ -119,8 +119,7 @@ public final class OracleGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setGlobalConf("conf/ddl.properties");
-        setDbConf("conf/oracle.properties");
+        setDbConf(OracleGeneratorTest.class.getResource("oracle.properties").getFile());
         setGenerator(new OracleGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }

@@ -124,8 +124,7 @@ public final class DerbyGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setGlobalConf("conf/ddl.properties");
-        setDbConf("conf/derby.properties");
+        setDbConf(DerbyGeneratorTest.class.getResource("derby.properties").getFile());
         setGenerator(new DerbyGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }
@@ -193,19 +192,19 @@ public final class DerbyGeneratorTest extends BaseGeneratorTest {
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "varbinary"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getInteger(PARAM_PREFIX + "other" // 20
+                    conf.getStringValue(PARAM_PREFIX + "other" // 20
                             + PARAM_POSTFIX_LENGTH),
                     conf.getStringValue(PARAM_PREFIX + "other"
                             + PARAM_POSTFIX_SUFIXE),
-                    conf.getInteger(PARAM_PREFIX + "javaobject"
+                    conf.getStringValue(PARAM_PREFIX + "javaobject"
                             + PARAM_POSTFIX_LENGTH),
                     conf.getStringValue(PARAM_PREFIX + "javaobject"
                             + PARAM_POSTFIX_SUFIXE),
-                    conf.getInteger(PARAM_PREFIX + "blob"
+                    conf.getStringValue(PARAM_PREFIX + "blob"
                             + PARAM_POSTFIX_LENGTH),
                     conf.getStringValue(PARAM_PREFIX + "blob" //25
                             + PARAM_POSTFIX_SUFIXE),
-                    conf.getInteger(PARAM_PREFIX + "clob"
+                    conf.getStringValue(PARAM_PREFIX + "clob"
                             + PARAM_POSTFIX_LENGTH),
                     conf.getStringValue(PARAM_PREFIX + "clob"
                             + PARAM_POSTFIX_SUFIXE) };

@@ -115,8 +115,7 @@ public final class HsqlGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setGlobalConf("conf/ddl.properties");
-        setDbConf("conf/hsql.properties");
+        setDbConf(HsqlGeneratorTest.class.getResource("hsql.properties").getFile());
         setGenerator(new HsqlGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }

@@ -64,34 +64,34 @@ public class TestAll extends TestCase {
         //GeneratorFactory test
         suite.addTest(GeneratorFactoryTest.suite());
         
-//        //MySQL generator test
+        //MySQL generator test
         suite.addTest(MysqlGeneratorTest.suite());
-//
-//        //Oracle generator test
+
+        //Oracle generator test
         suite.addTest(OracleGeneratorTest.suite());
-//
-//        //PostgreSQL generator test
+
+        //PostgreSQL generator test
         suite.addTest(PostgresqlGeneratorTest.suite());
-//
-//        //Derby generator test
+
+        //Derby generator test
         suite.addTest(DerbyGeneratorTest.suite());
-//
-//        //Mssql generator test
+
+        //Mssql generator test
         suite.addTest(MssqlGeneratorTest.suite());
-//
-//        //Sapdb generator test
+
+        //Sapdb generator test
         suite.addTest(SapdbGeneratorTest.suite());
-//
-//        //db2 generator test
+
+        //db2 generator test
         suite.addTest(Db2GeneratorTest.suite());
-//
-//        //db2 generator test
+
+        //db2 generator test
         suite.addTest(SybaseGeneratorTest.suite());
-//
-//        //hsql generator test
+
+        //hsql generator test
         suite.addTest(HsqlGeneratorTest.suite());
-//
-//        //pointbase generator test
+
+        //pointbase generator test
         suite.addTest(PointBaseGeneratorTest.suite());
 
         return suite;

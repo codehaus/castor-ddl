@@ -121,8 +121,7 @@ public final class SapdbGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setGlobalConf("conf/ddl.properties");
-        setDbConf("conf/sapdb.properties");
+        setDbConf(SapdbGeneratorTest.class.getResource("sapdb.properties").getFile());
         setGenerator(new SapdbGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }
