@@ -16,7 +16,7 @@
 
 package org.castor.ddl.mysql.schemaobject;
 
-import org.castor.ddl.mysql.MySQLConfigurationKey;
+import org.castor.ddl.mysql.MysqlConfigurationKey;
 import org.castor.ddl.schemaobject.ForeignKey;
 
 /**
@@ -26,12 +26,12 @@ import org.castor.ddl.schemaobject.ForeignKey;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLForeignKey extends ForeignKey {
+public class MysqlForeignKey extends ForeignKey {
 
     /**
-     * Constructor for MySQLForeignKey
+     * Constructor for MysqlForeignKey
      */
-    protected MySQLForeignKey() {
+    protected MysqlForeignKey() {
         super();
     }
 
@@ -42,7 +42,7 @@ public class MySQLForeignKey extends ForeignKey {
     public String toDDL() {
         StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
 
-        buff.append("ALTER TABLE ").append(getTableName());
+        buff.append("ALTER TABLE ").append(getTable().getName());
 
         // constraint
         buff.append(getConf().getLineSeparator()).append(
@@ -52,18 +52,18 @@ public class MySQLForeignKey extends ForeignKey {
         // foreign key
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
-        buff.append("FOREIGN KEY ").append(getFkName());
+        buff.append("FOREIGN KEY ").append(getFkName()).append(" ");
         buff.append(makeListofParams(getFkkeyList()));
 
         // references
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
-        buff.append("REFERENCES ").append(getReferenceTableName());
+        buff.append("REFERENCES ").append(getReferenceTableName()).append(" ");
         buff.append(makeListofParams(getReferenceKeyList()));
 
         // on delete
         String opt = getConf().getStringValue(
-                MySQLConfigurationKey.FOREIGN_KEY_ON_DELETE, null);
+                MysqlConfigurationKey.FOREIGN_KEY_ON_DELETE, null);
         if (opt != null && !"".equals(opt)) {
             buff.append(getConf().getLineSeparator()).append(
                     getConf().getLineIndent());
@@ -71,7 +71,7 @@ public class MySQLForeignKey extends ForeignKey {
         }
 
         opt = getConf().getStringValue(
-                MySQLConfigurationKey.FOREIGN_KEY_ON_UPDATE, null);
+                MysqlConfigurationKey.FOREIGN_KEY_ON_UPDATE, null);
         if (opt != null && !"".equals(opt)) {
             buff.append(getConf().getLineSeparator()).append(
                     getConf().getLineIndent());

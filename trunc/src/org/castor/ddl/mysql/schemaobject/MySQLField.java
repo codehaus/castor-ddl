@@ -26,12 +26,12 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLField extends Field {
+public class MysqlField extends Field {
 
     /**
-     * Constructor for MySQLField
+     * Constructor for MysqlField
      */
-    protected MySQLField() {
+    protected MysqlField() {
         super();
     }
 

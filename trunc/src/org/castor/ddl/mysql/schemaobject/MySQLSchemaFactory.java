@@ -28,12 +28,12 @@ import org.castor.ddl.schemaobject.Table;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLSchemaFactory extends SchemaFactory {
+public class MysqlSchemaFactory extends SchemaFactory {
 
     /**
-     * Constructor for MySQLSchemaFactory
+     * Constructor for MysqlSchemaFactory
      */
-    public MySQLSchemaFactory() {
+    public MysqlSchemaFactory() {
         super();
     }
 
@@ -42,7 +42,7 @@ public class MySQLSchemaFactory extends SchemaFactory {
      * {@inheritDoc}
      */
     public Field createField() {
-        return new MySQLField();
+        return new MysqlField();
     }
 
     /**
@@ -50,7 +50,7 @@ public class MySQLSchemaFactory extends SchemaFactory {
      * {@inheritDoc}
      */
     public Table createTable() {
-        return new MySQLTable();
+        return new MysqlTable();
     }
 
     /**
@@ -58,7 +58,7 @@ public class MySQLSchemaFactory extends SchemaFactory {
      * {@inheritDoc}
      */
     public ForeignKey createForeignKey() {
-        return new MySQLForeignKey();
+        return new MysqlForeignKey();
     }
 
     /**
@@ -66,7 +66,7 @@ public class MySQLSchemaFactory extends SchemaFactory {
      * {@inheritDoc}
      */
     public Schema createSchema() {
-        return new MySQLSchema();
+        return new MysqlSchema();
     }
 
 }

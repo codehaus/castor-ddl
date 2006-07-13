@@ -16,7 +16,7 @@
 
 package org.castor.ddl.mysql.schemaobject;
 
-import org.castor.ddl.mysql.MySQLConfigurationKey;
+import org.castor.ddl.mysql.MysqlConfigurationKey;
 import org.castor.ddl.schemaobject.Table;
 
 /**
@@ -26,12 +26,12 @@ import org.castor.ddl.schemaobject.Table;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLTable extends Table {
+public class MysqlTable extends Table {
 
     /**
-     * Constructor for MySQLTable
+     * Constructor for MysqlTable
      */
-    protected MySQLTable() {
+    protected MysqlTable() {
         super();
     }
 
@@ -41,7 +41,7 @@ public class MySQLTable extends Table {
      */
     private String createEngineStatement() {
         String engine = getConf().getStringValue(
-                MySQLConfigurationKey.STORAGE_ENGINE, null);
+                MysqlConfigurationKey.STORAGE_ENGINE, null);
         if (engine == null || "".equals(engine)) {
             return "";
         }
