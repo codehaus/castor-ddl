@@ -16,8 +16,16 @@
 
 package utf.org.castor.ddl;
 
-import utf.org.castor.ddl.mysql.MySQLGeneratorTest;
+import utf.org.castor.ddl.db2.Db2GeneratorTest;
+import utf.org.castor.ddl.derby.DerbyGeneratorTest;
+import utf.org.castor.ddl.hsql.HsqlGeneratorTest;
+import utf.org.castor.ddl.mssql.MssqlGeneratorTest;
+import utf.org.castor.ddl.mysql.MysqlGeneratorTest;
 import utf.org.castor.ddl.oracle.OracleGeneratorTest;
+import utf.org.castor.ddl.pointbase.PointBaseGeneratorTest;
+import utf.org.castor.ddl.postgresql.PostgresqlGeneratorTest;
+import utf.org.castor.ddl.sapdb.SapdbGeneratorTest;
+import utf.org.castor.ddl.sybase.SybaseGeneratorTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -56,11 +64,35 @@ public class TestAll extends TestCase {
         //GeneratorFactory test
         suite.addTest(GeneratorFactoryTest.suite());
         
-        //MySQL generator test
-        suite.addTest(MySQLGeneratorTest.suite());
-
-        //Oracle generator test
+//        //MySQL generator test
+        suite.addTest(MysqlGeneratorTest.suite());
+//
+//        //Oracle generator test
         suite.addTest(OracleGeneratorTest.suite());
+//
+//        //PostgreSQL generator test
+        suite.addTest(PostgresqlGeneratorTest.suite());
+//
+//        //Derby generator test
+        suite.addTest(DerbyGeneratorTest.suite());
+//
+//        //Mssql generator test
+        suite.addTest(MssqlGeneratorTest.suite());
+//
+//        //Sapdb generator test
+        suite.addTest(SapdbGeneratorTest.suite());
+//
+//        //db2 generator test
+        suite.addTest(Db2GeneratorTest.suite());
+//
+//        //db2 generator test
+        suite.addTest(SybaseGeneratorTest.suite());
+//
+//        //hsql generator test
+        suite.addTest(HsqlGeneratorTest.suite());
+//
+//        //pointbase generator test
+        suite.addTest(PointBaseGeneratorTest.suite());
 
         return suite;
     }

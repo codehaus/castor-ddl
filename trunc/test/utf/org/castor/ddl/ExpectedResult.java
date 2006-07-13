@@ -43,14 +43,35 @@ public final class ExpectedResult {
     /** generic database engine */
     public static final String ENGINE_GENERIC = null;
 
-    /** mysql database engine */
+    /** Mysql database engine */
     public static final String ENGINE_MYSQL = "mysql";
 
-    /** postgreSQL database engine */
+    /** PostgreSQL database engine */
     public static final String ENGINE_POSTGRESQL = "postgresql";
 
-    /** postgreSQL database engine */
+    /** HSQL database engine */
+    public static final String ENGINE_HSQL = "hsql";
+
+    /** PostgreSQL database engine */
+    public static final String ENGINE_DB2 = "db2";
+
+    /** Oracle database engine */
     public static final String ENGINE_ORACLE = "oracle";
+
+    /** Oracle database engine */
+    public static final String ENGINE_SAPDB = "sapdb";
+
+    /** Derby database engine */
+    public static final String ENGINE_DERBY = "derby";
+
+    /** Mssql database engine */
+    public static final String ENGINE_MSSQL = "mssql";
+
+    /** PointBase database engine */
+    public static final String ENGINE_POINTBASE = "pointbase";
+
+    /** Sybase database engine */
+    public static final String ENGINE_SYBASE = "sybase";
 
     /** hanlde expected ddls for various databsed */
     private Vector _ddls;

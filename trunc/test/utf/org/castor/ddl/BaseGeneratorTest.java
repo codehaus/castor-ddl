@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.mysql.MySQLTypeMapper;
+import org.castor.ddl.mysql.MysqlTypeMapper;
 import org.exolab.castor.mapping.Mapping;
 
 /**
@@ -40,7 +40,7 @@ import org.exolab.castor.mapping.Mapping;
  */
 
 public abstract class BaseGeneratorTest extends TestCase {
-    /**param prefix*/
+    /** param prefix */
     protected static final String PARAM_PREFIX = "default_";
 
     /** Prostfix of length parameters for types in ddl.properties file. */
@@ -73,7 +73,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * Constructor for BaseGeneratorTest
      * 
-     * @param testcase test case
+     * @param testcase
+     *            test case
      */
     public BaseGeneratorTest(final String testcase) {
         super(testcase);
@@ -82,9 +83,12 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * load data for test including mapping file and expected result
      * 
-     * @param mappingFile mapping file
-     * @param expectedFile expected file
-     * @throws Exception exception
+     * @param mappingFile
+     *            mapping file
+     * @param expectedFile
+     *            expected file
+     * @throws Exception
+     *             exception
      */
     protected void loadData(final String mappingFile, final String expectedFile)
             throws Exception {
@@ -111,8 +115,10 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * load mapping file
      * 
-     * @param mappingFile mapping file
-     * @throws Exception exception
+     * @param mappingFile
+     *            mapping file
+     * @throws Exception
+     *             exception
      */
     protected void loadData(final String mappingFile) throws Exception {
         String dataDir = "data" + File.separator;
@@ -140,7 +146,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -170,7 +176,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -200,7 +206,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -230,7 +236,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             String ddl = _generator.generateDrop();
@@ -255,7 +261,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -290,7 +296,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -326,7 +332,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -361,7 +367,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -397,7 +403,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -433,7 +439,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -463,11 +469,11 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
-                    conf.getInteger(PARAM_PREFIX + "tinyint"
+                    conf.getInteger(PARAM_PREFIX + "tinyint" // 0
                             + PARAM_POSTFIX_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "smallint"
                             + PARAM_POSTFIX_PRECISION),
@@ -477,7 +483,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                             + PARAM_POSTFIX_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "float"
                             + PARAM_POSTFIX_PRECISION),
-                    conf.getInteger(PARAM_PREFIX + "float"
+                    conf.getInteger(PARAM_PREFIX + "float" // 5
                             + PARAM_POSTFIX_DECIMALS),
                     conf.getInteger(PARAM_PREFIX + "double"
                             + PARAM_POSTFIX_PRECISION),
@@ -487,7 +493,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                             + PARAM_POSTFIX_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "real"
                             + PARAM_POSTFIX_DECIMALS),
-                    conf.getInteger(PARAM_PREFIX + "numeric"
+                    conf.getInteger(PARAM_PREFIX + "numeric" // 10
                             + PARAM_POSTFIX_PRECISION),
                     conf.getInteger(PARAM_PREFIX + "numeric"
                             + PARAM_POSTFIX_DECIMALS),
@@ -497,7 +503,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                             + PARAM_POSTFIX_DECIMALS),
                     conf.getInteger(PARAM_PREFIX + "char"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getInteger(PARAM_PREFIX + "varchar"
+                    conf.getInteger(PARAM_PREFIX + "varchar" // 15
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "longvarchar"
                             + PARAM_POSTFIX_LENGTH),
@@ -507,8 +513,21 @@ public abstract class BaseGeneratorTest extends TestCase {
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "varbinary"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getInteger(PARAM_PREFIX + "longvarbinary"
-                            + PARAM_POSTFIX_LENGTH) };
+                    conf.getInteger(PARAM_PREFIX + "longvarbinary" // 20
+                            + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "time"
+                            + PARAM_POSTFIX_PRECISION),                     
+                    conf.getInteger(PARAM_PREFIX + "bigint" 
+                                    + PARAM_POSTFIX_DECIMALS),
+                    conf.getInteger(PARAM_PREFIX + "other"
+                            + PARAM_POSTFIX_LENGTH),                     
+                    conf.getInteger(PARAM_PREFIX + "javaobject" 
+                                    + PARAM_POSTFIX_LENGTH),
+                    conf.getInteger(PARAM_PREFIX + "blob" //25
+                            + PARAM_POSTFIX_LENGTH),                     
+                    conf.getInteger(PARAM_PREFIX + "clob" 
+                                    + PARAM_POSTFIX_LENGTH)
+                    };
 
             String ddl = _generator.generateCreate();
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -531,7 +550,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -561,7 +580,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -597,7 +616,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -633,7 +652,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -668,7 +687,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             // test
@@ -706,7 +725,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             // test
@@ -744,7 +763,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             // test
@@ -781,7 +800,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             // test
@@ -818,7 +837,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             // test
@@ -855,7 +874,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             // test
@@ -887,7 +906,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -917,7 +936,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             String ddl = _generator.generateCreate();
@@ -942,7 +961,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             Object[] params = new Object[] {
@@ -972,7 +991,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             // test
@@ -1005,7 +1024,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             // test
@@ -1035,14 +1054,15 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("empty.xml", "create_schema.exp.xml");
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             String schema = "test";
             conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
 
             String ddl = _generator.getSchema().toDDL();
-            boolean b = _expectedDDL.match(_engine, 0, ddl, new String[] {schema});
+            boolean b = _expectedDDL.match(_engine, 0, ddl,
+                    new String[] {schema});
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
 
@@ -1070,7 +1090,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             // setup
             Configuration conf = _generator.getConf();
-            TypeMapper typeMapper = new MySQLTypeMapper(conf);
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
             String ddl = _generator.generateIndex();
@@ -1095,7 +1115,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * Set the dbConf by _dbConf.
      * 
-     * @param dbConf db conf
+     * @param dbConf
+     *            db conf
      */
     public final void setDbConf(final String dbConf) {
         _dbConf = dbConf;
@@ -1112,7 +1133,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * Set the engine by _engine.
      * 
-     * @param engine db engine
+     * @param engine
+     *            db engine
      */
     public final void setEngine(final String engine) {
         _engine = engine;
@@ -1129,7 +1151,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * Set the expectedDDL by _expectedDDL.
      * 
-     * @param expectedDDL expected ddl
+     * @param expectedDDL
+     *            expected ddl
      */
     public final void setExpectedDDL(final ExpectedResult expectedDDL) {
         _expectedDDL = expectedDDL;
@@ -1146,7 +1169,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * Set the generator by _generator.
      * 
-     * @param generator generator
+     * @param generator
+     *            generator
      */
     public final void setGenerator(final AbstractGenerator generator) {
         _generator = generator;
@@ -1163,7 +1187,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * Set the globalConf by _globalConf.
      * 
-     * @param globalConf global conf
+     * @param globalConf
+     *            global conf
      */
     public final void setGlobalConf(final String globalConf) {
         _globalConf = globalConf;
@@ -1180,7 +1205,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     /**
      * Set the mapping by _mapping.
      * 
-     * @param mapping mapping
+     * @param mapping
+     *            mapping
      */
     public final void setMapping(final Mapping mapping) {
         _mapping = mapping;

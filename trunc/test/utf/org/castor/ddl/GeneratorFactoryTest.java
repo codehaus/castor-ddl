@@ -18,7 +18,7 @@ package utf.org.castor.ddl;
 
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.GeneratorFactory;
-import org.castor.ddl.mysql.MySQLGenerator;
+import org.castor.ddl.mysql.MysqlGenerator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -62,9 +62,9 @@ public final class GeneratorFactoryTest extends TestCase {
     public void testGetMySQLDDLGenerator() {
         
         try {
-            MySQLGenerator generator = (MySQLGenerator) GeneratorFactory
+            MysqlGenerator generator = (MysqlGenerator) GeneratorFactory
                 .createDDLGenerator("mysql", null, null);
-            assertEquals(generator.getClass(), MySQLGenerator.class);
+            assertEquals(generator.getClass(), MysqlGenerator.class);
         } catch (GeneratorException e) {
             assertTrue(e.getMessage(), false);
         } 
