@@ -25,11 +25,19 @@ import org.castor.ddl.schemaobject.Field;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public final class OptionalLengthType extends AbstractType {
+public class OptionalLengthType extends AbstractType {
     /** Default length parameter from ddl.properties file. Will be used if no specific
      *  length is specified at field mapping. */
     private final Integer _defaultLength;
     
+    /**
+     * 
+     * @return Returns the defaultLength.
+     */
+    public final Integer getDefaultLength() {
+        return _defaultLength;
+    }
+
     /**
      * Construct a new TypeInfo instance with given JDBC type, SQL type and Configuration.
      * 

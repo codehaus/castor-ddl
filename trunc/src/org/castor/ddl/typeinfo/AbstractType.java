@@ -26,13 +26,13 @@ public abstract class AbstractType implements TypeInfo {
     /** Prefix of all parameters for types in ddl.properties file. */
     protected static final String PARAM_PREFIX = "default_";
     
-    /** Prostfix of length parameters for types in ddl.properties file. */
+    /** Postfix of length parameters for types in ddl.properties file. */
     protected static final String PARAM_POSTFIX_LENGTH = "_length";
     
-    /** Prostfix of precision parameters for types in ddl.properties file. */
+    /** Postfix of precision parameters for types in ddl.properties file. */
     protected static final String PARAM_POSTFIX_PRECISION = "_precision";
     
-    /** Prostfix of decimals parameters for types in ddl.properties file. */
+    /** Postfix of decimals parameters for types in ddl.properties file. */
     protected static final String PARAM_POSTFIX_DECIMALS = "_decimals";
     
     /** JDBC type. */

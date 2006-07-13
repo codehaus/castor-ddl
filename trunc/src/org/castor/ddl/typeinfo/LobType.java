@@ -21,38 +21,39 @@ import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
 
 /**
- * Final TypeInfo for types having a required length parameter.
  * 
+ * Created on Jul 8, 2006 - 12:38:02 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
- * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public class RequiredLengthType extends AbstractType {
-    /** Default length parameter from ddl.properties file. Will be used if no specific
-     *  length is specified at field mapping. */
-    private final Integer _defaultLength;
-    
-    /**
-     * Construct a new TypeInfo instance with given JDBC type, SQL type and Configuration.
-     * 
-     * @param jdbcType The JDBC type.
-     * @param sqlType The SQL type.
-     * @param conf The configuration to get default parameter values from.
-     */
-    public RequiredLengthType(final String jdbcType, final String sqlType,
-                              final Configuration conf) {
-        super(jdbcType, sqlType);
 
-        String param = PARAM_PREFIX + jdbcType + PARAM_POSTFIX_LENGTH;
-        _defaultLength = conf.getInteger(param);
+public final class LobType extends RequiredLengthType {
+    /** sufixe of length parameters for types in ddl.properties file. */
+    protected static final String PARAM_POSTFIX_SUFIXE = "_sufixe";
+
+    /**suffixe K, M G*/
+    private String _suffixe;
+    /**
+     * Constructor for LobType
+     * @param jdbcType jdbc type
+     * @param sqlType sql type
+     * @param conf conf
+     */
+    public LobType(final String jdbcType, final String sqlType, 
+            final Configuration conf) {
+        super(jdbcType, sqlType, conf);
+
+        String param = PARAM_PREFIX + jdbcType + PARAM_POSTFIX_SUFIXE;
+        _suffixe = conf.getStringValue(param, "co");
     }
 
     /**
-     * @see org.castor.ddl.typeinfo.TypeInfo#toDDL(org.castor.ddl.schemaobject.Field)
+     * @see org.castor.ddl.typeinfo.RequiredLengthType#toDDL
+     * (org.castor.ddl.schemaobject.Field)
      * {@inheritDoc}
      */
     public String toDDL(final Field field) throws GeneratorException {
         Integer length = field.getLength();
-        if (length == null) { length = _defaultLength; }
+        if (length == null) { length = getDefaultLength(); }
         if (length == null) {
             throw new GeneratorException(
                     "Reguired length attribute missing for field '" + field.getName()
@@ -61,18 +62,8 @@ public class RequiredLengthType extends AbstractType {
         
         StringBuffer sb = new StringBuffer();
         sb.append(getSqlType());        
-        if (length != null) {
-            sb.append('(').append(length).append(')');
-        }
+        sb.append(" (").append(length).append(_suffixe).append(')');
         return sb.toString();
     }
 
-    /**
-     * 
-     * @return Returns the defaultLength.
-     */
-    public final Integer getDefaultLength() {
-        return _defaultLength;
-    }
-    
 }
