@@ -19,7 +19,11 @@ package utf.org.castor.ddl.oracle;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.castor.ddl.Configuration;
+import org.castor.ddl.KeyGenNotSupportException;
+import org.castor.ddl.TypeMapper;
 import org.castor.ddl.oracle.OracleGenerator;
+import org.castor.ddl.oracle.OracleTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;
@@ -33,7 +37,7 @@ import utf.org.castor.ddl.ExpectedResult;
 
 public final class OracleGeneratorTest extends BaseGeneratorTest {
     /**
-     * Constructor for OracleGeneratorTest
+     * Constructor for DerbyGeneratorTest
      * 
      * @param testcase test case
      */
@@ -43,7 +47,7 @@ public final class OracleGeneratorTest extends BaseGeneratorTest {
 
     /**
      * this constructor aims to reuse all test scenerios, except _engine
-     * Constructor for OracleGeneratorTest
+     * Constructor for DerbyGeneratorTest
      * 
      * @param testcase test case
      * @param useDBEngine is use mysql engine
@@ -69,44 +73,42 @@ public final class OracleGeneratorTest extends BaseGeneratorTest {
         suite.addTest(new OracleGeneratorTest("testDropTable", false));
         
         // table test
-        suite.addTest(new OracleGeneratorTest("testSingleTable", true));
-        suite.addTest(new OracleGeneratorTest("testMultipleTable", true));
-        suite.addTest(new OracleGeneratorTest("testIgnoredTable", true));
+        suite.addTest(new OracleGeneratorTest("testSingleTable", false));
+        suite.addTest(new OracleGeneratorTest("testMultipleTable", false));
+        suite.addTest(new OracleGeneratorTest("testIgnoredTable", false));
         suite.addTest(new OracleGeneratorTest("testNoTable", false));
 
         //field test
-        suite.addTest(new OracleGeneratorTest("testSingleField", true));
+        suite.addTest(new OracleGeneratorTest("testSingleField", false));
         suite.addTest(new OracleGeneratorTest("testSingleFieldForAll", true));
-        suite.addTest(new OracleGeneratorTest("testIgnoredField", true));
+        suite.addTest(new OracleGeneratorTest("testIgnoredField", false));
         suite.addTest(new OracleGeneratorTest("testNoField", false));
-        suite.addTest(new OracleGeneratorTest("testManyKeysReference", true));
-        suite.addTest(new OracleGeneratorTest("testManyClassKeysReference", true));
-        suite.addTest(new OracleGeneratorTest("test2LevelsReference", true));
+        suite.addTest(new OracleGeneratorTest("testManyKeysReference", false));
+        suite.addTest(new OracleGeneratorTest("testManyClassKeysReference", false));
+        suite.addTest(new OracleGeneratorTest("test2LevelsReference", false));
         
         // primary key test
-        suite.addTest(new OracleGeneratorTest("testClassId", true));
-        suite.addTest(new OracleGeneratorTest("testClassMultipleId", true));
-        suite.addTest(new OracleGeneratorTest("testFieldId", true));
-        suite.addTest(new OracleGeneratorTest("testFieldMultipleId", true));
-        suite.addTest(new OracleGeneratorTest("testOverwriteFieldId", true));
-        suite.addTest(new OracleGeneratorTest("testNoId", true));
+        suite.addTest(new OracleGeneratorTest("testClassId", false));
+        suite.addTest(new OracleGeneratorTest("testClassMultipleId", false));
+        suite.addTest(new OracleGeneratorTest("testFieldId", false));
+        suite.addTest(new OracleGeneratorTest("testFieldMultipleId", false));
+        suite.addTest(new OracleGeneratorTest("testOverwriteFieldId", false));
+        suite.addTest(new OracleGeneratorTest("testNoId", false));
 
         // foreign key test
-        suite.addTest(new OracleGeneratorTest("testOneOneRelationship", true));
-        suite.addTest(new OracleGeneratorTest("testOneManyRelationship", true));
-        suite.addTest(new OracleGeneratorTest("testManyManyRelationship", true));
+        suite.addTest(new OracleGeneratorTest("testOneOneRelationship", false));
+        suite.addTest(new OracleGeneratorTest("testOneManyRelationship", false));
+        suite.addTest(new OracleGeneratorTest("testManyManyRelationship", false));
 
         // index test - 
         suite.addTest(new OracleGeneratorTest("testCreateIndex", false));        
         
         // key generator test
         suite.addTest(new OracleGeneratorTest("testKeyGenIdentity", true));
-        suite.addTest(new OracleGeneratorTest("testKeyGenHighLow", true));
-        suite.addTest(new OracleGeneratorTest("testKeyGenMax", true));
+        suite.addTest(new OracleGeneratorTest("testKeyGenHighLow", false));
+        suite.addTest(new OracleGeneratorTest("testKeyGenMax", false));
         suite.addTest(new OracleGeneratorTest("testKeyGenSequence", true));
-        suite.addTest(new OracleGeneratorTest("testKeyGenUUID", true));
-        
-        // trigger test - not yet
+        suite.addTest(new OracleGeneratorTest("testKeyGenUUID", false));
 
         return suite;
     }
@@ -118,7 +120,7 @@ public final class OracleGeneratorTest extends BaseGeneratorTest {
     protected void setUp() throws Exception {
         super.setUp();
         setGlobalConf("conf/ddl.properties");
-        setDbConf("conf/mysql.properties");
+        setDbConf("conf/oracle.properties");
         setGenerator(new OracleGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }
@@ -130,6 +132,42 @@ public final class OracleGeneratorTest extends BaseGeneratorTest {
     protected void tearDown() throws Exception {
         super.tearDown();
         setGenerator(null);
+    }
+
+    /**
+     * @see utf.org.castor.ddl.BaseGeneratorTest#testKeyGenIdentity()
+     * {@inheritDoc}
+     */
+    public void testKeyGenIdentity() {
+        try {
+            // load test data
+            loadData("key_gen_identity.xml", "key_gen_identity.exp.xml");
+
+            // setup
+            Configuration conf = getGenerator().getConf();
+            TypeMapper typeMapper = new OracleTypeMapper(conf);
+            getGenerator().setTypeMapper(typeMapper);
+
+            Object[] params = new Object[] {
+                    conf.getInteger(PARAM_PREFIX + "integer"
+                            + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char"
+                            + PARAM_POSTFIX_LENGTH) };
+
+            try {
+                String ddl = getGenerator().generateCreate();
+                boolean b = getExpectedDDL().match(getEngine(), 0, ddl, params);
+                assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                        + getExpectedDDL().getMessage(), b);
+
+                ddl = getGenerator().generateKeyGenerator();
+                assertTrue("expected KeyGenNotSupportException", false);
+            } catch (KeyGenNotSupportException e) { }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue("testKeyGenIdentity: " + e.getMessage(), false);
+        }
     }
 
 }

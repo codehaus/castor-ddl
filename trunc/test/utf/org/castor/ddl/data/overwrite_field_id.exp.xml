@@ -1,5 +1,6 @@
 <expected-result>
+	<ddl matchtype="regexp">create table prod \( id integer not null, name char\({1}\) not null \);</ddl>
+
 	<ddl matchtype="regexp" engine="mysql">create table prod \( id integer\({0}\) not null, name char\({1}\) not null \);</ddl>
 
-	<ddl matchtype="regexp" engine="oracle">create table prod \( id integer not null, name char\({1}\) not null \);</ddl>
 </expected-result>

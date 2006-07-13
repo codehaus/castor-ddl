@@ -8,4 +8,28 @@
 	<ddl matchtype="plain" engine="oracle" index="0"></ddl>
 	<ddl matchtype="plain" engine="oracle" index="1"></ddl>
 
+	<ddl matchtype="plain" engine="postgresql" index="0"></ddl>
+	<ddl matchtype="plain" engine="postgresql" index="1"></ddl>
+
+	<ddl matchtype="plain" engine="derby" index="0"></ddl>
+	<ddl matchtype="plain" engine="derby" index="1"></ddl>
+
+	<ddl matchtype="plain" engine="mssql" index="0"></ddl>
+	<ddl matchtype="plain" engine="mssql" index="1"></ddl>
+
+	<ddl matchtype="plain" engine="sapdb" index="0"></ddl>
+	<ddl matchtype="plain" engine="sapdb" index="1"></ddl>
+
+	<ddl matchtype="plain" engine="db2" index="0"></ddl>
+	<ddl matchtype="plain" engine="db2" index="1"></ddl>
+
+	<ddl matchtype="plain" engine="sybase" index="0"></ddl>
+	<ddl matchtype="plain" engine="sybase" index="1"></ddl>
+
+	<ddl matchtype="plain" engine="hsql" index="0"></ddl>
+	<ddl matchtype="plain" engine="hsql" index="1"></ddl>
+
+	<ddl matchtype="plain" engine="pointbase" index="0"></ddl>
+	<ddl matchtype="plain" engine="pointbase" index="1"></ddl>
+
 </expected-result>

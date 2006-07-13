@@ -24,7 +24,7 @@ import utf.org.castor.ddl.TypeMapperTest;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MySQLTypeMapperTest extends TypeMapperTest {
+public class MysqlTypeMapperTest extends TypeMapperTest {
 
     /**
      * @see TypeMapperTest#setUp()

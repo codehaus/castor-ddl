@@ -1,5 +1,6 @@
 <expected-result>
+	<ddl matchtype="regexp" >create table table_all \( fieldint integer \);</ddl>
+
 	<ddl matchtype="regexp" engine="mysql">create table table_all \( fieldint integer\({0}\) \);</ddl>
 
-	<ddl matchtype="regexp" engine="oracle">create table table_all \( fieldint integer \);</ddl>
 </expected-result>

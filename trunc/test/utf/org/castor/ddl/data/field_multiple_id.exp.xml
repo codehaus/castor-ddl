@@ -1,7 +1,20 @@
 <expected-result>
-	<ddl matchtype="regexp" engine="mysql" index="0">create table prod \( id integer\({0}\) not null, name char\({1}\) not null \);</ddl>
-	<ddl matchtype="regexp" engine="mysql" index="1">alter table prod add primary key \( id, name \);</ddl>
+	<ddl matchtype="regexp" index="0">create table prod \( id integer not null, name char\({1}\) not null \);</ddl>
+	<ddl matchtype="regexp" index="1">alter table prod add primary key \(id, name\);</ddl>
 
-	<ddl matchtype="regexp" engine="oracle" index="0">create table prod \( id integer not null, name char\({1}\) not null \);</ddl>
-	<ddl matchtype="regexp" engine="oracle" index="1">alter table prod add primary key \( id, name \);</ddl>
+	<ddl matchtype="regexp" engine="mysql" index="0">create table prod \( id integer\({0}\) not null, name char\({1}\) not null \);</ddl>
+	<ddl matchtype="regexp" engine="mysql" index="1">alter table prod add primary key \(id, name\);</ddl>
+
+	<ddl matchtype="regexp" engine="mssql" index="0">create table prod \( id integer not null, name char\({1}\) not null \);</ddl>
+	<ddl matchtype="regexp" engine="mssql" index="1">alter table prod add constraint pk_prod primary key \(id, name\);</ddl>
+
+	<ddl matchtype="regexp" engine="db2" index="0">create table prod \( id integer not null, name char\({1}\) not null \);</ddl>
+	<ddl matchtype="regexp" engine="db2" index="1">alter table prod add constraint pk_prod primary key \(id, name\);</ddl>
+
+	<ddl matchtype="regexp" engine="hsql" index="0">create table prod \( id integer not null, name char\({1}\) not null \);</ddl>
+	<ddl matchtype="regexp" engine="hsql" index="1">alter table prod add constraint pk_prod primary key \(id, name\);</ddl>
+
+	<ddl matchtype="regexp" engine="pointbase" index="0">create table prod \( id integer not null, name char\({1}\) not null \);</ddl>
+	<ddl matchtype="regexp" engine="pointbase" index="1">alter table prod add constraint pk_prod primary key \(id, name\);</ddl>
+
 </expected-result>

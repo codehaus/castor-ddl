@@ -19,7 +19,11 @@ package utf.org.castor.ddl.mysql;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.castor.ddl.mysql.MySQLGenerator;
+import org.castor.ddl.Configuration;
+import org.castor.ddl.KeyGenNotSupportException;
+import org.castor.ddl.TypeMapper;
+import org.castor.ddl.mysql.MysqlGenerator;
+import org.castor.ddl.mysql.MysqlTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;
@@ -31,24 +35,24 @@ import utf.org.castor.ddl.ExpectedResult;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public final class MySQLGeneratorTest extends BaseGeneratorTest {
+public final class MysqlGeneratorTest extends BaseGeneratorTest {
     /**
-     * Constructor for MySQLGeneratorTest
+     * Constructor for MysqlGeneratorTest
      * 
      * @param testcase test case
      */
-    public MySQLGeneratorTest(final String testcase) {
+    public MysqlGeneratorTest(final String testcase) {
         super(testcase);
     }
 
     /**
      * this constructor aims to reuse all test scenerios, except _engine
-     * Constructor for MySQLGeneratorTest
+     * Constructor for MysqlGeneratorTest
      * 
      * @param testcase test case
      * @param useDBlEngine is use mysql engine
      */
-    public MySQLGeneratorTest(final String testcase, final boolean useDBlEngine) {
+    public MysqlGeneratorTest(final String testcase, final boolean useDBlEngine) {
         super(testcase);
         if (useDBlEngine) {
             setEngine(ExpectedResult.ENGINE_MYSQL);
@@ -64,49 +68,47 @@ public final class MySQLGeneratorTest extends BaseGeneratorTest {
         TestSuite suite = new TestSuite("All org.castor.ddl.mysql tests");
 
         // schema test
-        suite.addTest(new MySQLGeneratorTest("testCreateSchema", true));
+        suite.addTest(new MysqlGeneratorTest("testCreateSchema", true));
 //         drop test
-        suite.addTest(new MySQLGeneratorTest("testDropTable", true));
+        suite.addTest(new MysqlGeneratorTest("testDropTable", true));
         
         // table test
-        suite.addTest(new MySQLGeneratorTest("testSingleTable", true));
-        suite.addTest(new MySQLGeneratorTest("testMultipleTable", true));
-        suite.addTest(new MySQLGeneratorTest("testIgnoredTable", true));
-        suite.addTest(new MySQLGeneratorTest("testNoTable", false));
+        suite.addTest(new MysqlGeneratorTest("testSingleTable", true));
+        suite.addTest(new MysqlGeneratorTest("testMultipleTable", true));
+        suite.addTest(new MysqlGeneratorTest("testIgnoredTable", true));
+        suite.addTest(new MysqlGeneratorTest("testNoTable", false));
 
         //field test
-        suite.addTest(new MySQLGeneratorTest("testSingleField", true));
-        suite.addTest(new MySQLGeneratorTest("testSingleFieldForAll", true));
-        suite.addTest(new MySQLGeneratorTest("testIgnoredField", true));
-        suite.addTest(new MySQLGeneratorTest("testNoField", false));
-        suite.addTest(new MySQLGeneratorTest("testManyKeysReference", true));
-        suite.addTest(new MySQLGeneratorTest("testManyClassKeysReference", true));
-        suite.addTest(new MySQLGeneratorTest("test2LevelsReference", true));
+        suite.addTest(new MysqlGeneratorTest("testSingleField", true));
+        suite.addTest(new MysqlGeneratorTest("testSingleFieldForAll", true));
+        suite.addTest(new MysqlGeneratorTest("testIgnoredField", true));
+        suite.addTest(new MysqlGeneratorTest("testNoField", false));
+        suite.addTest(new MysqlGeneratorTest("testManyKeysReference", true));
+        suite.addTest(new MysqlGeneratorTest("testManyClassKeysReference", true));
+        suite.addTest(new MysqlGeneratorTest("test2LevelsReference", true));
         
         // primary key test
-        suite.addTest(new MySQLGeneratorTest("testClassId", true));
-        suite.addTest(new MySQLGeneratorTest("testClassMultipleId", true));
-        suite.addTest(new MySQLGeneratorTest("testFieldId", true));
-        suite.addTest(new MySQLGeneratorTest("testFieldMultipleId", true));
-        suite.addTest(new MySQLGeneratorTest("testOverwriteFieldId", true));
-        suite.addTest(new MySQLGeneratorTest("testNoId", true));
+        suite.addTest(new MysqlGeneratorTest("testClassId", true));
+        suite.addTest(new MysqlGeneratorTest("testClassMultipleId", true));
+        suite.addTest(new MysqlGeneratorTest("testFieldId", true));
+        suite.addTest(new MysqlGeneratorTest("testFieldMultipleId", true));
+        suite.addTest(new MysqlGeneratorTest("testOverwriteFieldId", true));
+        suite.addTest(new MysqlGeneratorTest("testNoId", true));
 
         // foreign key test
-        suite.addTest(new MySQLGeneratorTest("testOneOneRelationship", true));
-        suite.addTest(new MySQLGeneratorTest("testOneManyRelationship", true));
-        suite.addTest(new MySQLGeneratorTest("testManyManyRelationship", true));
+        suite.addTest(new MysqlGeneratorTest("testOneOneRelationship", true));
+        suite.addTest(new MysqlGeneratorTest("testOneManyRelationship", true));
+        suite.addTest(new MysqlGeneratorTest("testManyManyRelationship", true));
 
         // index test - 
-        suite.addTest(new MySQLGeneratorTest("testCreateIndex", false));        
+        suite.addTest(new MysqlGeneratorTest("testCreateIndex", false));        
         
         // key generator test
-        suite.addTest(new MySQLGeneratorTest("testKeyGenIdentity", true));
-        suite.addTest(new MySQLGeneratorTest("testKeyGenHighLow", true));
-        suite.addTest(new MySQLGeneratorTest("testKeyGenMax", true));
-        suite.addTest(new MySQLGeneratorTest("testKeyGenSequence", true));
-        suite.addTest(new MySQLGeneratorTest("testKeyGenUUID", true));
-        
-        // trigger test - not yet
+        suite.addTest(new MysqlGeneratorTest("testKeyGenIdentity", true));
+        suite.addTest(new MysqlGeneratorTest("testKeyGenHighLow", true));
+        suite.addTest(new MysqlGeneratorTest("testKeyGenMax", true));
+        suite.addTest(new MysqlGeneratorTest("testKeyGenSequence", true));
+        suite.addTest(new MysqlGeneratorTest("testKeyGenUUID", true));
 
         return suite;
     }
@@ -119,7 +121,7 @@ public final class MySQLGeneratorTest extends BaseGeneratorTest {
         super.setUp();
         setGlobalConf("conf/ddl.properties");
         setDbConf("conf/mysql.properties");
-        setGenerator(new MySQLGenerator(getGlobalConf(), getDbConf()));
+        setGenerator(new MysqlGenerator(getGlobalConf(), getDbConf()));
         getGenerator().setMapping(getMapping());
     }
 
@@ -130,6 +132,47 @@ public final class MySQLGeneratorTest extends BaseGeneratorTest {
     protected void tearDown() throws Exception {
         super.tearDown();
         setGenerator(null);
+    }
+
+    /**
+     * @see utf.org.castor.ddl.BaseGeneratorTest#testKeyGenSequence()
+     * {@inheritDoc}
+     */
+    public void testKeyGenSequence() {
+        try {
+            // load test data
+            loadData("key_gen_sequence.xml", "key_gen_sequence.exp.xml");
+
+            // setup
+            Configuration conf = getGenerator().getConf();
+            TypeMapper typeMapper = new MysqlTypeMapper(conf);
+            getGenerator().setTypeMapper(typeMapper);
+
+            // test
+            Object[] params = new Object[] {
+                    conf.getInteger(PARAM_PREFIX + "integer"
+                            + PARAM_POSTFIX_PRECISION),
+                    conf.getInteger(PARAM_PREFIX + "char"
+                            + PARAM_POSTFIX_LENGTH) };
+
+            String ddl = getGenerator().generateCreate();
+
+            boolean b = getExpectedDDL().match(getEngine(), 0, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + getExpectedDDL().getMessage(), b);
+
+            try {
+                ddl = getGenerator().generateKeyGenerator();
+                b = getExpectedDDL().match(getEngine(), 1, ddl, params);
+                assertTrue("expected KeyGenNotSupportException", false);
+            } catch (KeyGenNotSupportException ex) {
+                //expected exception
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue("testKeyGenSequence: " + e.getMessage(), false);
+        }
     }
 
 }

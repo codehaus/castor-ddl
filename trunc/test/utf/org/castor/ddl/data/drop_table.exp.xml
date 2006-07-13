@@ -1,4 +1,5 @@
 <expected-result>
 	<ddl matchtype="regexp" >drop table prod;</ddl>
 	<ddl matchtype="regexp" engine="mysql">drop table if exists prod;</ddl>
+	<ddl matchtype="regexp" engine="hsql">drop table if exists prod;</ddl>
 </expected-result>

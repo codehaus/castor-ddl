@@ -1,5 +1,6 @@
 <expected-result>
+	<ddl matchtype="regexp" >create table prod_group \( id integer not null, name char\({1}\) not null \); create table prod \( id integer not null, name char\({1}\), group_id integer, group_name char\({1}\) \);</ddl>
+
 	<ddl matchtype="regexp" engine="mysql">create table prod_group \( id integer\({0}\) not null, name char\({1}\) not null \); create table prod \( id integer\({0}\) not null, name char\({1}\), group_id integer\({0}\), group_name char\({1}\) \);</ddl>
 
-	<ddl matchtype="regexp" engine="oracle">create table prod_group \( id integer not null, name char\({1}\) not null \); create table prod \( id integer not null, name char\({1}\), group_id integer, group_name char\({1}\) \);</ddl>
 </expected-result>
