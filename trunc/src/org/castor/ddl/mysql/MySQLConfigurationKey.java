@@ -22,7 +22,7 @@ package org.castor.ddl.mysql;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public final class MySQLConfigurationKey {
+public final class MysqlConfigurationKey {
 
     /** storage engine*/
     public static final String STORAGE_ENGINE = "engine";
