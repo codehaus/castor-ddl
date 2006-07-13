@@ -19,6 +19,7 @@ package org.castor.ddl.schemaobject;
 import java.util.Iterator;
 
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.KeyGenNotSupportException;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.Param;
 
@@ -226,11 +227,12 @@ public class SequenceKey extends KeyGenerator {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
-     * {@inheritDoc}
+     * @return ddl string
+     * @throws KeyGenNotSupportException exception
      */
-    public String toDDL() {
-        return "";
+    public String toDDL() throws KeyGenNotSupportException {
+        throw new KeyGenNotSupportException("Not support SEQUENCE key-gen for " 
+                + "this database");
     }
     
     /**

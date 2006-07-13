@@ -28,9 +28,9 @@ package org.castor.ddl.schemaobject;
  */
 
 public class ForeignKey extends AbstractSchemaObject  {
-    /** table name*/
-    private String _tableName = null;
-    
+    /** table */
+    private Table _table = null;
+
     /** constraint name*/
     private String _constraintName = null;
     
@@ -147,22 +147,6 @@ public class ForeignKey extends AbstractSchemaObject  {
 
     /**
      * 
-     * @return Returns the _tableName.
-     */
-    public final String getTableName() {
-        return _tableName;
-    }
-
-    /**
-     * Set the _tableName by _tableName.
-     * @param tableName table name
-     */
-    public final void setTableName(final String tableName) {
-        this._tableName = tableName;
-    }
-
-    /**
-     * 
      * @return Returns the _relationshipType.
      */
     public final int getRelationshipType() {
@@ -178,31 +162,31 @@ public class ForeignKey extends AbstractSchemaObject  {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
-     * {@inheritDoc}
+     * 
+     * @return ddl string
      */
     public String toDDL() {
         StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
         buff.append(getConf().getLineSeparator());
 
-        buff.append("ALTER TABLE ").append(_tableName);
+        buff.append("ALTER TABLE ").append(_table.getName());
 
         // constraint
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
-        buff.append("ADD CONSTRAINT ").append(_constraintName);
+        buff.append("ADD CONSTRAINT ").append(getConstraintName());
 
         // foreign key
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
-        buff.append("FOREIGN KEY ").append(_fkName);
-        buff.append(makeListofParams(_fkkeyList));
+        buff.append("FOREIGN KEY ");
+        buff.append(makeListofParams(getFkkeyList()));
 
         // references
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
-        buff.append("REFERENCES ").append(_referenceTableName);
-        buff.append(makeListofParams(_referenceKeyList));
+        buff.append("REFERENCES ").append(getReferenceTableName()).append(" ");
+        buff.append(makeListofParams(getReferenceKeyList()));
         buff.append(getConf().getSqlStatDelimeter());
         return buff.toString();
     }
@@ -214,7 +198,7 @@ public class ForeignKey extends AbstractSchemaObject  {
     protected String makeListofParams(final String[] list) {
         StringBuffer buff = new StringBuffer();
         boolean isFirstField = true;
-        buff.append(" ( ");
+        buff.append("(");
         for (int i = 0; i < list.length; i++) {
             if (!isFirstField) {
                 buff.append(getConf().getSqlFieldDelimeter());
@@ -223,8 +207,24 @@ public class ForeignKey extends AbstractSchemaObject  {
             isFirstField = false;
             buff.append(list[i]);
         }
-        buff.append(" )");
+        buff.append(")");
         return buff.toString();
+    }
+
+    /**
+     * 
+     * @return Returns the table.
+     */
+    public final Table getTable() {
+        return _table;
+    }
+
+    /**
+     * Set the table by _table.
+     * @param table table
+     */
+    public final void setTable(final Table table) {
+        _table = table;
     }
 
 }

@@ -18,7 +18,7 @@ package org.castor.ddl.schemaobject;
 
 import java.util.Vector;
 
-import org.castor.ddl.BaseConfiguration;
+//import org.castor.ddl.BaseConfiguration;
 
 /**
  * 
@@ -145,16 +145,17 @@ public class Schema extends AbstractSchemaObject {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
-     * {@inheritDoc}
+     * @return ddl string
      */
-    public String toDDL() {
-        String schema = getConf().getStringValue(BaseConfiguration.SCHEMA_NAME_KEY,
-                "");
-        if (schema == null || "".equals(schema)) {
-            return "";
-        }
 
-        return "CREATE " + schema + ";";
+    public String toDDL() {
+//        String schema = getConf().getStringValue(BaseConfiguration.SCHEMA_NAME_KEY,
+//                "");
+//        if (schema == null || "".equals(schema)) {
+//            return "";
+//        }
+//
+//        return "CREATE SCHEMA " + schema + ";";
+        return "";
     }
 }

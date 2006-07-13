@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.KeyGenNotSupportException;
 
 /**
  * 
@@ -48,9 +49,11 @@ public class Table extends AbstractSchemaObject {
     /** foriegn key*/
     private Vector _foreignKey;
     
+    /** schema key*/
+    private Schema _schema;    
+    
     /**
      * Constructor for Table
-     * @param name
      */
     protected Table() {
         super();
@@ -215,6 +218,22 @@ public class Table extends AbstractSchemaObject {
     }
 
     /**
+     * 
+     * @return Returns the schema.
+     */
+    public final Schema getSchema() {
+        return _schema;
+    }
+
+    /**
+     * Set the schema by _schema.
+     * @param schema schema
+     */
+    public final void setSchema(final Schema schema) {
+        _schema = schema;
+    }
+
+    /**
      * @return create creation ddl
      * @throws GeneratorException generator error
      */
@@ -265,7 +284,7 @@ public class Table extends AbstractSchemaObject {
         buff.append("ALTER TABLE ").append(_name);
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
-        buff.append("ADD PRIMARY KEY ( ");
+        buff.append("ADD PRIMARY KEY (");
 
         boolean isFirstField = true;
         for (Iterator i = _fields.iterator(); i.hasNext();) {
@@ -280,7 +299,7 @@ public class Table extends AbstractSchemaObject {
                 buff.append(field.getName());
             }
         }
-        buff.append(" )").append(getConf().getSqlStatDelimeter());
+        buff.append(")").append(getConf().getSqlStatDelimeter());
 
         //have no primary key
         if (!isHasPK) {
@@ -291,8 +310,9 @@ public class Table extends AbstractSchemaObject {
 
     /**
      * @return DDL script for creating primary key
+     * @throws KeyGenNotSupportException exception
      */
-    public String toKeyGeneratorDDL() {
+    public String toKeyGeneratorDDL() throws KeyGenNotSupportException {
         if (_keyGenerator == null) {
             return "";
         }

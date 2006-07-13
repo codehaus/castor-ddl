@@ -16,6 +16,8 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.castor.ddl.KeyGenNotSupportException;
+
 
 
 /**
@@ -27,7 +29,6 @@ package org.castor.ddl.schemaobject;
 public abstract class KeyGenerator extends AbstractSchemaObject {
     /**
      * Constructor for KeyGenerator
-     * @param _conf
      */
     protected KeyGenerator() {
         super();
@@ -81,6 +82,7 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
     /**
      * generate DDL script
      * @return ddl script
+     * @throws KeyGenNotSupportException key gen exception
      */
-    public abstract String toDDL();
+    public abstract String toDDL() throws KeyGenNotSupportException;
 }

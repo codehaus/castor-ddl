@@ -96,7 +96,7 @@ public class MaxKey extends KeyGenerator {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
+     * @see org.castor.ddl.schemaobject.KeyGenerator#toDDL()
      * {@inheritDoc}
      */
     public String toDDL() {

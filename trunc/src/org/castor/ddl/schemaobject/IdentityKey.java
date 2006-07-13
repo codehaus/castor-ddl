@@ -99,8 +99,7 @@ public class IdentityKey extends KeyGenerator {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaObject#toDDL()
-     * {@inheritDoc}
+     * @return ddl string
      */
     public String toDDL() {
         return "";
