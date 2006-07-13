@@ -84,7 +84,8 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
         //field test
         suite.addTest(new Db2GeneratorTest("testSingleField", false));
         suite.addTest(new Db2GeneratorTest("testSingleFieldForAll", true));
-        suite.addTest(new Db2GeneratorTest("testSingleFieldForAllExceptBit", true));        
+        suite.addTest(new Db2GeneratorTest("testSingleFieldForAllExceptBit", 
+                true));        
         suite.addTest(new Db2GeneratorTest("testIgnoredField", false));
         suite.addTest(new Db2GeneratorTest("testNoField", false));
         suite.addTest(new Db2GeneratorTest("testManyKeysReference", false));

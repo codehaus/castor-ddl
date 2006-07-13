@@ -251,7 +251,6 @@ public final class DerbyGeneratorTest extends BaseGeneratorTest {
                 b = getExpectedDDL().match(getEngine(), 1, ddl, params);
                 assertTrue("expected KeyGenNotSupportException", false);
             } catch (KeyGenNotSupportException ex) {
-                //expected exception
             }
 
         } catch (Exception e) {
