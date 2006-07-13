@@ -42,17 +42,21 @@ import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.mapping.xml.Sql;
 
 /**
- * this class is the base class for various DDL generator for specific DB
+ * AbstractGenerator is the base class for various DDL generator of specific DB and
+ * handles following tasks: 
+ * <li/> Extract information from Mapping to Schema
+ * <li/> Loop through the schema and provide a skeleton for DDL creation
  * 
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * 
  */
 public abstract class AbstractGenerator implements Generator {
-
-    /** hold all configurations (key, value) */
+    /**logging*/
+    /** handle all configurations (key, value) */
     private Configuration _conf;
 
-    /** hold the writer for output */
+    /** handle the writer for output */
     private java.io.PrintStream _printer;
 
     /** handle the _mapping document */
@@ -74,11 +78,14 @@ public abstract class AbstractGenerator implements Generator {
     private SchemaFactory _schemaFactory;
 
     /**
-     * 
      * Constructor for AbstractGenerator
-     * @param globConf global configuration file
-     * @param dbConf db specfic configuration file
-     * @throws GeneratorException throws exception when can not read file
+     * 
+     * @param globConf
+     *            global configuration file
+     * @param dbConf
+     *            db specfic configuration file
+     * @throws GeneratorException
+     *             throws exception when can not read file
      */
     protected AbstractGenerator(final String globConf, final String dbConf)
             throws GeneratorException {
@@ -91,24 +98,26 @@ public abstract class AbstractGenerator implements Generator {
 
     }
 
-    /** 
-     * @see org.castor.ddl.Generator#generateDDL(java.lang.String)
+    /**
+     * @see org.castor.ddl.Generator#generateDDL(java.lang.String) 
      * {@inheritDoc}
      */
-    public void generateDDL(final String mappingFile) throws GeneratorException,
-            IOException, MappingException {
+    public void generateDDL(final String mappingFile)
+            throws GeneratorException, IOException, MappingException {
         _mapping = new Mapping();
         _mapping.loadMapping(mappingFile);
 
         _mappingHelper.setMapping(_mapping);
         _mappingHelper.setTypeMapper(_typeMapper);
 
+        //create schema
         createSchema();
+        //generate DDL
         generateDDL();
     }
 
-    /** 
-     * @see org.castor.ddl.Generator#generateDDL(Mapping)
+    /**
+     * @see org.castor.ddl.Generator#generateDDL(Mapping) 
      * {@inheritDoc}
      */
     public void generateDDL(final Mapping mappingDoc) throws GeneratorException {
@@ -116,19 +125,22 @@ public abstract class AbstractGenerator implements Generator {
         _mappingHelper.setMapping(mappingDoc);
         _mappingHelper.setTypeMapper(_typeMapper);
 
+        //create schema
         createSchema();
+        //generate ddl
         generateDDL();
     }
 
     /**
-     * @throws GeneratorException generator error
+     * @throws GeneratorException
+     *             generator exception
      */
     private void generateDDL() throws GeneratorException {
-        String groupBy = _conf.getStringValue(BaseConfiguration.GROUP_DDL_BY_KEY,
-                BaseConfiguration.GROUP_DDL_BY_TABLE);
-        if (BaseConfiguration.GROUP_DDL_BY_TABLE.equalsIgnoreCase(groupBy)) {
+        String groupBy = _conf.getStringValue(Configuration.GROUP_DDL_BY_KEY,
+                Configuration.GROUP_DDL_BY_TABLE);
+        if (Configuration.GROUP_DDL_BY_TABLE.equalsIgnoreCase(groupBy)) {
             generateDDLGroupByTable();
-        } else if (BaseConfiguration.GROUP_DDL_BY_DDLTYPE.equalsIgnoreCase(groupBy)) {
+        } else if (Configuration.GROUP_DDL_BY_DDLTYPE.equalsIgnoreCase(groupBy)) {
             generateDDLGroupByDDLType();
         } else {
             throw new GeneratorException("group ddl by do not support: "
@@ -138,49 +150,58 @@ public abstract class AbstractGenerator implements Generator {
 
     /**
      * generate ddl
-     * @throws GeneratorException generator error
+     * 
+     * @throws GeneratorException
+     *             generator exception
      */
     private void generateDDLGroupByDDLType() throws GeneratorException {
         boolean genSchema = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
+                Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
         boolean genDrop = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_DROP_KEY, true);
+                Configuration.GENERATE_DDL_FOR_DROP_KEY, true);
         boolean genCreate = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_CREATE_KEY, true);
+                Configuration.GENERATE_DDL_FOR_CREATE_KEY, true);
         boolean genPrimaryKey = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
+                Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
         boolean genForeignKey = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
+                Configuration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
         boolean genIndex = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_INDEX_KEY, true);
+                Configuration.GENERATE_DDL_FOR_INDEX_KEY, true);
         boolean genKeyGen = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
+                Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
         write(generateHeader());
+        
+        //generate ddl for schema
         if (genSchema) {
             write(_schema.toDDL());
         }
-        
+
+        //generate drop statemetn
         if (genDrop) {
             write(generateDrop());
         }
-        
+
+        //generate create statement
         if (genCreate) {
             write(generateCreate());
         }
-        
+
+        //generate primary key creation statement
         if (genPrimaryKey) {
             write(generatePrimaryKey());
         }
-        
+
+        //generate foreign key creation statement
         if (genForeignKey) {
             write(generateForeignKey());
         }
-        
+
+        //generate index creation statement
         if (genIndex) {
             write(generateIndex());
         }
-        
+
         if (genKeyGen) {
             write(generateKeyGenerator());
         }
@@ -188,25 +209,26 @@ public abstract class AbstractGenerator implements Generator {
 
     /**
      * 
-     * @throws GeneratorException generator error
+     * @throws GeneratorException
+     *             generator exception
      */
     private void generateDDLGroupByTable() throws GeneratorException {
         Vector tables = _schema.getTables();
 
         boolean genSchema = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
+                Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
         boolean genDrop = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_DROP_KEY, true);
+                Configuration.GENERATE_DDL_FOR_DROP_KEY, true);
         boolean genCreate = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_CREATE_KEY, true);
+                Configuration.GENERATE_DDL_FOR_CREATE_KEY, true);
         boolean genPrimaryKey = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
+                Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
         boolean genForeignKey = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
+                Configuration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
         boolean genIndex = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_INDEX_KEY, true);
+                Configuration.GENERATE_DDL_FOR_INDEX_KEY, true);
         boolean genKeyGen = _conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
+                Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
         write(generateHeader());
         if (genSchema) {
@@ -253,13 +275,9 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * @return  primary key creation ddl
+     * @return primary key creation ddl
      */
     public String generatePrimaryKey() {
-        if (!_conf.getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true)) {
-            return "";
-        }
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
         for (Iterator i = tables.iterator(); i.hasNext();) {
@@ -270,9 +288,12 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * generate sequence/trigger ddl, delegate to SequenceKey.toDDL() 
      * @return key generator creation ddl
+     * @throws KeyGenNotSupportException
+     *             exception
      */
-    public String generateKeyGenerator() {
+    public String generateKeyGenerator() throws KeyGenNotSupportException {
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
@@ -285,13 +306,10 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * generate ddl for index creation
      * @return index creation ddl
      */
     public String generateIndex() {
-        if (!_conf.getBoolValue(BaseConfiguration.GENERATE_DDL_FOR_INDEX_KEY, true)) {
-            return "";
-        }
-
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
@@ -302,14 +320,10 @@ public abstract class AbstractGenerator implements Generator {
         return buff.toString();
     }
 
-    /**
+    /** generate ddl for drop statement
      * @return drop creation ddl
      */
     public String generateDrop() {
-        if (!_conf.getBoolValue(BaseConfiguration.GENERATE_DDL_FOR_DROP_KEY, true)) {
-            return "";
-        }
-
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
@@ -321,17 +335,18 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * generate header comment, print out the header_comment_text definition 
+     * in the ddl.properties
      * @return header comment
      */
-    public String generateHeader() {
-        return "";
-    }
+    public abstract String generateHeader();
 
     /**
-     * generate create statement for DDL script generateBody
+     * generate create statement, delegate to table.toCreateDDL() 
      * 
      * @return create table ddl
-     * @throws GeneratorException generator error
+     * @throws GeneratorException
+     *             generator exception
      */
     public String generateCreate() throws GeneratorException {
         Vector tables = _schema.getTables();
@@ -340,25 +355,27 @@ public abstract class AbstractGenerator implements Generator {
         for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toCreateDDL());
-            // buff.append(createCreateDDL(table));
         }
         return buff.toString();
     }
 
     /**
-     * generate constrains statement, cleaning up for DDL scritp, for example:
+     * generate constrains statement
      * 
      * <pre>
-     *  ALTER TABLE `prod_group` ADD CONSTRAINT `FK_prod_group_1` 
-     *  FOREIGN KEY `FK_prod_group_1` (`id`, `name`)
-     *   REFERENCES `category` (`id`, `name`)
-     *   ON DELETE SET NULL
-     *   ON UPDATE CASCADE;
+     * Example:
+     *   ALTER TABLE `prod_group` ADD CONSTRAINT `FK_prod_group_1` 
+     *   FOREIGN KEY `FK_prod_group_1` (`id`, `name`)
+     *    REFERENCES `category` (`id`, `name`)
+     *    ON DELETE SET NULL
+     *    ON UPDATE CASCADE;
      * </pre>
      * 
      * @return foreign key creation ddl
+     * @throws GeneratorException
+     *             generator exception
      */
-    public String generateForeignKey() {
+    public String generateForeignKey() throws GeneratorException {
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
@@ -380,7 +397,8 @@ public abstract class AbstractGenerator implements Generator {
     /**
      * Set the schemaFactory by _schemaFactory.
      * 
-     * @param schemaFactory schema factory
+     * @param schemaFactory
+     *            schema factory
      */
     public final void setSchemaFactory(final SchemaFactory schemaFactory) {
         _schemaFactory = schemaFactory;
@@ -413,7 +431,8 @@ public abstract class AbstractGenerator implements Generator {
     /**
      * set Writer
      * 
-     * @param printer printer
+     * @param printer
+     *            printer
      */
     public final void setPrinter(final PrintStream printer) {
         this._printer = printer;
@@ -437,7 +456,9 @@ public abstract class AbstractGenerator implements Generator {
 
     /**
      * Set the typeMapper by _typeMapper.
-     * @param typeMapper type mapper
+     * 
+     * @param typeMapper
+     *            type mapper
      */
     public final void setTypeMapper(final TypeMapper typeMapper) {
         _typeMapper = typeMapper;
@@ -445,8 +466,10 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * schema creation 
-     * @throws GeneratorException generator error
+     * generate ddl for schema creation
+     * 
+     * @throws GeneratorException
+     *             generator exception
      */
     public void createSchema() throws GeneratorException {
         // _schema
@@ -463,6 +486,7 @@ public abstract class AbstractGenerator implements Generator {
             _schema.putKeyGenerator(keygen.getHashKey(), keygen);
         }
 
+        //go throught ClassMapping
         Enumeration ec = root.enumerateClassMapping();
         while (ec.hasMoreElements()) {
             ClassMapping cm = (ClassMapping) ec.nextElement();
@@ -483,9 +507,11 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * @param cm ClassMapping 
-     * @return table 
-     * @throws GeneratorException generator error
+     * @param cm
+     *            ClassMapping
+     * @return table
+     * @throws GeneratorException
+     *             generator exception
      */
     private Table createTable(final ClassMapping cm) throws GeneratorException {
         String tableName = cm.getMapTo().getTable();
@@ -496,6 +522,7 @@ public abstract class AbstractGenerator implements Generator {
         Table table = _schemaFactory.createTable();
         table.setConf(_conf);
         table.setName(tableName);
+        table.setSchema(_schema);
 
         // if there are no field in the table
         if (cm.getClassChoice() == null) {
@@ -511,8 +538,8 @@ public abstract class AbstractGenerator implements Generator {
         if (keygenerator != null) {
             keyGen = getSchema().getKeyRepository().getKeyGenerator(
                     keygenerator.toUpperCase());
-            
-            //key gen is not found
+
+            // key gen is not found
             if (keyGen == null) {
                 throw new GeneratorException("key-generator is not found: "
                         + keygenerator);
@@ -546,10 +573,10 @@ public abstract class AbstractGenerator implements Generator {
 
                     // 2. generate resolving table for many-many relationship
                     addResolveField(fm, cm.getKeyGenerator());
-//                } else {
-//                    // checking for many-key case (not need generate DDL),
-//                    // 1. generate DDL for creating relationship, with MySQL
-//                    // addOneManyForeignKey(fm, cm.getMapTo().getTable());
+                    // } else {
+                    // // checking for many-key case (not need generate DDL),
+                    // // 1. generate DDL for creating relationship, with MySQL
+                    // // addOneManyForeignKey(fm, cm.getMapTo().getTable());
                 }
                 // normal field
             } else {
@@ -565,7 +592,7 @@ public abstract class AbstractGenerator implements Generator {
                 if (sqltype != null) {
                     typeInfo = _typeMapper.getType(sqltype);
                 }
-                    
+
                 // if typeInfo is null, this table has a reference to another
                 // one.
                 if (typeInfo == null) {
@@ -584,8 +611,8 @@ public abstract class AbstractGenerator implements Generator {
                     // field elements
                     if (refIdTypes.length != sqlnames.length) {
                         throw new TypeNotFoundException(
-                                "number of reference table's Id differs" 
-                                + "to number of field elements "
+                                "number of reference table's Id differs"
+                                        + "to number of field elements "
                                         + fm.getName());
                     }
 
@@ -615,6 +642,7 @@ public abstract class AbstractGenerator implements Generator {
                     }
 
                     field.setName(sqlnames[i]);
+                    field.setTable(table);
                     field.setType(typeInfo);
                     field.setIdentity(isFieldIdentity);
 
@@ -628,18 +656,20 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * @param fm Field Mapping
-     * @param table parent table 
-     * @throws GeneratorException generator error
+     * @param fm
+     *            Field Mapping
+     * @param table
+     *            parent table
+     * @throws GeneratorException
+     *             generator exception
      */
-    protected void addManyManyForeignKey(final Table table, final FieldMapping fm)
-            throws GeneratorException {
+    protected void addManyManyForeignKey(final Table table,
+            final FieldMapping fm) throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
         fk.setConf(_conf);
         String s;
 
-        String tableName = fm.getSql().getManyTable();
-        fk.setTableName(tableName);
+        fk.setTable(table);
         s = table + "_" + fm.getName();
         fk.setConstraintName(s);
         fk.setFkName(s);
@@ -651,24 +681,28 @@ public abstract class AbstractGenerator implements Generator {
 
         fk.setRelationshipType(ForeignKey.MANY_MANY);
 
-        // _foreignKey.put(fk.getConstraintName(), fk);
         table.addForeignKey(fk);
     }
 
     /**
-     * @param fm field mapping
-     * @param table table
-     * @param tableName table name
-     * @throws GeneratorException generator error
+     * @param fm
+     *            field mapping
+     * @param table
+     *            table
+     * @param tableName
+     *            table name
+     * @throws GeneratorException
+     *             generator exception
      */
-    protected void addOneManyForeignKey(final Table table, final FieldMapping fm,
-            final String tableName) throws GeneratorException {
+    protected void addOneManyForeignKey(final Table table,
+            final FieldMapping fm, final String tableName)
+            throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
         fk.setConf(_conf);
         String s;
 
         ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
-        fk.setTableName(cm.getMapTo().getTable());
+        fk.setTable(table);
         s = cm.getMapTo().getTable() + "_" + fm.getName();
         fk.setConstraintName(s);
         fk.setFkName(s);
@@ -678,25 +712,29 @@ public abstract class AbstractGenerator implements Generator {
         fk.setReferenceKeyList(fm.getSql().getManyKey());
 
         fk.setRelationshipType(ForeignKey.ONE_MANY);
-        // _foreignKey.put(fk.getConstraintName(), fk);
         table.addForeignKey(fk);
     }
 
     /**
      * add new foreign key into a creation list
      * 
-     * @param table table
-     * @param fm field mapping
-     * @param tableName table name
-     * @throws GeneratorException generator error
+     * @param table
+     *            table
+     * @param fm
+     *            field mapping
+     * @param tableName
+     *            table name
+     * @throws GeneratorException
+     *             generator exception
      */
-    protected void addOneOneForeignKey(final Table table, final FieldMapping fm,
-            final String tableName) throws GeneratorException {
+    protected void addOneOneForeignKey(final Table table,
+            final FieldMapping fm, final String tableName)
+            throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
         fk.setConf(_conf);
         String s;
 
-        fk.setTableName(tableName);
+        fk.setTable(table);
         s = tableName + "_" + fm.getName();
         fk.setConstraintName(s);
         fk.setFkName(s);
@@ -707,13 +745,14 @@ public abstract class AbstractGenerator implements Generator {
         fk.setReferenceKeyList(_mappingHelper.getClassMappingIdentity(cm));
 
         fk.setRelationshipType(ForeignKey.ONE_ONE);
-        // _foreignKey.put(fk.getConstraintName(), fk);
         table.addForeignKey(fk);
     }
 
     /**
-     * @param fm field mapping
-     * @param keyGen key generator string
+     * @param fm
+     *            field mapping
+     * @param keyGen
+     *            key generator string
      */
     protected void addResolveField(final FieldMapping fm, final String keyGen) {
         ClassMapping resolveCm = null;
@@ -751,7 +790,9 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * @param table table 
+     * generate ddl for foreign key creation of table
+     * @param table
+     *            table
      * @return foreignkey creation ddl
      */
     protected String createForeignKeyDDL(final Table table) {
@@ -766,7 +807,9 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * @param table table
+     * generate ddl for index creation of table
+     * @param table
+     *            table
      * @return index creation ddl
      */
     protected String createIndexDDL(final Table table) {
@@ -791,7 +834,8 @@ public abstract class AbstractGenerator implements Generator {
     /**
      * Set the mappingHelper by _mappingHelper.
      * 
-     * @param mappingHelper mapping helper
+     * @param mappingHelper
+     *            mapping helper
      */
     public final void setMappingHelper(final MappingHelper mappingHelper) {
         _mappingHelper = mappingHelper;
@@ -808,7 +852,8 @@ public abstract class AbstractGenerator implements Generator {
     /**
      * Set the schema by _schema.
      * 
-     * @param schema schema
+     * @param schema
+     *            schema
      */
     public final void setSchema(final Schema schema) {
         _schema = schema;
@@ -824,14 +869,15 @@ public abstract class AbstractGenerator implements Generator {
 
     /**
      * 
-     * @param s  string
+     * @param s
+     *            string
      * @return format string base on Configuration._ddlFormatCase
      */
     private String format(final String s) {
-        if (_conf.getDdlFormatCase() == BaseConfiguration.DDL_FORMAT_LOWERCASE) {
+        if (_conf.getDdlFormatCase() == Configuration.DDL_FORMAT_LOWERCASE) {
             return s.toLowerCase();
         }
-        if (_conf.getDdlFormatCase() == BaseConfiguration.DDL_FORMAT_UPPERCASE) {
+        if (_conf.getDdlFormatCase() == Configuration.DDL_FORMAT_UPPERCASE) {
             return s.toUpperCase();
         }
         return s;
@@ -839,7 +885,8 @@ public abstract class AbstractGenerator implements Generator {
 
     /**
      * 
-     * @param s a string to write to _printer
+     * @param s
+     *            a string to write to _printer
      */
     protected void write(final String s) {
         _printer.println(format(s));
