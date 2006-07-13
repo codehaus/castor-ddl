@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.util.CommandLineOptions;
 
@@ -33,6 +34,9 @@ import org.exolab.castor.util.CommandLineOptions;
 public final class Main {
     /** logging */
     private static final Log LOG = LogFactory.getLog(Main.class);
+    
+    /**log file*/
+    private static final String LOG_FILE = "log4j.xml";
 
     /**
      * Constructor for Main
@@ -85,17 +89,14 @@ public final class Main {
         if (ddlName == null) {
             ddlName = mappingName.replaceAll(".xml", ".sql");
         }        
+
+        DOMConfigurator.configure(LOG_FILE);
         
         LOG.info("mapping file: " + mappingName);
-        System.out.println("mapping file: " + mappingName);
         LOG.info("ddl output file: " + ddlName);
-        System.out.println("ddl output file: " + ddlName);
         LOG.info("global configuration file: " + globalConfig);
-        System.out.println("global configuration file: " + globalConfig);
         LOG.info("specific database configuration file: " + specificConfig);
-        System.out.println("specific database configuration file: " + specificConfig);
         LOG.info("database: " + engine);
-        System.out.println("database: " + engine);
         
         // create generator and generate ddl
         try {
@@ -108,7 +109,7 @@ public final class Main {
             generator.generateDDL(mapping);            
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Please view '" + LOG_FILE + "' for more information");
             LOG.error("Error: " + e.getMessage());
         }
     }
