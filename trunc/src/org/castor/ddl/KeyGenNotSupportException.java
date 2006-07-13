@@ -13,34 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.castor.ddl;
 
 /**
- * GeneratorException, base class for all DDL generator exception
- * Created on Jun 4, 2006 - 10:28:10 AM
+ * 
+ * Created on Jul 11, 2006 - 9:37:12 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class GeneratorException extends Exception {
+
+public final class KeyGenNotSupportException extends GeneratorException {
 
     /**
      * 
      */
-    private static final long serialVersionUID = -1063687220997826880L;
+    private static final long serialVersionUID = -1270070878985011180L;
 
     /**
-     * Constructor for GeneratorException
-     * @param arg0 exception message
+     * Constructor for KeyGenNotSupportException
+     * @param arg0 message
      */
-    public GeneratorException(final String arg0) {
+    public KeyGenNotSupportException(final String arg0) {
         super(arg0);
     }
+
     /**
-     * Constructor 
-     * @param message An error message
-     * @param e The original exception that caused the problem.
+     * Constructor for KeyGenNotSupportException
+     * @param message exception message
+     * @param e original exception
      */
-    public GeneratorException (final String message, final Exception e) {
+    public KeyGenNotSupportException(final String message, final Exception e) {
         super(message, e);
     }
-    
+
 }

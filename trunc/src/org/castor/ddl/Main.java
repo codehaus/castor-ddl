@@ -20,15 +20,19 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.util.CommandLineOptions;
 
 /**
- * Main Class
+ * Main Program
  * Created on Jun 4, 2006 - 10:28:41 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public final class Main {
+    /** logging */
+    private static final Log LOG = LogFactory.getLog(Main.class);
 
     /**
      * Constructor for Main
@@ -42,7 +46,6 @@ public final class Main {
      */
     public static void main(final String[] args) {
         CommandLineOptions allOptions = new CommandLineOptions();
-        
         //-- input mapping file
         allOptions.addFlag("m", "mapping.xml", "input mapping file.");
 
@@ -64,7 +67,7 @@ public final class Main {
 
         //-- Process the specified command line options
         Properties options = allOptions.getOptions(args);
-
+        
         String  mappingName     = options.getProperty("m");
         String  ddlName         = options.getProperty("o");
         String  globalConfig    = options.getProperty("c");
@@ -83,10 +86,15 @@ public final class Main {
             ddlName = mappingName.replaceAll(".xml", ".sql");
         }        
         
+        LOG.info("mapping file: " + mappingName);
         System.out.println("mapping file: " + mappingName);
+        LOG.info("ddl output file: " + ddlName);
         System.out.println("ddl output file: " + ddlName);
+        LOG.info("global configuration file: " + globalConfig);
         System.out.println("global configuration file: " + globalConfig);
+        LOG.info("specific database configuration file: " + specificConfig);
         System.out.println("specific database configuration file: " + specificConfig);
+        LOG.info("database: " + engine);
         System.out.println("database: " + engine);
         
         // create generator and generate ddl
@@ -101,6 +109,7 @@ public final class Main {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error: " + e.getMessage());
+            LOG.error("Error: " + e.getMessage());
         }
     }
 }

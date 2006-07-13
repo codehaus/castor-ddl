@@ -25,8 +25,9 @@ import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 
 /**
- * this class handles all common tasks for Mapping Created on Jun 8, 2006 -
- * 1:13:56 PM
+ * This class handles all common tasks for Mapping 
+ * 
+ * <br/> Created on Jun 8, 2006 - 1:13:56 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
