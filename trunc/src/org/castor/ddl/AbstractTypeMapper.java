@@ -22,7 +22,8 @@ import java.util.Map;
 import org.castor.ddl.typeinfo.TypeInfo;
 
 /**
- * Abstract TypeMapper with common properties of all implementations.
+ * AbstractTypeMapper is the base class for mapping JDBC supported type and 
+ * RDBMS data type.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
