@@ -22,14 +22,17 @@ import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 
 /**
- * the interface for generator Created on Jun 4, 2006 - 10:25:34 AM
+ * Generator for generator 
+ * 
+ * <br/>
+ * Created on Jun 4, 2006 - 10:25:34 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public interface Generator {
 
     /**
-     * generate DDL script for a _mapping file generateDDL
+     * generate DDL script for a mapping file 
      * 
      * @param mappingFile
      *            mapping file name
@@ -44,7 +47,7 @@ public interface Generator {
             IOException, MappingException;
 
     /**
-     * 
+     * generate DDL for a mapping document
      * @param mappingDoc
      *            mapping document
      * @throws GeneratorException

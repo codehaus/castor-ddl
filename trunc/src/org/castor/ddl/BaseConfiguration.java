@@ -17,7 +17,9 @@
 package org.castor.ddl;
 
 /**
- * this class handles some basic configuration information for DDL generator
+ * BaseConfiguration handles configuration's key definition
+ * 
+ * @version
  * Created on Jun 12, 2006 - 12:11:52 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
@@ -97,6 +99,13 @@ public class BaseConfiguration {
 
     /** Line indent */
     private String _lineIndent = "    ";
+    
+    /** sql bloc separator key */
+    public static final String SQL_BLOC_SEPARATOR_KEY = "sql_bloc_separator";
+    
+    /** Line indent */
+    private String _sqlBlocSeparator = "\n";
+    
 
     /** ddl format case key */
     public static final String DDL_FORMAT_CASE_KEY = "ddl_format_case";
@@ -212,5 +221,21 @@ public class BaseConfiguration {
      */
     public final void setSqlStatDelimeter(final String sqlStatDelimeter) {
         _sqlStatDelimeter = sqlStatDelimeter;
+    }
+
+    /**
+     * 
+     * @return Returns the sqlBlockSeparator.
+     */
+    public final String getSqlBlocSeparator() {
+        return _sqlBlocSeparator;
+    }
+
+    /**
+     * Set the sqlBlockSeparator by _sqlBlocSeparator.
+     * @param sqlBlocSeparator sql bloc separator 
+     */
+    public final void setSqlBlocSeparator(final String sqlBlocSeparator) {
+        _sqlBlocSeparator = sqlBlocSeparator;
     }
 }

@@ -18,9 +18,11 @@ package org.castor.ddl;
 import java.util.Enumeration;
 import java.util.Properties;
 
-/**
- * this class handle the configuration for DDL generator Created on Jun 4, 2006 -
- * 10:27:35 AM
+/** 
+ * Configuration handle the configuration for DDL generator inclidung
+ * load configuration files, manage configuration values
+ * 
+ * @version Created on Jun 4, 2006 - 10:27:35 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
@@ -224,12 +226,14 @@ public class Configuration extends BaseConfiguration {
      */
     protected void loadPredefineConfiguration() {
         /** field delimeter */
-        setSqlFieldDelimeter(getStringValue(SQL_FIELD_DELIMETER_KEY,
-                getSqlFieldDelimeter()));
+//        setSqlFieldDelimeter(getStringValue(SQL_FIELD_DELIMETER_KEY,
+//                getSqlFieldDelimeter()));
+        setSqlFieldDelimeter(",");
 
         /** statement delimeter */
-        setSqlStatDelimeter(getStringValue(SQL_STAT_DELIMETER_KEY,
-                getSqlStatDelimeter()));
+//        setSqlStatDelimeter(getStringValue(SQL_STAT_DELIMETER_KEY,
+//                getSqlStatDelimeter()));
+        setSqlStatDelimeter(";");
 
         /** line separator */
         setLineSeparator(getStringValue(LINE_SEPARATOR_KEY, getLineSeparator()));
@@ -237,6 +241,9 @@ public class Configuration extends BaseConfiguration {
         /** Line indent */
         setLineIndent(getStringValue(LINE_INDENT_KEY, getLineIndent()));
 
+        /** line separator */
+        setSqlBlocSeparator(getStringValue(SQL_BLOC_SEPARATOR_KEY, getLineSeparator()));
+        
         String s = getStringValue(DDL_FORMAT_CASE_KEY,
                 DDL_FORMAT_CASESENSITIVE_STRING);
 
