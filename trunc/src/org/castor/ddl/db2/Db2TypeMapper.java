@@ -71,7 +71,6 @@ public final class Db2TypeMapper extends AbstractTypeMapper {
         this.add(new OptionalPrecisionDecimalsType("decimal", "DECIMAL", conf));
 
         // character types
-        //todo review is it required or optional
         this.add(new OptionalLengthType("char", "CHAR", conf));
         this.add(new RequiredLengthType("varchar", "VARCHAR", conf));
         this.add(new NoParamType("longvarchar", "LONG VARCHAR"));

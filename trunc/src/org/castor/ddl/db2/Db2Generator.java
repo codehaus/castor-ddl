@@ -36,7 +36,7 @@ public class Db2Generator extends AbstractGenerator {
      * @throws GeneratorException generator exception
      */
     public Db2Generator(final String globConf, final String dbConf)
-            throws GeneratorException {
+            throws GeneratorException { 
         super(globConf, dbConf);
         setTypeMapper(new Db2TypeMapper(getConf()));
         setSchemaFactory(new Db2SchemaFactory());

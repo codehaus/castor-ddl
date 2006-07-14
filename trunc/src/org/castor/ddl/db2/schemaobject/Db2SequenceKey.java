@@ -19,7 +19,6 @@ package org.castor.ddl.db2.schemaobject;
 import java.text.MessageFormat;
 
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.schemaobject.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
@@ -44,7 +43,7 @@ public class Db2SequenceKey extends SequenceKey {
      * @see org.castor.ddl.schemaobject.SequenceKey#toDDL()
      * {@inheritDoc}
      */
-    public String toDDL() throws KeyGenNotSupportException {
+    public String toDDL() {
         StringBuffer buff = new StringBuffer();
         String tableName = getTable().getName();
         String pk = toPrimaryKeyList();
