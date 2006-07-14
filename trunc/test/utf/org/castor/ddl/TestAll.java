@@ -16,6 +16,12 @@
 
 package utf.org.castor.ddl;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.apache.log4j.xml.DOMConfigurator;
+
 import utf.org.castor.ddl.db2.Db2GeneratorTest;
 import utf.org.castor.ddl.derby.DerbyGeneratorTest;
 import utf.org.castor.ddl.hsql.HsqlGeneratorTest;
@@ -26,9 +32,6 @@ import utf.org.castor.ddl.pointbase.PointBaseGeneratorTest;
 import utf.org.castor.ddl.postgresql.PostgresqlGeneratorTest;
 import utf.org.castor.ddl.sapdb.SapdbGeneratorTest;
 import utf.org.castor.ddl.sybase.SybaseGeneratorTest;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * 
@@ -37,6 +40,9 @@ import junit.framework.TestSuite;
  */
 
 public class TestAll extends TestCase {
+
+    /**log file*/
+    private static final String LOG_FILE = "log4j-test.xml";
 
     /**
      * Constructor for TestAll
@@ -49,7 +55,15 @@ public class TestAll extends TestCase {
      * @param args params
      */
     public static void main(final String[] args) {
-        junit.swingui.TestRunner.run(TestAll.class);
+        try {
+            DOMConfigurator.configure(LOG_FILE);
+            
+//            TestResult result =  
+            junit.textui.TestRunner.run(TestAll.suite());
+//            junit.swingui.TestRunner.run(TestAll.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
     }
 
 

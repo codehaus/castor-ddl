@@ -37,7 +37,7 @@ import org.xml.sax.InputSource;
  */
 
 public final class ExpectedResult {
-    /** expected result mapping file */
+    /** expected result mapping file  */
     public static final String EXPECTED_RESULT_MAPPING = "expected-mapping.xml";
 
     /** generic database engine */

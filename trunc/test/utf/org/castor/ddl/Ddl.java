@@ -19,6 +19,8 @@ package utf.org.castor.ddl;
 
 import java.text.MessageFormat;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.Configuration;
 
 /**
@@ -28,10 +30,13 @@ import org.castor.ddl.Configuration;
  */
 
 public class Ddl {
+    /**logging*/
+    private static final Log LOG = LogFactory.getLog(Ddl.class);
+
     /** matching type, regular expression*/
     public static final String MATCHTYPE_REGEXP = "regexp";
 
-    /** matching type, plain text*/
+    /** matching type, plain text */
     public static final String MATCHTYPE_PLAIN = "plain";
 
     /** matching type, exact match*/
@@ -172,7 +177,8 @@ public class Ddl {
             _ddl = "";
         }
 
-        System.out.println(actualResult);
+//        LOG.info("actual result: " + actualResult);
+        System.out.println("actual result: " + actualResult);
         String expDDL = _ddl;
         String actual = actualResult;
         if (!_casesensitive) {
@@ -180,15 +186,16 @@ public class Ddl {
             expDDL = expDDL.toLowerCase().trim();
         }
         
-//        actualResult = actualResult.replaceAll(AbstractGenerator.LINE_SEPARATOR, " ");
         actual = actual.replaceAll(_conf.getLineSeparator(), " ");
         actual = actual.replaceAll(_conf.getLineIndent(), " ");
         actual = actual.replaceAll("[ \t]+", " ");
-        System.out.println(actual);
+//        LOG.info("actual result converted: " + actual);
+        System.out.println("actual result converted: " + actual);
         
         expDDL = expDDL.replaceAll(_conf.getLineSeparator(), " ");
         expDDL = expDDL.replaceAll("[ \t]+", " ");
-        System.out.println(expDDL);
+//        LOG.info("expected result: " + expDDL);
+        System.out.println("expected result: " + expDDL);
         return actual.matches(expDDL);
     }
     

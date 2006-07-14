@@ -78,7 +78,8 @@ public abstract class BaseGeneratorTest extends TestCase {
      */
     public BaseGeneratorTest(final String testcase) {
         super(testcase);
-        setGlobalConf(BaseGeneratorTest.class.getResource("test_ddl.properties").getFile());
+        setGlobalConf(BaseGeneratorTest.class.
+                getResource("test_ddl.properties").getFile());
 
     }
 
@@ -706,7 +707,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
 
             ddl = _generator.generateKeyGenerator();
-
+//
             b = _expectedDDL.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
