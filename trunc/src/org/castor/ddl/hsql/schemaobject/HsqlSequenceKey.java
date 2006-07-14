@@ -60,7 +60,7 @@ public class HsqlSequenceKey extends SequenceKey {
         buff.append("START WITH 1 INCREMENT BY 1");
         buff.append(getConf().getSqlStatDelimeter());
 
-//        if (isTrigger()) {
+//        if (isTrigger()) { 
 //         todo ...   
 //        }
         return buff.toString();

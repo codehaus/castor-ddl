@@ -46,7 +46,7 @@ public class HsqlGenerator extends AbstractGenerator {
      * {@inheritDoc}
      */
     public String generateHeader() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub 
         return null;
     }
 
