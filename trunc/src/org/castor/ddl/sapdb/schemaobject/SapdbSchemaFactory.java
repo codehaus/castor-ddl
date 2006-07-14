@@ -22,7 +22,7 @@ import org.castor.ddl.schemaobject.SchemaFactory;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * 
+ * SapdbSchemaFactory
  * Created on Jul 10, 2006 - 11:52:34 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
@@ -30,7 +30,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 public class SapdbSchemaFactory extends SchemaFactory {
 
     /**
-     * Constructor for SapdbSchemaFactory
+     * Constructor for SapdbSchemaFactory 
      */
     public SapdbSchemaFactory() {
         super();

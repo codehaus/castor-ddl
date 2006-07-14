@@ -23,8 +23,8 @@ import org.castor.ddl.schemaobject.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * 
- * Created on Jul 11, 2006 - 2:37:37 PM
+ * SapdbSequenceKey
+ * <br/>Created on Jul 11, 2006 - 2:37:37 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

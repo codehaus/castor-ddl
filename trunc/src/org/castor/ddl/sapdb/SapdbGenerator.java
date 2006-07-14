@@ -30,7 +30,7 @@ import org.castor.ddl.sapdb.schemaobject.SapdbSchemaFactory;
 public class SapdbGenerator extends AbstractGenerator {
 
     /**
-     * Constructor for SapdbGenerator
+     * Constructor for SapdbGenerator 
      * @param globConf global configuration
      * @param dbConf oracle configuration
      * @throws GeneratorException generator exception
