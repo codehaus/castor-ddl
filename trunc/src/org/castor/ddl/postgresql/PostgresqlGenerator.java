@@ -22,7 +22,8 @@ import org.castor.ddl.TypeMapper;
 import org.castor.ddl.postgresql.schemaobject.PostgresqlSchemaFactory;
 
 /**
- * generator for MySQL Created on Jun 4, 2006 - 10:29:02 AM
+ * Generator for PostgreSQL 
+ * <br/>Created on Jun 4, 2006 - 10:29:02 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
