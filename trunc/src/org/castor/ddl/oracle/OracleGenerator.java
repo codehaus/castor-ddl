@@ -22,7 +22,8 @@ import org.castor.ddl.TypeMapper;
 import org.castor.ddl.oracle.schemaobject.OracleSchemaFactory;
 
 /**
- * generator for Oracle Created on Jun 4, 2006 - 10:29:02 AM
+ *  Generator for Oracle 
+ * <br/> Created on Jun 4, 2006 - 10:29:02 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

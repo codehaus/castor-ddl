@@ -23,8 +23,8 @@ import org.castor.ddl.schemaobject.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * 
- * Created on Jul 5, 2006 - 2:54:35 PM
+ * OracheSequenceKey
+ * <br>Created on Jul 5, 2006 - 2:54:35 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
