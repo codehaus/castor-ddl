@@ -24,6 +24,9 @@ import org.castor.ddl.typeinfo.TypeInfo;
 /**
  * AbstractTypeMapper is the base class for mapping JDBC supported type and 
  * RDBMS data type.
+ * <p/>The initialize(Configuration) is used to defined the mapping table in which
+ * the configuration is handled parameters for TypeInfo. Please refer to 
+ * org.castor.ddl.typeinfo for TypeInfo definitions  
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
