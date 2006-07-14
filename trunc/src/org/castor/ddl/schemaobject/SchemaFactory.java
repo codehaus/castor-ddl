@@ -20,8 +20,8 @@ import org.castor.ddl.GeneratorException;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * Factory provides a way to create schema objects Created on Jul 4, 2006 -
- * 3:01:20 PM
+ * Factory provides a way to create schema objects 
+ * <br/>Created on Jul 4, 2006 - 3:01:20 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
@@ -31,7 +31,7 @@ public class SchemaFactory {
     /**
      * Constructor for SchemaFactory
      */
-    protected SchemaFactory() {
+    public SchemaFactory() {
         super();
     }
 

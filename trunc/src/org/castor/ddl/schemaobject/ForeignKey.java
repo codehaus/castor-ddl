@@ -17,13 +17,12 @@
 package org.castor.ddl.schemaobject;
 
 /**
- * this class handle information for foreign key creation.
+ * ForeignKey handle information for foreign key creation.
  * <pre>ALTER TABLE `prod_group` ADD CONSTRAINT `FK_prod_group_1` 
  * FOREIGN KEY `FK_prod_group_1` (`id`, `name`)
  * REFERENCES `category` (`id`, `name`)
- * ON DELETE SET NULL
- * ON UPDATE CASCADE;</pre> 
- * Created on Jun 21, 2006 - 11:52:10 AM
+ * </pre> 
+ * <br/>Created on Jun 21, 2006 - 11:52:10 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

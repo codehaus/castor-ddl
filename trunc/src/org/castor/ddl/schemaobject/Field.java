@@ -21,7 +21,8 @@ import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.typeinfo.TypeInfo;
 
 /**
- * 
+ * Field handles informations for creating field's sql. For example, 
+ * <br/>fieldnumeric NUMERIC(12, 13)
  * Created on Jun 23, 2006 - 5:43:48 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>

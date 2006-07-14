@@ -20,8 +20,14 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 
 /**
- * 
- * Created on Jun 24, 2006 - 2:05:57 AM
+ * IDENTITY key generator can be used only with autoincrement primary key columns 
+ * (identities) with Sybase ASE/ASA, MS SQL Server, MySQL and Hypersonic SQL. 
+ * After the insert the key generator selects system variable @@identity which 
+ * contains the last identity value for the current database connection. In the case 
+ * of MySQL and Hypersonic SQL the system functions LAST_INSERT_ID() and IDENTITY() 
+ * are called, respectively.
+ * <br/>This algorithm has no parameters.
+ * <br/>Created on Jun 24, 2006 - 2:05:57 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

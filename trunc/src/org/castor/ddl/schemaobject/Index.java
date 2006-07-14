@@ -18,8 +18,8 @@ package org.castor.ddl.schemaobject;
 
 
 /**
- * 
- * Created on Jun 23, 2006 - 6:25:09 PM
+ * Current implemetation is not supported INDEX creation
+ * <br/>Created on Jun 23, 2006 - 6:25:09 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

@@ -25,8 +25,18 @@ import org.exolab.castor.mapping.xml.Param;
 
 
 /**
+ *SEQUENCE key generator can be used only with Oracle, PostgreSQL, Interbase and 
+ *SAP DB. It generates keys using sequences.
+ *The key generator has the following parameters:
+ *<li/>sequence:    The name of the sequence, Optional, default="{0}_seq"
+ *<li/>returning:   RETURNING mode for Oracle8i, values: "true"/"false", Optional, 
+ *default="false"
+ *<li/>increment:   Increment for Interbase, Optional, default="1"
+ *<li/>trigger:     Assume that there is a trigger that already generates key. 
+ *Values: "true"/"false", Optional, default="false"
+ *
+ *<li/>Created on Jun 24, 2006 - 2:01:26 AM
  * 
- * Created on Jun 24, 2006 - 2:01:26 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -76,18 +86,18 @@ public class SequenceKey extends KeyGenerator {
             if (pname == null) {
                 continue;
             }
-            if (sequenceKey.equals(pname.toLowerCase())) {
+            if (sequenceKey.equalsIgnoreCase(pname)) {
                 _sequence = pval;
-            } else if (returningKey.equals(pname.toLowerCase())) {
+            } else if (returningKey.equalsIgnoreCase(pname)) {
                 _isReturning = Boolean.valueOf(pval).booleanValue();
-            } else if (incrementKey.equals(pname.toLowerCase())) {
+            } else if (incrementKey.equalsIgnoreCase(pname)) {
                 try {
                 _increment = Integer.parseInt(pval);
                 } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
                     throw new GeneratorException("can not parse integer" + pname, nfe);
                 }
-            } else if (triggerKey.equals(pname.toLowerCase())) {
+            } else if (triggerKey.equalsIgnoreCase(pname)) {
                 _isTrigger = Boolean.valueOf(pval).booleanValue();
             }            
         }                

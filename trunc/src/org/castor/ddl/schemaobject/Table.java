@@ -23,14 +23,9 @@ import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 
 /**
+ * Table contains fields, foreignkeys, indexes and table's options
  * 
- * Created on Jun 23, 2006 - 5:43:29 PM
- * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
- */
-
-/**
- * 
- * Created on Jun 23, 2006 - 6:22:33 PM
+ * <br/>Created on Jun 23, 2006 - 6:22:33 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class Table extends AbstractSchemaObject {
@@ -233,7 +228,7 @@ public class Table extends AbstractSchemaObject {
         _schema = schema;
     }
 
-    /**
+    /** create CREADDL
      * @return create creation ddl
      * @throws GeneratorException generator error
      */

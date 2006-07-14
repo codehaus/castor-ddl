@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
- * Created on Jun 24, 2006 - 2:10:05 AM
+ * KeyRepository handles KeyGenerators
+ * <br/>Created on Jun 24, 2006 - 2:10:05 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

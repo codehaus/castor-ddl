@@ -19,20 +19,23 @@ package org.castor.ddl.schemaobject;
 import org.castor.ddl.Configuration;
 
 /**
- * 
+ * AbstractSchemaObject is the base class for Table, Field, ForeignKey, 
+ * KeyGenerator...
+ * <br/>
+ * Created on Jul 4, 2006 - 2:20:35 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
- * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
+
 public abstract class AbstractSchemaObject implements SchemaObject {
-    /** Configuration */
+    /**configuration */
     private Configuration _conf;
     
     /**
-     * @see org.castor.ddl.schemaobject.SchemaObject
-     *      #setConf(org.castor.ddl.Configuration)
+     * @see org.castor.ddl.schemaobject.SchemaObject#setConf
+     * (org.castor.ddl.Configuration)
      * {@inheritDoc}
      */
-    public final void setConf(final Configuration conf) {
+    public void setConf(final Configuration conf) {
         _conf = conf;
         
     }
@@ -41,7 +44,8 @@ public abstract class AbstractSchemaObject implements SchemaObject {
      * @see org.castor.ddl.schemaobject.SchemaObject#getConf()
      * {@inheritDoc}
      */
-    public final Configuration getConf() {
+    public Configuration getConf() {
         return _conf;
     }
+
 }
