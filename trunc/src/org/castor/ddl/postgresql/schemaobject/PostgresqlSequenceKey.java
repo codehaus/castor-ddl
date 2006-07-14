@@ -31,7 +31,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 public class PostgresqlSequenceKey extends SequenceKey {
 
     /**
-     * Constructor for PostgresqlSequenceKey
+     * Constructor for PostgresqlSequenceKey 
      * @param keyGenDef key generator definition
      * @throws GeneratorException generator error
      */

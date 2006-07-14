@@ -32,7 +32,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 public class PostgresqlSchemaFactory extends SchemaFactory {
 
     /**
-     * Constructor for MysqlSchemaFactory
+     * Constructor for MysqlSchemaFactory 
      */
     public PostgresqlSchemaFactory() {
         super();
