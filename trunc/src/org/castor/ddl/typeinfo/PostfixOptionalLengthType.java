@@ -20,7 +20,8 @@ import org.castor.ddl.Configuration;
 import org.castor.ddl.schemaobject.Field;
 
 /**
- * 
+ * TypeInfo for types having one optional length parameter, and sufixe
+ * Fox example, CHAR (n) FOR BIT DATA
  * Created on Jul 8, 2006 - 12:22:45 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

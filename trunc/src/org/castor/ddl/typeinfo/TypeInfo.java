@@ -21,7 +21,7 @@ import org.castor.ddl.schemaobject.Field;
 
 /**
  * Interface associates JDBC to SQL type and its parameters.
- * 
+ *  
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */

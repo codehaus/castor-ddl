@@ -21,8 +21,9 @@ import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
 
 /**
- * 
- * Created on Jul 8, 2006 - 12:38:02 AM
+ * LObType is used for BLOB/CLOB type in which requires the sufixe, for example
+ * BLOB(10M), CLOB(1K)
+ * <br>Created on Jul 8, 2006 - 12:38:02 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

@@ -21,7 +21,8 @@ import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
 
 /**
- * 
+ * Final TypeInfo for types having a required length parameter and sufixe.
+ * Fox example, CHAR (n) FOR BIT DATA
  * Created on Jul 8, 2006 - 12:26:38 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

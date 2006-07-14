@@ -20,7 +20,7 @@ import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
 
 /**
- * 
+ * NotSupportedType is used for type in which DB does not support. 
  * Created on Jul 8, 2006 - 4:35:21 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
