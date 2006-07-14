@@ -19,22 +19,23 @@ package org.castor.ddl.schemaobject;
 import org.castor.ddl.Configuration;
 
 /**
- * 
+ * An interface for all SchemaObject
+ * <br/>
+ * Created on Jun 23, 2006 - 6:15:17 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
- * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
+
 public interface SchemaObject {
+
     /**
-     * Set configuration.
-     * 
-     * @param conf Configuration.
+     * set configuration
+     * @param conf configuration
      */
     void setConf(Configuration conf);
     
     /**
-     * Get configuration.
-     * 
-     * @return Configuration.
+     * get configuration
+     * @return configuration
      */
     Configuration getConf();
 }
