@@ -47,7 +47,49 @@ import org.exolab.castor.mapping.xml.Sql;
  * <li/> Extract information from Mapping to Schema
  * <li/> Loop through the schema and provide a skeleton for DDL creation
  * 
- * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * <p/>AbstractGenerator will automatically extract necessary informations for DDL 
+ * creation. Thoses informations are handled by Schema.
+ * <p/>To create new generator for a DBMS, you should:
+ * <li/> Overwrite this class to create new generator for a DBMS. 
+ * <li/> If the systax of DBMS is different to standard DDL systax, you should 
+ * overwrite SchemaObjects (Table, Field, KeyGenerator, Index, ForeignKey,...) class. 
+ * The class SchemaObjectFactory is also who handles the SchemaObject creation must 
+ * be overwritten.
+ * <li/> Mapping type between JDBC type and specific DBMS being also different among 
+ * varios DBMS, you must overwrite the TypeMapper.
+ * <p/>Example:
+ * <li/> Generator for DB2
+ * <code>
+ * 
+ *public class Db2Generator extends AbstractGenerator {
+ *
+ *    public Db2Generator(final String globConf, final String dbConf)
+ *            throws GeneratorException {
+ *        super(globConf, dbConf);
+ *        setTypeMapper(new Db2TypeMapper(getConf()));
+ *    }
+ *}   
+ * </code>
+ * <li/>TypeMapper for DB2
+ * <code>
+ *public final class Db2TypeMapper extends AbstractTypeMapper {
+ *    public Db2TypeMapper(final Configuration conf) {
+ *        super(conf);
+ *    }
+ * 
+ *    protected void initialize(final Configuration conf) {
+ *        // numeric types
+ *        this.add(new NotSupportedType("bit"));
+ *        LOG.warn("Db2 does not support 'TINY' type, use SMALLINT instead.");
+ *        this.add(new NoParamType("tinyint", "SMALLINT"));
+ *        this.add(new NoParamType("smallint", "SMALLINT"));
+ *        this.add(new NoParamType("integer", "INTEGER"));
+ *        this.add(new NoParamType("bigint", "BIGINT"));
+ *    }
+ *} 
+ * </code>
+ * 
+ * @version $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * 
  */
@@ -78,7 +120,7 @@ public abstract class AbstractGenerator implements Generator {
     private SchemaFactory _schemaFactory;
 
     /**
-     * Constructor for AbstractGenerator
+     * Create a Generator from ddl configuration file and db configuration file
      * 
      * @param globConf
      *            global configuration file
@@ -95,6 +137,7 @@ public abstract class AbstractGenerator implements Generator {
         Configuration conf = new Configuration(globConf);
         conf.addProperties(dbConf);
         setConf(conf);
+        setSchemaFactory(new SchemaFactory());
 
     }
 
@@ -149,7 +192,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * generate ddl
+     * generating ddl group by ddl type
      * 
      * @throws GeneratorException
      *             generator exception
@@ -208,7 +251,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * 
+     * generating ddl group by table
      * @throws GeneratorException
      *             generator exception
      */
@@ -275,6 +318,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * generate primany key creation, delegate to table.toPrimaryKeyDDL()
      * @return primary key creation ddl
      */
     public String generatePrimaryKey() {
@@ -339,11 +383,23 @@ public abstract class AbstractGenerator implements Generator {
      * in the ddl.properties
      * @return header comment
      */
-    public abstract String generateHeader();
+    public String generateHeader() {
+       return ""; 
+    }
 
     /**
      * generate create statement, delegate to table.toCreateDDL() 
-     * 
+     * <pre>
+     * CREATE TABLE prod (
+     *  id INTEGER NOT NULL,
+     *  name CHAR(16)
+     * );
+
+     * CREATE TABLE prod_detail (
+     *  id INTEGER NOT NULL,
+     *  prod_id CHAR(16)
+     * );
+     * </pre>
      * @return create table ddl
      * @throws GeneratorException
      *             generator exception
@@ -466,7 +522,11 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * generate ddl for schema creation
+     * Extracting informations from mapping to schema, this is done by 3 steps
+     * <li/>Extracting KeyGeneratorDef
+     * <li/>Extracting Table, the additional for many-many relationship will be added
+     * to the _resolveTable
+     * <li/>Extracting additional tables for many-many relationship
      * 
      * @throws GeneratorException
      *             generator exception
@@ -507,6 +567,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * create sql table from a ClassMapping
      * @param cm
      *            ClassMapping
      * @return table
@@ -656,6 +717,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * add many-many foreign key into a table
      * @param fm
      *            Field Mapping
      * @param table
@@ -685,6 +747,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * add 1-many foreign key into a table
      * @param fm
      *            field mapping
      * @param table
@@ -716,8 +779,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * add new foreign key into a creation list
-     * 
+     * add 1-1 foreign key into a table
      * @param table
      *            table
      * @param fm
@@ -868,7 +930,8 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * 
+     * Formating ddl string before its outputs. Depending the ddl_format_case 
+     * property, the ddl string will be formated 
      * @param s
      *            string
      * @return format string base on Configuration._ddlFormatCase

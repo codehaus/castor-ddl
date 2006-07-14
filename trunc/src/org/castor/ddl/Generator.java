@@ -22,7 +22,7 @@ import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 
 /**
- * Generator for generator 
+ * Generator is the interface for various generators.
  * 
  * <br/>
  * Created on Jun 4, 2006 - 10:25:34 AM
@@ -64,7 +64,7 @@ public interface Generator {
 
     /**
      * 
-     * @param printer
+     * @param printer 
      *            print stream for output
      */
 

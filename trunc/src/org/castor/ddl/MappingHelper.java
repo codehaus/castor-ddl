@@ -25,7 +25,7 @@ import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 
 /**
- * This class handles all common tasks for Mapping 
+ * This class handles all common tasks for Mapping  
  * 
  * <br/> Created on Jun 8, 2006 - 1:13:56 PM
  * 
@@ -129,7 +129,7 @@ public class MappingHelper {
     }
 
     /**
-     * 
+     * searching FieldMapping in Class by className in which its name is fieldName
      * @param className
      *            class name
      * @param fieldName
@@ -159,8 +159,30 @@ public class MappingHelper {
     /**
      * return an array of type of reference table. In case the table A refers to
      * table B, table B refers to table C, it should call resolveTypeReference
-     * recursively.
-     * 
+     * recursively. For example, 
+     * <pre>
+     *<mapping>
+     *  <class name="myapp.OtherProductGroup" >
+     *    <map-to table="other_prod_group" xml="group" />
+     *    <field name="id" type="integer" identity="true">
+     *      <sql name="id" type="integer"/>
+     *    </field>
+     *  </class>
+     *
+     *  <class name="myapp.ProductGroup" identity="id">
+     *    <map-to table="prod_group" xml="group" />
+     *    <field name="id" type="myapp.OtherProductGroup" >
+     *      <sql name="prod_id" />
+     *    </field>
+     *  </class>
+     *
+     *  <class name="myapp.Product" identity="id">
+     *    <field name="group" type="myapp.ProductGroup">
+     *      <sql name="group_id" />
+     *    </field>
+     *  </class>
+     *</mapping>     
+     *</pre>
      * @param className
      *            class name
      * @return list of type of reference ids from class name
@@ -247,7 +269,7 @@ public class MappingHelper {
     }
     
     /**
-     * 
+     * if the ClassMapping uses identity in the FieldMapping
      * @param cm class mapping
      * @return true if this class uses the field identity
      */
@@ -264,23 +286,22 @@ public class MappingHelper {
     }
 
     /**
-     * <code> <class name="myapp.ProductGroup" identity="id">
-     <field name="id" type="integer" >
-     <sql name="id1 id2" type="integer"/>
-     </field>
-     </class>
-     <code>
+     * <code> 
+     * <class name="myapp.ProductGroup" identity="id">
+         <field name="id" type="integer" >
+         <sql name="id1 id2" type="integer"/>
+         </field>
+         </class>
+     * <code>
      * @param cm class mapping
      * @param fm field mapping
      * @return true if fm is an identity
      */
     public boolean isIdentity(final ClassMapping cm, final FieldMapping fm) {
         String[] ids = cm.getIdentity();
-        // String []sqlname = fm.getSql().getName();
         String fieldName = fm.getName();
-        // for(int i=0; i < sqlname.length; i++)
+
         for (int j = 0; j < ids.length; j++) {
-            // if(ids[j].equals(sqlname[i]))
             if (ids[j].equals(fieldName)) {
                 return true;
             }
@@ -289,7 +310,7 @@ public class MappingHelper {
     }
 
     /**
-     * get identity for a classmapping
+     * get identity list for a classmapping
      * 
      * @param cm Class mapping
      * @return list of identity
@@ -319,7 +340,6 @@ public class MappingHelper {
     }
 
     /**
-     * 
      * @return Returns the classMapping.
      */
     public final ClassMapping getClassMapping() {

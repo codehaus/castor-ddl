@@ -27,7 +27,7 @@ import java.util.Properties;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class Configuration extends BaseConfiguration {
-    /**
+    /** 
      * handle configuration
      */
     Properties _conf;

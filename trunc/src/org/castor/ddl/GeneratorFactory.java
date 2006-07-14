@@ -31,8 +31,9 @@ import org.castor.ddl.sapdb.SapdbGenerator;
 import org.castor.ddl.sybase.SybaseGenerator;
 
 /**
- * This class handles the creation for specific databse generator Created on Jun
- * 7, 2006 - 3:22:36 PM
+ * This class handles the creation for various databse generators 
+ * 
+ * <br/>Created on Jun 7, 2006 - 3:22:36 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
@@ -40,7 +41,7 @@ import org.castor.ddl.sybase.SybaseGenerator;
 public final class GeneratorFactory {
 
     /**
-     * Constructor for GeneratorFactory
+     * Constructor for GeneratorFactory 
      */
     private GeneratorFactory() {
         super();

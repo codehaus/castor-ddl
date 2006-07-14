@@ -29,7 +29,7 @@ import org.castor.ddl.typeinfo.TypeInfo;
  * org.castor.ddl.typeinfo for TypeInfo definitions  
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
- * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
+ * @version $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public abstract class AbstractTypeMapper implements TypeMapper {
     /** Map of known types which associates JDBC type to corresponding TypeInfo. */

@@ -23,7 +23,7 @@ package org.castor.ddl;
 public class GeneratorException extends Exception {
 
     /**
-     * 
+     * serialVersionUID
      */
     private static final long serialVersionUID = -1063687220997826880L;
 
