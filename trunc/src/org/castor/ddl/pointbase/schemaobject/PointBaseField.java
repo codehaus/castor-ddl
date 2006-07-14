@@ -21,8 +21,8 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * 
- * Created on Jul 11, 2006 - 5:18:46 PM
+ * PointBaseField
+ * <br/>Created on Jul 11, 2006 - 5:18:46 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
