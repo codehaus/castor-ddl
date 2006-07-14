@@ -53,7 +53,7 @@ public class DerbyGenerator extends AbstractGenerator {
      * {@inheritDoc}
      */
     public String generateHeader() {
-        StringBuffer buff = new StringBuffer("/*");
+        StringBuffer buff = new StringBuffer("/*"); 
         buff.append(new java.util.Date());
         buff.append("\n");
 

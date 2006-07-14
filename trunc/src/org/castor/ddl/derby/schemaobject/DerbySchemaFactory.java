@@ -42,5 +42,4 @@ public class DerbySchemaFactory extends SchemaFactory {
     public Field createField() {
         return new DerbyField();
     }
-    
 }
