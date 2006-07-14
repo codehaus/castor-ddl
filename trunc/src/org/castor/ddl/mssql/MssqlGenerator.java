@@ -30,7 +30,7 @@ import org.castor.ddl.mssql.schemaobject.MssqlSchemaFactory;
 public class MssqlGenerator extends AbstractGenerator {
 
     /**
-     * Constructor for MssqlGenerator
+     * Constructor for MssqlGenerator 
      * @param globConf global configuration
      * @param dbConf oracle configuration
      * @throws GeneratorException generator exception
