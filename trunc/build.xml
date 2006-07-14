@@ -1,36 +1,75 @@
 <?xml version="1.0" ?>
 <project default="main">
+	<!-- define properties pairs-->
+	<property name="basedir" value="."/>
+	<property name="classes" value="classes"/>
+	<property name="source" value="src"/>
+	<property name="lib" value="lib"/>
+	<property name="test-source" value="test"/>
+	<property name="jarfile" value="ddlgenerator.jar"/>
+	<property name="castor_home" value="D:\projects\SoC\castor\castor-1.0-src\castor-1.0"/>
+
+	<!-- class path-->
+	<path id="generator.classpath">
+		<pathelement path="${basedir}/${classes}" />
+		<pathelement location="lib/xerces.jar" />
+		<pathelement location="lib/castor-1.0.jar" />
+		<pathelement location="lib/commons-logging.jar" />
+		<pathelement location="lib/log4j-1.2.8.jar" />
+		<pathelement location="lib/junit_3.8.1.jar" />
+		<fileset dir="${castor_home}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- resource file-->
+	<patternset id="resouce.files">
+		<include name="**/*.xsd" />
+		<include name="**/*.xml" />
+		<include name="**/*.xsl" />
+		<include name="**/*.properties" />
+		<include name="**/*.dtd" />
+		<include name="**/*.gif" />
+	</patternset>
+
+
 	<target name="main" depends="cleanup, init, setup, compile" description="Main target">
-		<echo>Building the .jar file.</echo>
+		<echo>Building the ddlgenerator.jar file.</echo>
 	</target>
 
-	<target name="init">
-		<property file="build.properties" />
+	<target name="init" description="intializing">
 	</target>
 
-	<target name="setup" depends="init">
-		<mkdir dir="${basedir}/${dest}" />
+	<target name="setup" description="seting up">
+		<mkdir dir="${basedir}/${classes}" />
 	</target>
 
-	<target name="cleanup" depends="init">
-		<delete dir="${basedir}/${dest}" />
+	<target name="cleanup" depends="init" description="cleaning up">
+		<delete dir="${basedir}/${classes}" />
 	</target>
 
-	<target name="compile" description="Compilation target" depends="init">
-		<javac srcdir="${source}" destdir="${basedir}/${dest}" classpath="${basedir}/${lib}/castor-1.0.jar;${lib}/junit_3.8.1.jar" />
+	<target name="compile" description="compiling" depends="init,setup">
+		<javac srcdir="${source}" destdir="${basedir}/${classes}" classpathref="generator.classpath" excludes=".svn"/>
 	</target>
 
 	<target name="jar" description="create jar file" depends="init">
-		<jar jarfile="${basedir}/${jarfile}" basedir="${basedir}/${dest}" includes="**" manifest="MANIFEST.MF"/>
+		<jar jarfile="${basedir}/${jarfile}" basedir="${basedir}/${classes}" includes="**" manifest="MANIFEST.MF" excludes=".svn" />
 	</target>
 
-	<target name="test-compile" description="Compilation test" depends="init">
-		<javac srcdir="${source};${test-source}" destdir="${basedir}/${dest}" classpath="${basedir}/${lib}/castor-1.0.jar;${lib}/junit_3.8.1.jar" />
+	<target name="prepare-data-test" description="prepare data test" depends="init">
+		<copy todir="${basedir}/${classes}">
+			<fileset dir="${basedir}/${test-source}">
+				<patternset refid="resouce.files" />
+			</fileset>
+		</copy>
 	</target>
 
-	<target name="run-test" description="run test" depends="init, test-compile">
-		<java jar=""
-			classpath="${basedir}/${lib}/castor-1.0.jar;${lib}/junit_3.8.1.jar;${lib}/xerces.jar" 
-		/>
+	<target name="compile-test" description="Compilation test" depends="init,prepare-data-test">
+		<javac srcdir="${source};${test-source}" destdir="${basedir}/${classes}" classpathref="generator.classpath" excludes=".svn"/>
+	</target>
+
+	<target name="run-test" description="run test" depends="init, compile-test">
+		<java classname="utf.org.castor.ddl.TestAll" classpathref="generator.classpath">
+		</java>
 	</target>
 </project>
