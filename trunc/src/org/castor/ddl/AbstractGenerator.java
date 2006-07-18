@@ -59,7 +59,7 @@ import org.exolab.castor.mapping.xml.Sql;
  * varios DBMS, you must overwrite the TypeMapper.
  * <p/>Example:
  * <li/> Generator for DB2
- * <code>
+ * <pre>
  * 
  *public class Db2Generator extends AbstractGenerator {
  *
@@ -69,9 +69,9 @@ import org.exolab.castor.mapping.xml.Sql;
  *        setTypeMapper(new Db2TypeMapper(getConf()));
  *    }
  *}   
- * </code>
+ * </pre>
  * <li/>TypeMapper for DB2
- * <code>
+ * <pre>
  *public final class Db2TypeMapper extends AbstractTypeMapper {
  *    public Db2TypeMapper(final Configuration conf) {
  *        super(conf);
@@ -87,7 +87,7 @@ import org.exolab.castor.mapping.xml.Sql;
  *        this.add(new NoParamType("bigint", "BIGINT"));
  *    }
  *} 
- * </code>
+ * </pre>
  * 
  * @version $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
