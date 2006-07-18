@@ -34,8 +34,8 @@ import utf.org.castor.ddl.sapdb.SapdbGeneratorTest;
 import utf.org.castor.ddl.sybase.SybaseGeneratorTest;
 
 /**
- * 
- * Created on Jun 13, 2006 - 6:50:48 PM
+ * Test all DDL generator
+ * <br/>Created on Jun 13, 2006 - 6:50:48 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

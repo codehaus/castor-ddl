@@ -25,7 +25,7 @@ import org.castor.ddl.Configuration;
 
 /**
  * This class represents the expected ddl entry.
- * Created on Jun 15, 2006 - 11:22:45 AM
+ * <br/>Created on Jun 15, 2006 - 11:22:45 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -325,7 +325,5 @@ public class Ddl {
      */
     public final void setMatchtype(final String matchtype) {
         _matchtype = matchtype;
-    }
-    
-    
+    }        
 }

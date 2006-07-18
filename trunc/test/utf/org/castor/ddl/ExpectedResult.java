@@ -30,8 +30,9 @@ import org.exolab.castor.xml.ValidationException;
 import org.xml.sax.InputSource;
 
 /**
- * this class represent the expected result for various database Created on Jun
- * 15, 2006 - 10:51:46 AM
+ * This class represent the expected result for various database 
+ * 
+ * <br/>Created on Jun 15, 2006 - 10:51:46 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

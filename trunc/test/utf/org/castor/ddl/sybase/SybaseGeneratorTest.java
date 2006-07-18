@@ -30,7 +30,7 @@ import utf.org.castor.ddl.ExpectedResult;
 
 /**
  * 
- * Created on Jun 13, 2006 - 6:56:15 PM
+ * <br/>Created on Jun 13, 2006 - 6:56:15 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

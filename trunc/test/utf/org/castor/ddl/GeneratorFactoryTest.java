@@ -25,8 +25,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * 
- * Created on Jun 20, 2006 - 11:56:16 AM
+ * Test GeneratorFactory
+ * <br/>Created on Jun 20, 2006 - 11:56:16 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public final class GeneratorFactoryTest extends TestCase {
@@ -56,8 +56,7 @@ public final class GeneratorFactoryTest extends TestCase {
     }
 
     /**
-     * Test method for 'org.castor.ddl.GeneratorFactory.getMySQLDDLGenerator()'
-     * {@inheritDoc}
+     * test get mysql ddl generator
      */
     public void testGetMySQLDDLGenerator() {
         

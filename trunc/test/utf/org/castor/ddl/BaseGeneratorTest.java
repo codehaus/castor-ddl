@@ -34,7 +34,7 @@ import org.exolab.castor.mapping.Mapping;
  * defines which expected result will be loaded to the testcase. The inherited
  * class may redefine this variable to reuse the test scenarios, but _engine.
  * 
- * Created on Jun 13, 2006 - 6:15:36 PM
+ * <br/> Created on Jun 13, 2006 - 6:15:36 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
@@ -78,8 +78,8 @@ public abstract class BaseGeneratorTest extends TestCase {
      */
     public BaseGeneratorTest(final String testcase) {
         super(testcase);
-        setGlobalConf(BaseGeneratorTest.class.
-                getResource("test_ddl.properties").getFile());
+        setGlobalConf(BaseGeneratorTest.class
+                .getResource("test_ddl.properties").getFile());
 
     }
 
@@ -139,8 +139,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test single table
-     * 
+     * Test single table <br/>Create ddl script for one table
      */
     public void testSingleTable() {
         try {
@@ -169,7 +168,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test for ignored table in the mapping
+     * Test for ignored table which is not defined <br/>&lt; map-to table="prod"
+     * xml="product" /&gt; in the mapping
      * 
      */
     public void testIgnoredTable() {
@@ -199,8 +199,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test for no table in the mapping
-     * 
+     * Test for no table in the mapping <br/>There are no table in the mapping
      */
     public void testNoTable() {
         try {
@@ -229,8 +228,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test single table
-     * 
+     * Test Drop table <br/>Create DDL for drop table
      */
     public void testDropTable() {
         try {
@@ -254,8 +252,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test the identity is defined in the class tag
-     * 
+     * Test the identity is defined in the class tag <br/>&lt; class
+     * name="Product" identity="id" &gt;
      */
     public void testClassId() {
         try {
@@ -289,8 +287,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test the identity is defined in the class tag and there are multiple ids
-     * 
+     * Test the identity is defined in the class tag and there are multiple ids
+     * <br/>&lt;class name="Product" identity="id name"&gt;
      */
     public void testClassMultipleId() {
         try {
@@ -325,8 +323,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test the identity is defined in the field tag
-     * 
+     * Test the identity is defined in the field tag
+     * <br/>&lt;field name="id" type="integer" identity="true"&gt;
      */
     public void testFieldId() {
         try {
@@ -360,8 +358,15 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test the identity is defined in the field tag and there are multiple ids
-     * 
+     * Test the identity is defined in the field tag and there are multiple ids
+     * <br/>&lt;field name="id" type="integer" identity="true"&gt;
+       <br/>     &lt;sql name="id" type="integer" /&gt;
+       <br/>     &lt;bind-xml name="id" node="attribute" /&gt;
+       <br/> &lt;/field&gt;
+       <br/> &lt;field name="name" type="string" identity="true"&gt;
+       <br/>     &lt;sql name="name" type="char" /&gt;
+       <br/>     &lt;bind-xml name="name" node="element" /&gt;
+       <br/> &lt;/field&gt;
      */
     public void testFieldMultipleId() {
         try {
@@ -396,8 +401,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test for no id definition
-     * 
+     * Test for no id definition
+     *
      */
     public void testNoId() {
         try {
@@ -432,8 +437,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create many table in a mapping
-     * 
+     * Test to create many table in a mapping
      */
     public void testMultipleTable() {
         try {
@@ -519,18 +523,17 @@ public abstract class BaseGeneratorTest extends TestCase {
                     conf.getStringValue(PARAM_PREFIX + "longvarbinary" // 20
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "time"
-                            + PARAM_POSTFIX_PRECISION),                     
-                    conf.getStringValue(PARAM_PREFIX + "bigint" 
-                                    + PARAM_POSTFIX_DECIMALS),
+                            + PARAM_POSTFIX_PRECISION),
+                    conf.getStringValue(PARAM_PREFIX + "bigint"
+                            + PARAM_POSTFIX_DECIMALS),
                     conf.getStringValue(PARAM_PREFIX + "other"
-                            + PARAM_POSTFIX_LENGTH),                     
-                    conf.getStringValue(PARAM_PREFIX + "javaobject" 
-                                    + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "blob" //25
-                            + PARAM_POSTFIX_LENGTH),                     
-                    conf.getStringValue(PARAM_PREFIX + "clob" 
-                                    + PARAM_POSTFIX_LENGTH)
-                    };
+                            + PARAM_POSTFIX_LENGTH),
+                    conf.getStringValue(PARAM_PREFIX + "javaobject"
+                            + PARAM_POSTFIX_LENGTH),
+                    conf.getStringValue(PARAM_PREFIX + "blob" // 25
+                            + PARAM_POSTFIX_LENGTH),
+                    conf.getStringValue(PARAM_PREFIX + "clob"
+                            + PARAM_POSTFIX_LENGTH) };
 
             String ddl = _generator.generateCreate();
             boolean b = _expectedDDL.match(_engine, ddl, params);
@@ -543,7 +546,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test single table
+     * Test single Field in a table
      * 
      */
     public void testSingleField() {
@@ -573,8 +576,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create identity for key generator
-     * 
+     * Test to create identity for key generator. Most of DB support to create 
+     * auto-increment, or identity field
      */
     public void testKeyGenIdentity() {
         try {
@@ -609,8 +612,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create high-low key generator
-     * 
+     * Test to create high-low key generator. There is no DDL created.
+     *
      */
     public void testKeyGenHighLow() {
         try {
@@ -645,7 +648,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create MAX key generator
+     * Test to create MAX key generator. There is no DDL created.
      * 
      */
     public void testKeyGenMax() {
@@ -680,7 +683,8 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create Sequence key generator
+     * Test to create Sequence key generator. Some db support to create sequence and/or
+     * trigger statement.
      * 
      */
     public void testKeyGenSequence() {
@@ -707,7 +711,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
 
             ddl = _generator.generateKeyGenerator();
-//
+            //
             b = _expectedDDL.match(_engine, 1, ddl, params);
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);
@@ -718,7 +722,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create Sequence key generator
+     * Test to create UUID key generator. There is no DDL created.
      * 
      */
     public void testKeyGenUUID() {
@@ -756,7 +760,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create one-one relationship
+     * Test to create one-one relationship. 
      * 
      */
     public void testOneOneRelationship() {
@@ -793,7 +797,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create one-many relationship
+     * Test to create one-many relationship
      * 
      */
     public void testOneManyRelationship() {
@@ -830,7 +834,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create many-many relationship
+     * Test to create many-many relationship.
      * 
      */
     public void testManyManyRelationship() {
@@ -867,8 +871,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to create one-one relationship
-     * 
+     * Test to 2 levels ID's references in a mapping. 
      */
     public void test2LevelsReference() {
         try {
@@ -899,7 +902,10 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test single table
+     * Test to ignore field in a mapping. 
+       <br/> &lt;field name="name" type="string"&gt;
+       <br/>     &lt;bind-xml name="name" node="element" /&gt;
+       <br/> &lt;/field&gt;
      * 
      */
     public void testIgnoredField() {
@@ -929,7 +935,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test field bit
+     * Test to create no field. There is no field in a table.
      * 
      */
     public void testNoField() {
@@ -954,8 +960,14 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test overwrite identity by field'id
-     * 
+     * Test overwrite identity by field'id
+     <br/>&lt;class name="Product" identity="id"&gt;
+     <br/>   &lt;map-to table="prod" xml="product" /&gt;
+     <br/>   &lt;field name="id" type="integer" identity="true"&gt;
+     <br/>       &lt;sql name="id" type="integer" /&gt;
+     <br/>       &lt;bind-xml name="id" node="attribute" /&gt;
+     <br/>   &lt;/field&gt;
+     <br/>   &lt;/class&gt;
      */
     public void testOverwriteFieldId() {
         try {
@@ -984,7 +996,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to many keys reference
+     * Test to many keys reference
      * 
      */
     public void testManyKeysReference() {
@@ -1016,7 +1028,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to many class's keys reference
+     * Test to many class's keys reference
      * 
      */
     public void testManyClassKeysReference() {
@@ -1049,7 +1061,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test to many class's keys reference
+     * Test to create schema
      * 
      */
     public void testCreateSchema() {
@@ -1083,7 +1095,7 @@ public abstract class BaseGeneratorTest extends TestCase {
     }
 
     /**
-     * test for create index, there are no ddl createdfor now
+     * Test for create index, there are no ddl createdfor now
      * 
      */
     public void testCreateIndex() {

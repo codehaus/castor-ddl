@@ -21,8 +21,8 @@ import junit.framework.TestCase;
 import org.castor.ddl.TypeMapper;
 
 /**
- * 
- * Created on Jul 3, 2006 - 10:46:05 AM
+ * Test Type mapping
+ * <br/>Created on Jul 3, 2006 - 10:46:05 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
