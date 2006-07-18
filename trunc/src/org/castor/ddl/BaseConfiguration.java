@@ -19,8 +19,7 @@ package org.castor.ddl;
 /**
  * BaseConfiguration handles configuration's key definition
  * 
- * @version
- * Created on Jun 12, 2006 - 12:11:52 AM
+ * <br/> Created on Jun 12, 2006 - 12:11:52 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

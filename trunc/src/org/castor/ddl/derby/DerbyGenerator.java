@@ -22,8 +22,9 @@ import org.castor.ddl.TypeMapper;
 import org.castor.ddl.derby.schemaobject.DerbySchemaFactory;
 
 /**
- * generator for Derby Created on Jun 4, 2006 - 10:29:02 AM
+ * Generator for Derby 
  * 
+ * <br/>Created on Jun 4, 2006 - 10:29:02 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class DerbyGenerator extends AbstractGenerator {

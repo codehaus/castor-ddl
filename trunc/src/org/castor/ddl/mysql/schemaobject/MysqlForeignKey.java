@@ -21,7 +21,7 @@ import org.castor.ddl.schemaobject.ForeignKey;
 
 /**
  * 
- * Created on Jul 5, 2006 - 9:25:57 AM
+ * <br/>Created on Jul 5, 2006 - 9:25:57 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

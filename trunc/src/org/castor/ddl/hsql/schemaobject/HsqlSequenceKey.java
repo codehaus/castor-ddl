@@ -25,7 +25,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
  * 
- * Created on Jul 11, 2006 - 5:53:04 PM
+ * <br/>Created on Jul 11, 2006 - 5:53:04 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

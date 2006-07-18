@@ -22,7 +22,7 @@ import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
  * 
- * Created on Jul 12, 2006 - 12:35:09 AM
+ * <br/>Created on Jul 12, 2006 - 12:35:09 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

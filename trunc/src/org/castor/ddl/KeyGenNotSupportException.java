@@ -17,8 +17,8 @@
 package org.castor.ddl;
 
 /**
- * 
- * Created on Jul 11, 2006 - 9:37:12 AM
+ * Key generator exception
+ * <br/>Created on Jul 11, 2006 - 9:37:12 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

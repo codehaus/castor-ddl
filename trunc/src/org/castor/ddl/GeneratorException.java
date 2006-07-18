@@ -17,7 +17,7 @@ package org.castor.ddl;
 
 /**
  * GeneratorException, base class for all DDL generator exception
- * Created on Jun 4, 2006 - 10:28:10 AM
+ * <br/>Created on Jun 4, 2006 - 10:28:10 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class GeneratorException extends Exception {

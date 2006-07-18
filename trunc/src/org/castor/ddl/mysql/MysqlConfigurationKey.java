@@ -18,7 +18,7 @@ package org.castor.ddl.mysql;
 
 /**
  * 
- * Created on Jun 21, 2006 - 4:40:45 PM
+ * <br/>Created on Jun 21, 2006 - 4:40:45 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

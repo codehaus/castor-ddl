@@ -17,8 +17,8 @@
 package org.castor.ddl;
 
 /**
- * 
- * Created on Jun 4, 2006 - 10:28:32 AM
+ * Configuration Key does not find exception
+ * <br/>Created on Jun 4, 2006 - 10:28:32 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class KeyNotFoundException extends GeneratorException {

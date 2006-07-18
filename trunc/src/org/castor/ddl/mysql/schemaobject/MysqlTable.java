@@ -21,7 +21,7 @@ import org.castor.ddl.schemaobject.Table;
 
 /**
  * 
- * Created on Jul 3, 2006 - 5:32:53 PM
+ * <br/>Created on Jul 3, 2006 - 5:32:53 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

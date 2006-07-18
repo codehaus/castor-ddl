@@ -23,7 +23,7 @@ import org.castor.ddl.sapdb.schemaobject.SapdbSchemaFactory;
 
 /**
  * Generator for SapDB based on AbstractGenerator
- * Created on Jul 10, 2006 - 11:54:21 AM
+ * <br/>Created on Jul 10, 2006 - 11:54:21 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

@@ -22,7 +22,7 @@ import java.util.Properties;
  * Configuration handle the configuration for DDL generator inclidung
  * load configuration files, manage configuration values
  * 
- * @version Created on Jun 4, 2006 - 10:27:35 AM
+ * <br/> Created on Jun 4, 2006 - 10:27:35 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

@@ -16,8 +16,8 @@
 package org.castor.ddl;
 
 /**
- * 
- * Created on Jun 4, 2006 - 10:32:19 AM
+ * Type not found exception
+ * <br/>Created on Jun 4, 2006 - 10:32:19 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class TypeNotFoundException extends GeneratorException {
