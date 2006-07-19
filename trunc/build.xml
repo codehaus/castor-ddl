@@ -34,6 +34,7 @@
 
 
 	<target name="main" depends="cleanup, init, setup, compile" description="Main target">
+		<description>compile to *.class files</description>
 		<echo>Building the ddlgenerator.jar file.</echo>
 	</target>
 
@@ -41,22 +42,27 @@
 	</target>
 
 	<target name="setup" description="seting up">
+		<description>setup environement</description>
 		<mkdir dir="${basedir}/${classes}" />
 	</target>
 
 	<target name="cleanup" depends="init" description="cleaning up">
+		<description>clean up environement</description>
 		<delete dir="${basedir}/${classes}" />
 	</target>
 
 	<target name="compile" description="compiling" depends="init,setup">
+		<description>compile to *.class files</description>
 		<javac srcdir="${source}" destdir="${basedir}/${classes}" classpathref="generator.classpath" excludes=".svn"/>
 	</target>
 
 	<target name="jar" description="create jar file" depends="init">
+		<description>create jar file</description>
 		<jar jarfile="${basedir}/${jarfile}" basedir="${basedir}/${classes}" includes="**" manifest="MANIFEST.MF" excludes=".svn" />
 	</target>
 
 	<target name="prepare-data-test" description="prepare data test" depends="init">
+		<description>copy resource files and test data for testing</description>
 		<copy todir="${basedir}/${classes}">
 			<fileset dir="${basedir}/${test-source}">
 				<patternset refid="resouce.files" />
@@ -65,10 +71,12 @@
 	</target>
 
 	<target name="compile-test" description="Compilation test" depends="init,prepare-data-test">
+		<description>compile ddl generator and test source code</description>
 		<javac srcdir="${source};${test-source}" destdir="${basedir}/${classes}" classpathref="generator.classpath" excludes=".svn"/>
 	</target>
 
 	<target name="run-test" description="run test" depends="init, compile-test">
+		<description>run UTF test</description>
 		<java classname="utf.org.castor.ddl.TestAll" classpathref="generator.classpath">
 		</java>
 	</target>
