@@ -65,6 +65,7 @@ public class SequenceKey extends KeyGenerator {
     /**handle to table which use this SequenceKey*/
     private Table _table = null;
     
+
     /**
      * Constructor for SequenceKey
      * @param keyGenDef key generator def
@@ -119,7 +120,6 @@ public class SequenceKey extends KeyGenerator {
     public final void setAlias(final String alias) {
         _alias = alias;
     }
-
 
     /**
      * 
@@ -249,7 +249,7 @@ public class SequenceKey extends KeyGenerator {
      * 
      * @return primary key list
      */
-    protected String toPrimaryKeyList() {
+    protected final String toPrimaryKeyList() {
         boolean isHasPK = false;
         StringBuffer buff = new StringBuffer();
 
@@ -271,4 +271,32 @@ public class SequenceKey extends KeyGenerator {
         }
         return buff.toString();
     }
+    
+    /**
+     * 
+     * @return type of primary key
+     */
+    protected final String toPrimaryKeyTypeList() {
+        boolean isHasPK = false;
+        StringBuffer buff = new StringBuffer();
+
+        boolean isFirstField = true;
+        for (Iterator i = _table.getFields().iterator(); i.hasNext();) {
+            Field field = (Field) i.next();
+            if (field.isIdentity()) {
+                isHasPK = true;
+                if (!isFirstField) {
+                    buff.append("_");
+                }
+                isFirstField = false;
+                buff.append(field.getType().getSqlType());
+            }
+        }
+        //have no primary key
+        if (!isHasPK) {
+            return "";
+        }
+        return buff.toString();
+    }
+    
 }

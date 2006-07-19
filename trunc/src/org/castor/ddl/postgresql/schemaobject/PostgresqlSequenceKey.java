@@ -18,6 +18,7 @@ package org.castor.ddl.postgresql.schemaobject;
 
 import java.text.MessageFormat;
 
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
@@ -41,33 +42,36 @@ public class PostgresqlSequenceKey extends SequenceKey {
     }
 
     /**
-     * <pre>CREATE SEQUENCE SEQ_PCV_LIEFERANT
+     * <pre>
+     * CREATE SEQUENCE SEQ_PCV_LIEFERANT
      * MAXVALUE 2147483647
      * INCREMENT BY 1 START WITH 1
      * 
-     * for trigger
-     * CREATE TRIGGER TRG_PCV_LIEFERANT
-     * BEFORE INSERT OR UPDATE ON TAB_PCV_LIEFERANT
-     * FOR EACH ROW
-     * DECLARE
-     *    iCounter TAB_PCV_LIEFERANT.PCLI_ID%TYPE;
-     *    cannot_change_counter EXCEPTION;
-     * BEGIN
-     *     IF INSERTING THEN
-     *         Select SEQ_PCV_LIEFERANT.NEXTVAL INTO iCounter FROM Dual;
-     *         :new.PCLI_ID := iCounter;
-     *     END IF;
-     *     
-     *     IF UPDATING THEN
-     *          IF NOT (:new.PCLI_ID = :old.PCLI_ID) THEN
+     * Trigger for PostgreSQL
+     *CREATE FUNCTION [func_name]() RETURNS TRIGGER AS $[func_name]$
+     *    DECLARE
+     *      iCounter [table_name].[pk_name]%TYPE;
+     *      cannot_change_counter EXCEPTION;
+     *    BEGIN
+     *      IF (TG_OP = 'INSERT') THEN
+     *          SELECT INTO iCounter NEXTVAL('[seq_name]');
+     *          NEW.[pk_name] := iCounter;
+     *      END IF;
+     *        
+     *      IF (TG_OP = 'UPDATE') THEN
+     *          IF (NEW.[pk_name] != OLD.[pk_name]) THEN
      *              RAISE cannot_change_counter;
      *          END IF;
-     *     END IF;
-     *     
-     * EXCEPTION
+     *      END IF;
+
+     *      RETURN NEW;
+     *    EXCEPTION
      *      WHEN cannot_change_counter THEN
-     *          raise_application_error(-20000, 'Cannot Change Counter Value');
-     *      END;
+     *          RAISE EXCEPTION '% Cannot Change Counter Value', -2000;
+     *    END;
+     *$[func_name]$ LANGUAGE plpgsql
+     *CREATE TRIGGER [trigger_name] BEFORE INSERT OR UPDATE ON [table_name]
+     *    FOR EACH ROW EXECUTE PROCEDURE [func_name]();
      * </pre>
      * @see org.castor.ddl.schemaobject.SequenceKey#toDDL()
      * {@inheritDoc}
@@ -76,22 +80,113 @@ public class PostgresqlSequenceKey extends SequenceKey {
     public String toDDL() {
         StringBuffer buff = new StringBuffer();
         String tableName = getTable().getName();
-        String pk = toPrimaryKeyList();
-        String sequence = MessageFormat.format(getSequence(), 
-                new String[]{tableName, pk});
+        String pkList = toPrimaryKeyList();
+        String pkTypeList = toPrimaryKeyTypeList();
+        String sequenceName = MessageFormat.format(getSequence(), 
+                new String[]{tableName, pkList});
         
         buff.append(getConf().getLineSeparator()).append(getConf().getLineSeparator());
-        buff.append("CREATE SEQUENCE ").append(sequence);
+        buff.append("CREATE SEQUENCE ").append(sequenceName);
         buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
         buff.append(" INCREMENT 1 ").append("MAXVALUE ").
             append(Integer.MAX_VALUE).append(" START 1");
         buff.append(getConf().getSqlStatDelimeter());
 
         if (isTrigger()) {
-            buff.append("");
+            String triggerName = null;
+            if (sequenceName.matches(".*SEQ.*")) {
+                triggerName = sequenceName.replaceAll("SEQ", "TRG");
+            } else {
+                triggerName = "TRG" + sequenceName;
+            }
+
+//            String functionName = null;
+//            if (sequenceName.matches(".*SEQ.*")) {
+//                functionName = sequenceName.replaceAll("SEQ", "FUN");
+//            } else {
+//                functionName = "FUN" + sequenceName;
+//            }
+
+            String triggerTemp = getConf().getStringValue(Configuration.TRIGGER_TEMPLATE, 
+            "");
+    
+            triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
+            triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);
+            triggerTemp = triggerTemp.replaceAll("<table_name>", tableName);            
+            triggerTemp = triggerTemp.replaceAll("<pk_name>", pkList);            
+            triggerTemp = triggerTemp.replaceAll("<pk_type>", pkTypeList);            
+            buff.append(getConf().getLineSeparator());
+            buff.append(getConf().getLineSeparator());
+            buff.append(triggerTemp);
+                        
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("CREATE FUNCTION ").append(functionName).append("()");
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("RETURNS TRIGGER AS $").append(functionName).append("$");
+//
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("DECLARE");
+//            
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("iCounter ").append(tableName).append(".");
+//            buff.append(pkList).append("%TYPE;");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("BEGIN");
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("IF (TG_OP = 'INSERT') THEN");
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("SELECT INTO iCounter NEXTVAL('");
+//            buff.append(sequenceName).append("');");
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("NEW.").append(pkList).append(" := iCounter;");
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("END IF;");
+//
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("IF (TG_OP = 'UPDATE') THEN");
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("IF (NEW.").append(pkList);
+//            buff.append(" != OLD.").append(pkList).append(") THEN");
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent());
+//            buff.append("RAISE EXCEPTION '% Cannot Change Counter Value', -2000;");
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("END IF;");
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent());
+//            buff.append("END IF;");
+//
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("RETURN NEW;");
+//
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("END;");
+//
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("$").append(functionName).append("$ LANGUAGE plpgsql");
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("CREATE TRIGGER ").append(triggerName);
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("BEFORE INSERT OR UPDATE ON ").append(tableName);
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("FOR EACH ROW EXECUTE PROCEDURE ");
+//            buff.append(functionName).append("();");
         }
         return buff.toString();
-    }
-
-    
+    }    
 }

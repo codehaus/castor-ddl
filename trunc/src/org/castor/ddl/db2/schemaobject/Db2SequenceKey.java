@@ -18,6 +18,7 @@ package org.castor.ddl.db2.schemaobject;
 
 import java.text.MessageFormat;
 
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
@@ -46,12 +47,12 @@ public class Db2SequenceKey extends SequenceKey {
     public String toDDL() {
         StringBuffer buff = new StringBuffer();
         String tableName = getTable().getName();
-        String pk = toPrimaryKeyList();
-        String sequence = MessageFormat.format(getSequence(), 
-                new String[]{tableName, pk});
+        String pkList = toPrimaryKeyList();
+        String sequenceName = MessageFormat.format(getSequence(), 
+                new String[]{tableName, pkList});
         
         buff.append(getConf().getLineSeparator()).append(getConf().getLineSeparator());
-        buff.append("CREATE SEQUENCE AS INTEGER ").append(sequence);
+        buff.append("CREATE SEQUENCE AS INTEGER ").append(sequenceName);
         buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
         buff.append("START WITH 1 INCREMENT BY 1");
         buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
@@ -59,12 +60,29 @@ public class Db2SequenceKey extends SequenceKey {
         buff.append(getConf().getSqlStatDelimeter());
 
         if (isTrigger()) {
-            buff.append("");
-           //todo implement later 
-            
-           //refer to http://publib.boulder.ibm.com/infocenter/db2luw/v8/index.
-           // jsp?topic=/com.ibm.db2.udb.doc/admin/r0000931.htm
+            //refer to http://publib.boulder.ibm.com/infocenter/db2luw/v8/index.
+            // jsp?topic=/com.ibm.db2.udb.doc/admin/r0000931.htm
+            String pkTypeList = toPrimaryKeyTypeList();
+            String triggerName = null;
+            if (sequenceName.matches(".*SEQ.*")) {
+                triggerName = sequenceName.replaceAll("SEQ", "TRG");
+            } else {
+                triggerName = "TRG" + sequenceName;
+            }
+
+            String triggerTemp = getConf().getStringValue(Configuration.TRIGGER_TEMPLATE, 
+            "");
+    
+            triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
+            triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);
+            triggerTemp = triggerTemp.replaceAll("<table_name>", tableName);            
+            triggerTemp = triggerTemp.replaceAll("<pk_name>", pkList);            
+            triggerTemp = triggerTemp.replaceAll("<pk_type>", pkTypeList);            
+            buff.append(getConf().getLineSeparator());
+            buff.append(getConf().getLineSeparator());
+            buff.append(triggerTemp);
         }
+        
         return buff.toString();
     }
 

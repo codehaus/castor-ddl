@@ -18,6 +18,7 @@ package org.castor.ddl.sapdb.schemaobject;
 
 import java.text.MessageFormat;
 
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
@@ -67,8 +68,8 @@ public class SapdbSequenceKey extends SequenceKey {
      *    cannot_change_counter EXCEPTION;
      * BEGIN
      *     IF INSERTING THEN
-     *         Select SEQ_PCV_LIEFERANT.NEXTVAL INTO iCounter FROM Dual;
-     *         :new.PCLI_ID := iCounter;
+     *         Select <seq_name>.NEXTVAL INTO iCounter FROM Dual;
+     *         :new.<id> := iCounter;
      *     END IF;
      *     
      *     IF UPDATING THEN
@@ -81,18 +82,28 @@ public class SapdbSequenceKey extends SequenceKey {
      *          raise_application_error(-20000, 'Cannot Change Counter Value');
      * )
      * </pre>
+     * CREATE TRIGGER [trigger-name] FOR [table-name]
+     *  AFTER INSERT EXECUTE (
+     *  VAR iCounter [pk_type]
+     *  TRY
+     *         Select <seq_name>.NEXTVAL INTO iCounter FROM Dual;
+     *         :new.<id> := iCounter;
+     *  CATCH
+     *  
+     *  )
+     *  
      * @see org.castor.ddl.schemaobject.SequenceKey#toDDL()
      * {@inheritDoc}
      */
     public String toDDL() {
         StringBuffer buff = new StringBuffer();
         String tableName = getTable().getName();
-        String pk = toPrimaryKeyList();
-        String sequence = MessageFormat.format(getSequence(), 
-                new String[]{tableName, pk});
+        String pkList = toPrimaryKeyList();
+        String sequenceName = MessageFormat.format(getSequence(), 
+                new String[]{tableName, pkList});
         
         buff.append(getConf().getLineSeparator()).append(getConf().getLineSeparator());
-        buff.append("CREATE SEQUENCE ").append(sequence);
+        buff.append("CREATE SEQUENCE ").append(sequenceName);
         buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
         buff.append("INCREMENT BY 1 START WITH 1");
         buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
@@ -100,13 +111,25 @@ public class SapdbSequenceKey extends SequenceKey {
         buff.append(getConf().getSqlStatDelimeter());
 
         if (isTrigger()) {
-            buff.append("");
-//            <create_trigger_statement> ::= CREATE TRIGGER <trigger_name> FOR
-//            <table_name>
-//            AFTER <trigger_event,..> EXECUTE (<routine>) [WHENEVER <search_condition> ]
-//            <trigger_event> :: INSERT | UPDATE [(<column_list>)] | DELETE
-//            <column_list> ::= <column_name> | <column_list>,<column_name>            
-           //todo implement later 
+            String pkTypeList = toPrimaryKeyTypeList();
+            String triggerName = null;
+            if (sequenceName.matches(".*SEQ.*")) {
+                triggerName = sequenceName.replaceAll("SEQ", "TRG");
+            } else {
+                triggerName = "TRG" + sequenceName;
+            }
+
+            String triggerTemp = getConf().getStringValue(Configuration.TRIGGER_TEMPLATE, 
+            "");
+    
+            triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
+            triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);
+            triggerTemp = triggerTemp.replaceAll("<table_name>", tableName);            
+            triggerTemp = triggerTemp.replaceAll("<pk_name>", pkList);            
+            triggerTemp = triggerTemp.replaceAll("<pk_type>", pkTypeList);            
+            buff.append(getConf().getLineSeparator());
+            buff.append(getConf().getLineSeparator());
+            buff.append(triggerTemp);
         }
         return buff.toString();
     }

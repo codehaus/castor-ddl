@@ -142,6 +142,9 @@ public class BaseConfiguration {
     /** group ddl by ddltype */
     public static final String GROUP_DDL_BY_DDLTYPE = "ddltype";
 
+    /**trigger template*/
+    public static final String TRIGGER_TEMPLATE = "trigger_template";
+    
     /**
      * 
      * @return Returns the _sqlFieldDelimeter.

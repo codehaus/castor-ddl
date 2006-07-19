@@ -18,6 +18,7 @@ package org.castor.ddl.oracle.schemaobject;
 
 import java.text.MessageFormat;
 
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
@@ -82,12 +83,13 @@ public class OracleSequenceKey extends SequenceKey {
     public String toDDL() {
         StringBuffer buff = new StringBuffer();
         String tableName = getTable().getName();
-        String pk = toPrimaryKeyList();
-        String sequence = MessageFormat.format(getSequence(), 
-                new String[]{tableName, pk});
+        String pkList = toPrimaryKeyList();
+        String pkTypeList = toPrimaryKeyTypeList();
+        String sequenceName = MessageFormat.format(getSequence(), 
+                new String[]{tableName, pkList});
         
         buff.append(getConf().getLineSeparator()).append(getConf().getLineSeparator());
-        buff.append("CREATE SEQUENCE ").append(sequence);
+        buff.append("CREATE SEQUENCE ").append(sequenceName);
         buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
         buff.append("MAXVALUE ").append(Integer.MAX_VALUE);
         buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
@@ -95,84 +97,95 @@ public class OracleSequenceKey extends SequenceKey {
         buff.append(getConf().getSqlStatDelimeter());
 
         if (isTrigger()) {
-            String trigger = null;
-            if (sequence.matches(".*SEQ.*")) {
-                trigger = sequence.replaceAll("SEQ", "TRG");
+            String triggerName = null;
+            if (sequenceName.matches(".*SEQ.*")) {
+                triggerName = sequenceName.replaceAll("SEQ", "TRG");
             } else {
-                trigger = "TRG" + sequence;
+                triggerName = "TRG" + sequenceName;
             }
-                
+            String triggerTemp = getConf().getStringValue(Configuration.TRIGGER_TEMPLATE, 
+            "");
+    
+            triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
+            triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);
+            triggerTemp = triggerTemp.replaceAll("<table_name>", tableName);            
+            triggerTemp = triggerTemp.replaceAll("<pk_name>", pkList);            
+            triggerTemp = triggerTemp.replaceAll("<pk_type>", pkTypeList);            
             buff.append(getConf().getLineSeparator());
             buff.append(getConf().getLineSeparator());
-            buff.append("CREATE TRIGGER ").append(trigger);
+            buff.append(triggerTemp);
             
-            buff.append(getConf().getLineSeparator());
-            buff.append("BEFORE INSERT OR UPDATE ON ").append(tableName);
-            
-            buff.append(getConf().getLineSeparator());
-            buff.append("FOR EACH ROW");
-            
-            buff.append(getConf().getLineSeparator());
-            buff.append("DECLARE");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append("iCounter ").append(tableName).append('.');
-            buff.append(pk).append("%TYPE;");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append("cannot_change_counter EXCEPTION;");
-            
-            buff.append(getConf().getLineSeparator());
-            buff.append("BEGIN");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append("IF INSERTING THEN");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append(getConf().getLineIndent());
-            buff.append("Select ").append(sequence).
-                append(".NEXTVAL INTO iCounter FROM Dual;");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append(getConf().getLineIndent());
-            buff.append(":new.").append(pk).append(" := iCounter;");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append("END IF;");
-
-            buff.append(getConf().getLineSeparator());
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append("IF UPDATING THEN");
-
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append(getConf().getLineIndent());
-            buff.append("IF NOT (:new.").append(pk);
-            buff.append(" = :old.").append(pk).append(") THEN");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
-            buff.append("RAISE cannot_change_counter;");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append(getConf().getLineIndent());
-            buff.append("END IF;");
-            
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append("END IF;");
-
-            buff.append(getConf().getLineSeparator());
-            buff.append("EXCEPTION");
-
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append("WHEN cannot_change_counter THEN");
-
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
-            buff.append(getConf().getLineIndent());
-            buff.append("raise_application_error(-20000, ");
-            buff.append("'Cannot Change Counter Value');");
-
-            buff.append(getConf().getLineSeparator());
-            buff.append("END;");
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("CREATE TRIGGER ").append(triggerName);
+//            
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("BEFORE INSERT OR UPDATE ON ").append(tableName);
+//            
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("FOR EACH ROW");
+//            
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("DECLARE");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("iCounter ").append(tableName).append('.');
+//            buff.append(pkList).append("%TYPE;");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("cannot_change_counter EXCEPTION;");
+//            
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("BEGIN");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("IF INSERTING THEN");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent());
+//            buff.append("Select ").append(sequenceName).
+//                append(".NEXTVAL INTO iCounter FROM Dual;");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent());
+//            buff.append(":new.").append(pkList).append(" := iCounter;");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("END IF;");
+//
+//            buff.append(getConf().getLineSeparator());
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("IF UPDATING THEN");
+//
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent());
+//            buff.append("IF NOT (:new.").append(pkList);
+//            buff.append(" = :old.").append(pkList).append(") THEN");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent()).append(getConf().getLineIndent());
+//            buff.append("RAISE cannot_change_counter;");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent());
+//            buff.append("END IF;");
+//            
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("END IF;");
+//
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("EXCEPTION");
+//
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append("WHEN cannot_change_counter THEN");
+//
+//            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+//            buff.append(getConf().getLineIndent());
+//            buff.append("raise_application_error(-20000, ");
+//            buff.append("'Cannot Change Counter Value');");
+//
+//            buff.append(getConf().getLineSeparator());
+//            buff.append("END;");
         }
         return buff.toString();
     }

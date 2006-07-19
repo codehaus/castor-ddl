@@ -18,6 +18,7 @@ package org.castor.ddl.hsql.schemaobject;
 
 import java.text.MessageFormat;
 
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.schemaobject.SequenceKey;
@@ -50,20 +51,37 @@ public class HsqlSequenceKey extends SequenceKey {
     public String toDDL() throws KeyGenNotSupportException {
         StringBuffer buff = new StringBuffer();
         String tableName = getTable().getName();
-        String pk = toPrimaryKeyList();
-        String sequence = MessageFormat.format(getSequence(), 
-                new String[]{tableName, pk});
+        String pkList = toPrimaryKeyList();
+        String sequenceName = MessageFormat.format(getSequence(), 
+                new String[]{tableName, pkList});
         
         buff.append(getConf().getLineSeparator()).append(getConf().getLineSeparator());
-        buff.append("CREATE SEQUENCE ").append(sequence).append(" AS INTEGER");
+        buff.append("CREATE SEQUENCE ").append(sequenceName).append(" AS INTEGER");
         buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
         buff.append("START WITH 1 INCREMENT BY 1");
         buff.append(getConf().getSqlStatDelimeter());
 
-//        if (isTrigger()) { 
-//         todo ...   
-//        }
+        if (isTrigger()) {
+            String pkTypeList = toPrimaryKeyTypeList();
+            String triggerName = null;
+            if (sequenceName.matches(".*SEQ.*")) {
+                triggerName = sequenceName.replaceAll("SEQ", "TRG");
+            } else {
+                triggerName = "TRG" + sequenceName;
+            }
+
+            String triggerTemp = getConf().getStringValue(Configuration.TRIGGER_TEMPLATE, 
+            "");
+    
+            triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
+            triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);
+            triggerTemp = triggerTemp.replaceAll("<table_name>", tableName);            
+            triggerTemp = triggerTemp.replaceAll("<pk_name>", pkList);            
+            triggerTemp = triggerTemp.replaceAll("<pk_type>", pkTypeList);            
+            buff.append(getConf().getLineSeparator());
+            buff.append(getConf().getLineSeparator());
+            buff.append(triggerTemp);
+        }
         return buff.toString();
     }
-
 }
