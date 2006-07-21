@@ -161,7 +161,7 @@ public class ForeignKey extends AbstractSchemaObject  {
     }
 
     /**
-     * 
+     * Create DDL for Foreign Key
      * @return ddl string
      */
     public String toDDL() {

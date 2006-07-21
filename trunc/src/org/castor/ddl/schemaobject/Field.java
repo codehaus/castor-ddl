@@ -146,21 +146,22 @@ public class Field extends AbstractSchemaObject {
      * 
      * @return length
      */
-    public Integer getLength() { return null; }
+    public final Integer getLength() { return null; }
 
     /**
      * 
      * @return precision
      */
-    public Integer getPrecision() { return null; }
+    public final Integer getPrecision() { return null; }
 
     /**
      * 
      * @return decimals
      */
-    public Integer getDecimals() { return null; }
+    public final Integer getDecimals() { return null; }
 
     /**
+     * Create DDL for field
      * @return ddl string
      * @throws GeneratorException exception
      */

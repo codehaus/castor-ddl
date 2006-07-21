@@ -20,7 +20,10 @@ import org.castor.ddl.GeneratorException;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * Factory provides a way to create schema objects 
+ * The SchemaFactory class handles the creation for various schema objects. It 
+ * helps the AbstractGenerator to dynamically extract schema’s information for 
+ * specific database. It should be overwritten this class if you have overwritten 
+ * any schema object classs
  * <br/>Created on Jul 4, 2006 - 3:01:20 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
@@ -81,7 +84,7 @@ public class SchemaFactory {
     }
 
     /**
-     * create KeyGenerator object
+     * create KeyGenerator object for various types
      * @param kg key generator def
      * @return key generator
      * @throws GeneratorException generator error

@@ -237,6 +237,9 @@ public class SequenceKey extends KeyGenerator {
     }
 
     /**
+     * Create DDL for sequence and trigger. By default, it throw an exception. 
+     * You must overwrite this class if the database supports SEQUENCE/TRIGGER 
+     * creation
      * @return ddl string
      * @throws KeyGenNotSupportException exception
      */

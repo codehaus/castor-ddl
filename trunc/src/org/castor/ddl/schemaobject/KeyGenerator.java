@@ -80,7 +80,8 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
     public abstract void setTable(final Table table);
     
     /**
-     * generate DDL script
+     * generate DDL script for KeyGenerator including Identity key, sequence and
+     * trigger
      * @return ddl script
      * @throws KeyGenNotSupportException key gen exception
      */

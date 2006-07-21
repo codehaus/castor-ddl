@@ -144,6 +144,7 @@ public class Schema extends AbstractSchemaObject {
     }
 
     /**
+     * Create DDL for schema
      * @return ddl string
      */
 

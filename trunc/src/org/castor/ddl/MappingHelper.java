@@ -25,7 +25,7 @@ import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 
 /**
- * This class handles all common tasks for Mapping  
+ * This class handles all common tasks for manipulating Mapping document
  * 
  * <br/> Created on Jun 8, 2006 - 1:13:56 PM
  * 
@@ -105,8 +105,8 @@ public class MappingHelper {
     }
 
     /**
-     * return the ClassMapping which has the name attribute
-     * 
+     * return the ClassMapping which has the attribute "name" associated with
+     * parameter name and throw an exception if it is not found.
      * @param name
      *            class name
      * @return class by class name
@@ -129,7 +129,10 @@ public class MappingHelper {
     }
 
     /**
-     * searching FieldMapping in Class by className in which its name is fieldName
+     * searching FieldMapping in Class by className in which its name is
+     * associated with parameter fieldName and throw an exception if it is not
+     * found
+     * 
      * @param className
      *            class name
      * @param fieldName
@@ -157,32 +160,34 @@ public class MappingHelper {
     }
 
     /**
-     * return an array of type of reference table. In case the table A refers to
+     * Return an array of type of reference table. In case the table A refers to
      * table B, table B refers to table C, it should call resolveTypeReference
-     * recursively. For example, 
+     * recursively. For example,
+     * 
      * <pre>
-     *<mapping>
-     *  <class name="myapp.OtherProductGroup" >
-     *    <map-to table="other_prod_group" xml="group" />
-     *    <field name="id" type="integer" identity="true">
-     *      <sql name="id" type="integer"/>
-     *    </field>
-     *  </class>
-     *
-     *  <class name="myapp.ProductGroup" identity="id">
-     *    <map-to table="prod_group" xml="group" />
-     *    <field name="id" type="myapp.OtherProductGroup" >
-     *      <sql name="prod_id" />
-     *    </field>
-     *  </class>
-     *
-     *  <class name="myapp.Product" identity="id">
-     *    <field name="group" type="myapp.ProductGroup">
-     *      <sql name="group_id" />
-     *    </field>
-     *  </class>
-     *</mapping>     
-     *</pre>
+     * &lt;mapping&gt;
+     *   &lt;class name=&quot;myapp.OtherProductGroup&quot; &gt;
+     *     &lt;map-to table=&quot;other_prod_group&quot; xml=&quot;group&quot; /&gt;
+     *     &lt;field name=&quot;id&quot; type=&quot;integer&quot; identity="true"&gt;
+     *       &lt;sql name=&quot;id&quot; type=&quot;integer&quot;/&gt;
+     *     &lt;/field&gt;
+     *   &lt;/class&gt;
+     * 
+     *   &lt;class name=&quot;myapp.ProductGroup&quot; identity=&quot;id&quot;&gt;
+     *     &lt;map-to table=&quot;prod_group&quot; xml=&quot;group&quot; /&gt;
+     *     &lt;field name=&quot;id&quot; type=&quot;myapp.OtherProductGroup&quot; &gt;
+     *       &lt;sql name=&quot;prod_id&quot; /&gt;
+     *     &lt;/field&gt;
+     *   &lt;/class&gt;
+     * 
+     *   &lt;class name=&quot;myapp.Product&quot; identity=&quot;id&quot;&gt;
+     *     &lt;field name=&quot;group&quot; type=&quot;myapp.ProductGroup&quot;&gt;
+     *       &lt;sql name=&quot;group_id&quot; /&gt;
+     *     &lt;/field&gt;
+     *   &lt;/class&gt;
+     * &lt;/mapping&gt;     
+     * </pre>
+     * 
      * @param className
      *            class name
      * @return list of type of reference ids from class name
@@ -267,10 +272,12 @@ public class MappingHelper {
 
         return (String[]) types.toArray(new String[0]);
     }
-    
+
     /**
-     * if the ClassMapping uses identity in the FieldMapping
-     * @param cm class mapping
+     * If the ClassMapping uses identity in the FieldMapping
+     * 
+     * @param cm
+     *            class mapping
      * @return true if this class uses the field identity
      */
     public boolean isUseFieldIdentity(final ClassMapping cm) {
@@ -285,17 +292,17 @@ public class MappingHelper {
         return false;
     }
 
-    /**
-     * <code> 
-     * <class name="myapp.ProductGroup" identity="id">
-         <field name="id" type="integer" >
-         <sql name="id1 id2" type="integer"/>
-         </field>
-         </class>
-     * <code>
-     * @param cm class mapping
-     * @param fm field mapping
-     * @return true if fm is an identity
+    /**check if fm is an identity
+     * <pre>
+     *  &lt;class name=&quot;myapp.ProductGroup&quot; identity=&quot;id&quot;&gt;
+     *      &lt;field name=&quot;id&quot; type=&quot;integer&quot; &gt;
+     *          &lt;sql name=&quot;id1 id2&quot; type=&quot;integer&quot;/&gt;
+     *      &lt;/field&gt;
+     *  &lt;/class&gt;
+     *  <pre/>
+     *  @param cm class mapping
+     *  @param fm field mapping
+     *  @return true if fm is an identity
      */
     public boolean isIdentity(final ClassMapping cm, final FieldMapping fm) {
         String[] ids = cm.getIdentity();
@@ -310,9 +317,13 @@ public class MappingHelper {
     }
 
     /**
-     * get identity list for a classmapping
+     * The identity definitions at class and field are alternative syntax. If
+     * both are specified the one at field should take precedence over the class
+     * one. In other words if both are specified the one at class will be
+     * ignored.
      * 
-     * @param cm Class mapping
+     * @param cm
+     *            Class mapping
      * @return list of identity
      */
     public String[] getClassMappingIdentity(final ClassMapping cm) {

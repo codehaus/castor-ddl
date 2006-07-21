@@ -33,7 +33,7 @@ public class Index extends AbstractSchemaObject {
     }
 
     /**
-     * 
+     * Create DDL for Index
      * @return ddl string
      */
     public String toDDL() {
