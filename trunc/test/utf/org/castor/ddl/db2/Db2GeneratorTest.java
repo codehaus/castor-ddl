@@ -30,7 +30,7 @@ import org.castor.ddl.db2.Db2TypeMapper;
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;
 
-/**
+/** 
  * Db2 generator test
  * <br/>Created on Jun 13, 2006 - 6:56:15 PM
  * 
