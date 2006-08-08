@@ -20,7 +20,7 @@ import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.sybase.schemaobject.SybaseSchemaFactory;
 
-/**
+/** 
  * Generator for Sybase based on AbstractGenerator
  * <br/>Created on Jul 10, 2006 - 11:54:21 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
@@ -47,7 +47,7 @@ public class SybaseGenerator extends AbstractGenerator {
      */
     public String generateHeader() {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
 
 }

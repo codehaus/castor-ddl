@@ -21,8 +21,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * 
- * <br/>Created on Jul 12, 2006 - 12:35:09 AM
+ * Derby Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -45,7 +44,7 @@ public class DerbyField extends Field {
         buff.append(getName()).append(" ");
         buff.append(getType().toDDL(this));
 
-        if (isIdentity()) {
+        if (isIdentity() || isRequired()) {
             buff.append(" NOT NULL");
         }
         

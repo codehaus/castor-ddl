@@ -22,8 +22,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.Table;
 
 /**
- * 
- * <br/>Created on Jul 11, 2006 - 10:55:07 AM
+ * mssql table
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

@@ -24,7 +24,7 @@ import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 
-/**
+/** 
  * This class handles all common tasks for manipulating Mapping document
  * 
  * <br/> Created on Jun 8, 2006 - 1:13:56 PM
@@ -110,11 +110,8 @@ public class MappingHelper {
      * @param name
      *            class name
      * @return class by class name
-     * @throws GeneratorException
-     *             class not found
      */
-    public synchronized ClassMapping getClassMappingByName(final String name)
-            throws GeneratorException {
+    public synchronized ClassMapping getClassMappingByName(final String name) {
 
         Enumeration ec = _mapping.getRoot().enumerateClassMapping();
         while (ec.hasMoreElements()) {
@@ -125,7 +122,7 @@ public class MappingHelper {
                 return cm;
             }
         }
-        throw new GeneratorException("can not find class " + name);
+        return null;
     }
 
     /**
@@ -157,6 +154,128 @@ public class MappingHelper {
         }
         throw new GeneratorException("can not find field " + fieldName
                 + " in class " + className);
+    }
+
+    /**
+     * 
+     * @param cm class mapping
+     * @return list of type of reference ids from class name
+     * @throws GeneratorException an exception
+     */
+    public final synchronized String[] resolveTypeReferenceForIds(
+            final ClassMapping cm) throws GeneratorException {
+        boolean isFoundKey = false;
+        
+        String[] ids = cm.getIdentity();
+        Vector types = new Vector();
+
+        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        boolean isExistFieldId = isUseFieldIdentity(cm);
+
+        while (ef.hasMoreElements()) {
+            FieldMapping fm = (FieldMapping) ef.nextElement();
+
+            if (isExistFieldId && fm.getIdentity()) {
+                /**
+                 * <class name="myapp.ProductGroup" > 
+                 *  <field name="id" type="integer" identity="true"> 
+                 *      <sql name="id1 id2" type="integer"/> 
+                 *  </field> 
+                 * </class>
+                 */
+
+                TypeInfo typeinfo = null;
+                String sqltype = fm.getSql().getType();
+
+                if (sqltype != null) {
+                    typeinfo = _typeMapper.getType(sqltype);
+                }
+
+                if (typeinfo == null) {
+                    String[] refRefType = resolveTypeReferenceForIds(fm
+                            .getType());
+                    for (int l = 0; l < refRefType.length; l++) {
+                        types.add(refRefType[l]);
+                        isFoundKey = true;
+                    }
+                } else {
+                    for (int i = 0; i < fm.getSql().getNameCount(); i++) {
+                        types.add(fm.getSql().getType());
+                    }
+                }
+            } else if (!isExistFieldId) {
+                /**
+                 * <class name="myapp.ProductGroup" identity="id"> 
+                 *  <field name="id" type="integer" > 
+                 *      <sql name="id1 id2" type="integer"/> 
+                 *  </field> 
+                 * </class>
+                 */
+                String fieldName = fm.getName();
+                // String []sqlnames = fm.getSql().getName();
+                // for(int i = 0; i < sqlnames.length; i++) {
+                for (int j = 0; j < ids.length; j++) {
+                    // if(sqlnames[i].equals(ids[j])) {//found reference type
+                    if (fieldName.equals(ids[j])) {
+
+                        // checking for type if this table is a reference table
+                        TypeInfo typeinfo = null;
+                        String sqltype = fm.getSql().getType();
+
+                        // verify if sqltype exists
+                        if (sqltype != null) {
+                            typeinfo = _typeMapper.getType(sqltype);
+                        }
+
+                        if (typeinfo == null) {
+                            ClassMapping cmRef = getClassMappingByName(fm.getType());
+                            // if cmRef is null, the reference class is not found
+                            //then using field type
+                            if (cmRef == null) {                        
+                                typeinfo = _typeMapper.getType(fm.getType());
+                                
+                                if (typeinfo == null) {
+                                    throw new TypeNotFoundException("Cann't resolve type "
+                                        + fm.getType());
+                                }
+                                int count = fm.getSql().getNameCount();
+                                if (count == 0) { count = fm.getSql().getManyKeyCount(); }
+                                
+                                for (int l = 0; l < count; l++) {
+                                    types.add(fm.getType());
+                                    isFoundKey = true;
+                                }
+                                
+                            } else {
+                                //resolve type for reference class
+                                String[] refRefType = resolveTypeReferenceForIds(fm
+                                        .getType());
+                                for (int l = 0; l < refRefType.length; l++) {
+                                    types.add(refRefType[l]);
+                                    isFoundKey = true;
+                                }
+                            }
+                        } else {
+                            types.add(fm.getSql().getType());
+                            isFoundKey = true;
+                        }
+                    }
+                    // }
+                }
+            }
+            
+        }
+
+        //if there is no identity found, looking in the extend class
+        if (!isFoundKey && cm.getExtends() != null) {
+           ClassMapping extendClass = (ClassMapping) cm.getExtends(); 
+           String[] refRefType = resolveTypeReferenceForIds(extendClass);
+           for (int l = 0; l < refRefType.length; l++) {
+               types.add(refRefType[l]);
+           }               
+        }
+
+        return (String[]) types.toArray(new String[0]);
     }
 
     /**
@@ -194,83 +313,16 @@ public class MappingHelper {
      * @throws GeneratorException
      *             generator error
      */
-    public synchronized String[] resolveTypeReferenceForIds(
+    public final synchronized String[] resolveTypeReferenceForIds(
             final String className) throws GeneratorException {
         // get the reference's class _mapping
         ClassMapping cm = getClassMappingByName(className);
-        String[] ids = cm.getIdentity();
-        Vector types = new Vector();
 
-        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
-        boolean isExistFieldId = isUseFieldIdentity(cm);
-
-        while (ef.hasMoreElements()) {
-            FieldMapping fm = (FieldMapping) ef.nextElement();
-
-            if (isExistFieldId && fm.getIdentity()) {
-                /**
-                 * <class name="myapp.ProductGroup" > <field name="id"
-                 * type="integer" identity="true"> <sql name="id1 id2"
-                 * type="integer"/> </field> </class>
-                 */
-
-                TypeInfo typeinfo = null;
-                String sqltype = fm.getSql().getType();
-
-                if (sqltype != null) {
-                    typeinfo = _typeMapper.getType(sqltype);
-                }
-
-                if (typeinfo == null) {
-                    String[] refRefType = resolveTypeReferenceForIds(fm
-                            .getType());
-                    for (int l = 0; l < refRefType.length; l++) {
-                        types.add(refRefType[l]);
-                    }
-                } else {
-                    for (int i = 0; i < fm.getSql().getNameCount(); i++) {
-                        types.add(fm.getSql().getType());
-                    }
-                }
-            } else if (!isExistFieldId) {
-                /**
-                 * <class name="myapp.ProductGroup" identity="id"> <field
-                 * name="id" type="integer" > <sql name="id1 id2"
-                 * type="integer"/> </field> </class>
-                 */
-                String fieldName = fm.getName();
-                // String []sqlnames = fm.getSql().getName();
-                // for(int i = 0; i < sqlnames.length; i++) {
-                for (int j = 0; j < ids.length; j++) {
-                    // if(sqlnames[i].equals(ids[j])) {//found reference type
-                    if (fieldName.equals(ids[j])) {
-                        // checking for type if this table is a reference table
-
-                        TypeInfo typeinfo = null;
-                        // field type
-                        String sqltype = fm.getSql().getType();
-
-                        // verify if sqltype exists
-                        if (sqltype != null) {
-                            typeinfo = _typeMapper.getType(sqltype);
-                        }
-
-                        if (typeinfo == null) {
-                            String[] refRefType = resolveTypeReferenceForIds(fm
-                                    .getType());
-                            for (int l = 0; l < refRefType.length; l++) {
-                                types.add(refRefType[l]);
-                            }
-                        } else {
-                            types.add(fm.getSql().getType());
-                        }
-                    }
-                    // }
-                }
-            }
+        if (cm == null) {
+            throw new GeneratorException("can not find class " + className);
         }
 
-        return (String[]) types.toArray(new String[0]);
+        return resolveTypeReferenceForIds(cm);
     }
 
     /**
@@ -280,7 +332,7 @@ public class MappingHelper {
      *            class mapping
      * @return true if this class uses the field identity
      */
-    public boolean isUseFieldIdentity(final ClassMapping cm) {
+    public final boolean isUseFieldIdentity(final ClassMapping cm) {
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
         // re-check all identity;
         while (ef.hasMoreElements()) {
@@ -328,26 +380,49 @@ public class MappingHelper {
      */
     public String[] getClassMappingIdentity(final ClassMapping cm) {
         Vector ids = new Vector();
+        
+        //if this is a child class, using its parrent identities as its identities
+        if (cm.getExtends() != null) {
+           return getClassMappingIdentity((ClassMapping) cm.getExtends()); 
+        }
+        
+        String[] identities = cm.getIdentity();
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
         // re-check all identity;
-        boolean isExistFieldId = false;
+        boolean isExistFieldId = isUseFieldIdentity(cm);
+        
         while (ef.hasMoreElements()) {
             FieldMapping fm = (FieldMapping) ef.nextElement();
-            if (fm.getIdentity()) {
+            //add all sql columns into identity list
+            if (isExistFieldId && fm.getIdentity()) {
                 isExistFieldId = true;
                 int ncount = fm.getSql().getNameCount();
                 for (int i = 0; i < ncount; i++) {
                     ids.add(fm.getSql().getName(i));
                 }
+            } else if (!isExistFieldId) {
+                //if using class identity, find out all correspondent column names
+                String fieldName = fm.getName();
+                for (int j = 0; j < identities.length; j++) {
+                    if (fieldName.equals(identities[j])) {
+                        // checking for type if this table is a reference table
+                        int ncount = fm.getSql().getNameCount();
+                        for (int i = 0; i < ncount; i++) {
+                            ids.add(fm.getSql().getName(i));
+                        }
+                    }
+                }
+                
             }
         }
-        // if there is a field identity, overwrite the class's one
-        if (isExistFieldId) {
-            return (String[]) ids.toArray(new String[0]);
-        }
-
-        // else, return class's identity
-        return cm.getIdentity();
+        return (String[]) ids.toArray(new String[0]);
+//        // if there is a field identity, overwrite the class's one
+//        if (isExistFieldId) {
+//            return (String[]) ids.toArray(new String[0]);
+//        }
+//
+//        // else, return class's identity
+//        return cm.getIdentity();
     }
 
     /**

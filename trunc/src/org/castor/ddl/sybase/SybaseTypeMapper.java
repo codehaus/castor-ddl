@@ -55,6 +55,7 @@ public final class SybaseTypeMapper extends AbstractTypeMapper {
         this.add(new NoParamType("tinyint", "TINYINT"));
         this.add(new NoParamType("smallint", "SMALLINT"));
         this.add(new NoParamType("integer", "INTEGER"));
+        this.add(new NoParamType("int", "INTEGER"));
         LOG.warn("Sybase does not support 'BIGINT' type, use INTEGER instead.");
         this.add(new NoParamType("bigint", "INTEGER"));
         

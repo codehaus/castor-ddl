@@ -50,6 +50,7 @@ public final class HsqlTypeMapper extends AbstractTypeMapper {
         this.add(new NoParamType("tinyint", "TINYINT"));
         this.add(new NoParamType("smallint", "SMALLINT"));
         this.add(new NoParamType("integer", "INTEGER"));
+        this.add(new NoParamType("int", "INTEGER"));
         this.add(new NoParamType("bigint", "BIGINT"));
         
         this.add(new NoParamType("float", "FLOAT"));

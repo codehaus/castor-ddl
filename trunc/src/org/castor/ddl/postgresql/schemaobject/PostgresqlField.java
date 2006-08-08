@@ -21,8 +21,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * 
- * <br/>Created on Jul 4, 2006 - 11:51:19 AM
+ * Postgre Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -55,7 +54,7 @@ public class PostgresqlField extends Field {
             buff.append(getType().toDDL(this));
         }
 
-        if (isIdentity()) {
+        if (isIdentity() || isRequired()) {
             buff.append(" NOT NULL");
         }
         

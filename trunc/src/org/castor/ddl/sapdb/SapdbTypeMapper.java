@@ -55,6 +55,7 @@ public final class SapdbTypeMapper extends AbstractTypeMapper {
         this.add(new NoParamType("tinyint", "SMALLINT"));
         this.add(new NoParamType("smallint", "SMALLINT"));
         this.add(new NoParamType("integer", "INTEGER"));
+        this.add(new NoParamType("int", "INTEGER"));
         LOG.warn("SapDB does not support 'BIGINT' type, use INTEGER instead.");
         this.add(new NoParamType("bigint", "INTEGER"));
         

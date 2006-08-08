@@ -21,11 +21,9 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Vector;
 
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.ForeignKey;
-import org.castor.ddl.schemaobject.Index;
 import org.castor.ddl.schemaobject.KeyGenerator;
 import org.castor.ddl.schemaobject.Schema;
 import org.castor.ddl.schemaobject.SchemaFactory;
@@ -148,7 +146,6 @@ import org.exolab.castor.mapping.xml.Sql;
  * 
  */
 public abstract class AbstractGenerator implements Generator {
-    /**logging*/
     /** handle all configurations (key, value) */
     private Configuration _conf;
 
@@ -310,7 +307,7 @@ public abstract class AbstractGenerator implements Generator {
      *             generator exception
      */
     private void generateDDLGroupByTable() throws GeneratorException {
-        Vector tables = _schema.getTables();
+        Map tables = _schema.getTables();
 
         boolean genSchema = _conf.getBoolValue(
                 Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
@@ -328,11 +325,13 @@ public abstract class AbstractGenerator implements Generator {
                 Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
         write(generateHeader());
+        
         if (genSchema) {
             write(_schema.toDDL());
         }
-
-        for (Iterator i = tables.iterator(); i.hasNext();) {
+        
+        
+        for (Iterator i = tables.values().iterator(); i.hasNext();) {
             StringBuffer buff = new StringBuffer();
             Table table = (Table) i.next();
 
@@ -376,9 +375,9 @@ public abstract class AbstractGenerator implements Generator {
      * @return primary key creation ddl
      */
     public String generatePrimaryKey() {
-        Vector tables = _schema.getTables();
+        Map tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
-        for (Iterator i = tables.iterator(); i.hasNext();) {
+        for (Iterator i = tables.values().iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toPrimaryKeyDDL());
         }
@@ -392,10 +391,10 @@ public abstract class AbstractGenerator implements Generator {
      *             exception
      */
     public String generateKeyGenerator() throws KeyGenNotSupportException {
-        Vector tables = _schema.getTables();
+        Map tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.iterator(); i.hasNext();) {
+        for (Iterator i = tables.values().iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toKeyGeneratorDDL());
         }
@@ -408,10 +407,10 @@ public abstract class AbstractGenerator implements Generator {
      * @return index creation ddl
      */
     public String generateIndex() {
-        Vector tables = _schema.getTables();
+        Map tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.iterator(); i.hasNext();) {
+        for (Iterator i = tables.values().iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(createIndexDDL(table));
         }
@@ -422,10 +421,10 @@ public abstract class AbstractGenerator implements Generator {
      * @return drop creation ddl
      */
     public String generateDrop() {
-        Vector tables = _schema.getTables();
+        Map tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.iterator(); i.hasNext();) {
+        for (Iterator i = tables.values().iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toDropDDL());
         }
@@ -459,10 +458,10 @@ public abstract class AbstractGenerator implements Generator {
      *             generator exception
      */
     public String generateCreate() throws GeneratorException {
-        Vector tables = _schema.getTables();
+        Map tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.iterator(); i.hasNext();) {
+        for (Iterator i = tables.values().iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toCreateDDL());
         }
@@ -486,10 +485,10 @@ public abstract class AbstractGenerator implements Generator {
      *             generator exception
      */
     public String generateForeignKey() throws GeneratorException {
-        Vector tables = _schema.getTables();
+        Map tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.iterator(); i.hasNext();) {
+        for (Iterator i = tables.values().iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(createForeignKeyDDL(table));
         }
@@ -604,6 +603,7 @@ public abstract class AbstractGenerator implements Generator {
         Enumeration ec = root.enumerateClassMapping();
         while (ec.hasMoreElements()) {
             ClassMapping cm = (ClassMapping) ec.nextElement();
+
             Table table = createTable(cm);
             if (table != null) {
                 _schema.addTable(table);
@@ -613,6 +613,7 @@ public abstract class AbstractGenerator implements Generator {
         Iterator i = _resolveTable.keySet().iterator();
         while (i.hasNext()) {
             ClassMapping cm = (ClassMapping) _resolveTable.get(i.next());
+            
             Table table = createTable(cm);
             if (table != null) {
                 _schema.addTable(table);
@@ -628,22 +629,164 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException
      *             generator exception
      */
-    private Table createTable(final ClassMapping cm) throws GeneratorException {
+    private Table createTable(final ClassMapping cm) 
+        throws GeneratorException {
         String tableName = cm.getMapTo().getTable();
-        if (tableName == null) {
-            return null;
-        }
+        if (tableName == null) { return null; }
 
         Table table = _schemaFactory.createTable();
-        table.setConf(_conf);
         table.setName(tableName);
+        table.setConf(_conf);
         table.setSchema(_schema);
 
         // if there are no field in the table
-        if (cm.getClassChoice() == null) {
-            return table;
-        }
+        if (cm.getClassChoice() == null) { return table; }
 
+        boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(cm);
+        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+
+        // process key-generator
+        String keygenerator = cm.getKeyGenerator();
+        KeyGenerator keyGen = null;
+        if (keygenerator != null) {
+            keyGen = getSchema().getKeyRepository().getKeyGenerator(
+                    keygenerator.toUpperCase());
+
+            // key gen is not found
+            if (keyGen == null) {
+                throw new GeneratorException("key-generator is not found: "
+                        + keygenerator);
+            }
+            keyGen.setConf(_conf);
+        }
+        table.setKeyGenerator(keyGen);
+
+        while (ef.hasMoreElements()) {
+            FieldMapping fm = (FieldMapping) ef.nextElement();
+
+            // if <sql> tag is not defined, there is no _mapping to DB, skip it
+            if (fm.getSql() == null) { continue; }
+
+            // create a field
+            boolean isFieldIdentity = fm.getIdentity();
+            // if use class' identity, overwrite this one
+            if (!isUseFieldIdentity) {
+                isFieldIdentity = _mappingHelper.isIdentity(cm, fm);
+            }
+            
+            // checking for many-key, many-table definition
+            if (fm.getSql().getManyTable() != null) {
+                    // checking for many-table case just
+                    // 1. generate DDL for creating relationship, with MySQL
+                    // addManyManyForeignKey(table, fm);
+
+                    // 2. generate resolving table for many-many relationship
+                    addResolveField(fm, cm.getKeyGenerator());
+                    // } else {
+                    // checking for many-key case (not need generate DDL),
+                    // 1. generate DDL for creating relationship, with MySQL
+                    // addOneManyForeignKey(fm, cm.getMapTo().getTable());
+            }
+                    
+            //process column creation if sql name is defined.
+            String[] sqlnames = fm.getSql().getName();              
+            if (sqlnames != null && sqlnames.length > 0 
+                    && fm.getSql().getManyTable() == null) {
+                //normal case, using sql name as column name
+                String sqltype = fm.getSql().getType();
+
+                TypeInfo typeInfo = null; //type info
+                ClassMapping cmRef = null; //reference classmapping
+                String[] refIdTypes = null;
+                boolean isUseReferenceType = false;
+
+                // type resolving: get type info
+                if (sqltype != null) {
+                    typeInfo = _typeMapper.getType(sqltype);
+                }
+
+                // if typeInfo is null, this table has a reference to another one.
+                if (typeInfo == null) {
+                    cmRef = _mappingHelper.getClassMappingByName(fm.getType());
+                    // if cmRef is null, the reference class is not found
+                    //then using field type
+                    if (cmRef == null) {                        
+                        typeInfo = _typeMapper.getType(fm.getType());
+                        
+                        if (typeInfo == null) {
+                            throw new TypeNotFoundException("can not resolve type "
+                                + fm.getType() + " in class '" + cm.getName() + "'");
+                        }
+                    } else {
+                        isUseReferenceType = true;
+                        refIdTypes = _mappingHelper.resolveTypeReferenceForIds(fm
+                                .getType());
+
+                        // if number of reference table's Id differs to number of
+                        // field elements
+                        if (refIdTypes.length != sqlnames.length) {
+                            throw new TypeNotFoundException(
+                                    "number of reference table's Id differs"
+                                            + " to number of field elements '"
+                                            + fm.getName() + "' of class '" 
+                                            + cm.getName() + "'"
+                                            + refIdTypes.length + "," + sqlnames.length);
+                        }
+
+                        // create foreign key
+                        addOneOneForeignKey(table, fm, cm.getMapTo().getTable());
+                    }
+                }
+
+                // create fields
+                for (int i = 0; i < sqlnames.length; i++) {
+                    Field field = _schemaFactory.createField();
+                    field.setConf(_conf);
+                    table.addField(field);
+
+                    // group_moderator mediumint(8) DEFAULT '0' NOT NULL,
+                    if (isUseReferenceType) {
+                        // each sqlname is correpondent to a identity of the reference 
+                        // table. so, it should get the original type of the reference 
+                        // field
+                        typeInfo = _typeMapper.getType(refIdTypes[i]);
+                        if (typeInfo == null) {
+                            throw new TypeNotFoundException(
+                                    "can not find reference type "
+                                    + refIdTypes[i] + " of class " + cm.getName());
+                        }
+                    }
+
+                    // process attributes of field
+                    field.setName(sqlnames[i]);
+                    field.setTable(table);
+                    field.setType(typeInfo);
+                    field.setIdentity(isFieldIdentity);
+                    field.setRequired(fm.getRequired());
+                    field.setKeyGenerator(keyGen);
+                }
+            }            
+        }
+        
+        //process extends, if the extends is defined.
+        Object extendClass = cm.getExtends();
+        if (extendClass != null) {
+            //add exten d class Ids into this table
+            addIdentitiesForTable(table, (ClassMapping) extendClass);
+        }
+        return table;
+    }
+
+    /**
+     * add all identities if cm into table. This method is used to process
+     * extends definition in a class mapping.
+     * @param table a table
+     * @param cm a class mapping
+     * @throws GeneratorException throw exception if key-gen is not found.
+     */
+    private void addIdentitiesForTable(final Table table, 
+            final ClassMapping cm) throws GeneratorException {
+        
         boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(cm);
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
 
@@ -679,22 +822,7 @@ public abstract class AbstractGenerator implements Generator {
             }
 
             // checking for many-key, many-table definition
-            if (fm.getSql().getManyKeyCount() > 0) {
-                if (fm.getSql().getManyTable() != null) {
-                    // checking for many-table case just
-                    // 1. generate DDL for creating relationship, with MySQL,
-                    // not need
-                    // addManyManyForeignKey(table, fm);
-
-                    // 2. generate resolving table for many-many relationship
-                    addResolveField(fm, cm.getKeyGenerator());
-                    // } else {
-                    // // checking for many-key case (not need generate DDL),
-                    // // 1. generate DDL for creating relationship, with MySQL
-                    // // addOneManyForeignKey(fm, cm.getMapTo().getTable());
-                }
-                // normal field
-            } else {
+            if (isFieldIdentity && fm.getSql().getManyKeyCount() <= 0) {
                 String[] sqlnames = fm.getSql().getName();
                 String sqltype = fm.getSql().getType();
 
@@ -711,28 +839,31 @@ public abstract class AbstractGenerator implements Generator {
                 // if typeInfo is null, this table has a reference to another
                 // one.
                 if (typeInfo == null) {
-                    isUseReferenceType = true;
                     cmRef = _mappingHelper.getClassMappingByName(fm.getType());
                     // if cmRef is null, the reference class is not found
-                    if (cmRef == null) {
-                        throw new TypeNotFoundException("can not resolve type "
+                    if (cmRef == null) {                        
+                        typeInfo = _typeMapper.getType(fm.getType());
+                        
+                        if (typeInfo == null) {
+                            throw new TypeNotFoundException("can not resolve type "
                                 + fm.getType());
+                        }
+                    } else {
+                        isUseReferenceType = true;
+                        refIdTypes = _mappingHelper.resolveTypeReferenceForIds(fm
+                                .getType());
+
+                        // if number of reference table's Id differs to number of
+                        // field elements
+                        if (refIdTypes.length != sqlnames.length) {
+                            throw new TypeNotFoundException(
+                                    "number of reference table's Id differs"
+                                            + " to number of field elements '"
+                                            + fm.getName() + "' of class '" 
+                                            + cm.getName() + "'"
+                                            + refIdTypes.length + "," + sqlnames.length);
+                        }
                     }
-
-                    refIdTypes = _mappingHelper.resolveTypeReferenceForIds(fm
-                            .getType());
-
-                    // if number of reference table's Id differs to number of
-                    // field elements
-                    if (refIdTypes.length != sqlnames.length) {
-                        throw new TypeNotFoundException(
-                                "number of reference table's Id differs"
-                                        + "to number of field elements "
-                                        + fm.getName());
-                    }
-
-                    // create foreign key
-                    addOneOneForeignKey(table, fm, cm.getMapTo().getTable());
                 }
 
                 // create fields
@@ -767,7 +898,11 @@ public abstract class AbstractGenerator implements Generator {
                 }
             }
         }
-        return table;
+        
+        //process extends
+        if (cm.getExtends() != null) {
+           addIdentitiesForTable(table, (ClassMapping) cm.getExtends()); 
+        }
     }
 
     /**
@@ -779,7 +914,7 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException
      *             generator exception
      */
-    protected void addManyManyForeignKey(final Table table,
+    protected final void addManyManyForeignKey(final Table table,
             final FieldMapping fm) throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
         fk.setConf(_conf);
@@ -792,6 +927,11 @@ public abstract class AbstractGenerator implements Generator {
         fk.setFkkeyList(fm.getSql().getName());
 
         ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
+
+        if (cm == null) {
+            throw new GeneratorException("can not find class " + fm.getType());
+        }
+
         fk.setReferenceTableName(cm.getMapTo().getTable());
         fk.setReferenceKeyList(_mappingHelper.getClassMappingIdentity(cm));
 
@@ -811,7 +951,7 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException
      *             generator exception
      */
-    protected void addOneManyForeignKey(final Table table,
+    protected final void addOneManyForeignKey(final Table table,
             final FieldMapping fm, final String tableName)
             throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
@@ -819,6 +959,11 @@ public abstract class AbstractGenerator implements Generator {
         String s;
 
         ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
+
+        if (cm == null) {
+            throw new GeneratorException("can not find class " + fm.getType());
+        }
+        
         fk.setTable(table);
         s = cm.getMapTo().getTable() + "_" + fm.getName();
         fk.setConstraintName(s);
@@ -843,7 +988,7 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException
      *             generator exception
      */
-    protected void addOneOneForeignKey(final Table table,
+    protected final void addOneOneForeignKey(final Table table,
             final FieldMapping fm, final String tableName)
             throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
@@ -857,8 +1002,19 @@ public abstract class AbstractGenerator implements Generator {
         fk.setFkkeyList(fm.getSql().getName());
 
         ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
+
+        if (cm == null) {
+            throw new GeneratorException("can not find class " + fm.getType());
+        }
+        
         fk.setReferenceTableName(cm.getMapTo().getTable());
-        fk.setReferenceKeyList(_mappingHelper.getClassMappingIdentity(cm));
+        
+        String[] manykeys = fm.getSql().getManyKey();
+        if (manykeys != null && manykeys.length > 0) {
+            fk.setReferenceKeyList(manykeys);
+        } else {
+            fk.setReferenceKeyList(_mappingHelper.getClassMappingIdentity(cm));
+        }
 
         fk.setRelationshipType(ForeignKey.ONE_ONE);
         table.addForeignKey(fk);
@@ -869,10 +1025,11 @@ public abstract class AbstractGenerator implements Generator {
      *            field mapping
      * @param keyGen
      *            key generator string
+     * @throws GeneratorException exception
      */
-    protected void addResolveField(final FieldMapping fm, final String keyGen) {
+    protected final void addResolveField(final FieldMapping fm, final String keyGen) 
+        throws GeneratorException {
         ClassMapping resolveCm = null;
-
         // get table, if not existe, create one
         if (_resolveTable.containsKey(fm.getSql().getManyTable())) {
             resolveCm = (ClassMapping) _resolveTable.get(fm.getSql()
@@ -896,12 +1053,20 @@ public abstract class AbstractGenerator implements Generator {
         ClassChoice cc = resolveCm.getClassChoice();
         if (cc == null) {
             cc = new ClassChoice();
-            resolveCm.setClassChoice(cc);
+            resolveCm.setClassChoice(cc); 
         }
         cc.addFieldMapping(resolveFm);
 
         Sql sql = new Sql();
-        sql.setName(fm.getSql().getName());
+        String[] sqlname = fm.getSql().getName();
+        if (sqlname == null || sqlname.length == 0) {
+            ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
+            if (cm == null) {
+                throw new GeneratorException("can not find class " + fm.getType());
+            }
+            _mappingHelper.getClassMappingIdentity(cm);
+        }
+        sql.setName(sqlname);
         resolveFm.setSql(sql);
     }
 
@@ -929,14 +1094,16 @@ public abstract class AbstractGenerator implements Generator {
      * @return index creation ddl
      */
     protected String createIndexDDL(final Table table) {
-        StringBuffer buff = new StringBuffer();
-
-        for (Iterator i = table.getIndexes().iterator(); i.hasNext();) {
-            Index index = (Index) i.next();
-            buff.append(index.toDDL());
-        }
-
-        return buff.toString();
+        return table.toIndexDDL();
+//
+//        StringBuffer buff = new StringBuffer();
+//
+//        for (Iterator i = table.getIndexes().iterator(); i.hasNext();) {
+//            Index index = (Index) i.next();
+//            buff.append(index.toDDL());
+//        }
+//
+//        return buff.toString();
     }
 
     /**

@@ -30,6 +30,8 @@ public final class KeyRepository {
     /**table list*/
     private Map _keyGenerator;
 
+    /**table list*/
+    private Map _nameAlias;
     
     /**
      * Constructor for KeyRepository
@@ -37,7 +39,7 @@ public final class KeyRepository {
     protected KeyRepository() {
         super();
         _keyGenerator = new HashMap();
-        // TODO Auto-generated constructor stub
+        _nameAlias = new HashMap();
     }
 
     /**
@@ -63,6 +65,7 @@ public final class KeyRepository {
      */
     public void putKeyGenerator(final String key, final KeyGenerator kg) {
         _keyGenerator.put(key, kg);
+        _nameAlias.put(kg.getName(), kg.getAlias());
     }
     
     /**
@@ -71,6 +74,11 @@ public final class KeyRepository {
      * @return key generator associates to key
      */
     public KeyGenerator getKeyGenerator(final String key) {
-        return (KeyGenerator) _keyGenerator.get(key);
+        KeyGenerator kg = (KeyGenerator) _keyGenerator.get(key);
+        if (kg == null) {
+            String alias = (String) _nameAlias.get(key);
+            kg = (KeyGenerator) _keyGenerator.get(alias);
+        }
+        return kg;
     }    
 }

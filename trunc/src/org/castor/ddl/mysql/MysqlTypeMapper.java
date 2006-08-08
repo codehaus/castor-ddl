@@ -56,6 +56,7 @@ public final class MysqlTypeMapper extends AbstractTypeMapper {
         this.add(new OptionalPrecisionType("tinyint", "TINYINT", conf));
         this.add(new OptionalPrecisionType("smallint", "SMALLINT", conf));
         this.add(new OptionalPrecisionType("integer", "INTEGER", conf));
+        this.add(new OptionalPrecisionType("int", "INTEGER", conf));
         this.add(new OptionalPrecisionType("bigint", "BIGINT", conf));
         
         this.add(new OptionalPrecisionDecimalsType("float", "FLOAT", conf));

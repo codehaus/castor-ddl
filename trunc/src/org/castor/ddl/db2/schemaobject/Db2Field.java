@@ -21,7 +21,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * <br/>Created on Jul 12, 2006 - 1:04:27 AM
+ * Db2 Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -43,7 +43,7 @@ public class Db2Field extends Field {
         buff.append(getName()).append(" ");
         buff.append(getType().toDDL(this));
         
-        if (isIdentity()) {
+        if (isIdentity() || isRequired()) {
             buff.append(" NOT NULL");
         }
         

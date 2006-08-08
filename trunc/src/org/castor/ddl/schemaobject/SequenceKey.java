@@ -18,13 +18,15 @@ package org.castor.ddl.schemaobject;
 
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.Param;
 
 
-/**
+/** 
  *SEQUENCE key generator can be used only with Oracle, PostgreSQL, Interbase and 
  *SAP DB. It generates keys using sequences.
  *The key generator has the following parameters:
@@ -41,6 +43,9 @@ import org.exolab.castor.mapping.xml.Param;
  */
 
 public class SequenceKey extends KeyGenerator {
+    /**LOGGING*/
+    private static final Log LOG = LogFactory.getLog(SequenceKey.class);
+    
     /** sequence name*/
     public String _name;
     
@@ -244,8 +249,10 @@ public class SequenceKey extends KeyGenerator {
      * @throws KeyGenNotSupportException exception
      */
     public String toDDL() throws KeyGenNotSupportException {
-        throw new KeyGenNotSupportException("Not support SEQUENCE key-gen for " 
-                + "this database");
+        LOG.warn("Not support SEQUENCE key-gen for this database");
+//        throw new KeyGenNotSupportException("Not support SEQUENCE key-gen for " 
+//                + "this database");
+        return "";
     }
     
     /**

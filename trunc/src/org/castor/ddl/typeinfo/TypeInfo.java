@@ -48,4 +48,10 @@ public interface TypeInfo {
      * @throws GeneratorException If required parameters is not defined.
      */
     String toDDL(Field field) throws GeneratorException;
+
+    /**
+     * @param type type infor
+     * @throws GeneratorException exception
+     */
+    void merge(TypeInfo type) throws GeneratorException;
 }

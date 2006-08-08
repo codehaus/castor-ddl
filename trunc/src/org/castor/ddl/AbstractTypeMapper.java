@@ -67,6 +67,11 @@ public abstract class AbstractTypeMapper implements TypeMapper {
      * {@inheritDoc}
      */
     public final TypeInfo getType(final String jdcbType) {
-        return (TypeInfo) _types.get(jdcbType.toLowerCase());
+        String ddlJdbcType = jdcbType.toLowerCase();
+        
+        if (ddlJdbcType.matches(".*\\Q[\\E.*")) {
+            ddlJdbcType = ddlJdbcType.substring(0, ddlJdbcType.indexOf("["));
+        }
+        return (TypeInfo) _types.get(ddlJdbcType);
     }
 }

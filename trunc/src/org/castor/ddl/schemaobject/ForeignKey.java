@@ -16,6 +16,8 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.castor.ddl.GeneratorException;
+
 /**
  * ForeignKey handle information for foreign key creation.
  * <pre>ALTER TABLE `prod_group` ADD CONSTRAINT `FK_prod_group_1` 
@@ -191,6 +193,24 @@ public class ForeignKey extends AbstractSchemaObject  {
     }
 
     /**
+     * Create index DDL for Foreign Key
+     * @return ddl string
+     */
+    public String toIndexDDL() {
+        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+        buff.append(getConf().getLineSeparator());
+
+        buff.append("CREATE UNIQUE INDEX ").append(_table.getName()).append("_idx_fk");
+        buff.append(getConf().getLineSeparator()).append(
+                getConf().getLineIndent());
+        buff.append("ON ").append(_table.getName());
+
+        buff.append(makeListofParams(getFkkeyList()));
+        buff.append(getConf().getSqlStatDelimeter());
+        return buff.toString();
+    }
+
+    /**
      * @param list  key list
      * @return  formated key list
      */
@@ -224,6 +244,14 @@ public class ForeignKey extends AbstractSchemaObject  {
      */
     public final void setTable(final Table table) {
         _table = table;
+    }
+
+    /**
+     * @param fk a foreign key
+     * @exception GeneratorException throw an exception if foreign keys cannot be merged
+     */
+    public final void merge(final ForeignKey fk) throws GeneratorException {
+        // TODO Auto-generated method stub
     }
 
 }

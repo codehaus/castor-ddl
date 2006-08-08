@@ -16,8 +16,9 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.typeinfo.TypeInfo;
 
 /**
@@ -29,6 +30,9 @@ import org.castor.ddl.typeinfo.TypeInfo;
  */
 
 public class Field extends AbstractSchemaObject {
+    /**LOGGING*/
+    private static final Log LOG = LogFactory.getLog(Field.class);
+        
     /** field name */
     private String _name;
 
@@ -41,6 +45,9 @@ public class Field extends AbstractSchemaObject {
     /** handle key generator */
     private KeyGenerator _keyGenerator;
     
+    /**is required*/
+    private boolean _isRequired;
+    
     /** handle to table in which contains this field */
     private Table _table;
     /**
@@ -51,6 +58,7 @@ public class Field extends AbstractSchemaObject {
         _name = null;
         _type = null;
         _keyGenerator = null;
+        _isRequired = false;
     }
     
 
@@ -161,6 +169,26 @@ public class Field extends AbstractSchemaObject {
     public final Integer getDecimals() { return null; }
 
     /**
+     * 
+     * @return Returns the isRequired.
+     */
+    public final boolean isRequired() {
+        return _isRequired;
+    }
+
+
+
+    /**
+     * Set the isRequired by _isRequired.
+     * @param isRequired is required
+     */
+    public final void setRequired(final boolean isRequired) {
+        _isRequired = isRequired;
+    }
+
+
+
+    /**
      * Create DDL for field
      * @return ddl string
      * @throws GeneratorException exception
@@ -169,17 +197,45 @@ public class Field extends AbstractSchemaObject {
         StringBuffer buff = new StringBuffer();
         buff.append(_name).append(" ");
         buff.append(_type.toDDL(this));
-        if (_isIdentity) {
+        if (_isIdentity || _isRequired) {
             buff.append(" NOT NULL");
         }
 
         if (_keyGenerator != null && isIdentity() 
                 && KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(_keyGenerator.getName())) {
-            throw new KeyGenNotSupportException("Not support IDENTITY key-gen for " 
-                    + "this database");
+            LOG.warn("Not support IDENTITY key-gen for this database");
+//            throw new KeyGenNotSupportException("Not support IDENTITY key-gen for " 
+//                    + "this database");
         }
 
         
         return buff.toString();
+    }
+
+
+
+    /**
+     * 
+     * @param field field to be merged
+     * @throws GeneratorException throw an exception if fields cannot be merged
+     */
+    public final void merge(final Field field) throws GeneratorException {
+        if (field == null || _name == null 
+                || !_name.equalsIgnoreCase(field.getName())) {
+            LOG.error("Merge table '" + _table.getName()  
+                    + "': Field '" + _name + "' has difference name or not found");
+           throw new GeneratorException("Merge table '" + _table.getName()  
+                    + "': Field '" + _name + "' has difference name or not found"); 
+        }
+        
+        if (_isIdentity != field._isIdentity) {
+            LOG.warn("Merge table: Field 'identity' attributes are different");
+        }
+        
+        if (_isRequired != field._isRequired) {
+            LOG.warn("Merge table: Field 'required' attributes are different");
+        }
+        
+        _type.merge(field._type);
     }
 }

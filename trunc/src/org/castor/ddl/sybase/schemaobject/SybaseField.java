@@ -21,7 +21,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * Sybase Field
+ * Sybase Field 
  * <br/>Created on Jul 11, 2006 - 5:06:42 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
@@ -44,7 +44,7 @@ public class SybaseField extends Field {
         buff.append(getName()).append(" ");
         buff.append(getType().toDDL(this));
         
-        if (isIdentity()) {
+        if (isIdentity() || isRequired()) {
             buff.append(" NOT NULL");
         }
 

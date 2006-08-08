@@ -16,6 +16,10 @@
 
 package org.castor.ddl.typeinfo;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.ddl.GeneratorException;
+
 /**
  * Abstract TypeInfo with common properties of all implementations.
  * 
@@ -23,6 +27,9 @@ package org.castor.ddl.typeinfo;
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public abstract class AbstractType implements TypeInfo {
+    /**logging*/
+    private static final Log LOG = LogFactory.getLog(AbstractType.class);
+    
     /** Prefix of all parameters for types in ddl.properties file. */
     protected static final String PARAM_PREFIX = "default_";
     
@@ -63,4 +70,23 @@ public abstract class AbstractType implements TypeInfo {
      * {@inheritDoc}
      */
     public final String getSqlType() { return _sqlType; }
+
+    /**
+     * @param type type info
+     * @exception GeneratorException exception
+     */
+    public final void merge(final TypeInfo type) throws GeneratorException {
+        if (type == null) {
+            LOG.error("Merge table: type is null");
+            throw new GeneratorException("Merge table: type is null"); 
+        }
+        
+        if (_jdbcType == null || _jdbcType.equalsIgnoreCase(type.getJdbcType())) {
+            LOG.warn("Merge table: types have different jdbc name");
+        }
+
+        if (_sqlType == null || _sqlType.equalsIgnoreCase(type.getSqlType())) {
+            LOG.warn("Merge table: types have different sql name");
+        }
+    }
 }

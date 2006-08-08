@@ -21,8 +21,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * 
- * <br/>Created on Jul 4, 2006 - 11:51:19 AM
+ * MySql Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -51,7 +50,7 @@ public class MysqlField extends Field {
             }
         }
         
-        if (isIdentity()) {
+        if (isIdentity() || isRequired()) {
             buff.append(" NOT NULL");
         }
         

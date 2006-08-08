@@ -60,6 +60,7 @@ public final class DerbyTypeMapper extends AbstractTypeMapper {
         this.add(new NoParamType("tinyint", "SMALLINT"));
         this.add(new NoParamType("smallint", "SMALLINT"));
         this.add(new NoParamType("integer", "INTEGER"));
+        this.add(new NoParamType("int", "INTEGER"));
         this.add(new NoParamType("bigint", "BIGINT"));
         
         this.add(new OptionalPrecisionType("float", "FLOAT", conf));

@@ -16,7 +16,12 @@
 
 package org.castor.ddl.schemaobject;
 
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.ddl.GeneratorException;
 
 
 /**
@@ -27,12 +32,14 @@ import java.util.Vector;
  */
 
 public class Schema extends AbstractSchemaObject {
+    /**logging*/
+    private static final Log LOG = LogFactory.getLog(Schema.class);
 
     /** schema name */
     private String _name = null;
 
     /** table list */
-    private Vector _tables;
+    private Map _tables;
 
     /** key repositoty */
     KeyRepository _keyRepository;
@@ -50,7 +57,7 @@ public class Schema extends AbstractSchemaObject {
      */
     protected Schema() {
         super();
-        _tables = new Vector();
+        _tables = new HashMap();
         _keyRepository = new KeyRepository();
         addDefaultKey();
     }
@@ -69,7 +76,7 @@ public class Schema extends AbstractSchemaObject {
      * 
      * @return Returns the tables.
      */
-    public Vector getTables() {
+    public Map getTables() {
         return _tables;
     }
 
@@ -79,7 +86,7 @@ public class Schema extends AbstractSchemaObject {
      * @param tables
      *            tables
      */
-    public void setTables(final Vector tables) {
+    public void setTables(final Map tables) {
         _tables = tables;
     }
 
@@ -87,9 +94,16 @@ public class Schema extends AbstractSchemaObject {
      * 
      * @param table
      *            table
+     * @throws GeneratorException generator exception
      */
-    public void addTable(final Table table) {
-        _tables.add(table);
+    public void addTable(final Table table) throws GeneratorException {
+        if (_tables.containsKey(table.getName())) {
+            Table oldTable = (Table) _tables.get(table.getName());
+            LOG.warn("merge table which is defined in two or more classes");
+            oldTable.merge(table);
+        } else {
+            _tables.put(table.getName(), table);
+        }
     }
 
     /**

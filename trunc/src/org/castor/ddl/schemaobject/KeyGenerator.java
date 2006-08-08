@@ -16,6 +16,7 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 
 
@@ -86,4 +87,13 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
      * @throws KeyGenNotSupportException key gen exception
      */
     public abstract String toDDL() throws KeyGenNotSupportException;
+
+    /**
+     * @param keyGenerator key-gen
+     * @exception GeneratorException throw an exception of key-gens cannot be merged.
+     */
+    public final void merge(final KeyGenerator keyGenerator) throws GeneratorException {
+        // TODO Auto-generated method stub
+        
+    }
 }

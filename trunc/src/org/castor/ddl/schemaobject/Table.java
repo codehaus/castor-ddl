@@ -19,6 +19,8 @@ package org.castor.ddl.schemaobject;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 
@@ -29,6 +31,10 @@ import org.castor.ddl.KeyGenNotSupportException;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class Table extends AbstractSchemaObject {
+
+    /**logging*/
+    private static final Log LOG = LogFactory.getLog(Table.class);
+
     /**table name*/
     private String _name = null;
     
@@ -85,7 +91,7 @@ public class Table extends AbstractSchemaObject {
     /**
      * 
      * @param index index
-     * @return field
+     * @return field field
      */
     public Field getField(final int index) {
         return (Field) _fields.get(index);
@@ -116,22 +122,22 @@ public class Table extends AbstractSchemaObject {
         _indexes = indexes;
     }
 
-    /**
-     * 
-     * @param index index
-     */
-    public void setIndex(final Index index) {        
-        _indexes.add(index);
-    }
+//    /**
+//     * 
+//     * @param index index
+//     */
+//    public void setIndex(final Index index) {        
+//        _indexes.put(index. index);
+//    }
     
-    /**
-     * 
-     * @param index index
-     * @return Index
-     */
-    public Index getIndex(final int index) {
-        return (Index) _indexes.get(index);        
-    }
+//    /**
+//     * 
+//     * @param index index
+//     * @return Index
+//     */
+//    public Index getIndex(final int index) {
+//        return (Index) _indexes.get(index);        
+//    }
     
     /**
      * 
@@ -304,6 +310,48 @@ public class Table extends AbstractSchemaObject {
     }
 
     /**
+     * create unique index tc1x_pks_add_pk on tc1x_pks_address( id );
+     * @return DDL script for creating index for primary key
+     */
+    public String toIndexDDL() {
+        boolean isHasPK = false;
+        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+        buff.append(getConf().getLineSeparator());
+
+        buff.append("CREATE UNIQUE INDEX ").append(_name).append("_idx_pk");
+        buff.append(getConf().getLineSeparator()).append(
+                getConf().getLineIndent());
+        buff.append("ON ").append(_name).append("(");
+
+        boolean isFirstField = true;
+        for (Iterator i = _fields.iterator(); i.hasNext();) {
+            Field field = (Field) i.next();
+            if (field.isIdentity()) {
+                isHasPK = true;
+                if (!isFirstField) {
+                    buff.append(getConf().getSqlFieldDelimeter()).append(" ");
+                }
+                isFirstField = false;
+                buff.append(field.getName());
+            }
+        }
+        buff.append(")").append(getConf().getSqlStatDelimeter());
+
+        //have no primary key
+        if (!isHasPK) {
+            buff = new StringBuffer(getConf().getLineSeparator());
+            buff.append(getConf().getLineSeparator());
+        }
+        
+        for (Iterator i = getForeignKey().iterator(); i.hasNext();) {
+            ForeignKey fk = (ForeignKey) i.next();
+            buff.append(fk.toIndexDDL());
+        }
+        
+        return buff.toString();
+    }
+
+    /**
      * @return DDL script for creating primary key
      * @throws KeyGenNotSupportException exception
      */
@@ -315,4 +363,58 @@ public class Table extends AbstractSchemaObject {
         return _keyGenerator.toDDL();
     }
     
+    /**
+     * 
+     * @param table table to be merged
+     * @throws GeneratorException throw an exception if tables cannot be merged
+     */
+    public final void merge(final Table table) throws GeneratorException {
+        if (table == null || table.getFieldCount() != getFieldCount()) {
+            LOG.error("Merge table: table '" + _name + "' which is mapped to multiple"
+                    + " table has difference the number of field");
+            throw new GeneratorException("Merge table: table '" + _name + "' which is"
+                    + "  mapped to multiple table has difference the number of field");
+        }
+        
+        if (_name != null && !_name.equalsIgnoreCase(table.getName())) {
+            LOG.error("Merge table: table '" + _name + "' has difference names");
+            throw new GeneratorException("Merge table: table '" + _name 
+                    + "' has difference names");
+        }
+        
+        
+        for (int i = 0; i < getFieldCount(); i++) {
+//            String fieldname = (String) i.next();
+            Field field1 = getField(i);
+            Field field2 = null;
+            for (int j = 0; j < table.getFieldCount(); j++) {
+                Field f = table.getField(j); 
+                if (f != null && f.getName().equalsIgnoreCase(field1.getName())) {
+                    field2 = f;
+                    break;
+                } 
+            }
+            field1.merge(field2);
+        }
+        
+        for (int i = 0; i < getForeignKeyCount(); i++) {
+//            String fkname = (String) i.next();
+            ForeignKey fk1 = getForeignKey(i);
+            ForeignKey fk2 = table.getForeignKey(i);
+            fk1.merge(fk2);
+        }
+        
+        if (_keyGenerator != null) {
+            _keyGenerator.merge(table.getKeyGenerator());
+        }
+        
+    }
+
+    /**
+     * @param index index
+     * @return foreign key
+     */
+    public final ForeignKey getForeignKey(final int index) {
+        return (ForeignKey) _foreignKey.get(index);
+    }
 }

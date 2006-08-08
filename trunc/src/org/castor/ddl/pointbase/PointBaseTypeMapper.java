@@ -58,6 +58,7 @@ public final class PointBaseTypeMapper extends AbstractTypeMapper {
         this.add(new NoParamType("tinyint", "SMALLINT"));
         this.add(new NoParamType("smallint", "SMALLINT"));
         this.add(new NoParamType("integer", "INTEGER"));
+        this.add(new NoParamType("int", "INTEGER"));
         LOG.warn("PointBase does not support 'BIGINT' type, use NUMERIC instead.");
         this.add(new OptionalPrecisionDecimalsType("bigint", "NUMERIC", conf));
         

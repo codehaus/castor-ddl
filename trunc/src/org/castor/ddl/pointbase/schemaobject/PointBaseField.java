@@ -22,7 +22,6 @@ import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
  * PointBaseField
- * <br/>Created on Jul 11, 2006 - 5:18:46 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -44,7 +43,7 @@ public class PointBaseField extends Field {
         buff.append(getName()).append(" ");
         buff.append(getType().toDDL(this));
         
-        if (isIdentity()) {
+        if (isIdentity() || isRequired()) {
             buff.append(" NOT NULL");
         }
 

@@ -25,8 +25,7 @@ import org.castor.ddl.schemaobject.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * 
- * <br/>Created on Jul 11, 2006 - 5:53:04 PM
+ * Hsql sequence key
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

@@ -22,7 +22,6 @@ import org.castor.ddl.pointbase.schemaobject.PointBaseSchemaFactory;
 
 /**
  * Generator for PointBase based on AbstractGenerator
- * <br/>Created on Jul 10, 2006 - 11:54:21 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -47,7 +46,7 @@ public class PointBaseGenerator extends AbstractGenerator {
      */
     public String generateHeader() {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
 
 }

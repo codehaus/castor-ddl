@@ -21,8 +21,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * 
- * <br/>Created on Jul 11, 2006 - 11:32:05 AM
+ * mssql field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -51,7 +50,7 @@ public class MssqlField extends Field {
             }
         }
         
-        if (isIdentity()) {
+        if (isIdentity() || isRequired()) {
             buff.append(" NOT NULL");
         }
         
