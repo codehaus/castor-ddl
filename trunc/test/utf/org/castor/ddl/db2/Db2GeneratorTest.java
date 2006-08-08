@@ -16,6 +16,8 @@
 
 package utf.org.castor.ddl.db2;
 
+import java.util.logging.Logger;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -155,7 +157,10 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
             try {
                 getGenerator().generateCreate();
                 assertTrue("bit type does not support, expected an exception", false);
-            } catch (GeneratorException e) { }
+            } catch (GeneratorException e) {
+                Logger.global.warning("test bit type does not support, " 
+                        + "expected an exception");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue("testSingleFieldForAll: " + e.getMessage(), false);

@@ -1,8 +1,8 @@
 <expected-result>
-	<ddl matchtype="regexp" index="0">create table prod \( id integer not null, name char\({1}\) \); create table prod_detail \( id integer not null, prod_id integer, name char\({1}\) \);</ddl>
+	<ddl matchtype="regexp" index="0">create table prod_detail \( id integer not null, prod_id integer, name char\({1}\) \); create table prod \( id integer not null, name char\({1}\) \);</ddl>
 	<ddl matchtype="regexp" index="1">alter table prod_detail add constraint prod_detail_product foreign key \(prod_id\) references prod \(id\);</ddl>
 
-	<ddl matchtype="regexp" engine="mysql" index="0">create table prod \( id integer\({0}\) not null, name char\({1}\) \); create table prod_detail \( id integer\({0}\) not null, prod_id integer\({0}\), name char\({1}\) \);</ddl>
+	<ddl matchtype="regexp" engine="mysql" index="0">create table prod_detail \( id integer\({0}\) not null, prod_id integer\({0}\), name char\({1}\) \); create table prod \( id integer\({0}\) not null, name char\({1}\) \);</ddl>
 	<ddl matchtype="regexp" engine="mysql" index="1">alter table prod_detail add constraint prod_detail_product foreign key prod_detail_product \(prod_id\) references prod \(id\) on delete cascade on update restrict;</ddl>
 
 </expected-result>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                            "http://castor.org/mapping.dtd">
 <mapping>
-	<description>1-1 relationship</description>
+	<description>n-m relationship</description>
 	<!--  Mapping for Product  -->
 	<class name="myapp.Product" identity="id">
 		<description>Product definition</description>
@@ -18,8 +18,8 @@
 			many-many relationship -->
 		<field name="categories" type="myapp.Category" required="true"
 			collection="vector">
-			<sql name="category_id" many-table="category_prod"
-				many-key="prod_id" />
+			<sql many-table="category_prod"
+				many-key="prod_id" name="category_id"/>
 		</field>
 
 	</class>
@@ -41,8 +41,8 @@
 		</field>
 		<field name="products" type="myapp.Product" required="true"
 			collection="vector">
-			<sql name="prod_id" many-table="category_prod"
-				many-key="category_id" />
+			<sql many-table="category_prod"
+				many-key="category_id" name="prod_id"/>
 		</field>
 	</class>
 </mapping>

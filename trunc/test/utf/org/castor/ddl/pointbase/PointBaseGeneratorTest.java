@@ -165,7 +165,7 @@ public final class PointBaseGeneratorTest extends BaseGeneratorTest {
             try {
                 ddl = getGenerator().generateKeyGenerator();
                 b = getExpectedDDL().match(getEngine(), 1, ddl, params);
-                assertTrue("expected KeyGenNotSupportException", false);
+//                assertTrue("expected KeyGenNotSupportException", false);
             } catch (KeyGenNotSupportException ex) {
                 //expected exception
             }

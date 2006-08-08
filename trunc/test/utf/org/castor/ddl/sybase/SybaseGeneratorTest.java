@@ -20,7 +20,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
-import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.sybase.SybaseGenerator;
 import org.castor.ddl.sybase.SybaseTypeMapper;
@@ -162,13 +161,10 @@ public final class SybaseGeneratorTest extends BaseGeneratorTest {
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + getExpectedDDL().getMessage(), b);
 
-            try {
-                ddl = getGenerator().generateKeyGenerator();
-                b = getExpectedDDL().match(getEngine(), 1, ddl, params);
-                assertTrue("expected KeyGenNotSupportException", false);
-            } catch (KeyGenNotSupportException ex) {
-                //expected exception
-            }
+            ddl = getGenerator().generateKeyGenerator();
+            b = getExpectedDDL().match(getEngine(), 1, ddl, params);
+            assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                    + getExpectedDDL().getMessage(), b);
 
         } catch (Exception e) {
             e.printStackTrace();

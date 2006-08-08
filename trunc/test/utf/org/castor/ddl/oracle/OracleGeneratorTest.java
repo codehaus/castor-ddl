@@ -20,7 +20,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
-import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.oracle.OracleGenerator;
 import org.castor.ddl.oracle.OracleTypeMapper;
@@ -153,15 +152,15 @@ public final class OracleGeneratorTest extends BaseGeneratorTest {
                     conf.getInteger(PARAM_PREFIX + "char"
                             + PARAM_POSTFIX_LENGTH) };
 
-            try {
                 String ddl = getGenerator().generateCreate();
                 boolean b = getExpectedDDL().match(getEngine(), 0, ddl, params);
                 assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                         + getExpectedDDL().getMessage(), b);
 
                 ddl = getGenerator().generateKeyGenerator();
-                assertTrue("expected KeyGenNotSupportException", false);
-            } catch (KeyGenNotSupportException e) { }
+                b = getExpectedDDL().match(getEngine(), 1, ddl, params);
+                assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                        + getExpectedDDL().getMessage(), b);
 
         } catch (Exception e) {
             e.printStackTrace();

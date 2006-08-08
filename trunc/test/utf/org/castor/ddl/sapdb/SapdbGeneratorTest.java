@@ -155,15 +155,16 @@ public final class SapdbGeneratorTest extends BaseGeneratorTest {
                     conf.getInteger(PARAM_PREFIX + "char"
                             + PARAM_POSTFIX_LENGTH) };
 
-            try {
                 String ddl = getGenerator().generateCreate();
                 boolean b = getExpectedDDL().match(getEngine(), 0, ddl, params);
                 assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                         + getExpectedDDL().getMessage(), b);
 
                 ddl = getGenerator().generateKeyGenerator();
-                assertTrue("expected KeyGenNotSupportException", false);
-            } catch (KeyGenNotSupportException e) { }
+                b = getExpectedDDL().match(getEngine(), 1, ddl, params);
+                assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
+                        + getExpectedDDL().getMessage(), b);
+
 
         } catch (Exception e) {
             e.printStackTrace();
