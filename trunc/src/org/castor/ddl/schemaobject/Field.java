@@ -238,4 +238,31 @@ public class Field extends AbstractSchemaObject {
         
         _type.merge(field._type);
     }
+
+
+
+    /** (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     * {@inheritDoc}
+     */
+    public final boolean equals(final Object obj) {
+        if (obj != null && obj instanceof Field) {
+           Field f = (Field) obj;
+           if (_name != null && _name.equalsIgnoreCase(f.getName())) {
+               return true;
+           }
+        }
+        return false;
+    }
+
+
+
+    /** (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     * {@inheritDoc}
+     */
+    public int hashCode() {
+        return super.hashCode();
+    }
+    
 }

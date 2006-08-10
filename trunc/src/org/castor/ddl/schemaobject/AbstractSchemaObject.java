@@ -35,7 +35,7 @@ public abstract class AbstractSchemaObject implements SchemaObject {
      * (org.castor.ddl.Configuration)
      * {@inheritDoc}
      */
-    public void setConf(final Configuration conf) {
+    public final void setConf(final Configuration conf) {
         _conf = conf;
         
     }
@@ -44,7 +44,7 @@ public abstract class AbstractSchemaObject implements SchemaObject {
      * @see org.castor.ddl.schemaobject.SchemaObject#getConf()
      * {@inheritDoc}
      */
-    public Configuration getConf() {
+    public final Configuration getConf() {
         return _conf;
     }
 

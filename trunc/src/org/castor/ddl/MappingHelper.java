@@ -111,7 +111,7 @@ public class MappingHelper {
      *            class name
      * @return class by class name
      */
-    public synchronized ClassMapping getClassMappingByName(final String name) {
+    public final ClassMapping getClassMappingByName(final String name) {
 
         Enumeration ec = _mapping.getRoot().enumerateClassMapping();
         while (ec.hasMoreElements()) {
@@ -138,7 +138,7 @@ public class MappingHelper {
      * @throws GeneratorException
      *             field is not fould
      */
-    public synchronized FieldMapping getFieldMappingByName(
+    public final FieldMapping getFieldMappingByName(
             final String className, final String fieldName)
             throws GeneratorException {
         ClassMapping cm = getClassMappingByName(className);
@@ -162,7 +162,7 @@ public class MappingHelper {
      * @return list of type of reference ids from class name
      * @throws GeneratorException an exception
      */
-    public final synchronized String[] resolveTypeReferenceForIds(
+    public final String[] resolveTypeReferenceForIds(
             final ClassMapping cm) throws GeneratorException {
         boolean isFoundKey = false;
         
@@ -201,6 +201,7 @@ public class MappingHelper {
                 } else {
                     for (int i = 0; i < fm.getSql().getNameCount(); i++) {
                         types.add(fm.getSql().getType());
+                        isFoundKey = true;
                     }
                 }
             } else if (!isExistFieldId) {
@@ -259,12 +260,10 @@ public class MappingHelper {
                             types.add(fm.getSql().getType());
                             isFoundKey = true;
                         }
-                    }
-                    // }
-                }
-            }
-            
-        }
+                    } //if
+                } //for
+            } //if-else
+        } //while
 
         //if there is no identity found, looking in the extend class
         if (!isFoundKey && cm.getExtends() != null) {
@@ -356,12 +355,12 @@ public class MappingHelper {
      *  @param fm field mapping
      *  @return true if fm is an identity
      */
-    public boolean isIdentity(final ClassMapping cm, final FieldMapping fm) {
+    public final boolean isIdentity(final ClassMapping cm, final FieldMapping fm) {
         String[] ids = cm.getIdentity();
         String fieldName = fm.getName();
 
         for (int j = 0; j < ids.length; j++) {
-            if (ids[j].equals(fieldName)) {
+            if (ids[j].equalsIgnoreCase(fieldName)) {
                 return true;
             }
         }
@@ -376,17 +375,20 @@ public class MappingHelper {
      * 
      * @param cm
      *            Class mapping
-     * @return list of identity
+     * @param processExt is recursive 
+     * @return list of sql identity
      */
-    public String[] getClassMappingIdentity(final ClassMapping cm) {
+    public final String[] getClassMappingSqlIdentity(final ClassMapping cm, 
+            final boolean processExt) {
         Vector ids = new Vector();
         
-        //if this is a child class, using its parrent identities as its identities
-        if (cm.getExtends() != null) {
-           return getClassMappingIdentity((ClassMapping) cm.getExtends()); 
-        }
-        
         String[] identities = cm.getIdentity();
+        // for case of child defines identity with same or no type use name 
+        // from child and type from parent
+        if (processExt && cm.getExtends() != null && identities.length == 0) {
+            identities = getClassMappingIdentity((ClassMapping) cm.getExtends());
+        }
+
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
         // re-check all identity;
         boolean isExistFieldId = isUseFieldIdentity(cm);
@@ -411,20 +413,59 @@ public class MappingHelper {
                             ids.add(fm.getSql().getName(i));
                         }
                     }
-                }
-                
-            }
+                } //for               
+            } //if-else
+        } //while
+
+        //get identities from parent
+        if (processExt && cm.getExtends() != null && ids.size() == 0) {
+            return getClassMappingSqlIdentity((ClassMapping) cm.getExtends(), processExt);
         }
+
         return (String[]) ids.toArray(new String[0]);
-//        // if there is a field identity, overwrite the class's one
-//        if (isExistFieldId) {
-//            return (String[]) ids.toArray(new String[0]);
-//        }
-//
-//        // else, return class's identity
-//        return cm.getIdentity();
     }
 
+    /**
+     * The identity definitions at class and field are alternative syntax. If
+     * both are specified the one at field should take precedence over the class
+     * one. In other words if both are specified the one at class will be
+     * ignored.
+     * 
+     * @param cm
+     *            Class mapping
+     * @return list of identity
+     */
+    public final String[] getClassMappingIdentity(final ClassMapping cm) {
+        Vector ids = new Vector();
+        
+        // re-check all identity;
+        boolean isExistFieldId = false;
+        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+
+        while (ef.hasMoreElements()) {
+            FieldMapping fm = (FieldMapping) ef.nextElement();
+            //add all sql columns into identity list
+            if (isExistFieldId && fm.getIdentity()) {
+                isExistFieldId = true;
+                ids.add(fm.getName());
+            }
+        } //while
+        
+        if (!isExistFieldId) {
+            String[] identities = cm.getIdentity();
+            for (int i = 0; i < identities.length; i++) {
+                ids.add(identities[i]);
+            }
+        }
+
+        //if this is a child class, using its parrent identities as its identities
+        if (cm.getExtends() != null && ids.size() == 0) {
+          return getClassMappingIdentity((ClassMapping) cm.getExtends()); 
+       }
+
+        return (String[]) ids.toArray(new String[0]);
+    }
+    
     /**
      * @return Returns the classMapping.
      */

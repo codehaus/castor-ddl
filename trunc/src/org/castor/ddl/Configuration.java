@@ -30,7 +30,7 @@ public class Configuration extends BaseConfiguration {
     /** 
      * handle configuration
      */
-    Properties _conf;
+    private Properties _conf;
 
     /**
      * @param fileName
@@ -65,7 +65,7 @@ public class Configuration extends BaseConfiguration {
      * @throws KeyNotFoundException
      *             key error
      */
-    public boolean getBoolValue(final String key) throws WrongFormatException,
+    public final boolean getBoolValue(final String key) throws WrongFormatException,
             KeyNotFoundException {
         String value = this.getStringValue(key);
 
@@ -93,7 +93,7 @@ public class Configuration extends BaseConfiguration {
      * @return return value associated with key. If not exists, throw an
      *         exception
      */
-    public boolean getBoolValue(final String key, final boolean defaultValue) {
+    public final boolean getBoolValue(final String key, final boolean defaultValue) {
         String value = null;
         try {
             value = this.getStringValue(key);
@@ -125,7 +125,7 @@ public class Configuration extends BaseConfiguration {
      * @return The configured Integer property or null if property is not
      *         available or can not be interpreted as integer.
      */
-    public Integer getInteger(final String name) {
+    public final Integer getInteger(final String name) {
         String value = _conf.getProperty(name);
         if (value == null) {
             return null;
@@ -145,7 +145,7 @@ public class Configuration extends BaseConfiguration {
      *         exception
      * @throws KeyNotFoundException key error
      */
-    public String getStringValue(final String key) throws KeyNotFoundException {
+    public final String getStringValue(final String key) throws KeyNotFoundException {
         String value = (String) _conf.get(key);
         if (value == null || "".equals(value)) {
             throw new KeyNotFoundException(
@@ -162,7 +162,7 @@ public class Configuration extends BaseConfiguration {
      * @return return value associated with key. If not exists, return default
      *         value
      */
-    public String getStringValue(final String key, final String defaultValue) {
+    public final String getStringValue(final String key, final String defaultValue) {
         String value = (String) _conf.get(key);
         if (value == null || "".equals(value)) {
             value = defaultValue;
@@ -196,7 +196,7 @@ public class Configuration extends BaseConfiguration {
      *            a properties file
      * @throws GeneratorException generator error
      */
-    public void addProperties(final String fileName) throws GeneratorException {
+    public final void addProperties(final String fileName) throws GeneratorException {
         Properties props = new Properties();
         try {
             props.load(new java.io.FileInputStream(fileName));
@@ -215,7 +215,7 @@ public class Configuration extends BaseConfiguration {
      * @param key key
      * @param value value
      */
-    public void setProperty(final String key, final String value) {
+    public final void setProperty(final String key, final String value) {
         _conf.put(key, value);
         loadPredefineConfiguration();
     }
@@ -224,7 +224,7 @@ public class Configuration extends BaseConfiguration {
      * load pre-define configuraion
      *
      */
-    protected void loadPredefineConfiguration() {
+    protected final void loadPredefineConfiguration() {
         /** field delimeter */
 //        setSqlFieldDelimeter(getStringValue(SQL_FIELD_DELIMETER_KEY,
 //                getSqlFieldDelimeter()));

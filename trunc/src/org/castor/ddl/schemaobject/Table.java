@@ -68,7 +68,7 @@ public class Table extends AbstractSchemaObject {
      * 
      * @return Returns the fields.
      */
-    public Vector getFields() {
+    public final Vector getFields() {
         return _fields;
     }
 
@@ -76,16 +76,22 @@ public class Table extends AbstractSchemaObject {
      * Set the fields by _fields.
      * @param fields fields
      */
-    public void setFields(final Vector fields) {
+    public final void setFields(final Vector fields) {
         _fields = fields;
     }
 
     /**
      * 
      * @param field field
+     * @throws GeneratorException cannot merge field if it already exists in table
      */
-    public void addField(final Field field) {
-        _fields.add(field);
+    public final void addField(final Field field) throws GeneratorException {
+        if (_fields.contains(field)) {
+           Field f = (Field) _fields.get(_fields.indexOf(field));
+           f.merge(field);
+        } else {
+            _fields.add(field);
+        }
     }
     
     /**
@@ -93,8 +99,21 @@ public class Table extends AbstractSchemaObject {
      * @param index index
      * @return field field
      */
-    public Field getField(final int index) {
+    public final Field getField(final int index) {
         return (Field) _fields.get(index);
+        
+    }
+    
+    /**
+     * 
+     * @param field field
+     * @return field field which has the same name of field
+     */
+    public final Field getField(final Field field) {
+        if (_fields.contains(field)) {
+            return (Field) _fields.get(_fields.indexOf(field));
+        }
+        return null;
         
     }
     
@@ -102,7 +121,7 @@ public class Table extends AbstractSchemaObject {
      * 
      * @return field count
      */
-    public int getFieldCount() {
+    public final int getFieldCount() {
         return _fields.size();
     }
 
@@ -110,7 +129,7 @@ public class Table extends AbstractSchemaObject {
      * 
      * @return Returns the indexes.
      */
-    public Vector getIndexes() {
+    public final Vector getIndexes() {
         return _indexes;
     }
 
@@ -118,7 +137,7 @@ public class Table extends AbstractSchemaObject {
      * Set the indexes by _indexes.
      * @param indexes index 
      */
-    public void setIndexes(final Vector indexes) {
+    public final void setIndexes(final Vector indexes) {
         _indexes = indexes;
     }
 
@@ -143,7 +162,7 @@ public class Table extends AbstractSchemaObject {
      * 
      * @return Returns the name.
      */
-    public String getName() {
+    public final String getName() {
         return _name;
     }
 
@@ -151,7 +170,7 @@ public class Table extends AbstractSchemaObject {
      * Set the name by _name.
      * @param name name
      */
-    public void setName(final String name) {
+    public final void setName(final String name) {
         _name = name;
     }
 
@@ -159,7 +178,7 @@ public class Table extends AbstractSchemaObject {
      * 
      * @return Returns the foreignKey.
      */
-    public Vector getForeignKey() {
+    public final Vector getForeignKey() {
         return _foreignKey;
     }
 
@@ -167,23 +186,29 @@ public class Table extends AbstractSchemaObject {
      * Set the foreignKey by _foreignKey.
      * @param foreignKey foreign key
      */
-    public void setForeignKey(final Vector foreignKey) {
+    public final void setForeignKey(final Vector foreignKey) {
         _foreignKey = foreignKey;
     }
 
     /**
      * 
      * @param fk foreign key
+     * @throws GeneratorException if cannot be merged.
      */
-    public void addForeignKey(final ForeignKey fk) {
-       _foreignKey.add(fk);       
+    public final void addForeignKey(final ForeignKey fk) throws GeneratorException {
+        if (_foreignKey.contains(fk)) {
+            ForeignKey f = (ForeignKey) _foreignKey.get(_foreignKey.indexOf(fk));
+            f.merge(fk);
+        } else {
+            _foreignKey.add(fk);       
+        }
     }
     
     /**
      * 
      * @return foreign key count
      */
-    public int getForeignKeyCount() {
+    public final int getForeignKeyCount() {
         return _foreignKey.size();
     }
 
@@ -314,41 +339,42 @@ public class Table extends AbstractSchemaObject {
      * @return DDL script for creating index for primary key
      */
     public String toIndexDDL() {
-        boolean isHasPK = false;
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-        buff.append(getConf().getLineSeparator());
-
-        buff.append("CREATE UNIQUE INDEX ").append(_name).append("_idx_pk");
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
-        buff.append("ON ").append(_name).append("(");
-
-        boolean isFirstField = true;
-        for (Iterator i = _fields.iterator(); i.hasNext();) {
-            Field field = (Field) i.next();
-            if (field.isIdentity()) {
-                isHasPK = true;
-                if (!isFirstField) {
-                    buff.append(getConf().getSqlFieldDelimeter()).append(" ");
-                }
-                isFirstField = false;
-                buff.append(field.getName());
-            }
-        }
-        buff.append(")").append(getConf().getSqlStatDelimeter());
-
-        //have no primary key
-        if (!isHasPK) {
-            buff = new StringBuffer(getConf().getLineSeparator());
-            buff.append(getConf().getLineSeparator());
-        }
-        
-        for (Iterator i = getForeignKey().iterator(); i.hasNext();) {
-            ForeignKey fk = (ForeignKey) i.next();
-            buff.append(fk.toIndexDDL());
-        }
-        
-        return buff.toString();
+//        boolean isHasPK = false;
+//        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+//        buff.append(getConf().getLineSeparator());
+//
+//        buff.append("CREATE UNIQUE INDEX ").append(_name).append("_idx_pk");
+//        buff.append(getConf().getLineSeparator()).append(
+//                getConf().getLineIndent());
+//        buff.append("ON ").append(_name).append("(");
+//
+//        boolean isFirstField = true;
+//        for (Iterator i = _fields.iterator(); i.hasNext();) {
+//            Field field = (Field) i.next();
+//            if (field.isIdentity()) {
+//                isHasPK = true;
+//                if (!isFirstField) {
+//                    buff.append(getConf().getSqlFieldDelimeter()).append(" ");
+//                }
+//                isFirstField = false;
+//                buff.append(field.getName());
+//            }
+//        }
+//        buff.append(")").append(getConf().getSqlStatDelimeter());
+//
+//        //have no primary key
+//        if (!isHasPK) {
+//            buff = new StringBuffer(getConf().getLineSeparator());
+//            buff.append(getConf().getLineSeparator());
+//        }
+//        
+//        for (Iterator i = getForeignKey().iterator(); i.hasNext();) {
+//            ForeignKey fk = (ForeignKey) i.next();
+//            buff.append(fk.toIndexDDL());
+//        }
+//        
+//        return buff.toString();
+        return "";
     }
 
     /**
@@ -373,7 +399,8 @@ public class Table extends AbstractSchemaObject {
             LOG.error("Merge table: table '" + _name + "' which is mapped to multiple"
                     + " table has difference the number of field");
             throw new GeneratorException("Merge table: table '" + _name + "' which is"
-                    + "  mapped to multiple table has difference the number of field");
+                    + "  mapped to multiple table has difference the number of field"
+                    + table.getFieldCount() + ", " + getFieldCount());
         }
         
         if (_name != null && !_name.equalsIgnoreCase(table.getName())) {
@@ -384,7 +411,6 @@ public class Table extends AbstractSchemaObject {
         
         
         for (int i = 0; i < getFieldCount(); i++) {
-//            String fieldname = (String) i.next();
             Field field1 = getField(i);
             Field field2 = null;
             for (int j = 0; j < table.getFieldCount(); j++) {
@@ -398,7 +424,6 @@ public class Table extends AbstractSchemaObject {
         }
         
         for (int i = 0; i < getForeignKeyCount(); i++) {
-//            String fkname = (String) i.next();
             ForeignKey fk1 = getForeignKey(i);
             ForeignKey fk2 = table.getForeignKey(i);
             fk1.merge(fk2);
@@ -417,4 +442,27 @@ public class Table extends AbstractSchemaObject {
     public final ForeignKey getForeignKey(final int index) {
         return (ForeignKey) _foreignKey.get(index);
     }
+
+    /** (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     * {@inheritDoc}
+     */
+    public final boolean equals(final Object obj) {
+        if (obj != null && obj instanceof Table) {
+            Table t = (Table) obj;
+            if (_name != null && _name.equalsIgnoreCase(t.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     * {@inheritDoc}
+     */
+    public final int hashCode() {
+        return super.hashCode();
+    }
+    
 }

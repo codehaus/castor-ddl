@@ -16,8 +16,7 @@
 
 package org.castor.ddl.schemaobject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,16 +38,16 @@ public class Schema extends AbstractSchemaObject {
     private String _name = null;
 
     /** table list */
-    private Map _tables;
+    private Vector _tables;
 
     /** key repositoty */
-    KeyRepository _keyRepository;
+    private KeyRepository _keyRepository;
 
     /**
      * 
      * @return Returns the name.
      */
-    public String getName() {
+    public final String getName() {
         return _name;
     }
 
@@ -57,7 +56,7 @@ public class Schema extends AbstractSchemaObject {
      */
     protected Schema() {
         super();
-        _tables = new HashMap();
+        _tables = new Vector();
         _keyRepository = new KeyRepository();
         addDefaultKey();
     }
@@ -68,7 +67,7 @@ public class Schema extends AbstractSchemaObject {
      * @param name
      *            name
      */
-    public void setName(final String name) {
+    public final void setName(final String name) {
         _name = name;
     }
 
@@ -76,7 +75,7 @@ public class Schema extends AbstractSchemaObject {
      * 
      * @return Returns the tables.
      */
-    public Map getTables() {
+    public final Vector getTables() {
         return _tables;
     }
 
@@ -86,7 +85,7 @@ public class Schema extends AbstractSchemaObject {
      * @param tables
      *            tables
      */
-    public void setTables(final Map tables) {
+    public final void setTables(final Vector tables) {
         _tables = tables;
     }
 
@@ -96,13 +95,13 @@ public class Schema extends AbstractSchemaObject {
      *            table
      * @throws GeneratorException generator exception
      */
-    public void addTable(final Table table) throws GeneratorException {
-        if (_tables.containsKey(table.getName())) {
-            Table oldTable = (Table) _tables.get(table.getName());
+    public final void addTable(final Table table) throws GeneratorException {
+        if (_tables.contains(table)) {
+            Table oldTable = (Table) _tables.get(_tables.indexOf(table));
             LOG.warn("merge table which is defined in two or more classes");
             oldTable.merge(table);
         } else {
-            _tables.put(table.getName(), table);
+            _tables.add(table);
         }
     }
 
@@ -110,7 +109,7 @@ public class Schema extends AbstractSchemaObject {
      * 
      * @return table count
      */
-    public int getTableCount() {
+    public final int getTableCount() {
         return _tables.size();
     }
 
@@ -118,7 +117,7 @@ public class Schema extends AbstractSchemaObject {
      * 
      * @return Returns the keyrep.
      */
-    public KeyRepository getKeyRepository() {
+    public final KeyRepository getKeyRepository() {
         return _keyRepository;
     }
 
@@ -128,7 +127,7 @@ public class Schema extends AbstractSchemaObject {
      * @param keyrep
      *            key repository
      */
-    public void setKeyRepository(final KeyRepository keyrep) {
+    public final void setKeyRepository(final KeyRepository keyrep) {
         _keyRepository = keyrep;
     }
 
@@ -139,7 +138,7 @@ public class Schema extends AbstractSchemaObject {
      * @param value
      *            value
      */
-    public void putKeyGenerator(final String key, final KeyGenerator value) {
+    public final void putKeyGenerator(final String key, final KeyGenerator value) {
         _keyRepository.putKeyGenerator(key, value);
     }
 

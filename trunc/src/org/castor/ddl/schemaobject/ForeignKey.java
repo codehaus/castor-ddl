@@ -254,4 +254,26 @@ public class ForeignKey extends AbstractSchemaObject  {
         // TODO Auto-generated method stub
     }
 
+    /** (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     * {@inheritDoc}
+     */
+    public boolean equals(final Object obj) {
+        if (obj != null && obj instanceof ForeignKey) {
+            ForeignKey f = (ForeignKey) obj;
+            if (_fkName != null && _fkName.equalsIgnoreCase(f.getFkName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     * {@inheritDoc}
+     */
+    public int hashCode() {
+        return super.hashCode();
+    }
+
 }

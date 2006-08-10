@@ -21,6 +21,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Vector;
 
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.ForeignKey;
@@ -146,6 +147,8 @@ import org.exolab.castor.mapping.xml.Sql;
  * 
  */
 public abstract class AbstractGenerator implements Generator {
+//    /**logging*/
+//    private static final Log LOG = LogFactory.getLog(AbstractGenerator.class);
     /** handle all configurations (key, value) */
     private Configuration _conf;
 
@@ -196,7 +199,7 @@ public abstract class AbstractGenerator implements Generator {
      * @see org.castor.ddl.Generator#generateDDL(java.lang.String) 
      * {@inheritDoc}
      */
-    public void generateDDL(final String mappingFile)
+    public final void generateDDL(final String mappingFile)
             throws GeneratorException, IOException, MappingException {
         _mapping = new Mapping();
         _mapping.loadMapping(mappingFile);
@@ -214,7 +217,7 @@ public abstract class AbstractGenerator implements Generator {
      * @see org.castor.ddl.Generator#generateDDL(Mapping) 
      * {@inheritDoc}
      */
-    public void generateDDL(final Mapping mappingDoc) throws GeneratorException {
+    public final void generateDDL(final Mapping mappingDoc) throws GeneratorException {
         _mapping = mappingDoc;
         _mappingHelper.setMapping(mappingDoc);
         _mappingHelper.setTypeMapper(_typeMapper);
@@ -307,7 +310,7 @@ public abstract class AbstractGenerator implements Generator {
      *             generator exception
      */
     private void generateDDLGroupByTable() throws GeneratorException {
-        Map tables = _schema.getTables();
+        Vector tables = _schema.getTables();
 
         boolean genSchema = _conf.getBoolValue(
                 Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
@@ -331,7 +334,7 @@ public abstract class AbstractGenerator implements Generator {
         }
         
         
-        for (Iterator i = tables.values().iterator(); i.hasNext();) {
+        for (Iterator i = tables.iterator(); i.hasNext();) {
             StringBuffer buff = new StringBuffer();
             Table table = (Table) i.next();
 
@@ -375,9 +378,9 @@ public abstract class AbstractGenerator implements Generator {
      * @return primary key creation ddl
      */
     public String generatePrimaryKey() {
-        Map tables = _schema.getTables();
+        Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
-        for (Iterator i = tables.values().iterator(); i.hasNext();) {
+        for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toPrimaryKeyDDL());
         }
@@ -391,10 +394,10 @@ public abstract class AbstractGenerator implements Generator {
      *             exception
      */
     public String generateKeyGenerator() throws KeyGenNotSupportException {
-        Map tables = _schema.getTables();
+        Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.values().iterator(); i.hasNext();) {
+        for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toKeyGeneratorDDL());
         }
@@ -407,10 +410,10 @@ public abstract class AbstractGenerator implements Generator {
      * @return index creation ddl
      */
     public String generateIndex() {
-        Map tables = _schema.getTables();
+        Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.values().iterator(); i.hasNext();) {
+        for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(createIndexDDL(table));
         }
@@ -421,10 +424,10 @@ public abstract class AbstractGenerator implements Generator {
      * @return drop creation ddl
      */
     public String generateDrop() {
-        Map tables = _schema.getTables();
+        Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.values().iterator(); i.hasNext();) {
+        for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toDropDDL());
         }
@@ -458,10 +461,10 @@ public abstract class AbstractGenerator implements Generator {
      *             generator exception
      */
     public String generateCreate() throws GeneratorException {
-        Map tables = _schema.getTables();
+        Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.values().iterator(); i.hasNext();) {
+        for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(table.toCreateDDL());
         }
@@ -485,10 +488,10 @@ public abstract class AbstractGenerator implements Generator {
      *             generator exception
      */
     public String generateForeignKey() throws GeneratorException {
-        Map tables = _schema.getTables();
+        Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
-        for (Iterator i = tables.values().iterator(); i.hasNext();) {
+        for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
             buff.append(createForeignKeyDDL(table));
         }
@@ -516,7 +519,7 @@ public abstract class AbstractGenerator implements Generator {
     /**
      * @return Returns the _conf.
      */
-    public Configuration getConf() {
+    public final Configuration getConf() {
         return _conf;
     }
 
@@ -524,7 +527,7 @@ public abstract class AbstractGenerator implements Generator {
      * @param conf
      *            The _conf to set.
      */
-    public void setConf(final Configuration conf) {
+    public final void setConf(final Configuration conf) {
         this._conf = conf;
     }
 
@@ -532,7 +535,7 @@ public abstract class AbstractGenerator implements Generator {
      * @param mapping
      *            The mapping to set.
      */
-    public void setMapping(final Mapping mapping) {
+    public final void setMapping(final Mapping mapping) {
         this._mapping = mapping;
         _mappingHelper.setMapping(_mapping);
     }
@@ -584,7 +587,7 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException
      *             generator exception
      */
-    public void createSchema() throws GeneratorException {
+    public final void createSchema() throws GeneratorException {
         // _schema
         MappingRoot root = _mapping.getRoot();
         _schema = _schemaFactory.createSchema();
@@ -681,7 +684,7 @@ public abstract class AbstractGenerator implements Generator {
                     // addManyManyForeignKey(table, fm);
 
                     // 2. generate resolving table for many-many relationship
-                    addResolveField(fm, cm.getKeyGenerator());
+                    addResolveField(fm, cm);
                     // } else {
                     // checking for many-key case (not need generate DDL),
                     // 1. generate DDL for creating relationship, with MySQL
@@ -742,7 +745,6 @@ public abstract class AbstractGenerator implements Generator {
                 for (int i = 0; i < sqlnames.length; i++) {
                     Field field = _schemaFactory.createField();
                     field.setConf(_conf);
-                    table.addField(field);
 
                     // group_moderator mediumint(8) DEFAULT '0' NOT NULL,
                     if (isUseReferenceType) {
@@ -764,16 +766,15 @@ public abstract class AbstractGenerator implements Generator {
                     field.setIdentity(isFieldIdentity);
                     field.setRequired(fm.getRequired());
                     field.setKeyGenerator(keyGen);
+
+                    table.addField(field);
                 }
             }            
         }
         
         //process extends, if the extends is defined.
-        Object extendClass = cm.getExtends();
-        if (extendClass != null) {
-            //add exten d class Ids into this table
-            addIdentitiesForTable(table, (ClassMapping) extendClass);
-        }
+        processExtendedClass(table, cm);
+        
         return table;
     }
 
@@ -784,14 +785,41 @@ public abstract class AbstractGenerator implements Generator {
      * @param cm a class mapping
      * @throws GeneratorException throw exception if key-gen is not found.
      */
-    private void addIdentitiesForTable(final Table table, 
+    private void processExtendedClass(final Table table, 
             final ClassMapping cm) throws GeneratorException {
+        Object extendClass = cm.getExtends();
+        if (extendClass == null) {
+            return;
+        }
         
-        boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(cm);
-        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        ClassMapping extendCm = (ClassMapping) extendClass;
+        String[] childIds = _mappingHelper.getClassMappingSqlIdentity(cm, false);
+        
+        if (childIds.length != 0) {
+            //check consistency
+            String[] childTypes = _mappingHelper.resolveTypeReferenceForIds(cm);
+            String[] parentTypes = _mappingHelper.resolveTypeReferenceForIds(extendCm);
+            
+            if (childTypes.length != parentTypes.length) {
+                throw new GeneratorException("Cannot resolve type for class '" 
+                        + cm.getName() + "' from extend class '" 
+                        + extendCm.getName() + "'");
+            }
+            for (int i = 0; i < childTypes.length; i++) {
+                if (!childTypes[i].equalsIgnoreCase(parentTypes[i])) {
+                    throw new GeneratorException("Cannot resolve type for class '" 
+                            + cm.getName() + "' from extend class '" 
+                            + extendCm.getName() + "'");
+                }
+            }
+            return;
+        }
+        
+        boolean isUseFieldIdentity = _mappingHelper.isUseFieldIdentity(extendCm);
+        Enumeration extendEf = extendCm.getClassChoice().enumerateFieldMapping();
 
         // process key-generator
-        String keygenerator = cm.getKeyGenerator();
+        String keygenerator = extendCm.getKeyGenerator();
         KeyGenerator keyGen = null;
         if (keygenerator != null) {
             keyGen = getSchema().getKeyRepository().getKeyGenerator(
@@ -806,31 +834,34 @@ public abstract class AbstractGenerator implements Generator {
         }
         table.setKeyGenerator(keyGen);
 
-        while (ef.hasMoreElements()) {
-            FieldMapping fm = (FieldMapping) ef.nextElement();
+        while (extendEf.hasMoreElements()) {
+            FieldMapping extendFm = (FieldMapping) extendEf.nextElement();
 
             // if <sql> tag is not defined, there is no _mapping to DB, skip it
-            if (fm.getSql() == null) {
+            if (extendFm.getSql() == null) {
                 continue;
             }
 
-            // create a field
-            boolean isFieldIdentity = fm.getIdentity();
+            boolean isFieldIdentity = extendFm.getIdentity();
             // if use class' identity, overwrite this one
             if (!isUseFieldIdentity) {
-                isFieldIdentity = _mappingHelper.isIdentity(cm, fm);
+                isFieldIdentity = _mappingHelper.isIdentity(extendCm, extendFm);
             }
-
+            
             // checking for many-key, many-table definition
-            if (isFieldIdentity && fm.getSql().getManyKeyCount() <= 0) {
-                String[] sqlnames = fm.getSql().getName();
-                String sqltype = fm.getSql().getType();
+            if (isFieldIdentity && extendFm.getSql().getManyKeyCount() <= 0) {
+                //column is defiend as normal column in child, but it is id which is
+                // inherited from parent.
+                if (mergeIfDefInBothClasses(table, cm, extendFm)) { continue; }
+                
+                String[] sqlnames = extendFm.getSql().getName();
+                String sqltype = extendFm.getSql().getType();
 
                 TypeInfo typeInfo = null;
                 ClassMapping cmRef = null;
                 String[] refIdTypes = null;
                 boolean isUseReferenceType = false;
-
+                
                 // type resolving: get type info
                 if (sqltype != null) {
                     typeInfo = _typeMapper.getType(sqltype);
@@ -839,18 +870,18 @@ public abstract class AbstractGenerator implements Generator {
                 // if typeInfo is null, this table has a reference to another
                 // one.
                 if (typeInfo == null) {
-                    cmRef = _mappingHelper.getClassMappingByName(fm.getType());
+                    cmRef = _mappingHelper.getClassMappingByName(extendFm.getType());
                     // if cmRef is null, the reference class is not found
                     if (cmRef == null) {                        
-                        typeInfo = _typeMapper.getType(fm.getType());
+                        typeInfo = _typeMapper.getType(extendFm.getType());
                         
                         if (typeInfo == null) {
                             throw new TypeNotFoundException("can not resolve type "
-                                + fm.getType());
+                                + extendFm.getType());
                         }
                     } else {
                         isUseReferenceType = true;
-                        refIdTypes = _mappingHelper.resolveTypeReferenceForIds(fm
+                        refIdTypes = _mappingHelper.resolveTypeReferenceForIds(extendFm
                                 .getType());
 
                         // if number of reference table's Id differs to number of
@@ -859,8 +890,8 @@ public abstract class AbstractGenerator implements Generator {
                             throw new TypeNotFoundException(
                                     "number of reference table's Id differs"
                                             + " to number of field elements '"
-                                            + fm.getName() + "' of class '" 
-                                            + cm.getName() + "'"
+                                            + extendFm.getName() + "' of class '" 
+                                            + extendCm.getName() + "'"
                                             + refIdTypes.length + "," + sqlnames.length);
                         }
                     }
@@ -870,7 +901,6 @@ public abstract class AbstractGenerator implements Generator {
                 for (int i = 0; i < sqlnames.length; i++) {
                     Field field = _schemaFactory.createField();
                     field.setConf(_conf);
-                    table.addField(field);
 
                     // group_moderator mediumint(8) DEFAULT '0' NOT NULL,
                     if (isUseReferenceType) {
@@ -883,26 +913,57 @@ public abstract class AbstractGenerator implements Generator {
                             throw new TypeNotFoundException(
                                     "can not find reference type "
                                             + refIdTypes[i] + " of class "
-                                            + cm.getName());
+                                            + extendCm.getName());
                         }
                     }
 
                     field.setName(sqlnames[i]);
                     field.setTable(table);
                     field.setType(typeInfo);
-                    field.setIdentity(isFieldIdentity);
+                    field.setIdentity(isFieldIdentity);                    
+                    field.setKeyGenerator(keyGen); // process key-generator
 
-                    // process key-generator
-                    field.setKeyGenerator(keyGen);
-
+                    table.addField(field);
                 }
             }
         }
         
         //process extends
-        if (cm.getExtends() != null) {
-           addIdentitiesForTable(table, (ClassMapping) cm.getExtends()); 
+        if (extendCm.getExtends() != null) {
+           processExtendedClass(table, extendCm); 
         }
+    }
+
+    /**
+     * @param table table
+     * @param cm class mapping
+     * @param extendFm extend field mapping
+     * @return true if column is defiend as normal column in child, but it is id 
+     * which is inherited from parent. 
+     */
+    public final boolean mergeIfDefInBothClasses(final Table table, 
+            final ClassMapping cm,  final FieldMapping extendFm) {
+        Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
+        
+        while (ef.hasMoreElements()) {
+            FieldMapping fm = (FieldMapping) ef.nextElement();
+            String fname = fm.getName();
+            //if extend field has the same name with one of parent's field
+            if (fname != null && fname.equalsIgnoreCase(extendFm.getName())) {
+                Field f = _schemaFactory.createField();
+                
+                if (fm.getSql() == null) { continue; }
+                String[] sqlnames = fm.getSql().getName();
+                for (int i = 0; i < sqlnames.length; i++) {
+                    f.setName(sqlnames[i]);
+                    Field fn = table.getField(f);
+                    fn.setIdentity(true);
+                }
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -933,7 +994,7 @@ public abstract class AbstractGenerator implements Generator {
         }
 
         fk.setReferenceTableName(cm.getMapTo().getTable());
-        fk.setReferenceKeyList(_mappingHelper.getClassMappingIdentity(cm));
+        fk.setReferenceKeyList(_mappingHelper.getClassMappingSqlIdentity(cm, true));
 
         fk.setRelationshipType(ForeignKey.MANY_MANY);
 
@@ -968,7 +1029,7 @@ public abstract class AbstractGenerator implements Generator {
         s = cm.getMapTo().getTable() + "_" + fm.getName();
         fk.setConstraintName(s);
         fk.setFkName(s);
-        fk.setFkkeyList(_mappingHelper.getClassMappingIdentity(cm));
+        fk.setFkkeyList(_mappingHelper.getClassMappingSqlIdentity(cm, true));
 
         fk.setReferenceTableName(tableName);
         fk.setReferenceKeyList(fm.getSql().getManyKey());
@@ -1013,7 +1074,7 @@ public abstract class AbstractGenerator implements Generator {
         if (manykeys != null && manykeys.length > 0) {
             fk.setReferenceKeyList(manykeys);
         } else {
-            fk.setReferenceKeyList(_mappingHelper.getClassMappingIdentity(cm));
+            fk.setReferenceKeyList(_mappingHelper.getClassMappingSqlIdentity(cm, true));
         }
 
         fk.setRelationshipType(ForeignKey.ONE_ONE);
@@ -1023,13 +1084,14 @@ public abstract class AbstractGenerator implements Generator {
     /**
      * @param fm
      *            field mapping
-     * @param keyGen
-     *            key generator string
+     * @param cm class mapping
      * @throws GeneratorException exception
      */
-    protected final void addResolveField(final FieldMapping fm, final String keyGen) 
+    protected final void addResolveField(final FieldMapping fm, final ClassMapping cm) 
         throws GeneratorException {
+        String keyGen = cm.getKeyGenerator();
         ClassMapping resolveCm = null;
+        
         // get table, if not existe, create one
         if (_resolveTable.containsKey(fm.getSql().getManyTable())) {
             resolveCm = (ClassMapping) _resolveTable.get(fm.getSql()
@@ -1047,8 +1109,8 @@ public abstract class AbstractGenerator implements Generator {
 
         FieldMapping resolveFm = new FieldMapping();
         resolveFm.setIdentity(true);
-        resolveFm.setName(fm.getName());
-        resolveFm.setType(fm.getType());
+        resolveFm.setName(cm.getMapTo().getTable());
+        resolveFm.setType(cm.getName());
 
         ClassChoice cc = resolveCm.getClassChoice();
         if (cc == null) {
@@ -1058,16 +1120,18 @@ public abstract class AbstractGenerator implements Generator {
         cc.addFieldMapping(resolveFm);
 
         Sql sql = new Sql();
-        String[] sqlname = fm.getSql().getName();
+        String[] sqlname = fm.getSql().getManyKey();
         if (sqlname == null || sqlname.length == 0) {
-            ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
-            if (cm == null) {
-                throw new GeneratorException("can not find class " + fm.getType());
-            }
-            _mappingHelper.getClassMappingIdentity(cm);
+            _mappingHelper.getClassMappingSqlIdentity(cm, true);
         }
         sql.setName(sqlname);
         resolveFm.setSql(sql);
+        
+//        sqlname = fm.getSql().getName();
+//        if (sqlname != null && sqlname.length != 0) {
+//            LOG.warn("ignore columns for field '" + fm.getName() + "' of class '" 
+//                    + cm.getName() + "'");
+//        }
     }
 
     /**
@@ -1172,7 +1236,7 @@ public abstract class AbstractGenerator implements Generator {
      * @param s
      *            a string to write to _printer
      */
-    protected void write(final String s) {
+    protected final void write(final String s) {
         _printer.println(format(s));
     }
 
