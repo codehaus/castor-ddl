@@ -20,7 +20,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
-import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.sapdb.SapdbGenerator;
 import org.castor.ddl.sapdb.SapdbTypeMapper;

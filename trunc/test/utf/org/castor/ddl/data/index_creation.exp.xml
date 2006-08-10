@@ -1,3 +1,4 @@
 <expected-result>
-	<ddl matchtype="regexp">create unique index prod_idx_pk on prod\(id\);</ddl>
-</expected-result>
+	<ddl matchtype="plain"></ddl>
+	<!--<ddl matchtype="regexp">create unique index prod_idx_pk on prod\(id\);</ddl>
+--></expected-result>
