@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.schemaobject;
+package org.castor.ddl;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
  * KeyRepository handles KeyGenerators
@@ -36,7 +38,7 @@ public final class KeyRepository {
     /**
      * Constructor for KeyRepository
      */
-    protected KeyRepository() {
+    public KeyRepository() {
         super();
         _keyGenerator = new HashMap();
         _nameAlias = new HashMap();

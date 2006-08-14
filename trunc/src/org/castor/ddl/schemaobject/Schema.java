@@ -21,6 +21,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.KeyRepository;
 
 
 /**
