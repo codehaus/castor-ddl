@@ -165,7 +165,7 @@ public abstract class AbstractGenerator implements Generator {
     private MappingHelper _mappingHelper;
 
     /** handle all resolving tables */
-    private Map _resolveTable;
+    private final Map _resolveTable = new HashMap();
 
     /** schema */
     private Schema _schema;
@@ -173,6 +173,15 @@ public abstract class AbstractGenerator implements Generator {
     /** handle schema factory */
     private SchemaFactory _schemaFactory;
 
+    protected AbstractGenerator(final Configuration config) throws GeneratorException {
+        config.addProperties(getEngineConfigurationFilePath()
+                           + getEngineConfigurationFileName());
+        setConf(config);
+
+        setMappingHelper(new MappingHelper());
+        setSchemaFactory(new SchemaFactory());
+    }
+    
     /**
      * Create a Generator from ddl configuration file and db configuration file
      * 
@@ -184,15 +193,13 @@ public abstract class AbstractGenerator implements Generator {
      *             throws exception when can not read file
      */
     protected AbstractGenerator(final String globConf, final String dbConf)
-            throws GeneratorException {
-        super();
-        _mappingHelper = new MappingHelper();
-        _resolveTable = new HashMap();
+    throws GeneratorException {
         Configuration conf = new Configuration(globConf);
         conf.addProperties(dbConf);
         setConf(conf);
+        
+        setMappingHelper(new MappingHelper());
         setSchemaFactory(new SchemaFactory());
-
     }
 
     /**

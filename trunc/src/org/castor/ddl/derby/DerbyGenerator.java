@@ -28,6 +28,37 @@ import org.castor.ddl.derby.schemaobject.DerbySchemaFactory;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class DerbyGenerator extends AbstractGenerator {
+    public static final String NAME = "derby";
+    
+    public static final String FILEPATH = "conf/";
+    
+    public static final String FILENAME = NAME + ".properties";
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineName()
+     * {@inheritDoc}
+     */
+    public String getEngineName() { return NAME; }
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFilePath()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFilePath() { return FILEPATH; }
+
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFileName()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFileName() { return FILENAME; }
+    
+    public DerbyGenerator(final Configuration config) throws GeneratorException {
+        super(config);
+
+        setTypeMapper(new DerbyTypeMapper(config));
+        setSchemaFactory(new DerbySchemaFactory());
+    }
+
 
     /**
      * 
@@ -43,9 +74,7 @@ public class DerbyGenerator extends AbstractGenerator {
     public DerbyGenerator(final String globConf, final String dbConf)
             throws GeneratorException {
         super(globConf, dbConf);
-        TypeMapper typeMapper = new DerbyTypeMapper(getConf());
-        setTypeMapper(typeMapper);
-
+        setTypeMapper(new DerbyTypeMapper(getConf()));
         setSchemaFactory(new DerbySchemaFactory());
     }
 

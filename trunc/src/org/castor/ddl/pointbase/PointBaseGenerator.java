@@ -17,6 +17,7 @@
 package org.castor.ddl.pointbase;
 
 import org.castor.ddl.AbstractGenerator;
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.pointbase.schemaobject.PointBaseSchemaFactory;
 
@@ -26,6 +27,37 @@ import org.castor.ddl.pointbase.schemaobject.PointBaseSchemaFactory;
  */
 
 public class PointBaseGenerator extends AbstractGenerator {
+    public static final String NAME = "pointbase";
+    
+    public static final String FILEPATH = "conf/";
+    
+    public static final String FILENAME = NAME + ".properties";
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineName()
+     * {@inheritDoc}
+     */
+    public String getEngineName() { return NAME; }
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFilePath()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFilePath() { return FILEPATH; }
+
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFileName()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFileName() { return FILENAME; }
+    
+    public PointBaseGenerator(final Configuration config) throws GeneratorException {
+        super(config);
+
+        setTypeMapper(new PointBaseTypeMapper(config));
+        setSchemaFactory(new PointBaseSchemaFactory());
+    }
+
 
     /**
      * Constructor for PointBaseGenerator

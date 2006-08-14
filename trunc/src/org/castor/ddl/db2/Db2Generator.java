@@ -28,6 +28,36 @@ import org.castor.ddl.db2.schemaobject.Db2SchemaFactory;
  */
 
 public class Db2Generator extends AbstractGenerator {
+    public static final String NAME = "db2";
+    
+    public static final String FILEPATH = "conf/";
+    
+    public static final String FILENAME = NAME + ".properties";
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineName()
+     * {@inheritDoc}
+     */
+    public String getEngineName() { return NAME; }
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFilePath()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFilePath() { return FILEPATH; }
+
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFileName()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFileName() { return FILENAME; }
+    
+    public Db2Generator(final Configuration config) throws GeneratorException {
+        super(config);
+
+        setTypeMapper(new Db2TypeMapper(config));
+        setSchemaFactory(new Db2SchemaFactory());
+    }
 
     /**
      * Constructor for Db2Generator

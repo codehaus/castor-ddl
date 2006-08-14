@@ -28,6 +28,37 @@ import org.castor.ddl.postgresql.schemaobject.PostgresqlSchemaFactory;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class PostgresqlGenerator extends AbstractGenerator {
+    public static final String NAME = "postgresql";
+    
+    public static final String FILEPATH = "conf/";
+    
+    public static final String FILENAME = NAME + ".properties";
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineName()
+     * {@inheritDoc}
+     */
+    public String getEngineName() { return NAME; }
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFilePath()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFilePath() { return FILEPATH; }
+
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFileName()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFileName() { return FILENAME; }
+    
+    public PostgresqlGenerator(final Configuration config) throws GeneratorException {
+        super(config);
+
+        setTypeMapper(new PostgresqlTypeMapper(config));
+        setSchemaFactory(new PostgresqlSchemaFactory());
+    }
+
 
     /**
      * 
@@ -43,9 +74,7 @@ public class PostgresqlGenerator extends AbstractGenerator {
     public PostgresqlGenerator(final String globConf, final String dbConf)
             throws GeneratorException {
         super(globConf, dbConf);
-        TypeMapper typeMapper = new PostgresqlTypeMapper(getConf());
-        setTypeMapper(typeMapper);
-
+        setTypeMapper(new PostgresqlTypeMapper(getConf()));
         setSchemaFactory(new PostgresqlSchemaFactory());
     }
 

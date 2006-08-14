@@ -13,25 +13,22 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.castor.ddl;
 
 /**
- * BaseConfiguration handles configuration's key definition
- * 
- * <br/> Created on Jun 12, 2006 - 12:11:52 AM
+ * BaseConfiguration handles configuration's key definition.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 
 public class BaseConfiguration {
+    /** Generator classes of supported database engines. */
+    public static final String GENERATORS_KEY = "org.castor.ddl.Generators";
+    
+    /** Default database engine. */
+    public static final String DEFAULT_ENGINE_KEY = "org.castor.ddl.DefaultEngine";
 
-    /**
-     * Constructor for BaseConfiguration
-     */
-    public BaseConfiguration() {
-        super();
-    }
 
     /** option for generate DDL for CREATE statement */
     public static final String GENERATE_DDL_FOR_SCHEMA_KEY = "generate_ddl_for_schema";
@@ -59,9 +56,6 @@ public class BaseConfiguration {
 
     /** option for generate DDL for TRIGGER statement */
     public static final String GENERATE_DDL_FOR_TRIGGER_KEY = "generate_ddl_for_trigger";
-
-    /** define database engine */
-    public static final String DATABASE_ENGINE_KEY = "database_engine";
 
     /** define ddl generator configuration file */
     public static final String DDLGEN_CONFIGURATION_KEY = "ddlgen_config_file";

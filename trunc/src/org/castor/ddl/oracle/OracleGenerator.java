@@ -28,6 +28,37 @@ import org.castor.ddl.oracle.schemaobject.OracleSchemaFactory;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class OracleGenerator extends AbstractGenerator {
+    public static final String NAME = "oracle";
+    
+    public static final String FILEPATH = "conf/";
+    
+    public static final String FILENAME = NAME + ".properties";
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineName()
+     * {@inheritDoc}
+     */
+    public String getEngineName() { return NAME; }
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFilePath()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFilePath() { return FILEPATH; }
+
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFileName()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFileName() { return FILENAME; }
+    
+    public OracleGenerator(final Configuration config) throws GeneratorException {
+        super(config);
+
+        setTypeMapper(new OracleTypeMapper(config));
+        setSchemaFactory(new OracleSchemaFactory());
+    }
+
 
     /**
      * 
@@ -43,9 +74,7 @@ public class OracleGenerator extends AbstractGenerator {
     public OracleGenerator(final String globConf, final String dbConf)
             throws GeneratorException {
         super(globConf, dbConf);
-        TypeMapper typeMapper = new OracleTypeMapper(getConf());
-        setTypeMapper(typeMapper);
-
+        setTypeMapper(new OracleTypeMapper(getConf()));
         setSchemaFactory(new OracleSchemaFactory());
     }
 

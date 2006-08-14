@@ -30,7 +30,12 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public interface Generator {
+    String getEngineName();
+    
+    String getEngineConfigurationFilePath();
 
+    String getEngineConfigurationFileName();
+    
     /**
      * generate DDL script for a mapping file 
      * 

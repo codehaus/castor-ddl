@@ -17,6 +17,7 @@
 package org.castor.ddl.sybase;
 
 import org.castor.ddl.AbstractGenerator;
+import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.sybase.schemaobject.SybaseSchemaFactory;
 
@@ -27,6 +28,37 @@ import org.castor.ddl.sybase.schemaobject.SybaseSchemaFactory;
  */
 
 public class SybaseGenerator extends AbstractGenerator {
+    public static final String NAME = "sybase";
+    
+    public static final String FILEPATH = "conf/";
+    
+    public static final String FILENAME = NAME + ".properties";
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineName()
+     * {@inheritDoc}
+     */
+    public String getEngineName() { return NAME; }
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFilePath()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFilePath() { return FILEPATH; }
+
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFileName()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFileName() { return FILENAME; }
+    
+    public SybaseGenerator(final Configuration config) throws GeneratorException {
+        super(config);
+
+        setTypeMapper(new SybaseTypeMapper(config));
+        setSchemaFactory(new SybaseSchemaFactory());
+    }
+
 
     /**
      * Constructor for SybaseGenerator

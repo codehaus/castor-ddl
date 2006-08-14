@@ -28,6 +28,37 @@ import org.castor.ddl.sapdb.schemaobject.SapdbSchemaFactory;
  */
 
 public class SapdbGenerator extends AbstractGenerator {
+    public static final String NAME = "sapdb";
+    
+    public static final String FILEPATH = "conf/";
+    
+    public static final String FILENAME = NAME + ".properties";
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineName()
+     * {@inheritDoc}
+     */
+    public String getEngineName() { return NAME; }
+    
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFilePath()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFilePath() { return FILEPATH; }
+
+    /**
+     * @see org.castor.ddl.Generator#getEngineConfigurationFileName()
+     * {@inheritDoc}
+     */
+    public String getEngineConfigurationFileName() { return FILENAME; }
+    
+    public SapdbGenerator(final Configuration config) throws GeneratorException {
+        super(config);
+
+        setTypeMapper(new SapdbTypeMapper(config));
+        setSchemaFactory(new SapdbSchemaFactory());
+    }
+
 
     /**
      * Constructor for SapdbGenerator 
