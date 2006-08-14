@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.typeinfo;
 
 import org.castor.ddl.Configuration;
@@ -61,9 +60,7 @@ public final class RequiredPrecisionType extends AbstractType {
         
         StringBuffer sb = new StringBuffer();
         sb.append(getSqlType());        
-        if (length != null) {
-            sb.append('(').append(length).append(')');
-        }
+        sb.append('(').append(length).append(')');
         return sb.toString();
     }
 }

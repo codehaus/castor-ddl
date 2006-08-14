@@ -38,9 +38,6 @@ import utf.org.castor.ddl.ExpectedResult;
  */
 
 public final class Db2GeneratorTest extends BaseGeneratorTest {
-    /** Prostfix of length parameters for types in ddl.properties file. */
-    protected static final String PARAM_POSTFIX_SUFIXE = "_sufixe";
-
     /**
      * Constructor for Db2GeneratorTest
      * 
@@ -223,22 +220,14 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "varbinary"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "other" // 20
+                    getSuffixString(conf, PARAM_PREFIX + "other" // 20
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "other"
-                            + PARAM_POSTFIX_SUFIXE),
-                    conf.getStringValue(PARAM_PREFIX + "javaobject"
+                    getSuffixString(conf, PARAM_PREFIX + "javaobject"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "javaobject"
-                            + PARAM_POSTFIX_SUFIXE),
-                    conf.getStringValue(PARAM_PREFIX + "blob"
+                    getSuffixString(conf, PARAM_PREFIX + "blob"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "blob" //25
-                            + PARAM_POSTFIX_SUFIXE),
-                    conf.getStringValue(PARAM_PREFIX + "clob"
-                            + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "clob"
-                            + PARAM_POSTFIX_SUFIXE) };
+                    getSuffixString(conf, PARAM_PREFIX + "clob"
+                            + PARAM_POSTFIX_LENGTH) };
 
             String ddl = getGenerator().generateCreate();
             boolean b = getExpectedDDL().match(getEngine(), ddl, params);
@@ -251,5 +240,12 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
         }
     }
 
-
+    private String getSuffixString(final Configuration conf, final String key) {
+        String suffix = "";
+        int len = conf.getInteger(key).intValue();
+        if (len >= 1024) { len = len / 1024; suffix = "K"; }
+        if (len >= 1024) { len = len / 1024; suffix = "M"; }
+        if (len >= 1024) { len = len / 1024; suffix = "G"; }
+        return len + suffix;
+    }
 }

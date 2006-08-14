@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.typeinfo;
 
 import org.castor.ddl.Configuration;
@@ -21,50 +20,59 @@ import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
 
 /**
- * LObType is used for BLOB/CLOB type in which requires the sufixe, for example
- * BLOB(10M), CLOB(1K)
- * <br>Created on Jul 8, 2006 - 12:38:02 AM
+ * LobType is used for BLOB/CLOB type which require a sufix, for example
+ * BLOB(10M), CLOB(1K).
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 
-public final class LobType extends RequiredLengthType {
-    /** sufixe of length parameters for types in ddl.properties file. */
-    protected static final String PARAM_POSTFIX_SUFIXE = "_sufixe";
-
-    /**suffixe K, M G*/
-    private String _suffixe;
+public final class LobType extends AbstractType {
+    /** Thousand. */
+    private static final int THOUSAND = 1024;
+    
+    /** Default length parameter from ddl.properties file. Will be used if no specific
+     *  length is specified at field mapping. */
+    private final Integer _defaultLength;
+    
     /**
-     * Constructor for LobType
-     * @param jdbcType jdbc type
-     * @param sqlType sql type
-     * @param conf conf
+     * Construct a new TypeInfo instance with given JDBC type, SQL type and Configuration.
+     * 
+     * @param jdbcType The JDBC type.
+     * @param sqlType The SQL type.
+     * @param conf The configuration to get default parameter values from.
      */
-    public LobType(final String jdbcType, final String sqlType, 
-            final Configuration conf) {
-        super(jdbcType, sqlType, conf);
+    public LobType(final String jdbcType, final String sqlType,
+                    final Configuration conf) {
+        super(jdbcType, sqlType);
 
-        String param = PARAM_PREFIX + jdbcType + PARAM_POSTFIX_SUFIXE;
-        _suffixe = conf.getStringValue(param, "co");
+        String param = PARAM_PREFIX + jdbcType + PARAM_POSTFIX_LENGTH;
+        _defaultLength = conf.getInteger(param);
     }
 
     /**
-     * @see org.castor.ddl.typeinfo.RequiredLengthType#toDDL
-     * (org.castor.ddl.schemaobject.Field)
+     * @see org.castor.ddl.typeinfo.TypeInfo#toDDL(org.castor.ddl.schemaobject.Field)
      * {@inheritDoc}
      */
     public String toDDL(final Field field) throws GeneratorException {
         Integer length = field.getLength();
-        if (length == null) { length = getDefaultLength(); }
+        if (length == null) { length = _defaultLength; }
         if (length == null) {
             throw new GeneratorException(
                     "Reguired length attribute missing for field '" + field.getName()
                     + "' of type '" + getJdbcType() + "'");
         }
         
+        int len = length.intValue();
+        String suffix = "";
+        if (len >= THOUSAND) { len = len / THOUSAND; suffix = "K"; }
+        if (len >= THOUSAND) { len = len / THOUSAND; suffix = "M"; }
+        if (len >= THOUSAND) { len = len / THOUSAND; suffix = "G"; }
+
         StringBuffer sb = new StringBuffer();
-        sb.append(getSqlType());        
-        sb.append(" (").append(length).append(_suffixe).append(')');
+        sb.append(getSqlType());
+        sb.append('(').append(len).append(suffix).append(')');
+        
         return sb.toString();
     }
-
 }

@@ -13,7 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.castor.ddl.typeinfo;
 
 import org.apache.commons.logging.Log;
@@ -27,7 +26,8 @@ import org.castor.ddl.GeneratorException;
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public abstract class AbstractType implements TypeInfo {
-    /**logging*/
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(AbstractType.class);
     
     /** Prefix of all parameters for types in ddl.properties file. */
@@ -72,8 +72,8 @@ public abstract class AbstractType implements TypeInfo {
     public final String getSqlType() { return _sqlType; }
 
     /**
-     * @param type type info
-     * @exception GeneratorException exception
+     * @see org.castor.ddl.typeinfo.TypeInfo#merge(org.castor.ddl.typeinfo.TypeInfo)
+     * {@inheritDoc}
      */
     public final void merge(final TypeInfo type) throws GeneratorException {
         if (type == null) {

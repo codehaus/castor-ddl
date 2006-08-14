@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
+import org.castor.ddl.KeyNotFoundException;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.derby.DerbyGenerator;
 import org.castor.ddl.derby.DerbyTypeMapper;
@@ -191,22 +192,14 @@ public final class DerbyGeneratorTest extends BaseGeneratorTest {
                             + PARAM_POSTFIX_LENGTH),
                     conf.getInteger(PARAM_PREFIX + "varbinary"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "other" // 20
+                    getSuffixString(conf, PARAM_PREFIX + "other" // 20
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "other"
-                            + PARAM_POSTFIX_SUFIXE),
-                    conf.getStringValue(PARAM_PREFIX + "javaobject"
+                    getSuffixString(conf, PARAM_PREFIX + "javaobject"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "javaobject"
-                            + PARAM_POSTFIX_SUFIXE),
-                    conf.getStringValue(PARAM_PREFIX + "blob"
+                    getSuffixString(conf, PARAM_PREFIX + "blob"
                             + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "blob" //25
-                            + PARAM_POSTFIX_SUFIXE),
-                    conf.getStringValue(PARAM_PREFIX + "clob"
-                            + PARAM_POSTFIX_LENGTH),
-                    conf.getStringValue(PARAM_PREFIX + "clob"
-                            + PARAM_POSTFIX_SUFIXE) };
+                    getSuffixString(conf, PARAM_PREFIX + "clob"
+                            + PARAM_POSTFIX_LENGTH) };
 
             String ddl = getGenerator().generateCreate();
             boolean b = getExpectedDDL().match(getEngine(), ddl, params);
@@ -217,6 +210,16 @@ public final class DerbyGeneratorTest extends BaseGeneratorTest {
             assertTrue("testSingleFieldForAll: " + e.getMessage(), false);
         }
     }
+    
+    private String getSuffixString(final Configuration conf, final String key) {
+        String suffix = "";
+        int len = conf.getInteger(key).intValue();
+        if (len >= 1024) { len = len / 1024; suffix = "K"; }
+        if (len >= 1024) { len = len / 1024; suffix = "M"; }
+        if (len >= 1024) { len = len / 1024; suffix = "G"; }
+        return len + suffix;
+    }
+    
     /**
      * @see utf.org.castor.ddl.BaseGeneratorTest#testKeyGenSequence()
      * {@inheritDoc}

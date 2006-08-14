@@ -25,8 +25,6 @@ import org.castor.ddl.typeinfo.NoParamType;
 import org.castor.ddl.typeinfo.OptionalLengthType;
 import org.castor.ddl.typeinfo.OptionalPrecisionDecimalsType;
 import org.castor.ddl.typeinfo.OptionalPrecisionType;
-import org.castor.ddl.typeinfo.PostfixOptionalLengthType;
-import org.castor.ddl.typeinfo.PostfixRequiredLengthType;
 import org.castor.ddl.typeinfo.RequiredLengthType;
 
 /**
@@ -80,9 +78,8 @@ public final class DerbyTypeMapper extends AbstractTypeMapper {
         this.add(new NoParamType("timestamp", "TIMESTAMP"));
         
         // other types
-        this.add(new PostfixOptionalLengthType("binary", "CHAR", "FOR BIT DATA", conf));
-        this.add(new PostfixRequiredLengthType("varbinary", "VARCHAR", 
-                "FOR BIT DATA", conf));
+        this.add(new OptionalLengthType("binary", "CHAR", " FOR BIT DATA", conf));
+        this.add(new RequiredLengthType("varbinary", "VARCHAR", " FOR BIT DATA", conf));
         this.add(new NoParamType("longvarbinary", "LONG VARCHAR FOR BIT DATA"));
         
         this.add(new LobType("other", "BLOB", conf));

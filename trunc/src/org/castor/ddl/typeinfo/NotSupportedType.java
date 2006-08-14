@@ -13,36 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.typeinfo;
 
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
 
 /**
- * NotSupportedType is used for type in which DB does not support. 
- * Created on Jul 8, 2006 - 4:35:21 PM
+ * NotSupportedType is used for type not support by the database engine.
+ *  
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-
-public class NotSupportedType extends AbstractType {
-
+public final class NotSupportedType extends AbstractType {
     /**
-     * Constructor for NotSupportedType
-     * @param jdbcType jdbc type
+     * Constructor for NotSupportedType.
+     * 
+     * @param jdbcType The JDBC type.
      */
     public NotSupportedType(final String jdbcType) {
         super(jdbcType, null);
     }
-
 
     /**
      * @see org.castor.ddl.typeinfo.TypeInfo#toDDL(org.castor.ddl.schemaobject.Field)
      * {@inheritDoc}
      */
     public String toDDL(final Field field) throws GeneratorException {
-        throw new GeneratorException("Do not support type '" + getJdbcType() 
-                + "' for this database engine");
+        String msg = "Database engine does not support type: " + getJdbcType();
+        throw new GeneratorException(msg);
     }
-
 }

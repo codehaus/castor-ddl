@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.typeinfo;
 
 import org.castor.ddl.Configuration;
@@ -25,19 +24,14 @@ import org.castor.ddl.schemaobject.Field;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public class OptionalLengthType extends AbstractType {
+public final class OptionalLengthType extends AbstractType {
     /** Default length parameter from ddl.properties file. Will be used if no specific
      *  length is specified at field mapping. */
     private final Integer _defaultLength;
     
-    /**
-     * 
-     * @return Returns the defaultLength.
-     */
-    public final Integer getDefaultLength() {
-        return _defaultLength;
-    }
-
+    /** Post fix to be appended after type. */
+    private final String _postfix;
+    
     /**
      * Construct a new TypeInfo instance with given JDBC type, SQL type and Configuration.
      * 
@@ -47,10 +41,24 @@ public class OptionalLengthType extends AbstractType {
      */
     public OptionalLengthType(final String jdbcType, final String sqlType,
                               final Configuration conf) {
+        this(jdbcType, sqlType, "", conf);
+    }
+
+    /**
+     * Construct a new TypeInfo instance with given JDBC type, SQL type and Configuration.
+     * 
+     * @param jdbcType The JDBC type.
+     * @param sqlType The SQL type.
+     * @param postfix Post fix to be appended after type.
+     * @param conf The configuration to get default parameter values from.
+     */
+    public OptionalLengthType(final String jdbcType, final String sqlType,
+                              final String postfix, final Configuration conf) {
         super(jdbcType, sqlType);
 
         String param = PARAM_PREFIX + jdbcType + PARAM_POSTFIX_LENGTH;
         _defaultLength = conf.getInteger(param);
+        _postfix = postfix;
     }
 
     /**
@@ -66,6 +74,8 @@ public class OptionalLengthType extends AbstractType {
         if (length != null) {
             sb.append('(').append(length).append(')');
         }
+        sb.append(_postfix);
+        
         return sb.toString();
     }
 }
