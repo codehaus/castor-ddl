@@ -19,7 +19,6 @@ package org.castor.ddl.pointbase;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.pointbase.schemaobject.PointBaseSchemaFactory;
 
 /**
  * Generator for PointBase based on AbstractGenerator

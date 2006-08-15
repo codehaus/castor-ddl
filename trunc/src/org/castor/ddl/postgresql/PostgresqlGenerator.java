@@ -19,7 +19,6 @@ import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.postgresql.schemaobject.PostgresqlSchemaFactory;
 
 /**
  * Generator for PostgreSQL 
