@@ -19,7 +19,6 @@ package org.castor.ddl.db2;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.db2.schemaobject.Db2SchemaFactory;
 
 /**
  * Generator for DB2 based on AbstractGenerator
