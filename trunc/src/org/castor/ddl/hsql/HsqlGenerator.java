@@ -19,7 +19,6 @@ package org.castor.ddl.hsql;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.hsql.schemaobject.HsqlSchemaFactory;
 
 /**
  * Generator for HSQL based on AbstractGenerator
