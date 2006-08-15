@@ -19,7 +19,6 @@ package org.castor.ddl.mssql;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.mssql.schemaobject.MssqlSchemaFactory;
 
 /**
  * Generator for Microsoft SqL server  based on AbstractGenerator
