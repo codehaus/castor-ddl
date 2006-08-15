@@ -14,9 +14,11 @@
  * the License.
  */
 
-package org.castor.ddl.schemaobject;
+package org.castor.ddl.keygenerator;
 
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.Param;
 
@@ -72,7 +74,7 @@ public class HighLowKey extends KeyGenerator {
      * @throws GeneratorException
      *             generator error
      */
-    protected HighLowKey(final KeyGeneratorDef keyGenDef)
+    public HighLowKey(final KeyGeneratorDef keyGenDef)
             throws GeneratorException {
         super();
         String tableKey = "table";

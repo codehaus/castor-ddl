@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.schemaobject;
+package org.castor.ddl.keygenerator;
 
 import java.util.Iterator;
 
@@ -22,6 +22,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
+import org.castor.ddl.schemaobject.Field;
+import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.Param;
 
@@ -76,7 +79,7 @@ public class SequenceKey extends KeyGenerator {
      * @param keyGenDef key generator def
      * @throws GeneratorException generator error
      */
-    protected SequenceKey(final KeyGeneratorDef keyGenDef) 
+    public SequenceKey(final KeyGeneratorDef keyGenDef) 
         throws GeneratorException {
         String sequenceKey = "sequence";
         String returningKey = "returning";

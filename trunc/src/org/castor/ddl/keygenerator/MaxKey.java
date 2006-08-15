@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.schemaobject;
+package org.castor.ddl.keygenerator;
 
+import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
@@ -36,7 +38,7 @@ public class MaxKey extends KeyGenerator {
      * @param name name
      * @param alias alias
      */
-    protected MaxKey(final String name, final String alias) {
+    public MaxKey(final String name, final String alias) {
         super();
         _name = name;
         _alias = alias;
@@ -47,7 +49,7 @@ public class MaxKey extends KeyGenerator {
      * Constructor for MaxKey
      * @param keyGenDef key gen definition
      */
-    protected MaxKey(final KeyGeneratorDef keyGenDef) {
+    public MaxKey(final KeyGeneratorDef keyGenDef) {
         _alias = keyGenDef.getAlias();
         _name = keyGenDef.getName();
     }

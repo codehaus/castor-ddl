@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.schemaobject;
+package org.castor.ddl.keygenerator;
 
+import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
-
 /**
- * IDENTITY key generator can be used only with autoincrement primary key columns 
- * (identities) with Sybase ASE/ASA, MS SQL Server, MySQL and Hypersonic SQL. 
- * After the insert the key generator selects system variable @@identity which 
- * contains the last identity value for the current database connection. In the case 
- * of MySQL and Hypersonic SQL the system functions LAST_INSERT_ID() and IDENTITY() 
- * are called, respectively.
- * <br/>This algorithm has no parameters.
- * <br/>Created on Jun 24, 2006 - 2:05:57 AM
+ * UUIDKey is not used for DDL Generator
+ * <br/>Created on Jun 24, 2006 - 2:05:13 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class IdentityKey extends KeyGenerator {
+public class UUIDKey extends KeyGenerator {
     /** sequence name*/
     public String _name;
     
@@ -39,28 +34,27 @@ public class IdentityKey extends KeyGenerator {
     private String _alias;
     
     /**
-     * Constructor for IdentityKey
+     * Constructor for UUIDKey
      * @param name name
      * @param alias alias
      */
-    protected IdentityKey(final String name, final String alias) {
+    public UUIDKey(final String name, final String alias) {
         super();
         _name = name;
         _alias = alias;
     }
-    
+
+
     /**
      * 
-     * Constructor for IdentityKey
+     * Constructor for UUIDKey
      * @param keyGenDef key generator def
      */
-    protected IdentityKey(final KeyGeneratorDef keyGenDef) {
-        super();
+    public UUIDKey(final KeyGeneratorDef keyGenDef) {
         _alias = keyGenDef.getAlias();
         _name = keyGenDef.getName();
     }
     
-
     /**
      * 
      * @return Returns the alias.
@@ -105,7 +99,8 @@ public class IdentityKey extends KeyGenerator {
     }
 
     /**
-     * @return ddl string
+     * @see org.castor.ddl.schemaobject.KeyGenerator#toDDL()
+     * {@inheritDoc}
      */
     public String toDDL() {
         return "";

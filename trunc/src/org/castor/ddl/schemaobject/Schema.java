@@ -22,6 +22,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyRepository;
+import org.castor.ddl.keygenerator.IdentityKey;
+import org.castor.ddl.keygenerator.MaxKey;
+import org.castor.ddl.keygenerator.UUIDKey;
 
 
 /**
@@ -150,10 +153,10 @@ public class Schema extends AbstractSchemaObject {
     private void addDefaultKey() {
         _keyRepository.putKeyGenerator(KeyGenerator.IDENTITY_KEY,
                 new IdentityKey(KeyGenerator.IDENTITY_KEY, null));
-        _keyRepository.putKeyGenerator(KeyGenerator.MAX_KEY, new MaxKey(
-                KeyGenerator.MAX_KEY, null));
-        _keyRepository.putKeyGenerator(KeyGenerator.UUID_KEY, new UUIDKey(
-                KeyGenerator.UUID_KEY, null));
+        _keyRepository.putKeyGenerator(KeyGenerator.MAX_KEY,
+                new MaxKey(KeyGenerator.MAX_KEY, null));
+        _keyRepository.putKeyGenerator(KeyGenerator.UUID_KEY,
+                new UUIDKey(KeyGenerator.UUID_KEY, null));
 
     }
 

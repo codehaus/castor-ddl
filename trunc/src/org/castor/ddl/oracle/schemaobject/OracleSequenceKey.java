@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.schemaobject.SequenceKey;
+import org.castor.ddl.keygenerator.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
@@ -76,7 +76,7 @@ public class OracleSequenceKey extends SequenceKey {
      *          raise_application_error(-20000, 'Cannot Change Counter Value');
      *      END;
      * </pre>
-     * @see org.castor.ddl.schemaobject.SequenceKey#toDDL()
+     * @see org.castor.ddl.keygenerator.SequenceKey#toDDL()
      * {@inheritDoc}
      */
     

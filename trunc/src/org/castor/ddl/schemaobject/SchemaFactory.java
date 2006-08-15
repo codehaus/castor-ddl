@@ -17,6 +17,11 @@
 package org.castor.ddl.schemaobject;
 
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.keygenerator.HighLowKey;
+import org.castor.ddl.keygenerator.IdentityKey;
+import org.castor.ddl.keygenerator.MaxKey;
+import org.castor.ddl.keygenerator.SequenceKey;
+import org.castor.ddl.keygenerator.UUIDKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**

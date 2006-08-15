@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.schemaobject.SequenceKey;
+import org.castor.ddl.keygenerator.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
@@ -41,7 +41,7 @@ public class Db2SequenceKey extends SequenceKey {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SequenceKey#toDDL()
+     * @see org.castor.ddl.keygenerator.SequenceKey#toDDL()
      * {@inheritDoc}
      */
     public String toDDL() {
