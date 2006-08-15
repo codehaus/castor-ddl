@@ -19,7 +19,6 @@ package org.castor.ddl.sybase;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.sybase.schemaobject.SybaseSchemaFactory;
 
 /** 
  * Generator for Sybase based on AbstractGenerator

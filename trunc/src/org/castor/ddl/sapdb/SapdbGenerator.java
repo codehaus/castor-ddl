@@ -19,7 +19,6 @@ package org.castor.ddl.sapdb;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.sapdb.schemaobject.SapdbSchemaFactory;
 
 /**
  * Generator for SapDB based on AbstractGenerator
