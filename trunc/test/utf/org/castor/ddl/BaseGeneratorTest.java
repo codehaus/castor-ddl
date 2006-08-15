@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.mysql.MysqlTypeMapper;
+import org.castor.ddl.engine.mysql.MysqlTypeMapper;
 import org.exolab.castor.mapping.Mapping;
 
 /**

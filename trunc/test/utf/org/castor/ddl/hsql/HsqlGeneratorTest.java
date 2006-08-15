@@ -16,7 +16,7 @@
 
 package utf.org.castor.ddl.hsql;
 
-import org.castor.ddl.hsql.HsqlGenerator;
+import org.castor.ddl.engine.hsql.HsqlGenerator;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

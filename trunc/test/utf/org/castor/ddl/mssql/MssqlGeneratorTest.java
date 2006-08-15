@@ -21,8 +21,8 @@ import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.mssql.MssqlGenerator;
-import org.castor.ddl.mssql.MssqlTypeMapper;
+import org.castor.ddl.engine.mssql.MssqlGenerator;
+import org.castor.ddl.engine.mssql.MssqlTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;

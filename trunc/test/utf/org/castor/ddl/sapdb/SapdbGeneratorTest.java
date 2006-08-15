@@ -21,8 +21,8 @@ import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.sapdb.SapdbGenerator;
-import org.castor.ddl.sapdb.SapdbTypeMapper;
+import org.castor.ddl.engine.sapdb.SapdbGenerator;
+import org.castor.ddl.engine.sapdb.SapdbTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;

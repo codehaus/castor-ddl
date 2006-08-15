@@ -21,8 +21,8 @@ import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.oracle.OracleGenerator;
-import org.castor.ddl.oracle.OracleTypeMapper;
+import org.castor.ddl.engine.oracle.OracleGenerator;
+import org.castor.ddl.engine.oracle.OracleTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;

@@ -20,10 +20,9 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
-import org.castor.ddl.KeyNotFoundException;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.derby.DerbyGenerator;
-import org.castor.ddl.derby.DerbyTypeMapper;
+import org.castor.ddl.engine.derby.DerbyGenerator;
+import org.castor.ddl.engine.derby.DerbyTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;

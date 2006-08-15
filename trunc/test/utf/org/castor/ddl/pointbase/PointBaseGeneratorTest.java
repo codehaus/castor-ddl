@@ -21,8 +21,8 @@ import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.pointbase.PointBaseGenerator;
-import org.castor.ddl.pointbase.PointBaseTypeMapper;
+import org.castor.ddl.engine.pointbase.PointBaseGenerator;
+import org.castor.ddl.engine.pointbase.PointBaseTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;

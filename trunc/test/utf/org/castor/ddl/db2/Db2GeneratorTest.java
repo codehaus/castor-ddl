@@ -24,8 +24,8 @@ import junit.framework.TestSuite;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.db2.Db2Generator;
-import org.castor.ddl.db2.Db2TypeMapper;
+import org.castor.ddl.engine.db2.Db2Generator;
+import org.castor.ddl.engine.db2.Db2TypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;

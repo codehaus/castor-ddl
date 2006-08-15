@@ -18,7 +18,7 @@ package utf.org.castor.ddl;
 
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.GeneratorFactory;
-import org.castor.ddl.mysql.MysqlGenerator;
+import org.castor.ddl.engine.mysql.MysqlGenerator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

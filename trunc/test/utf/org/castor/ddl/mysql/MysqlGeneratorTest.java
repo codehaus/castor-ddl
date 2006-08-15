@@ -21,8 +21,8 @@ import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
-import org.castor.ddl.mysql.MysqlGenerator;
-import org.castor.ddl.mysql.MysqlTypeMapper;
+import org.castor.ddl.engine.mysql.MysqlGenerator;
+import org.castor.ddl.engine.mysql.MysqlTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;

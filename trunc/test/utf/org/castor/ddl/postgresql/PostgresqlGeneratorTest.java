@@ -19,7 +19,7 @@ package utf.org.castor.ddl.postgresql;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.castor.ddl.postgresql.PostgresqlGenerator;
+import org.castor.ddl.engine.postgresql.PostgresqlGenerator;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;
