@@ -425,7 +425,14 @@ public class Table extends AbstractSchemaObject {
         
         for (int i = 0; i < getForeignKeyCount(); i++) {
             ForeignKey fk1 = getForeignKey(i);
-            ForeignKey fk2 = table.getForeignKey(i);
+            ForeignKey fk2 = null;
+            for (int j = 0; j < table.getForeignKeyCount(); j++) {
+                ForeignKey f = table.getForeignKey(j); 
+                if (f != null && f.getFkName().equalsIgnoreCase(fk1.getFkName())) {
+                    fk2 = f;
+                    break;
+                } 
+            }
             fk1.merge(fk2);
         }
         

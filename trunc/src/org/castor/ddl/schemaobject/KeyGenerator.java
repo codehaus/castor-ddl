@@ -16,6 +16,8 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 
@@ -28,6 +30,9 @@ import org.castor.ddl.KeyGenNotSupportException;
  */
 
 public abstract class KeyGenerator extends AbstractSchemaObject {
+    /**logging*/
+    private static final Log LOG = LogFactory.getLog(KeyGenerator.class);
+
     /**
      * Constructor for KeyGenerator
      */
@@ -93,7 +98,12 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
      * @exception GeneratorException throw an exception of key-gens cannot be merged.
      */
     public final void merge(final KeyGenerator keyGenerator) throws GeneratorException {
-        // TODO Auto-generated method stub
-        
+        String hashkey = getHashKey();
+        if (keyGenerator == null || hashkey == null 
+                || !hashkey.equalsIgnoreCase(keyGenerator.getHashKey())) {
+            String message = "Merge table has different key generator, '"
+                + hashkey + "' vs '" + keyGenerator.getHashKey() + "'";
+            LOG.warn(message);
+        }
     }
 }

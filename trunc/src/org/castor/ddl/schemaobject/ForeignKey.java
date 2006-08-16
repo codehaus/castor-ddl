@@ -16,6 +16,8 @@
 
 package org.castor.ddl.schemaobject;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 
 /**
@@ -29,6 +31,9 @@ import org.castor.ddl.GeneratorException;
  */
 
 public class ForeignKey extends AbstractSchemaObject  {
+    /**logging */
+    private static final Log LOG = LogFactory.getLog(ForeignKey.class);
+
     /** table */
     private Table _table = null;
 
@@ -251,7 +256,46 @@ public class ForeignKey extends AbstractSchemaObject  {
      * @exception GeneratorException throw an exception if foreign keys cannot be merged
      */
     public final void merge(final ForeignKey fk) throws GeneratorException {
-        // TODO Auto-generated method stub
+        String message = "";
+        int len;
+        if (fk == null || fk._fkName == null 
+                || !fk._fkName.equalsIgnoreCase(getFkName())) {
+            message = "Merge table '" + _table.getName() + "': foreign Key '" 
+            + _fkName + "' has different name or not found";
+            LOG.error(message);
+           throw new GeneratorException(message); 
+        }
+        
+        if (fk._referenceTableName == null 
+                ||  !fk._referenceTableName.equalsIgnoreCase(_referenceTableName)) {
+            message = "Merge table '" + _table.getName() + "', foreign key '" + _fkName
+            + "' has different reference table '" + fk._referenceTableName 
+            + "' vs '" + _referenceTableName + "'";
+            LOG.error(message);
+           throw new GeneratorException(message); 
+        }
+        
+        len = _fkkeyList.length;
+        if (len != fk.getFkkeyList().length 
+                || _referenceKeyList.length != fk.getReferenceKeyList().length) {
+            message = "Merge table '" + _table.getName() + "', foreign key '" + _fkName
+            + "' has different number of reference columns";
+            LOG.error(message);
+           throw new GeneratorException(message); 
+        }
+        
+        for (int i = 0; i < len; i++) {
+            if (_referenceKeyList[i] == null 
+                || !_referenceKeyList[i].equalsIgnoreCase(fk.getReferenceKeyList()[i])
+                || _fkkeyList[i] == null 
+                || !_fkkeyList[i].equalsIgnoreCase(fk.getFkkeyList()[i])) {
+               message = "Merge table '" + _table.getName() + "', foreign key '" + _fkName
+               + "' has different reference column names";
+                LOG.error(message);
+               throw new GeneratorException(message); 
+                
+            }
+        }
     }
 
     /** (non-Javadoc)
