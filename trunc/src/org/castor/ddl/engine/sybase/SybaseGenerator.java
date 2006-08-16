@@ -77,8 +77,18 @@ public class SybaseGenerator extends AbstractGenerator {
      * {@inheritDoc}
      */
     public String generateHeader() {
-        // TODO Auto-generated method stub
-        return "";
+        StringBuffer buff = new StringBuffer("/* ");
+        buff.append(getConf().getLineSeparator());
+        buff.append(new java.util.Date());
+        buff.append(getConf().getLineSeparator());
+
+        buff.append("Castor DDL Generator from mapping for Sybase");
+        buff.append(getConf().getLineSeparator());
+        buff.append(getConf().getStringValue(
+                Configuration.HEADER_COMMENT_TEXT_KEY, ""));
+        buff.append(getConf().getLineSeparator());
+        buff.append("*/");
+        return buff.toString();
     }
 
 }
