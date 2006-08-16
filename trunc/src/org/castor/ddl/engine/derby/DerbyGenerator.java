@@ -18,7 +18,6 @@ package org.castor.ddl.engine.derby;
 import org.castor.ddl.AbstractGenerator;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.TypeMapper;
 
 /**
  * Generator for Derby 

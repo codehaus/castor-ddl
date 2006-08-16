@@ -16,10 +16,10 @@
 
 package utf.org.castor.ddl.hsql;
 
-import org.castor.ddl.engine.hsql.HsqlGenerator;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.castor.ddl.engine.hsql.HsqlGenerator;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;

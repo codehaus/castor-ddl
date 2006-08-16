@@ -19,8 +19,6 @@ package utf.org.castor.ddl;
 
 import java.text.MessageFormat;
 
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.Configuration;
 
 /**

@@ -147,8 +147,6 @@ import org.exolab.castor.mapping.xml.Sql;
  * 
  */
 public abstract class AbstractGenerator implements Generator {
-//    /**logging*/
-//    private static final Log LOG = LogFactory.getLog(AbstractGenerator.class);
     /** handle all configurations (key, value) */
     private Configuration _conf;
 
