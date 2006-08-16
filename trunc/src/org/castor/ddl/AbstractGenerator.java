@@ -176,8 +176,11 @@ public abstract class AbstractGenerator implements Generator {
     protected AbstractGenerator(final Configuration config) throws GeneratorException {
         config.addProperties(getEngineConfigurationFilePath()
                            + getEngineConfigurationFileName());
+        //take specific configuration from commandline into account
+        //configuration from commandline will overwrite configuration from files
+        config.addProperties(System.getProperties());
+        
         setConf(config);
-
         setMappingHelper(new MappingHelper());
         setSchemaFactory(new SchemaFactory());
     }

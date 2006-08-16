@@ -78,7 +78,7 @@ public final class GeneratorFactory {
             throw new GeneratorException("database engine is not defined");
         }
 
-        // TODO take specific configuration from commandline into account
+//         TODO take specific configuration from commandline into account
         
         Configuration config = new Configuration(globConf);
         GeneratorRegistry registry = new GeneratorRegistry(config);
