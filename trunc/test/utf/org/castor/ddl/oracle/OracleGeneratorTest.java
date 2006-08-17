@@ -119,7 +119,12 @@ public final class OracleGeneratorTest extends BaseGeneratorTest {
     protected void setUp() throws Exception {
         super.setUp();
         setDbConf(OracleGeneratorTest.class.getResource("oracle.properties").getFile());
-        setGenerator(new OracleGenerator(getGlobalConf(), getDbConf()));
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new OracleGenerator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 
@@ -142,7 +147,7 @@ public final class OracleGeneratorTest extends BaseGeneratorTest {
             loadData("key_gen_identity.xml", "key_gen_identity.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new OracleTypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 

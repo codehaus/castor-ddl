@@ -75,9 +75,17 @@ public final class GeneratorRegistry {
      * 
      * @param engine Name of database engine.
      * @return Generator with given engine name.
+     * @throws GeneratorException If no generator for engine can be found.
      */
-    public Generator getGenerator(final String engine) {
-        return (Generator) _generators.get(engine);
+    public Generator getGenerator(final String engine) throws GeneratorException {
+        if (engine == null) {
+            throw new GeneratorException("No database engine specified");
+        }
+        Generator generator = (Generator) _generators.get(engine);
+        if (generator == null) {
+            throw new GeneratorException("Unknown DDL generator: " + engine);
+        }
+        return generator;
     }
     
     /**

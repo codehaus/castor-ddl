@@ -16,22 +16,51 @@
 package org.castor.ddl.engine.derby;
 
 import org.castor.ddl.AbstractGenerator;
+import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.Configuration;
-import org.castor.ddl.GeneratorException;
+import org.castor.ddl.MappingHelper;
 
 /**
- * Generator for Derby 
+ * Generator for Derby.
  * 
- * <br/>Created on Jun 4, 2006 - 10:29:02 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public class DerbyGenerator extends AbstractGenerator {
+public final class DerbyGenerator extends AbstractGenerator {
+    //--------------------------------------------------------------------------
+
+    /** Name of database engine. */
     public static final String NAME = "derby";
     
-    public static final String FILEPATH = "conf/";
+    /** Path to specific configuration for generator. */
+    public static final String ENGINE_CONFIG_PATH = "conf/";
     
-    public static final String FILENAME = NAME + ".properties";
+    /** Filename of specific configuration for generator. */
+    public static final String ENGINE_CONFIG_NAME = NAME + ".properties";
     
+    //--------------------------------------------------------------------------
+
+    /**
+     * Constructor for DerbyGenerator.
+     * 
+     * @param configuration Configuration to use by the generator.
+     */
+    public DerbyGenerator(final Configuration configuration) {
+        super(configuration);
+    }
+
+    /**
+     * @see org.castor.ddl.Generator#initialize()
+     * {@inheritDoc}
+     */
+    public void initialize() {
+        setMappingHelper(new MappingHelper());
+        setTypeMapper(new DerbyTypeMapper(getConfiguration()));
+        setSchemaFactory(new DerbySchemaFactory());
+    }
+
+    //--------------------------------------------------------------------------
+
     /**
      * @see org.castor.ddl.Generator#getEngineName()
      * {@inheritDoc}
@@ -39,42 +68,18 @@ public class DerbyGenerator extends AbstractGenerator {
     public String getEngineName() { return NAME; }
     
     /**
-     * @see org.castor.ddl.Generator#getEngineConfigurationFilePath()
+     * @see org.castor.ddl.Generator#getEngineConfigPath()
      * {@inheritDoc}
      */
-    public String getEngineConfigurationFilePath() { return FILEPATH; }
+    public String getEngineConfigPath() { return ENGINE_CONFIG_PATH; }
 
     /**
-     * @see org.castor.ddl.Generator#getEngineConfigurationFileName()
+     * @see org.castor.ddl.Generator#getEngineConfigName()
      * {@inheritDoc}
      */
-    public String getEngineConfigurationFileName() { return FILENAME; }
+    public String getEngineConfigName() { return ENGINE_CONFIG_NAME; }
     
-    public DerbyGenerator(final Configuration config) throws GeneratorException {
-        super(config);
-
-        setTypeMapper(new DerbyTypeMapper(config));
-        setSchemaFactory(new DerbySchemaFactory());
-    }
-
-
-    /**
-     * 
-     * Constructor for DerbyGenerator
-     * 
-     * @param globConf
-     *            global configuration file
-     * @param dbConf
-     *            db configuration file
-     * @throws GeneratorException
-     *             generator error
-     */
-    public DerbyGenerator(final String globConf, final String dbConf)
-            throws GeneratorException {
-        super(globConf, dbConf);
-        setTypeMapper(new DerbyTypeMapper(getConf()));
-        setSchemaFactory(new DerbySchemaFactory());
-    }
+    //--------------------------------------------------------------------------
 
     /**
      * @see org.castor.ddl.AbstractGenerator#generateHeader()
@@ -86,10 +91,11 @@ public class DerbyGenerator extends AbstractGenerator {
         buff.append("\n");
 
         buff.append("Castor DDL Generator from mapping for Derby");
-        buff.append(getConf().getStringValue(
-                Configuration.HEADER_COMMENT_TEXT_KEY, ""));
+        buff.append(getConfiguration().getStringValue(
+                BaseConfiguration.HEADER_COMMENT_TEXT_KEY, ""));
         buff.append("*/");
         return buff.toString();
     }
     
+    //--------------------------------------------------------------------------
 }

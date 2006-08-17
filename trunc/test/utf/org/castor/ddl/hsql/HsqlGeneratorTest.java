@@ -19,6 +19,7 @@ package utf.org.castor.ddl.hsql;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.castor.ddl.Configuration;
 import org.castor.ddl.engine.hsql.HsqlGenerator;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
@@ -116,7 +117,12 @@ public final class HsqlGeneratorTest extends BaseGeneratorTest {
     protected void setUp() throws Exception {
         super.setUp();
         setDbConf(HsqlGeneratorTest.class.getResource("hsql.properties").getFile());
-        setGenerator(new HsqlGenerator(getGlobalConf(), getDbConf()));
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new HsqlGenerator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 

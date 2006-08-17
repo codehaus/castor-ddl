@@ -121,7 +121,12 @@ public final class SapdbGeneratorTest extends BaseGeneratorTest {
     protected void setUp() throws Exception {
         super.setUp();
         setDbConf(SapdbGeneratorTest.class.getResource("sapdb.properties").getFile());
-        setGenerator(new SapdbGenerator(getGlobalConf(), getDbConf()));
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new SapdbGenerator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 
@@ -144,7 +149,7 @@ public final class SapdbGeneratorTest extends BaseGeneratorTest {
             loadData("key_gen_identity.xml", "key_gen_identity.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new SapdbTypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 

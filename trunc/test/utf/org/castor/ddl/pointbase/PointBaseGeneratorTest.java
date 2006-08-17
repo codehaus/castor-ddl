@@ -120,9 +120,13 @@ public final class PointBaseGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setDbConf(PointBaseGeneratorTest.class.
-                getResource("pointbase.properties").getFile());
-        setGenerator(new PointBaseGenerator(getGlobalConf(), getDbConf()));
+        setDbConf(PointBaseGeneratorTest.class.getResource("pointbase.properties").getFile());
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new PointBaseGenerator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 
@@ -145,7 +149,7 @@ public final class PointBaseGeneratorTest extends BaseGeneratorTest {
             loadData("key_gen_sequence.xml", "key_gen_sequence.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new PointBaseTypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 

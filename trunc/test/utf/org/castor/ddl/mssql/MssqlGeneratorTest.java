@@ -121,7 +121,12 @@ public final class MssqlGeneratorTest extends BaseGeneratorTest {
     protected void setUp() throws Exception {
         super.setUp();
         setDbConf(MssqlGeneratorTest.class.getResource("mssql.properties").getFile());
-        setGenerator(new MssqlGenerator(getGlobalConf(), getDbConf()));
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new MssqlGenerator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 
@@ -144,7 +149,7 @@ public final class MssqlGeneratorTest extends BaseGeneratorTest {
             loadData("key_gen_sequence.xml", "key_gen_sequence.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new MssqlTypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 

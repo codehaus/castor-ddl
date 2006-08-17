@@ -101,7 +101,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             URL url = BaseGeneratorTest.class.getResource(dataDir
                     + expectedFile);
             _expectedDDL = ExpectedResult.getExpectedResult(url);
-            _expectedDDL.setConf(_generator.getConf());
+            _expectedDDL.setConf(_generator.getConfiguration());
 
             _mapping = new Mapping();
             _mapping.loadMapping(BaseGeneratorTest.class.getResource(dataDir
@@ -147,7 +147,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("single_table.xml", "single_table.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -178,7 +178,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("ignored_table.xml", "ignored_table.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -207,7 +207,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("no_table.xml", "no_table.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -236,7 +236,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("drop_table.xml", "drop_table.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -261,7 +261,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("class_id.xml", "class_id.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -296,7 +296,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("class_multiple_id.xml", "class_multiple_id.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -332,7 +332,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("field_id.xml", "field_id.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -374,7 +374,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("field_multiple_id.xml", "field_multiple_id.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -410,7 +410,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("no_id.xml", "no_id.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -445,7 +445,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("multiple_table.xml", "multiple_table.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -475,7 +475,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("single_field_for_all.xml", "single_field_for_all.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -555,7 +555,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("single_field.xml", "single_field.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -585,7 +585,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("key_gen_identity.xml", "key_gen_identity.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -621,7 +621,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("key_gen_high-low.xml", "key_gen_high-low.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -657,7 +657,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("key_gen_max.xml", "key_gen_max.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -693,7 +693,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("key_gen_sequence.xml", "key_gen_sequence.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -731,7 +731,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("key_gen_uuid.xml", "key_gen_uuid.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -769,7 +769,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("relationship_1_1.xml", "relationship_1_1.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -806,7 +806,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("relationship_1_n.xml", "relationship_1_n.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -843,7 +843,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("relationship_m_n.xml", "relationship_m_n.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -879,7 +879,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("2levels_reference.xml", "2levels_reference.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -914,7 +914,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("ignored_field.xml", "ignored_field.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -944,7 +944,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("no_field.xml", "no_field.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -975,7 +975,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("overwrite_field_id.xml", "overwrite_field_id.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -1005,7 +1005,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("many_keys_reference.xml", "many_keys_reference.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -1038,7 +1038,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     "many_class_keys_reference.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -1068,7 +1068,7 @@ public abstract class BaseGeneratorTest extends TestCase {
         try {
             loadData("empty.xml", "create_schema.exp.xml");
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 
@@ -1104,7 +1104,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             loadData("index_creation.xml", "index_creation.exp.xml");
 
             // setup
-            Configuration conf = _generator.getConf();
+            Configuration conf = _generator.getConfiguration();
             TypeMapper typeMapper = new MysqlTypeMapper(conf);
             _generator.setTypeMapper(typeMapper);
 

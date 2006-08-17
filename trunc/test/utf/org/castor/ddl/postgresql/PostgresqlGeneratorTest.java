@@ -19,6 +19,7 @@ package utf.org.castor.ddl.postgresql;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.castor.ddl.Configuration;
 import org.castor.ddl.engine.postgresql.PostgresqlGenerator;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
@@ -115,9 +116,13 @@ public final class PostgresqlGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setDbConf(PostgresqlGeneratorTest.class.
-                getResource("postgresql.properties").getFile());
-        setGenerator(new PostgresqlGenerator(getGlobalConf(), getDbConf()));
+        setDbConf(PostgresqlGeneratorTest.class.getResource("postgresql.properties").getFile());
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new PostgresqlGenerator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 

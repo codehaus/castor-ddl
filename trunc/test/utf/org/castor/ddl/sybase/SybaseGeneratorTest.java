@@ -121,7 +121,12 @@ public final class SybaseGeneratorTest extends BaseGeneratorTest {
     protected void setUp() throws Exception {
         super.setUp();
         setDbConf(SybaseGeneratorTest.class.getResource("sybase.properties").getFile());
-        setGenerator(new SybaseGenerator(getGlobalConf(), getDbConf()));
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new SybaseGenerator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 
@@ -144,7 +149,7 @@ public final class SybaseGeneratorTest extends BaseGeneratorTest {
             loadData("key_gen_sequence.xml", "key_gen_sequence.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new SybaseTypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 

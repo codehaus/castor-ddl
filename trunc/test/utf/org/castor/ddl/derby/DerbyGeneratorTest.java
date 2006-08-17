@@ -124,7 +124,12 @@ public final class DerbyGeneratorTest extends BaseGeneratorTest {
     protected void setUp() throws Exception {
         super.setUp();
         setDbConf(DerbyGeneratorTest.class.getResource("derby.properties").getFile());
-        setGenerator(new DerbyGenerator(getGlobalConf(), getDbConf()));
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new DerbyGenerator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 
@@ -146,7 +151,7 @@ public final class DerbyGeneratorTest extends BaseGeneratorTest {
             loadData("single_field_for_all.xml", "single_field_for_all.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new DerbyTypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 
@@ -229,7 +234,7 @@ public final class DerbyGeneratorTest extends BaseGeneratorTest {
             loadData("key_gen_sequence.xml", "key_gen_sequence.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new DerbyTypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 

@@ -24,17 +24,29 @@ import org.exolab.castor.mapping.MappingException;
 /**
  * Generator is the interface for various generators.
  * 
- * <br/>
- * Created on Jun 4, 2006 - 10:25:34 AM
- * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public interface Generator {
+    //--------------------------------------------------------------------------
+
+    String GLOBAL_CONFIG_PATH = "conf/";
+    
+    String GLOBAL_CONFIG_NAME = "ddl.properties";
+
+    //--------------------------------------------------------------------------
+
+    void initialize();
+    
+    //--------------------------------------------------------------------------
+
     String getEngineName();
     
-    String getEngineConfigurationFilePath();
+    String getEngineConfigPath();
 
-    String getEngineConfigurationFileName();
+    String getEngineConfigName();
+    
+    //--------------------------------------------------------------------------
     
     /**
      * generate DDL script for a mapping file 

@@ -32,25 +32,11 @@ public class Configuration extends BaseConfiguration {
      */
     private Properties _conf;
 
-    /**
-     * @param fileName
-     *            file name
-     * @throws GeneratorException
-     *             generator error
-     * 
-     */
-    public Configuration(final String fileName) throws GeneratorException {
+    public Configuration() {
         super();
         _conf = new Properties();
-        try {
-            addProperties(System.getProperties());
-            _conf.load(new java.io.FileInputStream(fileName));
-            loadPredefineConfiguration();
-
-        } catch (java.io.IOException ioe) {
-            ioe.printStackTrace();
-            throw new GeneratorException(ioe.getMessage(), ioe);
-        }
+        addProperties(System.getProperties());
+        loadPredefineConfiguration();
     }
 
     /**

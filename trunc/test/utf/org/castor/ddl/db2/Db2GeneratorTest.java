@@ -124,7 +124,12 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
     protected void setUp() throws Exception {
         super.setUp();
         setDbConf(Db2GeneratorTest.class.getResource("db2.properties").getFile());
-        setGenerator(new Db2Generator(getGlobalConf(), getDbConf()));
+
+        Configuration conf = new Configuration();
+        conf.addProperties(getGlobalConf());
+        conf.addProperties(getDbConf());
+        setGenerator(new Db2Generator(conf));
+        getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
 
@@ -147,7 +152,7 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
             loadData("single_field_for_all.xml", "single_field_for_all.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new Db2TypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 
@@ -175,7 +180,7 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
                     "single_field_for_all_except_bit.exp.xml");
 
             // setup
-            Configuration conf = getGenerator().getConf();
+            Configuration conf = getGenerator().getConfiguration();
             TypeMapper typeMapper = new Db2TypeMapper(conf);
             getGenerator().setTypeMapper(typeMapper);
 

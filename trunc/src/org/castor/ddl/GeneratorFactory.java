@@ -16,8 +16,6 @@
 
 package org.castor.ddl;
 
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * This class handles the creation for various databse generators 
@@ -38,52 +36,36 @@ public final class GeneratorFactory {
      * the globalConf already defines specific db _conf, pass null for
      * specificConf
      * 
-     * @param engine
-     *            db engine
-     * @param globalConf
-     *            global configuration file
-     * @param specificConf
-     *            db configuration file
+     * @param engine db engine
+     * @param globalConf global configuration file
+     * @param specificConf db configuration file
      * @return DDL generator ddl generator
-     * @throws GeneratorException
-     *             generator error
+     * @throws GeneratorException generator error
      */
     public static Generator createDDLGenerator(final String engine,
             final String globalConf, final String specificConf)
     throws GeneratorException {
-        /** define the configuration file name of DDL Generator */
-        String globConf = "conf/ddl.properties";
-        String eng = engine;
+        Configuration config = new Configuration();
 
-        // verify the global configuration
-        if (globalConf != null) {
-            globConf = globalConf;
-        }
-
-        // load engine and specific database config
-        Properties prop = new Properties();
-        try {
-            prop.load(new java.io.FileInputStream(globConf));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // adjust database engine
-        if (eng == null) {
-            eng = prop.getProperty(BaseConfiguration.DEFAULT_ENGINE_KEY);
-        }
-
-        // no db engine
-        if (eng == null) {
-            throw new GeneratorException("database engine is not defined");
-        }
-
-//         TODO take specific configuration from commandline into account
+        // load default global configuration
+        config.addProperties(Generator.GLOBAL_CONFIG_PATH + Generator.GLOBAL_CONFIG_NAME);
+        // overload with global configuration given on commandline
+        if (globalConf != null) { config.addProperties(globalConf); }
         
-        Configuration config = new Configuration(globConf);
         GeneratorRegistry registry = new GeneratorRegistry(config);
-        Generator generator = registry.getGenerator(eng.toLowerCase());
-        if (generator != null) { return generator; }
-        throw new GeneratorException("can not create DDL generator for " + eng);
+        
+        String eng = config.getStringValue(BaseConfiguration.DEFAULT_ENGINE_KEY, "");
+        if (engine != null) { eng = engine; }
+        Generator gen = registry.getGenerator(eng.toLowerCase());
+        
+        // load default configuration for specific database engine
+        config.addProperties(gen.getEngineConfigPath() + gen.getEngineConfigName());
+        // overload with specific configuration given on commandline
+        if (specificConf != null) { config.addProperties(specificConf); }
+        
+        // initialize generator
+        gen.initialize();
+        
+        return gen;
     }
 }
