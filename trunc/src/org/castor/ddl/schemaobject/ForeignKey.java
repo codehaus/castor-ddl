@@ -26,7 +26,6 @@ import org.castor.ddl.GeneratorException;
  * FOREIGN KEY `FK_prod_group_1` (`id`, `name`)
  * REFERENCES `category` (`id`, `name`)
  * </pre> 
- * <br/>Created on Jun 21, 2006 - 11:52:10 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

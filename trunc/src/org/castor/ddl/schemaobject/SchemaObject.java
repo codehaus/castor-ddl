@@ -20,8 +20,6 @@ import org.castor.ddl.Configuration;
 
 /**
  * An interface for all SchemaObject
- * <br/>
- * Created on Jun 23, 2006 - 6:15:17 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

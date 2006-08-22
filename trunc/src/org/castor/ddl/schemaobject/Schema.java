@@ -26,10 +26,8 @@ import org.castor.ddl.keygenerator.IdentityKey;
 import org.castor.ddl.keygenerator.MaxKey;
 import org.castor.ddl.keygenerator.UUIDKey;
 
-
 /**
  * Schema contains a set of table and schema options.
- * <br/>Created on Jun 23, 2006 - 5:55:43 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

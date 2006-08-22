@@ -27,7 +27,6 @@ import org.castor.ddl.KeyGenNotSupportException;
 /**
  * Table contains fields, foreignkeys, indexes and table's options
  * 
- * <br/>Created on Jun 23, 2006 - 6:22:33 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class Table extends AbstractSchemaObject {
@@ -308,9 +307,9 @@ public class Table extends AbstractSchemaObject {
         buff.append(getConf().getLineSeparator());
 
         buff.append("ALTER TABLE ").append(_name);
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
-        buff.append("ADD PRIMARY KEY (");
+//        buff.append(getConf().getLineSeparator()).append(
+//                getConf().getLineIndent());
+        buff.append(" ADD PRIMARY KEY (");
 
         boolean isFirstField = true;
         for (Iterator i = _fields.iterator(); i.hasNext();) {

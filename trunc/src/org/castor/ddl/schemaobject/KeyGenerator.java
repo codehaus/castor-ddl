@@ -21,11 +21,8 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 
-
-
 /**
  * KeyGenerator is abstract class for Key generator
- * <br/>Created on Jun 23, 2006 - 5:44:13 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

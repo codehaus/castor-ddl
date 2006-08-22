@@ -21,8 +21,6 @@ import org.castor.ddl.Configuration;
 /**
  * AbstractSchemaObject is the base class for Table, Field, ForeignKey, 
  * KeyGenerator...
- * <br/>
- * Created on Jul 4, 2006 - 2:20:35 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

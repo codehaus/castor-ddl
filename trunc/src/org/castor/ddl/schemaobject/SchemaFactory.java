@@ -29,7 +29,6 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * helps the AbstractGenerator to dynamically extract schema’s information for 
  * specific database. It should be overwritten this class if you have overwritten 
  * any schema object classs
- * <br/>Created on Jul 4, 2006 - 3:01:20 PM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
