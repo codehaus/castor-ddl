@@ -26,9 +26,6 @@ import org.exolab.castor.mapping.xml.FieldMapping;
 
 /** 
  * This class handles all common tasks for manipulating Mapping document
- * 
- * <br/> Created on Jun 8, 2006 - 1:13:56 PM
- * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -130,13 +127,10 @@ public class MappingHelper {
      * associated with parameter fieldName and throw an exception if it is not
      * found
      * 
-     * @param className
-     *            class name
-     * @param fieldName
-     *            field name
+     * @param className class name
+     * @param fieldName field name
      * @return field mapping
-     * @throws GeneratorException
-     *             field is not fould
+     * @throws GeneratorException field is not fould
      */
     public final FieldMapping getFieldMappingByName(
             final String className, final String fieldName)
@@ -157,7 +151,8 @@ public class MappingHelper {
     }
 
     /**
-     * 
+     * collect and return type of identities for a class mapping. It also takes care on 
+     * the multiple column identities and extended classes
      * @param cm class mapping
      * @return list of type of reference ids from class name
      * @throws GeneratorException an exception
@@ -172,9 +167,11 @@ public class MappingHelper {
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
         boolean isExistFieldId = isUseFieldIdentity(cm);
 
+        //go through all fields
         while (ef.hasMoreElements()) {
             FieldMapping fm = (FieldMapping) ef.nextElement();
-
+            
+            //identity is defined in field
             if (isExistFieldId && fm.getIdentity()) {
                 /**
                  * <class name="myapp.ProductGroup" > 
@@ -184,6 +181,7 @@ public class MappingHelper {
                  * </class>
                  */
 
+                //get field type
                 TypeInfo typeinfo = null;
                 String sqltype = fm.getSql().getType();
 
@@ -205,6 +203,7 @@ public class MappingHelper {
                     }
                 }
             } else if (!isExistFieldId) {
+                //identities are defined in <class>
                 /**
                  * <class name="myapp.ProductGroup" identity="id"> 
                  *  <field name="id" type="integer" > 

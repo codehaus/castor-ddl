@@ -18,13 +18,12 @@ package org.castor.ddl;
 
 /**
  * Configuration Key does not find exception
- * <br/>Created on Jun 4, 2006 - 10:28:32 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class KeyNotFoundException extends GeneratorException {
 
     /**
-     * 
+     * serialVersionUID
      */
     private static final long serialVersionUID = 3094938798097293380L;
 

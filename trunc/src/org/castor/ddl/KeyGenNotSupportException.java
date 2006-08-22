@@ -18,14 +18,13 @@ package org.castor.ddl;
 
 /**
  * Key generator exception
- * <br/>Created on Jul 11, 2006 - 9:37:12 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
 public final class KeyGenNotSupportException extends GeneratorException {
 
     /**
-     * 
+     * serialVersionUID
      */
     private static final long serialVersionUID = -1270070878985011180L;
 

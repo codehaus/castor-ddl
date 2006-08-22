@@ -17,7 +17,6 @@ package org.castor.ddl;
 
 /**
  * Wrong format exception
- * <br/>Created on Jun 4, 2006 - 10:32:26 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class WrongFormatException extends GeneratorException {

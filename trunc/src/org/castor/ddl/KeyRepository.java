@@ -22,8 +22,9 @@ import java.util.Map;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * KeyRepository handles KeyGenerators
- * <br/>Created on Jun 24, 2006 - 2:10:05 AM
+ * KeyRepository handles KeyGenerators. All key generator definitions are extracted 
+ * and handled by an instance of this class. This helps the AbstractGenerator manages
+ * easily the key-gen which uses in multiple classes.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

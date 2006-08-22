@@ -28,7 +28,6 @@ import org.exolab.castor.util.CommandLineOptions;
 
 /**
  * Main Program
- * Created on Jun 4, 2006 - 10:28:41 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public final class Main {
