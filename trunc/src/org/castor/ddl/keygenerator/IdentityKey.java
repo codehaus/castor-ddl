@@ -29,7 +29,6 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * of MySQL and Hypersonic SQL the system functions LAST_INSERT_ID() and IDENTITY() 
  * are called, respectively.
  * <br/>This algorithm has no parameters.
- * <br/>Created on Jun 24, 2006 - 2:05:57 AM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

@@ -24,7 +24,6 @@ import org.exolab.castor.mapping.xml.Param;
 
 /**
  * HighLowKey is not used for DDL Generator
- * <br/>Created on Jun 24, 2006 - 2:04:24 AM
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */

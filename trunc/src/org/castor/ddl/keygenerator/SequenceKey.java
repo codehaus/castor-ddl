@@ -40,8 +40,6 @@ import org.exolab.castor.mapping.xml.Param;
  *<li/>trigger:     Assume that there is a trigger that already generates key. 
  *Values: "true"/"false", Optional, default="false"
  *
- *<li/>Created on Jun 24, 2006 - 2:01:26 AM
- * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
