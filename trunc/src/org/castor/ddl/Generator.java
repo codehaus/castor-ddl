@@ -30,20 +30,37 @@ import org.exolab.castor.mapping.MappingException;
 public interface Generator {
     //--------------------------------------------------------------------------
 
+    /**global configuration file path*/
     String GLOBAL_CONFIG_PATH = "conf/";
     
+    /**global configuration file name*/
     String GLOBAL_CONFIG_NAME = "ddl.properties";
 
-    //--------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
 
+    /**
+     * initialize
+     */
     void initialize();
     
     //--------------------------------------------------------------------------
 
+    /**
+     * get engine name
+     * @return engine name
+     */
     String getEngineName();
     
+    /**
+     * get engine configuration file path
+     * @return engine configuration file path
+     */
     String getEngineConfigPath();
 
+    /**
+     * get engine configuration file name
+     * @return engine configuration file name
+     */
     String getEngineConfigName();
     
     //--------------------------------------------------------------------------

@@ -26,6 +26,7 @@ import java.util.Vector;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.ForeignKey;
 import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.PrimaryKey;
 import org.castor.ddl.schemaobject.Schema;
 import org.castor.ddl.schemaobject.SchemaFactory;
 import org.castor.ddl.schemaobject.Table;
@@ -317,7 +318,8 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * generating ddl group by ddl type
+     * generating ddl grouped by ddl type of DDL (e.g DROP, CREATE TABLE, create 
+     * Primary key, create foreign key)
      * 
      * @throws GeneratorException
      *             generator exception
@@ -421,7 +423,7 @@ public abstract class AbstractGenerator implements Generator {
 
             // primary key
             if (genPrimaryKey) {
-                buff.append(table.toPrimaryKeyDDL());
+                buff.append(table.getPrimaryKey().toCreateDdl());
             }
 
             // foreign key
@@ -453,7 +455,7 @@ public abstract class AbstractGenerator implements Generator {
         StringBuffer buff = new StringBuffer();
         for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
-            buff.append(table.toPrimaryKeyDDL());
+            buff.append(table.getPrimaryKey().toCreateDdl());
         }
         return buff.toString();
     }
@@ -635,10 +637,11 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * create sql table from a ClassMapping
+     * create sql table from a ClassMapping. This function extracts information from 
+     * a classmapping.  
      * @param cm
      *            ClassMapping
-     * @return table
+     * @return table which encapsulates information for creating a table
      * @throws GeneratorException
      *             generator exception
      */
@@ -651,6 +654,12 @@ public abstract class AbstractGenerator implements Generator {
         table.setName(tableName);
         table.setConf(_configuration);
         table.setSchema(_schema);
+        
+        PrimaryKey primarykey = _schemaFactory.createPrimaryKey();
+        primarykey.setConf(_configuration);
+        primarykey.setTable(table);
+        primarykey.setName("pk_" + tableName);
+        table.setPrimaryKey(primarykey);
 
         // if there are no field in the table
         if (cm.getClassChoice() == null) { return table; }
@@ -689,16 +698,8 @@ public abstract class AbstractGenerator implements Generator {
             
             // checking for many-key, many-table definition
             if (fm.getSql().getManyTable() != null) {
-                    // checking for many-table case just
-                    // 1. generate DDL for creating relationship, with MySQL
-                    // addManyManyForeignKey(table, fm);
-
-                    // 2. generate resolving table for many-many relationship
+                    // generate resolving table for many-many relationship
                     addResolveField(fm, cm);
-                    // } else {
-                    // checking for many-key case (not need generate DDL),
-                    // 1. generate DDL for creating relationship, with MySQL
-                    // addOneManyForeignKey(fm, cm.getMapTo().getTable());
             }
                     
             //process column creation if sql name is defined.
@@ -778,6 +779,10 @@ public abstract class AbstractGenerator implements Generator {
                     field.setKeyGenerator(keyGen);
 
                     table.addField(field);
+                    
+                    if (isFieldIdentity) {
+                       primarykey.addPrimaryKeyColumn(sqlnames[i]); 
+                    }
                 }
             }            
         }
@@ -798,9 +803,7 @@ public abstract class AbstractGenerator implements Generator {
     private void processExtendedClass(final Table table, 
             final ClassMapping cm) throws GeneratorException {
         Object extendClass = cm.getExtends();
-        if (extendClass == null) {
-            return;
-        }
+        if (extendClass == null) { return; }
         
         ClassMapping extendCm = (ClassMapping) extendClass;
         String[] childIds = _mappingHelper.getClassMappingSqlIdentity(cm, false);
@@ -932,6 +935,10 @@ public abstract class AbstractGenerator implements Generator {
                     field.setType(typeInfo);
                     field.setIdentity(isFieldIdentity);                    
                     field.setKeyGenerator(keyGen); // process key-generator
+                    
+                    if (isFieldIdentity) {
+                        table.getPrimaryKey().addPrimaryKeyColumn(sqlnames[i]);
+                    }
 
                     table.addField(field);
                 }
@@ -945,13 +952,14 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * This function is used merge a table if it is mapped to many class.
      * @param table table
      * @param cm class mapping
      * @param extendFm extend field mapping
      * @return true if column is defiend as normal column in child, but it is id 
      * which is inherited from parent. 
      */
-    public final boolean mergeIfDefInBothClasses(final Table table, 
+    private boolean mergeIfDefInBothClasses(final Table table, 
             final ClassMapping cm,  final FieldMapping extendFm) {
         Enumeration ef = cm.getClassChoice().enumerateFieldMapping();
         
@@ -985,7 +993,7 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException
      *             generator exception
      */
-    protected final void addManyManyForeignKey(final Table table,
+    private void addManyManyForeignKey(final Table table,
             final FieldMapping fm) throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
         fk.setConf(_configuration);
@@ -1022,7 +1030,7 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException
      *             generator exception
      */
-    protected final void addOneManyForeignKey(final Table table,
+    private void addOneManyForeignKey(final Table table,
             final FieldMapping fm, final String tableName)
             throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
@@ -1059,7 +1067,7 @@ public abstract class AbstractGenerator implements Generator {
      * @throws GeneratorException
      *             generator exception
      */
-    protected final void addOneOneForeignKey(final Table table,
+    private void addOneOneForeignKey(final Table table,
             final FieldMapping fm, final String tableName)
             throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
@@ -1092,12 +1100,13 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
+     * add a column for a resolving table which is required by m-n relationship
      * @param fm
      *            field mapping
      * @param cm class mapping
      * @throws GeneratorException exception
      */
-    protected final void addResolveField(final FieldMapping fm, final ClassMapping cm) 
+    private void addResolveField(final FieldMapping fm, final ClassMapping cm) 
         throws GeneratorException {
         String keyGen = cm.getKeyGenerator();
         ClassMapping resolveCm = null;

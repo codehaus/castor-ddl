@@ -19,9 +19,7 @@ package org.castor.ddl.engine.mysql;
 import org.castor.ddl.schemaobject.ForeignKey;
 
 /**
- * 
- * <br/>Created on Jul 5, 2006 - 9:25:57 AM
- * 
+ * MySQL foreign key.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

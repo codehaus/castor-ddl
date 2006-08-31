@@ -29,7 +29,6 @@ public class BaseConfiguration {
     /** Default database engine. */
     public static final String DEFAULT_ENGINE_KEY = "org.castor.ddl.DefaultEngine";
 
-
     /** option for generate DDL for CREATE statement */
     public static final String GENERATE_DDL_FOR_SCHEMA_KEY = "generate_ddl_for_schema";
 

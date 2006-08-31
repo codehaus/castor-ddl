@@ -19,13 +19,13 @@ package org.castor.ddl.engine.hsql;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.PrimaryKey;
 import org.castor.ddl.schemaobject.SchemaFactory;
 import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * 
- * <br/>Created on Jul 10, 2006 - 11:50:54 AM
+ * Hsql Schema Factory.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -68,6 +68,14 @@ public class HsqlSchemaFactory extends SchemaFactory {
         }
 
         return super.createKeyGenerator(kg);
+    }
+
+    /**
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createPrimaryKey()
+     * {@inheritDoc}
+     */
+    public PrimaryKey createPrimaryKey() {
+        return new HsqlPrimaryKey();
     }
 
 }

@@ -20,8 +20,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.SchemaFactory;
 
 /**
- * 
- * <br/>Created on Jul 10, 2006 - 11:53:03 AM
+ * Sybase Schema Factory
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

@@ -23,9 +23,7 @@ import org.castor.ddl.schemaobject.SchemaFactory;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * 
- * <br/>Created on Jul 4, 2006 - 3:06:14 PM
- * 
+ * Postgre SQL Schema Factory.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

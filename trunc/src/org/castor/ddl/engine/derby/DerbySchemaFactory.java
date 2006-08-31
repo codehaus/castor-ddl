@@ -20,9 +20,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.SchemaFactory;
 
 /**
- * 
- * <br/>Created on Jul 4, 2006 - 3:06:14 PM
- * 
+ * Derby Schema Factory
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

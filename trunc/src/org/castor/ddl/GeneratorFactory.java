@@ -20,8 +20,6 @@ package org.castor.ddl;
 /**
  * This class handles the creation for various databse generators 
  * 
- * <br/>Created on Jun 7, 2006 - 3:22:36 PM
- * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

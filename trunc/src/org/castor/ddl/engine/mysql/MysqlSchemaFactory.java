@@ -23,8 +23,7 @@ import org.castor.ddl.schemaobject.SchemaFactory;
 import org.castor.ddl.schemaobject.Table;
 
 /**
- * 
- * <br/>Created on Jul 4, 2006 - 3:06:14 PM
+ * MySQL schema Factory
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

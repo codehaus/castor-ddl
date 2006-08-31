@@ -22,7 +22,6 @@ import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
  * Sybase Field 
- * <br/>Created on Jul 11, 2006 - 5:06:42 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

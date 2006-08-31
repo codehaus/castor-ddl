@@ -14,68 +14,49 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.engine.db2;
+package org.castor.ddl.engine.mssql;
 
 import java.util.Iterator;
 
-import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.Table;
+import org.castor.ddl.schemaobject.PrimaryKey;
 
 /**
- * 
- * <br/>Created on Jul 11, 2006 - 3:43:53 PM
+ * Final Microsoft SQL Server primary key class
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class Db2Table extends Table {
+public final class MssqlPrimaryKey extends PrimaryKey {
 
     /**
-     * Constructor for Db2Table
-     */
-    public Db2Table() {
-        super();
-    }
-
-    /**
-     * <pre>ALTER TABLE table-name
-     *  ADD CONSTRAINT constraint-name 
-     *  PRIMARY KEY ( column-name )
-     *  </pre>
-     * @see org.castor.ddl.schemaobject.Table#toPrimaryKeyDDL()
+     * @see org.castor.ddl.schemaobject.PrimaryKey#toCreateDdl()
      * {@inheritDoc}
      */
-    public String toPrimaryKeyDDL() {
-        boolean isHasPK = false;
+    public String toCreateDdl() {
+        if (getPrimaryKeyColumnCount() <= 0) { return ""; }
+        
         StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
         buff.append(getConf().getLineSeparator());
 
-        buff.append("ALTER TABLE ").append(getName());
+        buff.append("ALTER TABLE ").append(getTable().getName());
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
-        buff.append("ADD CONSTRAINT pk_").append(getName());
+        buff.append("ADD CONSTRAINT ").append(getName());
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
         buff.append("PRIMARY KEY (");
 
         boolean isFirstField = true;
-        for (Iterator i = getFields().iterator(); i.hasNext();) {
-            Field field = (Field) i.next();
-            if (field.isIdentity()) {
-                isHasPK = true;
+        for (Iterator i = getPrimaryKeyColumns().iterator(); i.hasNext();) {
+            String columnname = (String) i.next();
                 if (!isFirstField) {
                     buff.append(getConf().getSqlFieldDelimeter());
                     buff.append(" ");
                 }
                 isFirstField = false;
-                buff.append(field.getName());
-            }
+                buff.append(columnname);
         }
         buff.append(")").append(getConf().getSqlStatDelimeter());
 
-        //have no primary key
-        if (!isHasPK) {
-            return "";
-        }
         return buff.toString();
     }
 

@@ -19,25 +19,24 @@ package org.castor.ddl.engine.db2;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
+import org.castor.ddl.schemaobject.PrimaryKey;
 import org.castor.ddl.schemaobject.SchemaFactory;
-import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * 
- * <br/>Created on Jul 10, 2006 - 11:50:10 AM
+ * Db2SchemaFactory handles to create schema obhect for DB2
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
 public class Db2SchemaFactory extends SchemaFactory {
 
-    /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createTable()
-     * {@inheritDoc}
-     */
-    public Table createTable() {
-        return new Db2Table();
-    }
+//    /**
+//     * @see org.castor.ddl.schemaobject.SchemaFactory#createTable()
+//     * {@inheritDoc}
+//     */
+//    public Table createTable() {
+//        return new Db2Table();
+//    }
 
     /**
      * Constructor for Db2SchemaFactory
@@ -70,4 +69,11 @@ public class Db2SchemaFactory extends SchemaFactory {
         return super.createKeyGenerator(kg);
     }
 
+    /**
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createPrimaryKey()
+     * {@inheritDoc}
+     */
+    public PrimaryKey createPrimaryKey() {
+        return new Db2PrimaryKey();
+    }
 }

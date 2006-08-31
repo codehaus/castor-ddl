@@ -30,7 +30,7 @@ import org.castor.ddl.KeyGenNotSupportException;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class Table extends AbstractSchemaObject {
-
+    //-------------------------------------------------------------------------------
     /**logging*/
     private static final Log LOG = LogFactory.getLog(Table.class);
 
@@ -50,7 +50,12 @@ public class Table extends AbstractSchemaObject {
     private Vector _foreignKey;
     
     /** schema key*/
-    private Schema _schema;    
+    private Schema _schema;  
+    
+    /**handle primary key*/
+    private PrimaryKey _primaryKey;
+
+    //-------------------------------------------------------------------------------
     
     /**
      * Constructor for Table
@@ -61,6 +66,23 @@ public class Table extends AbstractSchemaObject {
         _indexes = new Vector();
         _foreignKey = new Vector();
         _keyGenerator = null;
+        _primaryKey = null;
+    }
+
+    /**
+     * 
+     * @return Returns the primaryKey.
+     */
+    public final PrimaryKey getPrimaryKey() {
+        return _primaryKey;
+    }
+
+    /**
+     * Set the primaryKey by _primaryKey.
+     * @param primaryKey primary key
+     */
+    public final void setPrimaryKey(final PrimaryKey primaryKey) {
+        _primaryKey = primaryKey;
     }
 
     /**
@@ -295,41 +317,6 @@ public class Table extends AbstractSchemaObject {
         buff.append("DROP TABLE ").append(_name);
         buff.append(getConf().getSqlStatDelimeter());
 
-        return buff.toString();
-    }
-
-    /**
-     * @return DDL script for creating primary key
-     */
-    public String toPrimaryKeyDDL() {
-        boolean isHasPK = false;
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-        buff.append(getConf().getLineSeparator());
-
-        buff.append("ALTER TABLE ").append(_name);
-//        buff.append(getConf().getLineSeparator()).append(
-//                getConf().getLineIndent());
-        buff.append(" ADD PRIMARY KEY (");
-
-        boolean isFirstField = true;
-        for (Iterator i = _fields.iterator(); i.hasNext();) {
-            Field field = (Field) i.next();
-            if (field.isIdentity()) {
-                isHasPK = true;
-                if (!isFirstField) {
-                    buff.append(getConf().getSqlFieldDelimeter());
-                    buff.append(" ");
-                }
-                isFirstField = false;
-                buff.append(field.getName());
-            }
-        }
-        buff.append(")").append(getConf().getSqlStatDelimeter());
-
-        //have no primary key
-        if (!isHasPK) {
-            return "";
-        }
         return buff.toString();
     }
 

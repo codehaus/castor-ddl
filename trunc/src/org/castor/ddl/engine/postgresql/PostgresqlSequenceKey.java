@@ -24,8 +24,26 @@ import org.castor.ddl.keygenerator.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * 
- * <br/>Created on Jul 5, 2006 - 2:54:35 PM
+ * <br> Sequence creation in DB2 uses a dedicated syntax. This implementation lets 
+ * users to define the DDL for sequence creation in the db2.properties. It provide 
+ * five pre-defined keywords for a template:
+ *    <li>&lt;sequence_name&gt;: Usually one sequence is used 
+ *    for one table, so in general you have to define one key generator per table. 
+ *    But if you use some naming pattern for sequences, you can use one key generator 
+ *    for all tables. For example, if you always obtain sequence name by adding "_seq" 
+ *    to the name of the correspondent table, you can set "sequence" parameter of the 
+ *    key generator to "{0}_seq" (the default value). In this case the key generator 
+ *    will use sequence "a_seq" for table "a", "b_seq" for table "b", etc. Castor 
+ *    also allows for inserting the primary key into the sequence name as well. 
+ *    This is accomplished by including the {1} tag into the "sequence" parameter. 
+ *    Example: "{0}_{1}_seq"
+ *    <li>&lt;trigger_name&gt;: is the sequence name prefixed by TRG_. If the sequence
+ *    name contains SEQ_, it will be omitted. 
+ *    <li>&lt;table_name&gt;: name of table which uses this sequence. Note that one 
+ *    sequence key may be used in many class/table. 
+ *    <li>&lt;pk_name&gt;: primary key list
+ *    <li>&lt;pk_type&gt;:  primary key type          
+ 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

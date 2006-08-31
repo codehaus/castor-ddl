@@ -32,6 +32,9 @@ public class Configuration extends BaseConfiguration {
      */
     private Properties _conf;
 
+    /**
+     * Constructor for Configuration
+     */
     public Configuration() {
         super();
         _conf = new Properties();
@@ -76,8 +79,7 @@ public class Configuration extends BaseConfiguration {
      * 
      * @param key key
      * @param defaultValue default value
-     * @return return value associated with key. If not exists, throw an
-     *         exception
+     * @return return value associated with key. If not exists, return the default value
      */
     public final boolean getBoolValue(final String key, final boolean defaultValue) {
         String value = null;
@@ -157,12 +159,11 @@ public class Configuration extends BaseConfiguration {
     }
 
     /**
-     * add properties (key, value) for configuration, the duplicated item will
-     * be overwrite addProperties
-     *  
+     * add properties (key, value) for configuration, the existed item will
+     * be overwrited 
      * @param props properties
      */
-    public void addProperties(final Properties props) {
+    public final void addProperties(final Properties props) {
         if (props != null) {
             Object key, value;
             for (Enumeration e = props.keys(); e.hasMoreElements();) {
@@ -175,8 +176,8 @@ public class Configuration extends BaseConfiguration {
     }
 
     /**
-     * add properties (key, value) for configuration, the duplicated item will
-     * be overwrite addProperties
+     * add properties (key, value) for configuration, the existed item will
+     * be overwrited 
      * 
      * @param fileName
      *            a properties file

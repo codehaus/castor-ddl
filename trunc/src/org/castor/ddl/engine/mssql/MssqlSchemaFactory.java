@@ -17,12 +17,11 @@
 package org.castor.ddl.engine.mssql;
 
 import org.castor.ddl.schemaobject.Field;
+import org.castor.ddl.schemaobject.PrimaryKey;
 import org.castor.ddl.schemaobject.SchemaFactory;
-import org.castor.ddl.schemaobject.Table;
 
 /**
- * 
- * <br/>Created on Jul 10, 2006 - 11:51:26 AM
+ * Microsoft SQL server schema factory
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -37,19 +36,19 @@ public class MssqlSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createTable()
-     * {@inheritDoc}
-     */
-    public Table createTable() {
-        return new MssqlTable();
-    }
-
-    /**
      * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
      * {@inheritDoc}
      */
     public Field createField() {
         return new MssqlField();
+    }
+
+    /**
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createPrimaryKey()
+     * {@inheritDoc}
+     */
+    public PrimaryKey createPrimaryKey() {
+        return new MssqlPrimaryKey();
     }
     
 }

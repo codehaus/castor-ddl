@@ -17,8 +17,7 @@
 package org.castor.ddl.engine.mysql;
 
 /**
- * 
- * <br/>Created on Jun 21, 2006 - 4:40:45 PM
+ * My SQL configuration key
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

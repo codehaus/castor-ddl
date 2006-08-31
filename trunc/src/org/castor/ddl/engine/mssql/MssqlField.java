@@ -21,7 +21,7 @@ import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
- * mssql field
+ * mssql field.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

@@ -25,7 +25,6 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
  * OracheSequenceKey
- * <br>Created on Jul 5, 2006 - 2:54:35 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

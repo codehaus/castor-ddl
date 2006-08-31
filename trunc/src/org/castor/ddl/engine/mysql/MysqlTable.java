@@ -19,9 +19,7 @@ package org.castor.ddl.engine.mysql;
 import org.castor.ddl.schemaobject.Table;
 
 /**
- * 
- * <br/>Created on Jul 3, 2006 - 5:32:53 PM
- * 
+ * MySQL Table.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

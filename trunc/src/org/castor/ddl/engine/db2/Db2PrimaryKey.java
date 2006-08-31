@@ -14,66 +14,49 @@
  * limitations under the License.
  */
 
-package org.castor.ddl.engine.mssql;
+package org.castor.ddl.engine.db2;
 
 import java.util.Iterator;
 
-import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.Table;
+import org.castor.ddl.schemaobject.PrimaryKey;
 
 /**
- * mssql table
+ * final Db2 Primary key class
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class MssqlTable extends Table {
+public class Db2PrimaryKey extends PrimaryKey {
 
     /**
-     * Constructor for MssqlTable
-     */
-    public MssqlTable() {
-        super();
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.Table#toPrimaryKeyDDL()
+     * @see org.castor.ddl.schemaobject.PrimaryKey#toCreateDdl()
      * {@inheritDoc}
-     * ALTER TABLE employee
-     *  ADD CONSTRAINT pk_employee
-     *  PRIMARY KEY (EmployeeId)
      */
-    public String toPrimaryKeyDDL() {
-        boolean isHasPK = false;
+    public String toCreateDdl() {
+        if (getPrimaryKeyColumnCount() <= 0) { return ""; }
+        
         StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
         buff.append(getConf().getLineSeparator());
 
-        buff.append("ALTER TABLE ").append(getName());
+        buff.append("ALTER TABLE ").append(getTable().getName());
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
-        buff.append("ADD CONSTRAINT pk_").append(getName());
+        buff.append("ADD CONSTRAINT ").append(getName());
         buff.append(getConf().getLineSeparator()).append(
                 getConf().getLineIndent());
         buff.append("PRIMARY KEY (");
 
         boolean isFirstField = true;
-        for (Iterator i = getFields().iterator(); i.hasNext();) {
-            Field field = (Field) i.next();
-            if (field.isIdentity()) {
-                isHasPK = true;
+        for (Iterator i = getPrimaryKeyColumns().iterator(); i.hasNext();) {
+            String columnname = (String) i.next();
                 if (!isFirstField) {
                     buff.append(getConf().getSqlFieldDelimeter());
                     buff.append(" ");
                 }
                 isFirstField = false;
-                buff.append(field.getName());
-            }
+                buff.append(columnname);
         }
         buff.append(")").append(getConf().getSqlStatDelimeter());
 
-        //have no primary key
-        if (!isHasPK) {
-            return "";
-        }
         return buff.toString();
     }
 

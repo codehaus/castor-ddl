@@ -17,12 +17,11 @@
 package org.castor.ddl.engine.pointbase;
 
 import org.castor.ddl.schemaobject.Field;
+import org.castor.ddl.schemaobject.PrimaryKey;
 import org.castor.ddl.schemaobject.SchemaFactory;
-import org.castor.ddl.schemaobject.Table;
 
 /**
- * 
- * <br/>Created on Jul 10, 2006 - 11:52:04 AM
+ * PointBase Schema Factory.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
@@ -44,11 +43,11 @@ public class PointBaseSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createTable()
+     * @see org.castor.ddl.schemaobject.SchemaFactory#createPrimaryKey()
      * {@inheritDoc}
      */
-    public Table createTable() {
-        return new PointBaseTable();
+    public PrimaryKey createPrimaryKey() {
+        return new PointBasePrimaryKey();
     }
 
 }

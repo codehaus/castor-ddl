@@ -121,4 +121,12 @@ public class SchemaFactory {
                 + "name = '" + name + "'");
     }
 
+    /**
+     * create primary key 
+     * @return primary key
+     */
+    public PrimaryKey createPrimaryKey() {
+        return new PrimaryKey();
+    }
+
 }

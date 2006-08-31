@@ -25,7 +25,6 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
  * SapdbSequenceKey
- * <br/>Created on Jul 11, 2006 - 2:37:37 PM
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 

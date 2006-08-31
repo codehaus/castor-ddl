@@ -21,9 +21,7 @@ import org.castor.ddl.Configuration;
 import org.castor.ddl.schemaobject.Schema;
 
 /**
- * 
- * <br/>Created on Jul 5, 2006 - 2:21:46 PM
- * 
+ * My SQL Schema
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
