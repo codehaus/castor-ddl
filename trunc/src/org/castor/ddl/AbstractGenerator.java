@@ -305,15 +305,15 @@ public abstract class AbstractGenerator implements Generator {
      *             generator exception
      */
     private void generateDDL() throws GeneratorException {
-        String groupBy = _configuration.getStringValue(Configuration.GROUP_DDL_BY_KEY,
-                Configuration.GROUP_DDL_BY_TABLE);
-        if (Configuration.GROUP_DDL_BY_TABLE.equalsIgnoreCase(groupBy)) {
+        String groupBy = _configuration.getStringValue(
+                BaseConfiguration.GROUP_DDL_BY_KEY,
+                BaseConfiguration.GROUP_DDL_BY_TABLE);
+        if (BaseConfiguration.GROUP_DDL_BY_TABLE.equalsIgnoreCase(groupBy)) {
             generateDDLGroupByTable();
-        } else if (Configuration.GROUP_DDL_BY_DDLTYPE.equalsIgnoreCase(groupBy)) {
+        } else if (BaseConfiguration.GROUP_DDL_BY_DDLTYPE.equalsIgnoreCase(groupBy)) {
             generateDDLGroupByDDLType();
         } else {
-            throw new GeneratorException("group ddl by do not support: "
-                    + groupBy);
+            throw new GeneratorException("group ddl by do not support: " + groupBy);
         }
     }
 
@@ -326,19 +326,19 @@ public abstract class AbstractGenerator implements Generator {
      */
     private void generateDDLGroupByDDLType() throws GeneratorException {
         boolean genSchema = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
         boolean genDrop = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_DROP_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_DROP_KEY, true);
         boolean genCreate = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_CREATE_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_CREATE_KEY, true);
         boolean genPrimaryKey = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
         boolean genForeignKey = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
         boolean genIndex = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_INDEX_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_INDEX_KEY, true);
         boolean genKeyGen = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
         write(generateHeader());
         
@@ -386,19 +386,19 @@ public abstract class AbstractGenerator implements Generator {
         Vector tables = _schema.getTables();
 
         boolean genSchema = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true);
         boolean genDrop = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_DROP_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_DROP_KEY, true);
         boolean genCreate = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_CREATE_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_CREATE_KEY, true);
         boolean genPrimaryKey = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_PRIMARYKEY_KEY, true);
         boolean genForeignKey = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_FOREIRNKEY_KEY, true);
         boolean genIndex = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_INDEX_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_INDEX_KEY, true);
         boolean genKeyGen = _configuration.getBoolValue(
-                Configuration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
+                BaseConfiguration.GENERATE_DDL_FOR_KEYGENERATOR_KEY, true);
 
         write(generateHeader());
         
@@ -557,10 +557,8 @@ public abstract class AbstractGenerator implements Generator {
      * </pre>
      * 
      * @return foreign key creation ddl
-     * @throws GeneratorException
-     *             generator exception
      */
-    public String generateForeignKey() throws GeneratorException {
+    public final String generateForeignKey() {
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
@@ -984,77 +982,70 @@ public abstract class AbstractGenerator implements Generator {
         return false;
     }
 
-    /**
-     * add many-many foreign key into a table
-     * @param fm
-     *            Field Mapping
-     * @param table
-     *            parent table
-     * @throws GeneratorException
-     *             generator exception
-     */
-    private void addManyManyForeignKey(final Table table,
-            final FieldMapping fm) throws GeneratorException {
-        ForeignKey fk = _schemaFactory.createForeignKey();
-        fk.setConf(_configuration);
-        String s;
+//    /**
+//     * add many-many foreign key into a table
+//     * @param fm Field Mapping
+//     * @param table parent table
+//     * @throws GeneratorException generator exception
+//     */
+//    private void addManyManyForeignKey(final Table table,
+//            final FieldMapping fm) throws GeneratorException {
+//        ForeignKey fk = _schemaFactory.createForeignKey();
+//        fk.setConf(_configuration);
+//        String s;
+//
+//        fk.setTable(table);
+//        s = table + "_" + fm.getName();
+//        fk.setConstraintName(s);
+//        fk.setFkName(s);
+//        fk.setFkkeyList(fm.getSql().getName());
+//
+//        ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
+//
+//        if (cm == null) {
+//            throw new GeneratorException("can not find class " + fm.getType());
+//        }
+//
+//        fk.setReferenceTableName(cm.getMapTo().getTable());
+//        fk.setReferenceKeyList(_mappingHelper.getClassMappingSqlIdentity(cm, true));
+//
+//        fk.setRelationshipType(ForeignKey.MANY_MANY);
+//
+//        table.addForeignKey(fk);
+//    }
 
-        fk.setTable(table);
-        s = table + "_" + fm.getName();
-        fk.setConstraintName(s);
-        fk.setFkName(s);
-        fk.setFkkeyList(fm.getSql().getName());
-
-        ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
-
-        if (cm == null) {
-            throw new GeneratorException("can not find class " + fm.getType());
-        }
-
-        fk.setReferenceTableName(cm.getMapTo().getTable());
-        fk.setReferenceKeyList(_mappingHelper.getClassMappingSqlIdentity(cm, true));
-
-        fk.setRelationshipType(ForeignKey.MANY_MANY);
-
-        table.addForeignKey(fk);
-    }
-
-    /**
-     * add 1-many foreign key into a table
-     * @param fm
-     *            field mapping
-     * @param table
-     *            table
-     * @param tableName
-     *            table name
-     * @throws GeneratorException
-     *             generator exception
-     */
-    private void addOneManyForeignKey(final Table table,
-            final FieldMapping fm, final String tableName)
-            throws GeneratorException {
-        ForeignKey fk = _schemaFactory.createForeignKey();
-        fk.setConf(_configuration);
-        String s;
-
-        ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
-
-        if (cm == null) {
-            throw new GeneratorException("can not find class " + fm.getType());
-        }
-        
-        fk.setTable(table);
-        s = cm.getMapTo().getTable() + "_" + fm.getName();
-        fk.setConstraintName(s);
-        fk.setFkName(s);
-        fk.setFkkeyList(_mappingHelper.getClassMappingSqlIdentity(cm, true));
-
-        fk.setReferenceTableName(tableName);
-        fk.setReferenceKeyList(fm.getSql().getManyKey());
-
-        fk.setRelationshipType(ForeignKey.ONE_MANY);
-        table.addForeignKey(fk);
-    }
+//    /**
+//     * add 1-many foreign key into a table
+//     * @param fm field mapping
+//     * @param table table
+//     * @param tableName table name
+//     * @throws GeneratorException generator exception
+//     */
+//    private void addOneManyForeignKey(final Table table,
+//            final FieldMapping fm, final String tableName)
+//            throws GeneratorException {
+//        ForeignKey fk = _schemaFactory.createForeignKey();
+//        fk.setConf(_configuration);
+//        String s;
+//
+//        ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
+//
+//        if (cm == null) {
+//            throw new GeneratorException("can not find class " + fm.getType());
+//        }
+//        
+//        fk.setTable(table);
+//        s = cm.getMapTo().getTable() + "_" + fm.getName();
+//        fk.setConstraintName(s);
+//        fk.setFkName(s);
+//        fk.setFkkeyList(_mappingHelper.getClassMappingSqlIdentity(cm, true));
+//
+//        fk.setReferenceTableName(tableName);
+//        fk.setReferenceKeyList(fm.getSql().getManyKey());
+//
+//        fk.setRelationshipType(ForeignKey.ONE_MANY);
+//        table.addForeignKey(fk);
+//    }
 
     /**
      * add 1-1 foreign key into a table
@@ -1104,10 +1095,8 @@ public abstract class AbstractGenerator implements Generator {
      * @param fm
      *            field mapping
      * @param cm class mapping
-     * @throws GeneratorException exception
      */
-    private void addResolveField(final FieldMapping fm, final ClassMapping cm) 
-        throws GeneratorException {
+    private void addResolveField(final FieldMapping fm, final ClassMapping cm) {
         String keyGen = cm.getKeyGenerator();
         ClassMapping resolveCm = null;
         
@@ -1197,10 +1186,10 @@ public abstract class AbstractGenerator implements Generator {
      * @return format string base on Configuration._ddlFormatCase
      */
     private String format(final String s) {
-        if (_configuration.getDdlFormatCase() == Configuration.DDL_FORMAT_LOWERCASE) {
+        if (_configuration.getDdlFormatCase() == BaseConfiguration.DDL_FORMAT_LOWERCASE) {
             return s.toLowerCase();
         }
-        if (_configuration.getDdlFormatCase() == Configuration.DDL_FORMAT_UPPERCASE) {
+        if (_configuration.getDdlFormatCase() == BaseConfiguration.DDL_FORMAT_UPPERCASE) {
             return s.toUpperCase();
         }
         return s;

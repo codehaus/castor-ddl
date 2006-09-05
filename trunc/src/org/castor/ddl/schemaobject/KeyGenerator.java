@@ -18,7 +18,6 @@ package org.castor.ddl.schemaobject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 
 /**
@@ -92,9 +91,8 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
 
     /**
      * @param keyGenerator key-gen
-     * @exception GeneratorException throw an exception of key-gens cannot be merged.
      */
-    public final void merge(final KeyGenerator keyGenerator) throws GeneratorException {
+    public final void merge(final KeyGenerator keyGenerator) {
         String hashkey = getHashKey();
         if (keyGenerator == null || hashkey == null 
                 || !hashkey.equalsIgnoreCase(keyGenerator.getHashKey())) {

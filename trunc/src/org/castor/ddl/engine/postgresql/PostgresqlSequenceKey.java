@@ -18,7 +18,7 @@ package org.castor.ddl.engine.postgresql;
 
 import java.text.MessageFormat;
 
-import org.castor.ddl.Configuration;
+import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.keygenerator.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
@@ -47,7 +47,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class PostgresqlSequenceKey extends SequenceKey {
+public final class PostgresqlSequenceKey extends SequenceKey {
 
     /**
      * Constructor for PostgresqlSequenceKey 
@@ -125,8 +125,8 @@ public class PostgresqlSequenceKey extends SequenceKey {
 //                functionName = "FUN" + sequenceName;
 //            }
 
-            String triggerTemp = getConf().getStringValue(Configuration.TRIGGER_TEMPLATE, 
-            "");
+            String triggerTemp = getConf().getStringValue(
+                    BaseConfiguration.TRIGGER_TEMPLATE, "");
     
             triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
             triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);

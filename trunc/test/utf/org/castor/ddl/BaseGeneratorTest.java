@@ -22,6 +22,7 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.castor.ddl.AbstractGenerator;
+import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.Configuration;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.engine.mysql.MysqlTypeMapper;
@@ -1073,7 +1074,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             _generator.setTypeMapper(typeMapper);
 
             String schema = "test";
-            conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
+            conf.setProperty(BaseConfiguration.SCHEMA_NAME_KEY, schema);
 
             String ddl = _generator.getSchema().toDDL();
             boolean b = _expectedDDL.match(_engine, 0, ddl,
@@ -1082,7 +1083,7 @@ public abstract class BaseGeneratorTest extends TestCase {
                     + _expectedDDL.getMessage(), b);
 
             schema = "";
-            conf.setProperty(Configuration.SCHEMA_NAME_KEY, schema);
+            conf.setProperty(BaseConfiguration.SCHEMA_NAME_KEY, schema);
             ddl = _generator.getSchema().toDDL();
             b = _expectedDDL.match(_engine, 1, ddl, new String[] {});
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"

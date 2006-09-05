@@ -18,7 +18,7 @@ package org.castor.ddl.engine.db2;
 
 import java.text.MessageFormat;
 
-import org.castor.ddl.Configuration;
+import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.keygenerator.SequenceKey;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
@@ -48,7 +48,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class Db2SequenceKey extends SequenceKey {
+public final class Db2SequenceKey extends SequenceKey {
 
     /**
      * Constructor for Db2SequenceKey
@@ -89,8 +89,8 @@ public class Db2SequenceKey extends SequenceKey {
                 triggerName = "TRG" + sequenceName;
             }
 
-            String triggerTemp = getConf().getStringValue(Configuration.TRIGGER_TEMPLATE, 
-            "");
+            String triggerTemp = getConf().getStringValue(
+                    BaseConfiguration.TRIGGER_TEMPLATE, "");
     
             triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
             triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);

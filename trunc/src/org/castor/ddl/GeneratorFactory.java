@@ -13,32 +13,25 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.castor.ddl;
-
 
 /**
  * This class handles the creation for various databse generators 
  * 
- * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
+ * @author <a href="mailto:leducbao AT gmail DOT com">Le Duc Bao</a>
+ * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-
 public final class GeneratorFactory {
     /**
-     * Constructor for GeneratorFactory 
-     */
-    private GeneratorFactory() { }
-
-    /**
-     * create the DDL Generator for specific engine with the configurations if
-     * the globalConf already defines specific db _conf, pass null for
-     * specificConf
+     * Create DDL Generator for specified database engine with given global and specific
+     * configurations.
      * 
-     * @param engine db engine
-     * @param globalConf global configuration file
-     * @param specificConf db configuration file
-     * @return DDL generator ddl generator
-     * @throws GeneratorException generator error
+     * @param engine Database engine.
+     * @param globalConf Global configuration file.
+     * @param specificConf Specific configuration file for database engine.
+     * @return DDL generator for database engine.
+     * @throws GeneratorException If database engine has not been specified or no
+     *         generator is available for the database engine.
      */
     public static Generator createDDLGenerator(final String engine,
             final String globalConf, final String specificConf)
@@ -66,4 +59,9 @@ public final class GeneratorFactory {
         
         return gen;
     }
+
+    /**
+     * Hide constructor of utility class. 
+     */
+    private GeneratorFactory() { }
 }

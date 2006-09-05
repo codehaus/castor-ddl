@@ -120,7 +120,8 @@ public final class PointBaseGeneratorTest extends BaseGeneratorTest {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        setDbConf(PointBaseGeneratorTest.class.getResource("pointbase.properties").getFile());
+        Class cls = PointBaseGeneratorTest.class;
+        setDbConf(cls.getResource("pointbase.properties").getFile());
 
         Configuration conf = new Configuration();
         conf.addProperties(getGlobalConf());

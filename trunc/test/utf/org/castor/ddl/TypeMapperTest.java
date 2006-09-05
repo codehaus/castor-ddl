@@ -18,8 +18,6 @@ package utf.org.castor.ddl;
 
 import junit.framework.TestCase;
 
-import org.castor.ddl.TypeMapper;
-
 /**
  * Test Type mapping
  * <br/>Created on Jul 3, 2006 - 10:46:05 AM
@@ -27,10 +25,6 @@ import org.castor.ddl.TypeMapper;
  */
 
 public class TypeMapperTest extends TestCase {
-
-    /**type mapper*/
-    TypeMapper _mapper = null;
-    
     /**
      * @see TestCase#setUp()
      * {@inheritDoc}
@@ -41,10 +35,6 @@ public class TypeMapperTest extends TestCase {
 
     /**
      * test
-     *
      */
-    public void testBitMapping() {
-        
-    }
-    
+    public void testBitMapping() { }
 }

@@ -29,7 +29,6 @@ import org.castor.ddl.Main;
 public final class CTF {
 
     /**castor home*/
-//    public static final String CASTOR_HOME = new File("").getAbsolutePath();
     public static final String CASTOR_HOME = new File("").getAbsolutePath();
         
     /**
@@ -47,8 +46,6 @@ public final class CTF {
                 "hsql", "mssql", "pointbase", "sapdb", "sybase"};
    
         String[] params = new String[10];
-
-//Usage: -m mapping.xml [-c ddl.properties] [-d mysql.properties] [-e MySQL] [-o output.sql] [-h ]
 
         for (int i = 0; i < dbs.length; i++) {
             params[0] = "-m";

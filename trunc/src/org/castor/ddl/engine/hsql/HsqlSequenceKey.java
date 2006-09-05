@@ -18,7 +18,7 @@ package org.castor.ddl.engine.hsql;
 
 import java.text.MessageFormat;
 
-import org.castor.ddl.Configuration;
+import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGenNotSupportException;
 import org.castor.ddl.keygenerator.SequenceKey;
@@ -49,7 +49,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class HsqlSequenceKey extends SequenceKey {
+public final class HsqlSequenceKey extends SequenceKey {
 
     /**
      * Constructor for HsqlSequenceKey
@@ -89,8 +89,8 @@ public class HsqlSequenceKey extends SequenceKey {
                 triggerName = "TRG" + sequenceName;
             }
 
-            String triggerTemp = getConf().getStringValue(Configuration.TRIGGER_TEMPLATE, 
-            "");
+            String triggerTemp = getConf().getStringValue(
+                    BaseConfiguration.TRIGGER_TEMPLATE, "");
     
             triggerTemp = triggerTemp.replaceAll("<trigger_name>", triggerName);
             triggerTemp = triggerTemp.replaceAll("<sequence_name>", sequenceName);
