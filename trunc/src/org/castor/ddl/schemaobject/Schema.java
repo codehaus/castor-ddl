@@ -164,13 +164,6 @@ public class Schema extends AbstractSchemaObject {
      */
 
     public String toDDL() {
-//        String schema = getConf().getStringValue(BaseConfiguration.SCHEMA_NAME_KEY,
-//                "");
-//        if (schema == null || "".equals(schema)) {
-//            return "";
-//        }
-//
-//        return "CREATE SCHEMA " + schema + ";";
         return "";
     }
 }

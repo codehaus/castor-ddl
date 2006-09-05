@@ -1134,12 +1134,6 @@ public abstract class AbstractGenerator implements Generator {
         }
         sql.setName(sqlname);
         resolveFm.setSql(sql);
-        
-//        sqlname = fm.getSql().getName();
-//        if (sqlname != null && sqlname.length != 0) {
-//            LOG.warn("ignore columns for field '" + fm.getName() + "' of class '" 
-//                    + cm.getName() + "'");
-//        }
     }
 
     /**
@@ -1148,7 +1142,7 @@ public abstract class AbstractGenerator implements Generator {
      *            table
      * @return foreignkey creation ddl
      */
-    protected String createForeignKeyDDL(final Table table) {
+    protected final String createForeignKeyDDL(final Table table) {
         StringBuffer buff = new StringBuffer();
 
         for (Iterator i = table.getForeignKey().iterator(); i.hasNext();) {
@@ -1165,17 +1159,8 @@ public abstract class AbstractGenerator implements Generator {
      *            table
      * @return index creation ddl
      */
-    protected String createIndexDDL(final Table table) {
+    protected final String createIndexDDL(final Table table) {
         return table.toIndexDDL();
-//
-//        StringBuffer buff = new StringBuffer();
-//
-//        for (Iterator i = table.getIndexes().iterator(); i.hasNext();) {
-//            Index index = (Index) i.next();
-//            buff.append(index.toDDL());
-//        }
-//
-//        return buff.toString();
     }
 
     /**

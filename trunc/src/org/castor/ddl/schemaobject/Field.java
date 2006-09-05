@@ -259,7 +259,7 @@ public class Field extends AbstractSchemaObject {
      * @see java.lang.Object#hashCode()
      * {@inheritDoc}
      */
-    public int hashCode() {
+    public final int hashCode() {
         return super.hashCode();
     }
     

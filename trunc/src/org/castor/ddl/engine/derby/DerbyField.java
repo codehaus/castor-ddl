@@ -24,16 +24,13 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * Derby Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class DerbyField extends Field {
-
+public final class DerbyField extends Field {
     /**
      * Constructor for DerbyField
      */
     public DerbyField() {
         super();
     }
-//    
 
     /**
      * @see org.castor.ddl.schemaobject.Field#toDDL()
@@ -58,5 +55,4 @@ public class DerbyField extends Field {
         
         return buff.toString();
     }
-    
 }

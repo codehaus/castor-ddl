@@ -24,9 +24,7 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * Postgre Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class PostgresqlField extends Field {
-
+public final class PostgresqlField extends Field {
     /**
      * Constructor for PostgresqlField
      */
@@ -60,5 +58,4 @@ public class PostgresqlField extends Field {
         
         return buff.toString();
     }
-
 }

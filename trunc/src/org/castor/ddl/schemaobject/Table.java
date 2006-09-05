@@ -253,7 +253,7 @@ public class Table extends AbstractSchemaObject {
      * 
      * @return pre-create table
      */
-    protected String preCreateTable() {
+    protected final String preCreateTable() {
         return "CREATE TABLE " + _name + " (";
     }
 
@@ -284,7 +284,7 @@ public class Table extends AbstractSchemaObject {
      * @return create creation ddl
      * @throws GeneratorException generator error
      */
-    public String toCreateDDL() throws GeneratorException {
+    public final String toCreateDDL() throws GeneratorException {
         StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
         buff.append(getConf().getLineSeparator());
         
@@ -324,7 +324,7 @@ public class Table extends AbstractSchemaObject {
      * create unique index tc1x_pks_add_pk on tc1x_pks_address( id );
      * @return DDL script for creating index for primary key
      */
-    public String toIndexDDL() {
+    public final String toIndexDDL() {
 //        boolean isHasPK = false;
 //        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
 //        buff.append(getConf().getLineSeparator());
@@ -367,7 +367,7 @@ public class Table extends AbstractSchemaObject {
      * @return DDL script for creating primary key
      * @throws KeyGenNotSupportException exception
      */
-    public String toKeyGeneratorDDL() throws KeyGenNotSupportException {
+    public final String toKeyGeneratorDDL() throws KeyGenNotSupportException {
         if (_keyGenerator == null) {
             return "";
         }

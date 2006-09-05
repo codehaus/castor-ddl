@@ -24,9 +24,7 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * Hsql Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class HsqlField extends Field {
-
+public final class HsqlField extends Field {
     /**
      * Constructor for HsqlField
      */
@@ -56,5 +54,4 @@ public class HsqlField extends Field {
         
         return buff.toString();
     }
-
 }

@@ -26,9 +26,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class OracleSchemaFactory extends SchemaFactory {
-
+public final class OracleSchemaFactory extends SchemaFactory {
     /**
      * Constructor for OracleSchemaFactory
      */
@@ -51,5 +49,4 @@ public class OracleSchemaFactory extends SchemaFactory {
 
         return super.createKeyGenerator(kg);
     }
-
 }

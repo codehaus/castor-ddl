@@ -23,9 +23,7 @@ import org.castor.ddl.schemaobject.SchemaFactory;
  * Derby Schema Factory
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class DerbySchemaFactory extends SchemaFactory {
-
+public final class DerbySchemaFactory extends SchemaFactory {
     /**
      * Constructor for DerbySchemaFactory
      */

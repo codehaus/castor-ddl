@@ -19,19 +19,13 @@ package org.castor.ddl.schemaobject;
 import java.util.Iterator;
 import java.util.Vector;
 
-
-
 /**
  * Primary key encapsulates information for create a primary key for
  * a table
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public class PrimaryKey extends AbstractSchemaObject {
-    
     //--------------------------------------------------------------------------
-    /**logging */
-//    private static final Log LOG = LogFactory.getLog(ForeignKey.class);
 
     /** table */
     private Table _table = null;
@@ -123,6 +117,7 @@ public class PrimaryKey extends AbstractSchemaObject {
     }
 
     //--------------------------------------------------------------------------
+
     /**
      * @return return a string represents for create primary key a primary key ddl
      */

@@ -128,5 +128,4 @@ public class SchemaFactory {
     public PrimaryKey createPrimaryKey() {
         return new PrimaryKey();
     }
-
 }

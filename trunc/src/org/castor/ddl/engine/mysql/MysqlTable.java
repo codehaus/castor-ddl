@@ -22,9 +22,7 @@ import org.castor.ddl.schemaobject.Table;
  * MySQL Table.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class MysqlTable extends Table {
-
+public final class MysqlTable extends Table {
     /**
      * Constructor for MysqlTable
      */
@@ -65,5 +63,4 @@ public class MysqlTable extends Table {
 
         return buff.toString();
     }
-
 }

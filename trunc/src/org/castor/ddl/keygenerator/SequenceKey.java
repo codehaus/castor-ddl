@@ -28,7 +28,6 @@ import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.Param;
 
-
 /** 
  *SEQUENCE key generator can be used only with Oracle, PostgreSQL, Interbase and 
  *SAP DB. It generates keys using sequences.
@@ -42,13 +41,12 @@ import org.exolab.castor.mapping.xml.Param;
  *
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public class SequenceKey extends KeyGenerator {
     /**LOGGING*/
     private static final Log LOG = LogFactory.getLog(SequenceKey.class);
     
     /** sequence name*/
-    public String _name;
+    private String _name;
     
     /** The name of the sequence, Optional, default="{0}_seq"*/
     private String _sequence = "{0}_seq";
@@ -71,7 +69,6 @@ public class SequenceKey extends KeyGenerator {
     /**handle to table which use this SequenceKey*/
     private Table _table = null;
     
-
     /**
      * Constructor for SequenceKey
      * @param keyGenDef key generator def
@@ -118,7 +115,6 @@ public class SequenceKey extends KeyGenerator {
         return _alias;
     }
 
-
     /**
      * Set the alias by _alias.
      * @param alias  alias
@@ -135,7 +131,6 @@ public class SequenceKey extends KeyGenerator {
         return _increment;
     }
 
-
     /**
      * Set the increment by _increment.
      * @param increment increment 
@@ -143,7 +138,6 @@ public class SequenceKey extends KeyGenerator {
     public final void setIncrement(final int increment) {
         _increment = increment;
     }
-
 
     /**
      * 
@@ -153,7 +147,6 @@ public class SequenceKey extends KeyGenerator {
         return _isReturning;
     }
 
-
     /**
      * Set the isReturning by _isReturning.
      * @param isReturning  returning
@@ -161,7 +154,6 @@ public class SequenceKey extends KeyGenerator {
     public final void setReturning(final boolean isReturning) {
         _isReturning = isReturning;
     }
-
 
     /**
      * 
@@ -171,7 +163,6 @@ public class SequenceKey extends KeyGenerator {
         return _isTrigger;
     }
 
-
     /**
      * Set the isTrigger by _isTrigger.
      * @param isTrigger trigger
@@ -179,7 +170,6 @@ public class SequenceKey extends KeyGenerator {
     public final void setTrigger(final boolean isTrigger) {
         _isTrigger = isTrigger;
     }
-
 
     /**
      * 
@@ -189,7 +179,6 @@ public class SequenceKey extends KeyGenerator {
         return _sequence;
     }
 
-
     /**
      * Set the sequence by _sequence.
      * @param sequence sequence
@@ -198,12 +187,11 @@ public class SequenceKey extends KeyGenerator {
         _sequence = sequence;
     }
 
-
     /**
      * @see org.castor.ddl.schemaobject.KeyGenerator#getHashKey()
      * {@inheritDoc}
      */
-    public String getHashKey() {
+    public final String getHashKey() {
         if (_alias == null) {
             return _name;
         }
@@ -251,8 +239,6 @@ public class SequenceKey extends KeyGenerator {
      */
     public String toDDL() throws KeyGenNotSupportException {
         LOG.warn("Not support SEQUENCE key-gen for this database");
-//        throw new KeyGenNotSupportException("Not support SEQUENCE key-gen for " 
-//                + "this database");
         return "";
     }
     
@@ -309,5 +295,4 @@ public class SequenceKey extends KeyGenerator {
         }
         return buff.toString();
     }
-    
 }

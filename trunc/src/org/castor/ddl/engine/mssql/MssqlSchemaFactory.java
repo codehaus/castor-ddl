@@ -24,10 +24,7 @@ import org.castor.ddl.schemaobject.SchemaFactory;
  * Microsoft SQL server schema factory
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class MssqlSchemaFactory extends SchemaFactory {
-
-
+public final class MssqlSchemaFactory extends SchemaFactory {
     /**
      * Constructor for MssqlSchemaFactory
      */
@@ -50,5 +47,4 @@ public class MssqlSchemaFactory extends SchemaFactory {
     public PrimaryKey createPrimaryKey() {
         return new MssqlPrimaryKey();
     }
-    
 }

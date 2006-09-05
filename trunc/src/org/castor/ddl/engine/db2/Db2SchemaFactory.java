@@ -27,17 +27,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * Db2SchemaFactory handles to create schema obhect for DB2
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class Db2SchemaFactory extends SchemaFactory {
-
-//    /**
-//     * @see org.castor.ddl.schemaobject.SchemaFactory#createTable()
-//     * {@inheritDoc}
-//     */
-//    public Table createTable() {
-//        return new Db2Table();
-//    }
-
+public final class Db2SchemaFactory extends SchemaFactory {
     /**
      * Constructor for Db2SchemaFactory
      */

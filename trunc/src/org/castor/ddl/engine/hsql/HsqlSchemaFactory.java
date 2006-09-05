@@ -28,9 +28,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * Hsql Schema Factory.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class HsqlSchemaFactory extends SchemaFactory {
-
+public final class HsqlSchemaFactory extends SchemaFactory {
     /**
      * Constructor for HsqlSchemaFactory
      */
@@ -77,5 +75,4 @@ public class HsqlSchemaFactory extends SchemaFactory {
     public PrimaryKey createPrimaryKey() {
         return new HsqlPrimaryKey();
     }
-
 }

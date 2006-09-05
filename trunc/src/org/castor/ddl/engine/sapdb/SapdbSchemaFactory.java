@@ -26,8 +26,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class SapdbSchemaFactory extends SchemaFactory {
-
+public final class SapdbSchemaFactory extends SchemaFactory {
     /**
      * Constructor for SapdbSchemaFactory 
      */
@@ -50,5 +49,4 @@ public class SapdbSchemaFactory extends SchemaFactory {
 
         return super.createKeyGenerator(kg);
     }
-
 }

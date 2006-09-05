@@ -27,10 +27,7 @@ import org.castor.ddl.Configuration;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class Ddl {
-    /**logging*/
-//    private static final Log LOG = LogFactory.getLog(Ddl.class);
-
+public final class Ddl {
     /** matching type, regular expression*/
     public static final String MATCHTYPE_REGEXP = "regexp";
 
@@ -65,7 +62,6 @@ public class Ddl {
         super();
     }
     
-    
     /**
      * 
      * Constructor for Ddl
@@ -79,7 +75,6 @@ public class Ddl {
         _matchtype = matchtype;
         _casesensitive = casesensitive;
     }
-
 
     /**
      * @param actualResult actual result
@@ -175,8 +170,6 @@ public class Ddl {
             _ddl = "";
         }
 
-//        LOG.info("actual result: " + actualResult);
-//        System.out.println("actual result: " + actualResult);
         String expDDL = _ddl;
         String actual = actualResult;
         if (!_casesensitive) {
@@ -187,12 +180,10 @@ public class Ddl {
         actual = actual.replaceAll(_conf.getLineSeparator(), " ");
         actual = actual.replaceAll(_conf.getLineIndent(), " ");
         actual = actual.replaceAll("[ \t]+", " ");
-//        LOG.info("actual result converted: " + actual);
         System.out.println("\nactual result converted: " + actual);
         
         expDDL = expDDL.replaceAll(_conf.getLineSeparator(), " ");
         expDDL = expDDL.replaceAll("[ \t]+", " ");
-//        LOG.info("expected result: " + expDDL);
         System.out.println("expected result: " + expDDL);
         return actual.matches(expDDL);
     }
@@ -222,7 +213,7 @@ public class Ddl {
      * 
      * @return Returns the conf.
      */
-    public final Configuration getConf() {
+    public Configuration getConf() {
         return _conf;
     }
 
@@ -231,7 +222,7 @@ public class Ddl {
      * Set the conf by _conf.
      * @param conf configuration
      */
-    public final void setConf(final Configuration conf) {
+    public void setConf(final Configuration conf) {
         _conf = conf;
     }
 
@@ -240,7 +231,7 @@ public class Ddl {
      * 
      * @return Returns the casesensitive.
      */
-    public final boolean isCasesensitive() {
+    public boolean isCasesensitive() {
         return _casesensitive;
     }
 
@@ -249,7 +240,7 @@ public class Ddl {
      * Set the casesensitive by _casesensitive.
      * @param casesensitive case sensitive
      */
-    public final void setCasesensitive(final boolean casesensitive) {
+    public void setCasesensitive(final boolean casesensitive) {
         _casesensitive = casesensitive;
     }
 
@@ -258,7 +249,7 @@ public class Ddl {
      * 
      * @return Returns the ddl.
      */
-    public final java.lang.String getDdl() {
+    public String getDdl() {
         return _ddl;
     }
 
@@ -267,61 +258,55 @@ public class Ddl {
      * Set the ddl by _ddl.
      * @param ddl ddl 
      */
-    public final void setDdl(final String ddl) {
+    public void setDdl(final String ddl) {
         _ddl = ddl;
     }
-
 
     /**
      * 
      * @return Returns the engine.
      */
-    public final java.lang.String getEngine() {
+    public String getEngine() {
         return _engine;
     }
-
 
     /**
      * Set the engine by _engine.
      * @param engine engine
      */
-    public final void setEngine(final String engine) {
+    public void setEngine(final String engine) {
         _engine = engine;
     }
-
 
     /**
      * 
      * @return Returns the index.
      */
-    public final int getIndex() {
+    public int getIndex() {
         return _index;
     }
-
 
     /**
      * Set the index by _index.
      * @param index index
      */
-    public final void setIndex(final int index) {
+    public void setIndex(final int index) {
         _index = index;
     }
-
 
     /**
      * 
      * @return Returns the matchtype.
      */
-    public final String getMatchtype() {
+    public String getMatchtype() {
         return _matchtype;
     }
-
 
     /**
      * Set the matchtype by _matchtype.
      * @param matchtype match type
      */
-    public final void setMatchtype(final String matchtype) {
+    public void setMatchtype(final String matchtype) {
         _matchtype = matchtype;
     }        
 }

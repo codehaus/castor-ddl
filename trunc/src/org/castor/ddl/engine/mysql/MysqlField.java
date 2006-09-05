@@ -24,9 +24,7 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * MySql Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class MysqlField extends Field {
-
+public final class MysqlField extends Field {
     /**
      * Constructor for MysqlField
      */
@@ -56,5 +54,4 @@ public class MysqlField extends Field {
         
         return buff.toString();
     }
-
 }

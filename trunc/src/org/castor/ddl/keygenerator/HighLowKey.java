@@ -27,11 +27,9 @@ import org.exolab.castor.mapping.xml.Param;
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class HighLowKey extends KeyGenerator {
-
+public final class HighLowKey extends KeyGenerator {
     /** *name of key */
-    public String _name = "HIGH-LOW";
+    private String _name = "HIGH-LOW";
 
     /** alias */
     private String _alias;
@@ -130,7 +128,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @return Returns the alias.
      */
-    public final String getAlias() {
+    public String getAlias() {
         return _alias;
     }
 
@@ -139,7 +137,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @param alias alias
      */
-    public final void setAlias(final String alias) {
+    public void setAlias(final String alias) {
         _alias = alias;
     }
 
@@ -147,7 +145,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @return Returns the grabSize.
      */
-    public final int getGrabSize() {
+    public int getGrabSize() {
         return _grabSize;
     }
 
@@ -156,7 +154,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @param grabSize grab size
      */
-    public final void setGrabSize(final int grabSize) {
+    public void setGrabSize(final int grabSize) {
         _grabSize = grabSize;
     }
 
@@ -164,7 +162,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @return Returns the isGlobal.
      */
-    public final boolean isGlobal() {
+    public boolean isGlobal() {
         return _isGlobal;
     }
 
@@ -173,7 +171,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @param isGlobal is global
      */
-    public final void setGlobal(final boolean isGlobal) {
+    public void setGlobal(final boolean isGlobal) {
         _isGlobal = isGlobal;
     }
 
@@ -181,7 +179,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @return Returns the isSameConnection.
      */
-    public final boolean isSameConnection() {
+    public boolean isSameConnection() {
         return _isSameConnection;
     }
 
@@ -190,7 +188,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @param isSameConnection is same connection
      */
-    public final void setSameConnection(final boolean isSameConnection) {
+    public void setSameConnection(final boolean isSameConnection) {
         _isSameConnection = isSameConnection;
     }
 
@@ -198,7 +196,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @return Returns the keyColumn.
      */
-    public final String getKeyColumn() {
+    public String getKeyColumn() {
         return _keyColumn;
     }
 
@@ -207,7 +205,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @param keyColumn key column
      */
-    public final void setKeyColumn(final String keyColumn) {
+    public void setKeyColumn(final String keyColumn) {
         _keyColumn = keyColumn;
     }
 
@@ -215,7 +213,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @return Returns the table.
      */
-    public final String getTableName() {
+    public String getTableName() {
         return _tableName;
     }
 
@@ -224,7 +222,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @param table table
      */
-    public final void setTableName(final String table) {
+    public void setTableName(final String table) {
         _tableName = table;
     }
 
@@ -232,7 +230,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @return Returns the valueColumn.
      */
-    public final String getValueColumn() {
+    public String getValueColumn() {
         return _valueColumn;
     }
 
@@ -241,7 +239,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @param valueColumn value column
      */
-    public final void setValueColumn(final String valueColumn) {
+    public void setValueColumn(final String valueColumn) {
         _valueColumn = valueColumn;
     }
 
@@ -249,7 +247,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @return Returns the name.
      */
-    public final String getName() {
+    public String getName() {
         return _name;
     }
 
@@ -258,7 +256,7 @@ public class HighLowKey extends KeyGenerator {
      * 
      * @param name name
      */
-    public final void setName(final String name) {
+    public void setName(final String name) {
         _name = name;
     }
 
@@ -286,5 +284,4 @@ public class HighLowKey extends KeyGenerator {
     public Table getTable() {
         return null;
     }
-
 }

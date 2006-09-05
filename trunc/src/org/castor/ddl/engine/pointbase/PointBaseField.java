@@ -24,9 +24,7 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * PointBaseField
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class PointBaseField extends Field {
-
+public final class PointBaseField extends Field {
     /**
      * Constructor for PointBaseField
      */
@@ -56,5 +54,4 @@ public class PointBaseField extends Field {
         
         return buff.toString();
     }
-
 }

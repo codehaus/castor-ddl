@@ -24,9 +24,7 @@ import org.castor.ddl.schemaobject.SchemaFactory;
  * PointBase Schema Factory.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class PointBaseSchemaFactory extends SchemaFactory {
-
+public final class PointBaseSchemaFactory extends SchemaFactory {
     /**
      * Constructor for PointBaseSchemaFactory
      */
@@ -49,5 +47,4 @@ public class PointBaseSchemaFactory extends SchemaFactory {
     public PrimaryKey createPrimaryKey() {
         return new PointBasePrimaryKey();
     }
-
 }

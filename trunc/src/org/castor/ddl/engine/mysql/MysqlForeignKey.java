@@ -22,9 +22,7 @@ import org.castor.ddl.schemaobject.ForeignKey;
  * MySQL foreign key.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class MysqlForeignKey extends ForeignKey {
-
+public final class MysqlForeignKey extends ForeignKey {
     /**
      * Constructor for MysqlForeignKey
      */
@@ -78,5 +76,4 @@ public class MysqlForeignKey extends ForeignKey {
         buff.append(getConf().getSqlStatDelimeter());
         return buff.toString();
     }
-
 }

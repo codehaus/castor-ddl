@@ -27,8 +27,7 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class PostgresqlSchemaFactory extends SchemaFactory {
-
+public final class PostgresqlSchemaFactory extends SchemaFactory {
     /**
      * Constructor for MysqlSchemaFactory 
      */
@@ -59,5 +58,4 @@ public class PostgresqlSchemaFactory extends SchemaFactory {
 
         return super.createKeyGenerator(kg);
     }
-
 }

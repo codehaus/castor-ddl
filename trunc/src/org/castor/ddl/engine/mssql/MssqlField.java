@@ -24,9 +24,7 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * mssql field.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class MssqlField extends Field {
-
+public final class MssqlField extends Field {
     /**
      * Constructor for MssqlField
      */
@@ -56,5 +54,4 @@ public class MssqlField extends Field {
         
         return buff.toString();
     }
-
 }

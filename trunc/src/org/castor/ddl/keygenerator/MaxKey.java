@@ -24,10 +24,9 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * MaxKey is not used for DDL Generator
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class MaxKey extends KeyGenerator {
+public final class MaxKey extends KeyGenerator {
     /** sequence name*/
-    public String _name = "IDENTITY";
+    private String _name = "IDENTITY";
     
     /** alias*/
     private String _alias;
@@ -57,7 +56,7 @@ public class MaxKey extends KeyGenerator {
      * 
      * @return Returns the alias.
      */
-    public final String getAlias() {
+    public String getAlias() {
         return _alias;
     }
 
@@ -65,7 +64,7 @@ public class MaxKey extends KeyGenerator {
      * Set the alias by _alias.
      * @param alias alias
      */
-    public final void setAlias(final String alias) {
+    public void setAlias(final String alias) {
         _alias = alias;
     }
 
@@ -84,7 +83,7 @@ public class MaxKey extends KeyGenerator {
      * 
      * @return Returns the name.
      */
-    public final String getName() {
+    public String getName() {
         return _name;
     }
 
@@ -92,7 +91,7 @@ public class MaxKey extends KeyGenerator {
      * Set the name by _name.
      * @param name name
      */
-    public final void setName(final String name) {
+    public void setName(final String name) {
         _name = name;
     }
 
@@ -117,6 +116,5 @@ public class MaxKey extends KeyGenerator {
      * (org.castor.ddl.schemaobject.Table)
      * {@inheritDoc}
      */
-    public void setTable(final Table table) {
-    }    
+    public void setTable(final Table table) { }
 }

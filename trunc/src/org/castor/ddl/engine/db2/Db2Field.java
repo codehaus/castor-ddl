@@ -24,9 +24,7 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * Db2 Field
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class Db2Field extends Field {
-
+public final class Db2Field extends Field {
     /**
      * Constructor for Db2Field
      */
@@ -58,5 +56,4 @@ public class Db2Field extends Field {
 
         return buff.toString();
     }
-
 }

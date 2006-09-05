@@ -25,8 +25,7 @@ import org.castor.ddl.schemaobject.KeyGenerator;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class SybaseField extends Field {
-
+public final class SybaseField extends Field {
     /**
      * Constructor for SybaseField
      */
@@ -56,5 +55,4 @@ public class SybaseField extends Field {
         
         return buff.toString();
     }
-
 }

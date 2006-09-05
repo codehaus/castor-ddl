@@ -22,9 +22,7 @@ import org.castor.ddl.schemaobject.Table;
  * HSQL table.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class HsqlTable extends Table {
-
+public final class HsqlTable extends Table {
     /**
      * Constructor for HsqlTable
      */

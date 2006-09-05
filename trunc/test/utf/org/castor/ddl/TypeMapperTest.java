@@ -26,14 +26,6 @@ import junit.framework.TestCase;
 
 public class TypeMapperTest extends TestCase {
     /**
-     * @see TestCase#setUp()
-     * {@inheritDoc}
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /**
      * test
      */
     public void testBitMapping() { }

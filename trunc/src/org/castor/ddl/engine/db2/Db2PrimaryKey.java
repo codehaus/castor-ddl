@@ -24,9 +24,7 @@ import org.castor.ddl.schemaobject.PrimaryKey;
  * final Db2 Primary key class
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class Db2PrimaryKey extends PrimaryKey {
-
+public final class Db2PrimaryKey extends PrimaryKey {
     /**
      * @see org.castor.ddl.schemaobject.PrimaryKey#toCreateDdl()
      * {@inheritDoc}
@@ -59,5 +57,4 @@ public class Db2PrimaryKey extends PrimaryKey {
 
         return buff.toString();
     }
-
 }

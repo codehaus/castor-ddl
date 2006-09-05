@@ -26,9 +26,7 @@ import org.castor.ddl.schemaobject.Table;
  * MySQL schema Factory
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class MysqlSchemaFactory extends SchemaFactory {
-
+public final class MysqlSchemaFactory extends SchemaFactory {
     /**
      * Constructor for MysqlSchemaFactory
      */
@@ -67,5 +65,4 @@ public class MysqlSchemaFactory extends SchemaFactory {
     public Schema createSchema() {
         return new MysqlSchema();
     }
-
 }

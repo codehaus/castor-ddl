@@ -31,10 +31,9 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * <br/>This algorithm has no parameters.
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public class IdentityKey extends KeyGenerator {
+public final class IdentityKey extends KeyGenerator {
     /** sequence name*/
-    public String _name;
+    private String _name;
     
     /** alias*/
     private String _alias;
@@ -66,7 +65,7 @@ public class IdentityKey extends KeyGenerator {
      * 
      * @return Returns the alias.
      */
-    public final String getAlias() {
+    public String getAlias() {
         return _alias;
     }
 
@@ -74,7 +73,7 @@ public class IdentityKey extends KeyGenerator {
      * Set the alias by _alias.
      * @param alias alias
      */
-    public final void setAlias(final String alias) {
+    public void setAlias(final String alias) {
         _alias = alias;
     }
 
@@ -93,7 +92,7 @@ public class IdentityKey extends KeyGenerator {
      * 
      * @return Returns the name.
      */
-    public final String getName() {
+    public String getName() {
         return _name;
     }
 
@@ -101,7 +100,7 @@ public class IdentityKey extends KeyGenerator {
      * Set the name by _name.
      * @param name name
      */
-    public final void setName(final String name) {
+    public void setName(final String name) {
         _name = name;
     }
 
@@ -125,7 +124,5 @@ public class IdentityKey extends KeyGenerator {
      * (org.castor.ddl.schemaobject.Table)
      * {@inheritDoc}
      */
-    public void setTable(final Table table) {
-    }
-
+    public void setTable(final Table table) { }
 }

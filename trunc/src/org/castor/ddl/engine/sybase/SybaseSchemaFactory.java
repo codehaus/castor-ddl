@@ -24,8 +24,7 @@ import org.castor.ddl.schemaobject.SchemaFactory;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 
-public class SybaseSchemaFactory extends SchemaFactory {
-
+public final class SybaseSchemaFactory extends SchemaFactory {
     /**
      * Constructor for SybaseSchemaFactory
      */
@@ -40,5 +39,4 @@ public class SybaseSchemaFactory extends SchemaFactory {
     public Field createField() {
         return new SybaseField();
     }
-
 }

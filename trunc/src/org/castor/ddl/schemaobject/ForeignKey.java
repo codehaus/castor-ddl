@@ -218,7 +218,7 @@ public class ForeignKey extends AbstractSchemaObject  {
      * @param list  key list
      * @return  formated key list
      */
-    protected String makeListofParams(final String[] list) {
+    protected final String makeListofParams(final String[] list) {
         StringBuffer buff = new StringBuffer();
         boolean isFirstField = true;
         buff.append("(");
@@ -301,7 +301,7 @@ public class ForeignKey extends AbstractSchemaObject  {
      * @see java.lang.Object#equals(java.lang.Object)
      * {@inheritDoc}
      */
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (obj != null && obj instanceof ForeignKey) {
             ForeignKey f = (ForeignKey) obj;
             if (_fkName != null && _fkName.equalsIgnoreCase(f.getFkName())) {
@@ -315,7 +315,7 @@ public class ForeignKey extends AbstractSchemaObject  {
      * @see java.lang.Object#hashCode()
      * {@inheritDoc}
      */
-    public int hashCode() {
+    public final int hashCode() {
         return super.hashCode();
     }
 
