@@ -16,10 +16,7 @@
 
 package org.castor.ddl.engine.oracle;
 
-import org.castor.ddl.GeneratorException;
-import org.castor.ddl.schemaobject.KeyGenerator;
 import org.castor.ddl.schemaobject.SchemaFactory;
-import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
  * OracleSchemaFactory
@@ -32,21 +29,5 @@ public final class OracleSchemaFactory extends SchemaFactory {
      */
     public OracleSchemaFactory() {
         super();
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createKeyGenerator
-     * (org.exolab.castor.mapping.xml.KeyGeneratorDef)
-     * {@inheritDoc}
-     */
-    public KeyGenerator createKeyGenerator(final KeyGeneratorDef kg)
-            throws GeneratorException {
-        String name = kg.getName();
-
-        if (KeyGenerator.SEQUENCE_KEY.equalsIgnoreCase(name)) {
-            return new OracleSequenceKey(kg);
-        }
-
-        return super.createKeyGenerator(kg);
     }
 }

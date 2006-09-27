@@ -20,9 +20,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
-import org.castor.ddl.TypeMapper;
+import org.castor.ddl.KeyGeneratorRegistry;
 import org.castor.ddl.engine.sapdb.SapdbGenerator;
-import org.castor.ddl.engine.sapdb.SapdbTypeMapper;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
 import utf.org.castor.ddl.ExpectedResult;
@@ -103,7 +102,6 @@ public final class SapdbGeneratorTest extends BaseGeneratorTest {
         suite.addTest(new SapdbGeneratorTest("testCreateIndex", false));        
         
         // key generator test
-        suite.addTest(new SapdbGeneratorTest("testKeyGenIdentity", false));
         suite.addTest(new SapdbGeneratorTest("testKeyGenHighLow", false));
         suite.addTest(new SapdbGeneratorTest("testKeyGenMax", false));
         suite.addTest(new SapdbGeneratorTest("testKeyGenSequence", true));
@@ -126,6 +124,10 @@ public final class SapdbGeneratorTest extends BaseGeneratorTest {
         conf.addProperties(getGlobalConf());
         conf.addProperties(getDbConf());
         setGenerator(new SapdbGenerator(conf));
+
+        KeyGeneratorRegistry keyGenRegistry = new KeyGeneratorRegistry(conf);
+        getGenerator().setKeyGenRegistry(keyGenRegistry);
+        
         getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }
@@ -138,42 +140,4 @@ public final class SapdbGeneratorTest extends BaseGeneratorTest {
         super.tearDown();
         setGenerator(null);
     }
-
-    /**
-     * @see utf.org.castor.ddl.BaseGeneratorTest#testKeyGenIdentity()
-     * {@inheritDoc}
-     */
-    public void testKeyGenIdentity() {
-        try {
-            // load test data
-            loadData("key_gen_identity.xml", "key_gen_identity.exp.xml");
-
-            // setup
-            Configuration conf = getGenerator().getConfiguration();
-            TypeMapper typeMapper = new SapdbTypeMapper(conf);
-            getGenerator().setTypeMapper(typeMapper);
-
-            Object[] params = new Object[] {
-                    conf.getInteger(PARAM_PREFIX + "integer"
-                            + PARAM_POSTFIX_PRECISION),
-                    conf.getInteger(PARAM_PREFIX + "char"
-                            + PARAM_POSTFIX_LENGTH) };
-
-                String ddl = getGenerator().generateCreate();
-                boolean b = getExpectedDDL().match(getEngine(), 0, ddl, params);
-                assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
-                        + getExpectedDDL().getMessage(), b);
-
-                ddl = getGenerator().generateKeyGenerator();
-                b = getExpectedDDL().match(getEngine(), 1, ddl, params);
-                assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
-                        + getExpectedDDL().getMessage(), b);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue("testKeyGenIdentity: " + e.getMessage(), false);
-        }
-    }
-
 }

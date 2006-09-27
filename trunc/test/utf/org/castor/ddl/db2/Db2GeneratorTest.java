@@ -23,6 +23,7 @@ import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.KeyGeneratorRegistry;
 import org.castor.ddl.TypeMapper;
 import org.castor.ddl.engine.db2.Db2Generator;
 import org.castor.ddl.engine.db2.Db2TypeMapper;
@@ -129,6 +130,10 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
         conf.addProperties(getGlobalConf());
         conf.addProperties(getDbConf());
         setGenerator(new Db2Generator(conf));
+
+        KeyGeneratorRegistry keyGenRegistry = new KeyGeneratorRegistry(conf);
+        getGenerator().setKeyGenRegistry(keyGenRegistry);
+        
         getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }

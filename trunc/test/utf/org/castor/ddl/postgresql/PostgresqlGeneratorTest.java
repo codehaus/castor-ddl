@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
+import org.castor.ddl.KeyGeneratorRegistry;
 import org.castor.ddl.engine.postgresql.PostgresqlGenerator;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
@@ -123,6 +124,10 @@ public final class PostgresqlGeneratorTest extends BaseGeneratorTest {
         conf.addProperties(getGlobalConf());
         conf.addProperties(getDbConf());
         setGenerator(new PostgresqlGenerator(conf));
+
+        KeyGeneratorRegistry keyGenRegistry = new KeyGeneratorRegistry(conf);
+        getGenerator().setKeyGenRegistry(keyGenRegistry);
+        
         getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }

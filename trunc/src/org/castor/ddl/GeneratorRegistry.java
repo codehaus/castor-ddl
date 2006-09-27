@@ -62,7 +62,7 @@ public final class GeneratorRegistry {
                 Generator generator = (Generator) cst.newInstance(params);
                 _generators.put(generator.getEngineName(), generator);
             } catch (Exception ex) {
-                String msg = "Problem instantiating generator implementation: ";
+                String msg = "Problem instantiating generator: ";
                 LOG.error(msg + classname, ex);
             }
         }

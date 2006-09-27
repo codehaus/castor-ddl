@@ -19,6 +19,7 @@ package org.castor.ddl.schemaobject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.keygenerator.IdentityKey;
 import org.castor.ddl.typeinfo.TypeInfo;
 
 /**
@@ -199,13 +200,9 @@ public class Field extends AbstractSchemaObject {
             buff.append(" NOT NULL");
         }
 
-        if (_keyGenerator != null && isIdentity() 
-                && KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(_keyGenerator.getName())) {
-            LOG.warn("Not support IDENTITY key-gen for this database");
-//            throw new KeyGenNotSupportException("Not support IDENTITY key-gen for " 
-//                    + "this database");
+        if (isIdentity() && (getKeyGenerator() instanceof IdentityKey)) {
+            LOG.warn("IDENTITY key generator is not supported for this database");
         }
-
         
         return buff.toString();
     }

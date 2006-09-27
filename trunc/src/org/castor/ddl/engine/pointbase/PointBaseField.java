@@ -17,8 +17,8 @@
 package org.castor.ddl.engine.pointbase;
 
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.keygenerator.IdentityKey;
 import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
  * PointBaseField
@@ -45,11 +45,8 @@ public final class PointBaseField extends Field {
             buff.append(" NOT NULL");
         }
 
-        KeyGenerator keyGen = getKeyGenerator();
-        if (keyGen != null && isIdentity()) {
-            if (KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(keyGen.getName())) {
-                buff.append(" IDENTITY(1,1)");
-            }
+        if (isIdentity() && (getKeyGenerator() instanceof IdentityKey)) {
+            buff.append(" IDENTITY(1,1)");
         }
         
         return buff.toString();

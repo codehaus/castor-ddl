@@ -21,10 +21,6 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.KeyRepository;
-import org.castor.ddl.keygenerator.IdentityKey;
-import org.castor.ddl.keygenerator.MaxKey;
-import org.castor.ddl.keygenerator.UUIDKey;
 
 /**
  * Schema contains a set of table and schema options.
@@ -42,9 +38,6 @@ public class Schema extends AbstractSchemaObject {
     /** table list */
     private Vector _tables;
 
-    /** key repositoty */
-    private KeyRepository _keyRepository;
-
     /**
      * 
      * @return Returns the name.
@@ -59,8 +52,6 @@ public class Schema extends AbstractSchemaObject {
     protected Schema() {
         super();
         _tables = new Vector();
-        _keyRepository = new KeyRepository();
-        addDefaultKey();
     }
 
     /**
@@ -113,49 +104,6 @@ public class Schema extends AbstractSchemaObject {
      */
     public final int getTableCount() {
         return _tables.size();
-    }
-
-    /**
-     * 
-     * @return Returns the keyrep.
-     */
-    public final KeyRepository getKeyRepository() {
-        return _keyRepository;
-    }
-
-    /**
-     * Set the keyrep by _keyrep.
-     * 
-     * @param keyrep
-     *            key repository
-     */
-    public final void setKeyRepository(final KeyRepository keyrep) {
-        _keyRepository = keyrep;
-    }
-
-    /**
-     * 
-     * @param key
-     *            key
-     * @param value
-     *            value
-     */
-    public final void putKeyGenerator(final String key, final KeyGenerator value) {
-        _keyRepository.putKeyGenerator(key, value);
-    }
-
-    /**
-     * add default key
-     * 
-     */
-    private void addDefaultKey() {
-        _keyRepository.putKeyGenerator(KeyGenerator.IDENTITY_KEY,
-                new IdentityKey(KeyGenerator.IDENTITY_KEY, null));
-        _keyRepository.putKeyGenerator(KeyGenerator.MAX_KEY,
-                new MaxKey(KeyGenerator.MAX_KEY, null));
-        _keyRepository.putKeyGenerator(KeyGenerator.UUID_KEY,
-                new UUIDKey(KeyGenerator.UUID_KEY, null));
-
     }
 
     /**

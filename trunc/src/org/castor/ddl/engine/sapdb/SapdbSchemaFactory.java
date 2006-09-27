@@ -16,10 +16,7 @@
 
 package org.castor.ddl.engine.sapdb;
 
-import org.castor.ddl.GeneratorException;
-import org.castor.ddl.schemaobject.KeyGenerator;
 import org.castor.ddl.schemaobject.SchemaFactory;
-import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
  * SapdbSchemaFactory
@@ -32,21 +29,5 @@ public final class SapdbSchemaFactory extends SchemaFactory {
      */
     public SapdbSchemaFactory() {
         super();
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createKeyGenerator
-     * (org.exolab.castor.mapping.xml.KeyGeneratorDef)
-     * {@inheritDoc}
-     */
-    public KeyGenerator createKeyGenerator(final KeyGeneratorDef kg) 
-        throws GeneratorException {
-        String name = kg.getName();
-
-        if (KeyGenerator.SEQUENCE_KEY.equalsIgnoreCase(name)) {
-            return new SapdbSequenceKey(kg);
-        }
-
-        return super.createKeyGenerator(kg);
     }
 }

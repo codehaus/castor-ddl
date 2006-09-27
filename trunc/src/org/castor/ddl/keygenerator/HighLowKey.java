@@ -13,275 +13,144 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.castor.ddl.keygenerator;
 
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.KeyGenerator;
-import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.Param;
 
 /**
- * HighLowKey is not used for DDL Generator
+ * HIGH-LOW key generator will be handled by Castor so no DDL needs to be created. It
+ * only requires a table to lookup the next values to be used.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public final class HighLowKey extends KeyGenerator {
-    /** *name of key */
-    private String _name = "HIGH-LOW";
+    /** Name of key generator algorithm. */
+    public static final String ALGORITHM_NAME = "HIGH-LOW";
+    
+    /** Parameter that defines the name of the sequence table. */
+    private static final String PARAM_TABLE_NAME = "table";
+    
+    /** Parameter that defines the name of the column which contains the table name. */
+    private static final String PARAM_KEY_COLUMN = "key-column";
+    
+    /** Parameter that defines the name of the column used to reserve key values. */
+    private static final String PARAM_VALUE_COLUMN = "value-column";
+    
+    /** Parameter that defines the number of new keys grabed at a time. */
+    private static final String PARAM_GRAB_SIZE = "grab-size";
+    
+    /** Parameter that defines if the same connection should be used to write to the
+     *  sequence table. */
+    private static final String PARAM_SAME_CONNECTION = "same-connection";
+    
+    /** Parameter that defines if globally unique keys should be generated. */
+    private static final String PARAM_GLOBAL_KEYS = "global";
 
-    /** alias */
-    private String _alias;
-
-    /** The name of the special sequence table. */
+    /** Name of the special sequence table. */
     private String _tableName;
 
-    /** The name of the column which contains table names */
+    /** Name of the column which contains table names. */
     private String _keyColumn;
 
-    /** The name of the column which is used to reserve primary key values */
+    /** Name of the column which is used to reserve primary key values. */
     private String _valueColumn;
 
-    /**
-     * The number of new keys the key generator should grab from the sequence
-     * table at a time.
-     */
+    /** Number of new keys the key generator should grab from the sequence table at a
+     *  time. */
     private int _grabSize;
 
-    /**
-     * To use the same Connection for writing to the sequence table, values:
-     * "true"/"false". This is needed when working in EJB environment, though
-     * less efficient. Optional, default="false"
-     */
+    /** Shell the same Connection be used for writing to the sequence table. This is
+     *  needed when working in EJB environment, though less efficient. Default to
+     *  "false". */
     private boolean _isSameConnection = false;
 
-    /**
-     * To generate globally unique keys, values: "true"/"false". Optional,
-     * default="false"
-     */
+    /** Shell globally unique keys be generated. Defaults to "false". */
     private boolean _isGlobal = false;
 
     /**
+     * Constructor for HIGH-LOW key generator specified by given defintion.
      * 
-     * Constructor for HighLowKey
-     * 
-     * @param keyGenDef
-     *            key generator definition
-     * @throws GeneratorException
-     *             generator error
+     * @param definition Key generator definition.
+     * @throws GeneratorException If grab size parameter can't be parsed as integer.
      */
-    public HighLowKey(final KeyGeneratorDef keyGenDef)
-            throws GeneratorException {
-        super();
-        String tableKey = "table";
-        String keyColumnKey = "key-column";
-        String valueColumnKey = "value-column";
-        String grabSizeKey = "grab-size";
-        String sameConnectionKey = "same-connection";
-        String globalKey = "global";
-
-        _alias = keyGenDef.getAlias();
-        _name = keyGenDef.getName();
-        Param[] params = keyGenDef.getParam();
+    public HighLowKey(final KeyGeneratorDef definition) throws GeneratorException {
+        super(ALGORITHM_NAME, definition.getAlias());
+        
+        Param[] params = definition.getParam();
         for (int i = 0; i < params.length; i++) {
-            String pname = params[i].getName();
-            String pvalue = params[i].getValue();
-            if (pname == null) {
-                continue;
-            }
-            
-            if (tableKey.equalsIgnoreCase(pvalue)) {
-                _tableName = params[i].getValue();
-            } else if (keyColumnKey.equalsIgnoreCase(pvalue)) {
-                _keyColumn = params[i].getValue();
-            } else if (valueColumnKey.equalsIgnoreCase(pvalue)) {
-                _valueColumn = params[i].getValue();
-            } else if (grabSizeKey.equalsIgnoreCase(pvalue)) {
+            String name = params[i].getName();
+            String value = params[i].getValue();
+            if (name == null) { continue; }
+            if (PARAM_TABLE_NAME.equalsIgnoreCase(value)) {
+                _tableName = value;
+            } else if (PARAM_KEY_COLUMN.equalsIgnoreCase(value)) {
+                _keyColumn = value;
+            } else if (PARAM_VALUE_COLUMN.equalsIgnoreCase(value)) {
+                _valueColumn = value;
+            } else if (PARAM_GRAB_SIZE.equalsIgnoreCase(value)) {
                 try {
-                    _grabSize = Integer.parseInt(pvalue);
+                    _grabSize = Integer.parseInt(value);
                 } catch (NumberFormatException nfe) {
-                    nfe.printStackTrace();
-                    throw new GeneratorException("can not parse integer"
-                            + pvalue, nfe);
+                    throw new GeneratorException("Can't parse integer" + value, nfe);
                 }
-            } else if (sameConnectionKey.equalsIgnoreCase(pname)) {
-                _isSameConnection = Boolean.valueOf(pname).booleanValue();
-            } else if (globalKey.equals(pname.toLowerCase())) {
-                _isGlobal = Boolean.valueOf(pname).booleanValue();
+            } else if (PARAM_SAME_CONNECTION.equalsIgnoreCase(name)) {
+                _isSameConnection = Boolean.valueOf(value).booleanValue();
+            } else if (PARAM_GLOBAL_KEYS.equals(name.toLowerCase())) {
+                _isGlobal = Boolean.valueOf(value).booleanValue();
             }
         }
     }
 
-    /** 
-     * @see org.castor.ddl.schemaobject.KeyGenerator#getHashKey()
-     * {@inheritDoc}
+    /**
+     * Get name of the special sequence table.
+     * 
+     * @return Name of the special sequence table.
      */
-    public String getHashKey() {
-        if (_alias == null) {
-            return _name;
-        }
-        return _alias;
-    }
+    public String getTableName() { return _tableName; }
 
     /**
+     * Get name of the column which contains table names.
      * 
-     * @return Returns the alias.
+     * @return Name of the column which contains table names.
      */
-    public String getAlias() {
-        return _alias;
-    }
+    public String getKeyColumn() { return _keyColumn; }
 
     /**
-     * Set the alias by _alias.
+     * Get name of the column which is used to reserve primary key values.
      * 
-     * @param alias alias
+     * @return Name of the column which is used to reserve primary key values.
      */
-    public void setAlias(final String alias) {
-        _alias = alias;
-    }
+    public String getValueColumn() { return _valueColumn; }
 
     /**
+     * Get number of new keys the key generator should grab from the sequence table at a
+     * time.
      * 
-     * @return Returns the grabSize.
+     * @return Number of new keys the key generator should grab from the sequence table
+     *         at a time.
      */
-    public int getGrabSize() {
-        return _grabSize;
-    }
+    public int getGrabSize() { return _grabSize; }
 
     /**
-     * Set the grabSize by _grabSize.
+     * Shell the same Connection be used for writing to the sequence table?
      * 
-     * @param grabSize grab size
+     * @return If <code>true<code/> it uses the same connection t write to the sequence
+     *         table. 
      */
-    public void setGrabSize(final int grabSize) {
-        _grabSize = grabSize;
-    }
+    public boolean isSameConnection() { return _isSameConnection; }
 
     /**
+     * Shell globally unique keys be generated?
      * 
-     * @return Returns the isGlobal.
+     * @return If <code>true<code/> globally unique keys are generated.
      */
-    public boolean isGlobal() {
-        return _isGlobal;
-    }
-
-    /**
-     * Set the isGlobal by _isGlobal.
-     * 
-     * @param isGlobal is global
-     */
-    public void setGlobal(final boolean isGlobal) {
-        _isGlobal = isGlobal;
-    }
-
-    /**
-     * 
-     * @return Returns the isSameConnection.
-     */
-    public boolean isSameConnection() {
-        return _isSameConnection;
-    }
-
-    /**
-     * Set the isSameConnection by _isSameConnection.
-     * 
-     * @param isSameConnection is same connection
-     */
-    public void setSameConnection(final boolean isSameConnection) {
-        _isSameConnection = isSameConnection;
-    }
-
-    /**
-     * 
-     * @return Returns the keyColumn.
-     */
-    public String getKeyColumn() {
-        return _keyColumn;
-    }
-
-    /**
-     * Set the keyColumn by _keyColumn.
-     * 
-     * @param keyColumn key column
-     */
-    public void setKeyColumn(final String keyColumn) {
-        _keyColumn = keyColumn;
-    }
-
-    /**
-     * 
-     * @return Returns the table.
-     */
-    public String getTableName() {
-        return _tableName;
-    }
-
-    /**
-     * Set the table by _tableName.
-     * 
-     * @param table table
-     */
-    public void setTableName(final String table) {
-        _tableName = table;
-    }
-
-    /**
-     * 
-     * @return Returns the valueColumn.
-     */
-    public String getValueColumn() {
-        return _valueColumn;
-    }
-
-    /**
-     * Set the valueColumn by _valueColumn.
-     * 
-     * @param valueColumn value column
-     */
-    public void setValueColumn(final String valueColumn) {
-        _valueColumn = valueColumn;
-    }
-
-    /**
-     * 
-     * @return Returns the name.
-     */
-    public String getName() {
-        return _name;
-    }
-
-    /**
-     * Set the name by _name.
-     * 
-     * @param name name
-     */
-    public void setName(final String name) {
-        _name = name;
-    }
+    public boolean isGlobal() { return _isGlobal; }
 
     /** 
-     * @see org.castor.ddl.schemaobject.KeyGenerator#toDDL()
      * {@inheritDoc}
      */
-    public String toDDL() {
-        return "";
-    }
-
-    /** 
-     * @see org.castor.ddl.schemaobject.KeyGenerator#setTable
-     * (org.castor.ddl.schemaobject.Table)
-     * {@inheritDoc}
-     */
-    public void setTable(final Table table) {
-
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.KeyGenerator#getTable()
-     * {@inheritDoc}
-     */
-    public Table getTable() {
-        return null;
-    }
+    public String toDDL() { return ""; }
 }

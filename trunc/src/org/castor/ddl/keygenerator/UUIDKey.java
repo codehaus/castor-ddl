@@ -13,112 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.keygenerator;
 
 import org.castor.ddl.schemaobject.KeyGenerator;
-import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * UUIDKey is not used for DDL Generator
+ * UUID key generator will be handled by Castor so no DDL needs to be created.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public final class UUIDKey extends KeyGenerator {
-    /** sequence name*/
-    private String _name;
-    
-    /** alias*/
-    private String _alias;
-    
+    /** Name of key generator algorithm. */
+    public static final String ALGORITHM_NAME = "UUID";
+
     /**
-     * Constructor for UUIDKey
-     * @param name name
-     * @param alias alias
+     * Constructor for default UUID key generator.
      */
-    public UUIDKey(final String name, final String alias) {
-        super();
-        _name = name;
-        _alias = alias;
+    public UUIDKey() {
+        super(ALGORITHM_NAME, ALGORITHM_NAME);
     }
 
-
     /**
+     * Constructor for UUID key generator specified by given defintion.
      * 
-     * Constructor for UUIDKey
-     * @param keyGenDef key generator def
+     * @param definition Key generator definition.
      */
-    public UUIDKey(final KeyGeneratorDef keyGenDef) {
-        _alias = keyGenDef.getAlias();
-        _name = keyGenDef.getName();
+    public UUIDKey(final KeyGeneratorDef definition) {
+        super(ALGORITHM_NAME, definition.getAlias());
     }
     
     /**
-     * 
-     * @return Returns the alias.
-     */
-    public String getAlias() {
-        return _alias;
-    }
-
-    /**
-     * Set the alias by _alias.
-     * @param alias alias
-     */
-    public void setAlias(final String alias) {
-        _alias = alias;
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.KeyGenerator#getHashKey()
      * {@inheritDoc}
      */
-    public String getHashKey() {
-        if (_alias == null) {
-            return _name;
-        }
-        return _alias;
-    }
-
-    /**
-     * 
-     * @return Returns the name.
-     */
-    public String getName() {
-        return _name;
-    }
-
-    /**
-     * Set the name by _name.
-     * @param name name
-     */
-    public void setName(final String name) {
-        _name = name;
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.KeyGenerator#toDDL()
-     * {@inheritDoc}
-     */
-    public String toDDL() {
-        return "";
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.KeyGenerator#getTable()
-     * {@inheritDoc}
-     */
-    public Table getTable() {
-        return null;
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.KeyGenerator#setTable
-     * (org.castor.ddl.schemaobject.Table)
-     * {@inheritDoc}
-     */
-    public void setTable(final Table table) {
-    }
-
+    public String toDDL() { return ""; }
 }

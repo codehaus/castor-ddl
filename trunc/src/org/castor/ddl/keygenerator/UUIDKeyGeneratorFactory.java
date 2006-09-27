@@ -13,38 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.castor.ddl.keygenerator;
 
-package org.castor.ddl.engine.db2;
-
-import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.PrimaryKey;
-import org.castor.ddl.schemaobject.SchemaFactory;
+import org.castor.ddl.GeneratorException;
+import org.castor.ddl.KeyGeneratorFactory;
+import org.castor.ddl.schemaobject.KeyGenerator;
+import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * Db2SchemaFactory handles to create schema obhect for DB2
+ * Factory class for UUID key generators.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class Db2SchemaFactory extends SchemaFactory {
+public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
-     * Constructor for Db2SchemaFactory
-     */
-    public Db2SchemaFactory() {
-        super();
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
      * {@inheritDoc}
      */
-    public Field createField() {
-        return new Db2Field();
-    }
-
+    public String getAlgorithmName() { return UUIDKey.ALGORITHM_NAME; }
+    
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createPrimaryKey()
      * {@inheritDoc}
      */
-    public PrimaryKey createPrimaryKey() {
-        return new Db2PrimaryKey();
+    public boolean hasMandatoryParameters() { return false; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public KeyGenerator createKeyGenerator() {
+        return new UUIDKey();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
+    throws GeneratorException {
+        return new UUIDKey(definition);
     }
 }

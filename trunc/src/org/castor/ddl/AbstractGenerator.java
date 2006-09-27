@@ -152,6 +152,9 @@ public abstract class AbstractGenerator implements Generator {
     /** handle all configurations (key, value) */
     private final Configuration _configuration;
 
+    /** handle the key gen registry*/
+    private KeyGeneratorRegistry _keyGenRegistry;
+
     /** handle the MappingHelper */
     private MappingHelper _mappingHelper;
 
@@ -192,6 +195,14 @@ public abstract class AbstractGenerator implements Generator {
      */
     public final Configuration getConfiguration() {
         return _configuration;
+    }
+
+    /**
+     * Set the keyGenRegistry by keyGenRegistry.
+     * @param keyGenRegistry  keygen registry
+     */
+    public final void setKeyGenRegistry(final KeyGeneratorRegistry keyGenRegistry) {
+        _keyGenRegistry = keyGenRegistry;
     }
 
     /**
@@ -463,16 +474,17 @@ public abstract class AbstractGenerator implements Generator {
     /**
      * generate sequence/trigger ddl, delegate to SequenceKey.toDDL() 
      * @return key generator creation ddl
-     * @throws KeyGenNotSupportException
-     *             exception
+     * @throws GeneratorException exception
      */
-    public String generateKeyGenerator() throws KeyGenNotSupportException {
+    public String generateKeyGenerator() throws GeneratorException {
         Vector tables = _schema.getTables();
         StringBuffer buff = new StringBuffer();
 
         for (Iterator i = tables.iterator(); i.hasNext();) {
             Table table = (Table) i.next();
-            buff.append(table.toKeyGeneratorDDL());
+            if (table.getKeyGenerator() != null) {
+                buff.append(table.toKeyGeneratorDDL());
+            }
         }
         return buff.toString();
 
@@ -606,10 +618,8 @@ public abstract class AbstractGenerator implements Generator {
         // generate key generator definition
         Enumeration ekg = root.enumerateKeyGeneratorDef();
         while (ekg.hasMoreElements()) {
-            KeyGeneratorDef kg = (KeyGeneratorDef) ekg.nextElement();
-            KeyGenerator keygen = _schemaFactory.createKeyGenerator(kg);
-            keygen.setConf(_configuration);
-            _schema.putKeyGenerator(keygen.getHashKey(), keygen);
+            KeyGeneratorDef definition = (KeyGeneratorDef) ekg.nextElement();
+            _keyGenRegistry.createKeyGenerator(definition);
         }
 
         //go throught ClassMapping
@@ -669,15 +679,7 @@ public abstract class AbstractGenerator implements Generator {
         String keygenerator = cm.getKeyGenerator();
         KeyGenerator keyGen = null;
         if (keygenerator != null) {
-            keyGen = getSchema().getKeyRepository().getKeyGenerator(
-                    keygenerator.toUpperCase());
-
-            // key gen is not found
-            if (keyGen == null) {
-                throw new GeneratorException("key-generator is not found: "
-                        + keygenerator);
-            }
-            keyGen.setConf(_configuration);
+            keyGen = _keyGenRegistry.getKeyGenerator(keygenerator.toUpperCase());
         }
         table.setKeyGenerator(keyGen);
 
@@ -833,15 +835,7 @@ public abstract class AbstractGenerator implements Generator {
         String keygenerator = extendCm.getKeyGenerator();
         KeyGenerator keyGen = null;
         if (keygenerator != null) {
-            keyGen = getSchema().getKeyRepository().getKeyGenerator(
-                    keygenerator.toUpperCase());
-
-            // key gen is not found
-            if (keyGen == null) {
-                throw new GeneratorException("key-generator is not found: "
-                        + keygenerator);
-            }
-            keyGen.setConf(_configuration);
+            keyGen = _keyGenRegistry.getKeyGenerator(keygenerator.toUpperCase());
         }
         table.setKeyGenerator(keyGen);
 
@@ -1188,5 +1182,4 @@ public abstract class AbstractGenerator implements Generator {
     protected final void write(final String s) {
         _printer.println(format(s));
     }
-
 }

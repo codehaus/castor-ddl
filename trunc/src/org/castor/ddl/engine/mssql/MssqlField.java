@@ -17,8 +17,8 @@
 package org.castor.ddl.engine.mssql;
 
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.keygenerator.IdentityKey;
 import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
  * mssql field.
@@ -41,11 +41,8 @@ public final class MssqlField extends Field {
         buff.append(getName()).append(" ");
         buff.append(getType().toDDL(this));
 
-        KeyGenerator keyGen = getKeyGenerator();
-        if (keyGen != null && isIdentity()) {
-            if (KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(keyGen.getName())) {
-                buff.append(" IDENTITY(1,1)");
-            }
+        if (isIdentity() && (getKeyGenerator() instanceof IdentityKey)) {
+            buff.append(" IDENTITY(1,1)");
         }
         
         if (isIdentity() || isRequired()) {

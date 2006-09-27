@@ -15,36 +15,39 @@
  */
 package org.castor.ddl.keygenerator;
 
+import org.castor.ddl.GeneratorException;
+import org.castor.ddl.KeyGeneratorFactory;
 import org.castor.ddl.schemaobject.KeyGenerator;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
- * MAX key generator will be handled by Castor so no DDL needs to be created.
+ * Factory class for IDENTITY key generators.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class MaxKey extends KeyGenerator {
-    /** Name of key generator algorithm. */
-    public static final String ALGORITHM_NAME = "MAX";
+public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
+    /**
+     * {@inheritDoc}
+     */
+    public String getAlgorithmName() { return IdentityKey.ALGORITHM_NAME; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean hasMandatoryParameters() { return false; }
 
     /**
-     * Constructor for default MAX key generator.
+     * {@inheritDoc}
      */
-    public MaxKey() {
-        super(ALGORITHM_NAME, ALGORITHM_NAME);
-    }
-
-    /**
-     * Constructor for MAX key generator specified by given defintion.
-     * 
-     * @param definition Key generator definition.
-     */
-    public MaxKey(final KeyGeneratorDef definition) {
-        super(ALGORITHM_NAME, definition.getAlias());
+    public KeyGenerator createKeyGenerator() {
+        return new IdentityKey();
     }
     
     /**
      * {@inheritDoc}
      */
-    public String toDDL() { return ""; }
+    public KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
+    throws GeneratorException {
+        return new IdentityKey(definition);
+    }
 }

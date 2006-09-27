@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.keygenerator;
 
 import org.castor.ddl.schemaobject.KeyGenerator;
-import org.castor.ddl.schemaobject.Table;
 import org.exolab.castor.mapping.xml.KeyGeneratorDef;
-
 
 /**
  * IDENTITY key generator can be used only with autoincrement primary key columns 
@@ -28,101 +25,31 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * contains the last identity value for the current database connection. In the case 
  * of MySQL and Hypersonic SQL the system functions LAST_INSERT_ID() and IDENTITY() 
  * are called, respectively.
- * <br/>This algorithm has no parameters.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public final class IdentityKey extends KeyGenerator {
-    /** sequence name*/
-    private String _name;
-    
-    /** alias*/
-    private String _alias;
-    
+    /** Name of key generator algorithm. */
+    public static final String ALGORITHM_NAME = "IDENTITY";
+
     /**
-     * Constructor for IdentityKey
-     * @param name name
-     * @param alias alias
+     * Constructor for default IDENTITY key generator.
      */
-    public IdentityKey(final String name, final String alias) {
-        super();
-        _name = name;
-        _alias = alias;
+    public IdentityKey() {
+        super(ALGORITHM_NAME, ALGORITHM_NAME);
     }
     
     /**
+     * Constructor for IDENTITY key generator specified by given defintion.
      * 
-     * Constructor for IdentityKey
-     * @param keyGenDef key generator def
+     * @param definition Key generator definition.
      */
-    public IdentityKey(final KeyGeneratorDef keyGenDef) {
-        super();
-        _alias = keyGenDef.getAlias();
-        _name = keyGenDef.getName();
-    }
-    
-
-    /**
-     * 
-     * @return Returns the alias.
-     */
-    public String getAlias() {
-        return _alias;
+    public IdentityKey(final KeyGeneratorDef definition) {
+        super(ALGORITHM_NAME, definition.getAlias());
     }
 
     /**
-     * Set the alias by _alias.
-     * @param alias alias
-     */
-    public void setAlias(final String alias) {
-        _alias = alias;
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.KeyGenerator#getHashKey()
      * {@inheritDoc}
      */
-    public String getHashKey() {
-        if (_alias == null) {
-            return _name;
-        }
-        return _alias;
-    }
-
-    /**
-     * 
-     * @return Returns the name.
-     */
-    public String getName() {
-        return _name;
-    }
-
-    /**
-     * Set the name by _name.
-     * @param name name
-     */
-    public void setName(final String name) {
-        _name = name;
-    }
-
-    /**
-     * @return ddl string
-     */
-    public String toDDL() {
-        return "";
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.KeyGenerator#getTable()
-     * {@inheritDoc}
-     */
-    public Table getTable() {
-        return null;
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.KeyGenerator#setTable
-     * (org.castor.ddl.schemaobject.Table)
-     * {@inheritDoc}
-     */
-    public void setTable(final Table table) { }
+    public String toDDL() { return ""; }
 }

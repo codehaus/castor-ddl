@@ -13,92 +13,107 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.schemaobject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.ddl.KeyGenNotSupportException;
 
 /**
- * KeyGenerator is abstract class for Key generator
+ * Abstract base class for all key generators.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public abstract class KeyGenerator extends AbstractSchemaObject {
-    /**logging*/
-    private static final Log LOG = LogFactory.getLog(KeyGenerator.class);
+    //--------------------------------------------------------------------------
 
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(KeyGenerator.class);
+    
+    /** Name of the key generator algorithm. */
+    private final String _name;
+    
+    /** Alias of the key generator. */
+    private final String _alias;
+
+    /** Table the key generator creates keys for. */
+    private Table _table;
+    
+    //--------------------------------------------------------------------------
+    
     /**
-     * Constructor for KeyGenerator
+     * Construct key generator with given name and alias.
+     * 
+     * @param name Name of the key generator algorithm.
+     * @param alias Alias of the key generator.
      */
-    protected KeyGenerator() {
+    protected KeyGenerator(final String name, final String alias) {
         super();
+        
+        _name = name;
+        _alias = (alias != null) ? alias : name;
     }
 
-    /**max key*/
-    public static final String MAX_KEY = "MAX";
-
-    /**high-low key*/
-    public static final String HIGH_LOW_KEY = "HIGH-LOW";
-
-    /**uuid key*/
-    public static final String UUID_KEY = "UUID";
-
-    /**identity key*/
-    public static final String IDENTITY_KEY = "IDENTITY";
-
-    /**sequence key*/
-    public static final String SEQUENCE_KEY = "SEQUENCE";
+    //--------------------------------------------------------------------------
 
     /**
+     * Get name of the key generator algorithm.
      * 
-     * @return hashkey
+     * @return Name of the key generator algorithm.
      */
-    public abstract String getHashKey();
+    public final String getName() { return _name; }
+
+    /**
+     * Get alias of the key generator.
+     * 
+     * @return Alias of the key generator.
+     */
+    public final String getAlias() { return _alias; }
     
     /**
+     * Set table the key generator creates keys for.
      * 
-     * @return name
+     * @param table Table the key generator creates keys for.
      */
-    public abstract String getName();
+    public final void setTable(final Table table) {
+        _table = table;
+    }
     
     /**
+     * Get table the key generator creates keys for.
      * 
-     * @return alias
+     * @return Table the key generator creates keys for.
      */
-    public abstract String getAlias();
+    public final Table getTable() {
+        return _table;
+    }
 
     /**
+     * Generate DDL for key generator.
      * 
-     * @return Table
+     * @return DDL script.
      */
-    public abstract Table getTable();
+    public abstract String toDDL();
 
     /**
+     * Check wether this key generator is compatible with the given one to allow merge
+     * of table definitions.
      * 
-     * @param table table
+     * @param keygenerator Key generator to merge.
      */
-    public abstract void setTable(final Table table);
-    
-    /**
-     * generate DDL script for KeyGenerator including Identity key, sequence and
-     * trigger
-     * @return ddl script
-     * @throws KeyGenNotSupportException key gen exception
-     */
-    public abstract String toDDL() throws KeyGenNotSupportException;
-
-    /**
-     * @param keyGenerator key-gen
-     */
-    public final void merge(final KeyGenerator keyGenerator) {
-        String hashkey = getHashKey();
-        if (keyGenerator == null || hashkey == null 
-                || !hashkey.equalsIgnoreCase(keyGenerator.getHashKey())) {
-            String message = "Merge table has different key generator, '"
-                + hashkey + "' vs '" + keyGenerator.getHashKey() + "'";
-            LOG.warn(message);
+    public final void merge(final KeyGenerator keygenerator) {
+        if (keygenerator == null) {
+            String msg = "Merge table has no key generator";
+            LOG.warn(msg);
+        } else {
+            String alias = getAlias();
+            if ((alias == null) || !alias.equalsIgnoreCase(keygenerator.getAlias())) {
+                String msg = "Merge table has different key generator: "
+                    + alias + " / " + keygenerator.getAlias();
+                LOG.warn(msg);
+            }
         }
     }
+
+    //--------------------------------------------------------------------------
 }

@@ -22,7 +22,6 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.KeyGenNotSupportException;
 
 /**
  * Table contains fields, foreignkeys, indexes and table's options
@@ -365,12 +364,9 @@ public class Table extends AbstractSchemaObject {
 
     /**
      * @return DDL script for creating primary key
-     * @throws KeyGenNotSupportException exception
      */
-    public final String toKeyGeneratorDDL() throws KeyGenNotSupportException {
-        if (_keyGenerator == null) {
-            return "";
-        }
+    public final String toKeyGeneratorDDL() {
+        if (_keyGenerator == null) { return ""; }
         _keyGenerator.setTable(this);
         return _keyGenerator.toDDL();
     }

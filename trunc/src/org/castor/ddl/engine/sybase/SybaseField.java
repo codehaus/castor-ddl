@@ -17,8 +17,8 @@
 package org.castor.ddl.engine.sybase;
 
 import org.castor.ddl.GeneratorException;
+import org.castor.ddl.keygenerator.IdentityKey;
 import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.KeyGenerator;
 
 /**
  * Sybase Field 
@@ -46,11 +46,8 @@ public final class SybaseField extends Field {
             buff.append(" NOT NULL");
         }
 
-        KeyGenerator keyGen = getKeyGenerator();
-        if (keyGen != null && isIdentity()) {
-            if (KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(keyGen.getName())) {
-                buff.append(" IDENTITY");
-            }
+        if (isIdentity() && (getKeyGenerator() instanceof IdentityKey)) {
+            buff.append(" IDENTITY");
         }
         
         return buff.toString();

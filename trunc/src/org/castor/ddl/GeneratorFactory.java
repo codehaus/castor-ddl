@@ -54,6 +54,9 @@ public final class GeneratorFactory {
         // overload with specific configuration given on commandline
         if (specificConf != null) { config.addProperties(specificConf); }
         
+        // create key generator registry  to be used by the generator
+        gen.setKeyGenRegistry(new KeyGeneratorRegistry(config));
+        
         // initialize generator
         gen.initialize();
         

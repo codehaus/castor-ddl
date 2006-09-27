@@ -104,4 +104,9 @@ public interface Generator {
 
     void setPrinter(PrintStream printer);
 
+    /**
+     * set key gen registry
+     * @param keygenRegistry key gen registry
+     */
+    void setKeyGenRegistry(KeyGeneratorRegistry keygenRegistry);
 }

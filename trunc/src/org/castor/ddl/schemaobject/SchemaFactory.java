@@ -16,14 +16,6 @@
 
 package org.castor.ddl.schemaobject;
 
-import org.castor.ddl.GeneratorException;
-import org.castor.ddl.keygenerator.HighLowKey;
-import org.castor.ddl.keygenerator.IdentityKey;
-import org.castor.ddl.keygenerator.MaxKey;
-import org.castor.ddl.keygenerator.SequenceKey;
-import org.castor.ddl.keygenerator.UUIDKey;
-import org.exolab.castor.mapping.xml.KeyGeneratorDef;
-
 /**
  * The SchemaFactory class handles the creation for various schema objects. It 
  * helps the AbstractGenerator to dynamically extract schema’s information for 
@@ -85,40 +77,6 @@ public class SchemaFactory {
      */
     public Index createIndex() {
         return new Index();
-    }
-
-    /**
-     * create KeyGenerator object for various types
-     * @param kg key generator def
-     * @return key generator
-     * @throws GeneratorException generator error
-     */
-    public KeyGenerator createKeyGenerator(final KeyGeneratorDef kg)
-            throws GeneratorException {
-        String name = kg.getName();
-
-        if (KeyGenerator.MAX_KEY.equalsIgnoreCase(name)) {
-            return new MaxKey(kg);
-        }
-
-        if (KeyGenerator.HIGH_LOW_KEY.equalsIgnoreCase(name)) {
-            return new HighLowKey(kg);
-        }
-
-        if (KeyGenerator.UUID_KEY.equalsIgnoreCase(name)) {
-            return new UUIDKey(kg);
-        }
-
-        if (KeyGenerator.IDENTITY_KEY.equalsIgnoreCase(name)) {
-            return new IdentityKey(kg);
-        }
-
-        if (KeyGenerator.SEQUENCE_KEY.equalsIgnoreCase(name)) {
-            return new SequenceKey(kg);
-        }
-
-        throw new GeneratorException("can not create key generator, " 
-                + "name = '" + name + "'");
     }
 
     /**

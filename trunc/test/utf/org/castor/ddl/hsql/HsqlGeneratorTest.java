@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.castor.ddl.Configuration;
+import org.castor.ddl.KeyGeneratorRegistry;
 import org.castor.ddl.engine.hsql.HsqlGenerator;
 
 import utf.org.castor.ddl.BaseGeneratorTest;
@@ -62,7 +63,7 @@ public final class HsqlGeneratorTest extends BaseGeneratorTest {
      * @throws Exception exception
      */
     public static Test suite() throws Exception {
-        TestSuite suite = new TestSuite("All org.castor.ddl.PostgreSQL tests");
+        TestSuite suite = new TestSuite("All org.castor.ddl.Hsql tests");
 
         // schema test
         suite.addTest(new HsqlGeneratorTest("testCreateSchema", true));
@@ -122,6 +123,10 @@ public final class HsqlGeneratorTest extends BaseGeneratorTest {
         conf.addProperties(getGlobalConf());
         conf.addProperties(getDbConf());
         setGenerator(new HsqlGenerator(conf));
+        
+        KeyGeneratorRegistry keyGenRegistry = new KeyGeneratorRegistry(conf);
+        getGenerator().setKeyGenRegistry(keyGenRegistry);
+        
         getGenerator().initialize();
         getGenerator().setMapping(getMapping());
     }

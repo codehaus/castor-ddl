@@ -7,7 +7,7 @@
 	<property name="lib" value="lib"/>
 	<property name="test-source" value="test"/>
 	<property name="jarfile" value="ddlgenerator.jar"/>
-	<property name="castor_home" value="D:\projects\SoC\castor\castor-1.0-src\castor-1.0"/>
+	<property name="castor_home" value="D:/projects/SoC/castor/svn"/>
 
 	<!-- class path-->
 	<path id="generator.classpath">
@@ -15,7 +15,6 @@
 		<pathelement location="lib/xerces.jar" />
 		<pathelement location="lib/castor-1.0.jar" />
 		<pathelement location="lib/commons-logging.jar" />
-		<pathelement location="lib/log4j-1.2.8.jar" />
 		<pathelement location="lib/junit_3.8.1.jar" />
 		<fileset dir="${castor_home}/lib">
 			<include name="*.jar" />

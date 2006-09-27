@@ -18,14 +18,8 @@
         </layout>
     </appender>
 
-    <category name="utf.org.castor.ddl.Ddl">
-    </category>
-
-    <category name="utf.org.castor.ddl.TestAll">
-    </category>
-
     <root>
-        <priority value="error" />
+        <priority value="info" />
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
     </root>

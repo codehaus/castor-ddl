@@ -16,13 +16,10 @@
 
 package org.castor.ddl.engine.hsql;
 
-import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.KeyGenerator;
 import org.castor.ddl.schemaobject.PrimaryKey;
 import org.castor.ddl.schemaobject.SchemaFactory;
 import org.castor.ddl.schemaobject.Table;
-import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
  * Hsql Schema Factory.
@@ -50,22 +47,6 @@ public final class HsqlSchemaFactory extends SchemaFactory {
      */
     public Field createField() {
         return new HsqlField();
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createKeyGenerator
-     * (org.exolab.castor.mapping.xml.KeyGeneratorDef)
-     * {@inheritDoc}
-     */
-    public KeyGenerator createKeyGenerator(final KeyGeneratorDef kg) 
-        throws GeneratorException {
-        String name = kg.getName();
-
-        if (KeyGenerator.SEQUENCE_KEY.equalsIgnoreCase(name)) {
-            return new HsqlSequenceKey(kg);
-        }
-
-        return super.createKeyGenerator(kg);
     }
 
     /**

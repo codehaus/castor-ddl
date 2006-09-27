@@ -16,11 +16,8 @@
 
 package org.castor.ddl.engine.postgresql;
 
-import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.KeyGenerator;
 import org.castor.ddl.schemaobject.SchemaFactory;
-import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 
 /**
  * Postgre SQL Schema Factory.
@@ -41,21 +38,5 @@ public final class PostgresqlSchemaFactory extends SchemaFactory {
      */
     public Field createField() {
         return new PostgresqlField();
-    }
-
-    /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createKeyGenerator
-     * (org.exolab.castor.mapping.xml.KeyGeneratorDef)
-     * {@inheritDoc}
-     */
-    public KeyGenerator createKeyGenerator(final KeyGeneratorDef kg) 
-        throws GeneratorException {
-        String name = kg.getName();
-
-        if (KeyGenerator.SEQUENCE_KEY.equalsIgnoreCase(name)) {
-            return new PostgresqlSequenceKey(kg);
-        }
-
-        return super.createKeyGenerator(kg);
     }
 }
