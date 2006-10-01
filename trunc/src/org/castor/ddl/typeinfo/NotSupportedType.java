@@ -35,7 +35,6 @@ public final class NotSupportedType extends AbstractType {
     }
 
     /**
-     * @see org.castor.ddl.typeinfo.TypeInfo#toDDL(org.castor.ddl.schemaobject.Field)
      * {@inheritDoc}
      */
     public String toDDL(final Field field) throws GeneratorException {

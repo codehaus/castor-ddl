@@ -48,7 +48,6 @@ public final class DerbyTypeMapper extends AbstractTypeMapper {
     }
 
     /**
-     * @see org.castor.ddl.AbstractTypeMapper#initialize(org.castor.ddl.Configuration)
      * {@inheritDoc}
      */
     protected void initialize(final Configuration conf) {

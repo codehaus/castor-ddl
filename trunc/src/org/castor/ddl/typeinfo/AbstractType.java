@@ -60,19 +60,16 @@ public abstract class AbstractType implements TypeInfo {
     }
 
     /**
-     * @see org.castor.ddl.typeinfo.TypeInfo#getJdbcType()
      * {@inheritDoc}
      */
     public final String getJdbcType() { return _jdbcType; }
     
     /**
-     * @see org.castor.ddl.typeinfo.TypeInfo#getSqlType()
      * {@inheritDoc}
      */
     public final String getSqlType() { return _sqlType; }
 
     /**
-     * @see org.castor.ddl.typeinfo.TypeInfo#merge(org.castor.ddl.typeinfo.TypeInfo)
      * {@inheritDoc}
      */
     public final void merge(final TypeInfo type) throws GeneratorException {

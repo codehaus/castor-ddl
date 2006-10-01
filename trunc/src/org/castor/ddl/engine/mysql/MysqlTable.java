@@ -35,7 +35,7 @@ public final class MysqlTable extends Table {
      * @return engine creation statement
      */
     private String createEngineStatement() {
-        String engine = getConf().getStringValue(
+        String engine = getConfiguration().getStringValue(
                 MysqlConfigurationKey.STORAGE_ENGINE, null);
         if (engine == null || "".equals(engine)) {
             return "";
@@ -44,7 +44,6 @@ public final class MysqlTable extends Table {
     }
 
     /** 
-     * @see org.castor.ddl.schemaobject.Table#postCreateTable()
      * {@inheritDoc}
      */
     protected String postCreateTable() {
@@ -52,14 +51,13 @@ public final class MysqlTable extends Table {
     }
 
     /** 
-     * @see org.castor.ddl.schemaobject.Table#toDropDDL()
      * {@inheritDoc}
      */
     public String toDropDDL() {
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
 
         buff.append("DROP TABLE IF EXISTS ").append(getName());
-        buff.append(getConf().getSqlStatDelimeter());
+        buff.append(getConfiguration().getSqlStatDelimeter());
 
         return buff.toString();
     }

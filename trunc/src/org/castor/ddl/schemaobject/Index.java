@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.schemaobject;
 
-
 /**
- * Current implemetation is not supported INDEX creation
+ * Current implemetation is not supported INDEX creation.
+ * 
+ * CREATE INDEX IDX_PCPC_ARTIKEL
+ * ON TAB_PCV_PROBECARD (PCPC_ARTIKEL)
+ * TABLESPACE IDX_FIM1_PPT
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public class Index extends AbstractSchemaObject {
-
     /**
      * Constructor for Index
      */
-    protected Index() {
+    public Index() {
         super();
     }
 
@@ -38,5 +39,4 @@ public class Index extends AbstractSchemaObject {
     public String toDDL() {
         return "";
     }
-
 }

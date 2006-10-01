@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.schemaobject;
 
 import java.util.Iterator;
@@ -29,7 +28,8 @@ import org.castor.ddl.GeneratorException;
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public class Table extends AbstractSchemaObject {
-    //-------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    
     /**logging*/
     private static final Log LOG = LogFactory.getLog(Table.class);
 
@@ -54,12 +54,12 @@ public class Table extends AbstractSchemaObject {
     /**handle primary key*/
     private PrimaryKey _primaryKey;
 
-    //-------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     /**
      * Constructor for Table
      */
-    protected Table() {
+    public Table() {
         super();
         _fields = new Vector();
         _indexes = new Vector();
@@ -67,6 +67,8 @@ public class Table extends AbstractSchemaObject {
         _keyGenerator = null;
         _primaryKey = null;
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * 
@@ -284,24 +286,24 @@ public class Table extends AbstractSchemaObject {
      * @throws GeneratorException generator error
      */
     public final String toCreateDDL() throws GeneratorException {
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-        buff.append(getConf().getLineSeparator());
+        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+        buff.append(getConfiguration().getLineSeparator());
         
         //pre create table ddl
         buff.append(preCreateTable());
         
         for (Iterator i = _fields.iterator(); i.hasNext();) {
             Field field = (Field) i.next();
-            buff.append(getConf().getLineSeparator()).append(getConf().getLineIndent());
+            buff.append(getConfiguration().getLineSeparator()).append(getConfiguration().getLineIndent());
             buff.append(field.toDDL());
             if (i.hasNext()) {
-                buff.append(getConf().getSqlFieldDelimeter());
+                buff.append(getConfiguration().getSqlFieldDelimeter());
             }
         }
         
-        buff.append(getConf().getLineSeparator());
+        buff.append(getConfiguration().getLineSeparator());
         buff.append(postCreateTable());
-        buff.append(getConf().getSqlStatDelimeter());
+        buff.append(getConfiguration().getSqlStatDelimeter());
         
         return buff.toString();
     }
@@ -310,11 +312,11 @@ public class Table extends AbstractSchemaObject {
      * @return DDL script for dropping table 
      */
     public String toDropDDL() {
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-        buff.append(getConf().getLineSeparator());
+        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+        buff.append(getConfiguration().getLineSeparator());
 
         buff.append("DROP TABLE ").append(_name);
-        buff.append(getConf().getSqlStatDelimeter());
+        buff.append(getConfiguration().getSqlStatDelimeter());
 
         return buff.toString();
     }
@@ -410,7 +412,7 @@ public class Table extends AbstractSchemaObject {
             ForeignKey fk2 = null;
             for (int j = 0; j < table.getForeignKeyCount(); j++) {
                 ForeignKey f = table.getForeignKey(j); 
-                if (f != null && f.getFkName().equalsIgnoreCase(fk1.getFkName())) {
+                if (f != null && f.getConstraintName().equalsIgnoreCase(fk1.getConstraintName())) {
                     fk2 = f;
                     break;
                 } 
@@ -432,8 +434,7 @@ public class Table extends AbstractSchemaObject {
         return (ForeignKey) _foreignKey.get(index);
     }
 
-    /** (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
      * {@inheritDoc}
      */
     public final boolean equals(final Object obj) {
@@ -446,12 +447,12 @@ public class Table extends AbstractSchemaObject {
         return false;
     }
 
-    /** (non-Javadoc)
-     * @see java.lang.Object#hashCode()
+    /**
      * {@inheritDoc}
      */
     public final int hashCode() {
         return super.hashCode();
     }
-    
+
+    //--------------------------------------------------------------------------
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.schemaobject;
 
 import org.castor.ddl.Configuration;
@@ -22,18 +21,16 @@ import org.castor.ddl.Configuration;
  * An interface for all SchemaObject
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public interface SchemaObject {
-
     /**
      * set configuration
      * @param conf configuration
      */
-    void setConf(Configuration conf);
+    void setConfiguration(Configuration conf);
     
     /**
      * get configuration
      * @return configuration
      */
-    Configuration getConf();
+    Configuration getConfiguration();
 }

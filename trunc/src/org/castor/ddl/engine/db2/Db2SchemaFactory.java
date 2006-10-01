@@ -16,9 +16,9 @@
 
 package org.castor.ddl.engine.db2;
 
+import org.castor.ddl.SchemaFactory;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.PrimaryKey;
-import org.castor.ddl.schemaobject.SchemaFactory;
 
 /**
  * Db2SchemaFactory handles to create schema obhect for DB2
@@ -33,7 +33,6 @@ public final class Db2SchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
      * {@inheritDoc}
      */
     public Field createField() {
@@ -41,7 +40,6 @@ public final class Db2SchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createPrimaryKey()
      * {@inheritDoc}
      */
     public PrimaryKey createPrimaryKey() {

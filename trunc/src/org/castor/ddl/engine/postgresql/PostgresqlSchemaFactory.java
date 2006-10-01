@@ -16,8 +16,8 @@
 
 package org.castor.ddl.engine.postgresql;
 
+import org.castor.ddl.SchemaFactory;
 import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.SchemaFactory;
 
 /**
  * Postgre SQL Schema Factory.
@@ -33,7 +33,6 @@ public final class PostgresqlSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
      * {@inheritDoc}
      */
     public Field createField() {

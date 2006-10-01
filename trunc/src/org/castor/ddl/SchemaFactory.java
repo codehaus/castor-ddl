@@ -14,7 +14,14 @@
  * the License.
  */
 
-package org.castor.ddl.schemaobject;
+package org.castor.ddl;
+
+import org.castor.ddl.schemaobject.Field;
+import org.castor.ddl.schemaobject.ForeignKey;
+import org.castor.ddl.schemaobject.Index;
+import org.castor.ddl.schemaobject.PrimaryKey;
+import org.castor.ddl.schemaobject.Schema;
+import org.castor.ddl.schemaobject.Table;
 
 /**
  * The SchemaFactory class handles the creation for various schema objects. It 

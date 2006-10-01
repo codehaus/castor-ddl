@@ -16,7 +16,7 @@
 
 package org.castor.ddl.engine.sapdb;
 
-import org.castor.ddl.schemaobject.SchemaFactory;
+import org.castor.ddl.SchemaFactory;
 
 /**
  * SapdbSchemaFactory

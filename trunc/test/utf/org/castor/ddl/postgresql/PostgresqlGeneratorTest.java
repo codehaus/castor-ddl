@@ -112,7 +112,6 @@ public final class PostgresqlGeneratorTest extends BaseGeneratorTest {
     }
 
     /** 
-     * @see junit.framework.TestCase#setUp()
      * {@inheritDoc}
      */
     protected void setUp() throws Exception {
@@ -133,7 +132,6 @@ public final class PostgresqlGeneratorTest extends BaseGeneratorTest {
     }
 
     /** 
-     * @see junit.framework.TestCase#tearDown()
      * {@inheritDoc}
      */
     protected void tearDown() throws Exception {

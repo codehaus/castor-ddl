@@ -107,7 +107,7 @@ public final class KeyGeneratorRegistry {
         }
         
         KeyGenerator generator = factory.createKeyGenerator(definition);
-        generator.setConf(_config);
+        generator.setConfiguration(_config);
         _generators.put(generator.getAlias(), generator);
         return generator;
     }

@@ -63,7 +63,6 @@ public abstract class AbstractTypeMapper implements TypeMapper {
     }
     
     /**
-     * @see org.castor.ddl.TypeMapper#getType(java.lang.String)
      * {@inheritDoc}
      */
     public final TypeInfo getType(final String jdcbType) {

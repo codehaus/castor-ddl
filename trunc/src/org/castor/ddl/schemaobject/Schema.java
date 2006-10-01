@@ -13,7 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.castor.ddl.schemaobject;
 
 import java.util.Vector;
@@ -27,7 +26,6 @@ import org.castor.ddl.GeneratorException;
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public class Schema extends AbstractSchemaObject {
     /**logging*/
     private static final Log LOG = LogFactory.getLog(Schema.class);
@@ -49,7 +47,7 @@ public class Schema extends AbstractSchemaObject {
     /**
      * Constructor for Schema
      */
-    protected Schema() {
+    public Schema() {
         super();
         _tables = new Vector();
     }

@@ -16,7 +16,7 @@
 
 package org.castor.ddl.engine.oracle;
 
-import org.castor.ddl.schemaobject.SchemaFactory;
+import org.castor.ddl.SchemaFactory;
 
 /**
  * OracleSchemaFactory

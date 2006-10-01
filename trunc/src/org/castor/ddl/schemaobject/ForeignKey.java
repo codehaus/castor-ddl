@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.schemaobject;
 
 import org.apache.commons.logging.Log;
@@ -28,7 +27,6 @@ import org.castor.ddl.GeneratorException;
  * </pre> 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public class ForeignKey extends AbstractSchemaObject  {
     /**logging */
     private static final Log LOG = LogFactory.getLog(ForeignKey.class);
@@ -39,9 +37,6 @@ public class ForeignKey extends AbstractSchemaObject  {
     /** constraint name*/
     private String _constraintName = null;
     
-    /** foreign key name*/
-    private String _fkName = null;
-
     /** foreign key key list*/
     private String []_fkkeyList = null;
 
@@ -66,7 +61,7 @@ public class ForeignKey extends AbstractSchemaObject  {
     /**
      * Constructor for ForeignKey
      */
-    protected ForeignKey() {
+    public ForeignKey() {
         super();
     }
 
@@ -100,22 +95,6 @@ public class ForeignKey extends AbstractSchemaObject  {
      */
     public final void setFkkeyList(final String[] fkkeyList) {
         this._fkkeyList = fkkeyList;
-    }
-
-    /**
-     * 
-     * @return Returns the _fkName.
-     */
-    public final String getFkName() {
-        return _fkName;
-    }
-
-    /**
-     * Set the _fkName by _fkName.
-     * @param fkName foreign key name
-     */
-    public final void setFkName(final String fkName) {
-        this._fkName = fkName;
     }
 
     /**
@@ -171,28 +150,28 @@ public class ForeignKey extends AbstractSchemaObject  {
      * @return ddl string
      */
     public String toDDL() {
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-        buff.append(getConf().getLineSeparator());
+        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+        buff.append(getConfiguration().getLineSeparator());
 
         buff.append("ALTER TABLE ").append(_table.getName());
 
         // constraint
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
-        buff.append("ADD CONSTRAINT ").append(getConstraintName());
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
+        buff.append("ADD CONSTRAINT ").append(_constraintName);
 
         // foreign key
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
         buff.append("FOREIGN KEY ");
-        buff.append(makeListofParams(getFkkeyList()));
+        buff.append(makeListofParams(_fkkeyList));
 
         // references
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
-        buff.append("REFERENCES ").append(getReferenceTableName()).append(" ");
-        buff.append(makeListofParams(getReferenceKeyList()));
-        buff.append(getConf().getSqlStatDelimeter());
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
+        buff.append("REFERENCES ").append(_referenceTableName).append(" ");
+        buff.append(makeListofParams(_referenceKeyList));
+        buff.append(getConfiguration().getSqlStatDelimeter());
         return buff.toString();
     }
 
@@ -201,16 +180,16 @@ public class ForeignKey extends AbstractSchemaObject  {
      * @return ddl string
      */
     public String toIndexDDL() {
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-        buff.append(getConf().getLineSeparator());
+        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+        buff.append(getConfiguration().getLineSeparator());
 
         buff.append("CREATE UNIQUE INDEX ").append(_table.getName()).append("_idx_fk");
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
         buff.append("ON ").append(_table.getName());
 
-        buff.append(makeListofParams(getFkkeyList()));
-        buff.append(getConf().getSqlStatDelimeter());
+        buff.append(makeListofParams(_fkkeyList));
+        buff.append(getConfiguration().getSqlStatDelimeter());
         return buff.toString();
     }
 
@@ -224,7 +203,7 @@ public class ForeignKey extends AbstractSchemaObject  {
         buff.append("(");
         for (int i = 0; i < list.length; i++) {
             if (!isFirstField) {
-                buff.append(getConf().getSqlFieldDelimeter());
+                buff.append(getConfiguration().getSqlFieldDelimeter());
                 buff.append(" ");
             }
             isFirstField = false;
@@ -257,17 +236,17 @@ public class ForeignKey extends AbstractSchemaObject  {
     public final void merge(final ForeignKey fk) throws GeneratorException {
         String message = "";
         int len;
-        if (fk == null || fk._fkName == null 
-                || !fk._fkName.equalsIgnoreCase(getFkName())) {
+        if (fk == null || fk._constraintName == null 
+                || !fk._constraintName.equalsIgnoreCase(_constraintName)) {
             message = "Merge table '" + _table.getName() + "': foreign Key '" 
-            + _fkName + "' has different name or not found";
+            + _constraintName + "' has different name or not found";
             LOG.error(message);
            throw new GeneratorException(message); 
         }
         
         if (fk._referenceTableName == null 
                 ||  !fk._referenceTableName.equalsIgnoreCase(_referenceTableName)) {
-            message = "Merge table '" + _table.getName() + "', foreign key '" + _fkName
+            message = "Merge table '" + _table.getName() + "', foreign key '" + _constraintName
             + "' has different reference table '" + fk._referenceTableName 
             + "' vs '" + _referenceTableName + "'";
             LOG.error(message);
@@ -275,9 +254,9 @@ public class ForeignKey extends AbstractSchemaObject  {
         }
         
         len = _fkkeyList.length;
-        if (len != fk.getFkkeyList().length 
-                || _referenceKeyList.length != fk.getReferenceKeyList().length) {
-            message = "Merge table '" + _table.getName() + "', foreign key '" + _fkName
+        if (len != fk._fkkeyList.length 
+                || _referenceKeyList.length != fk._referenceKeyList.length) {
+            message = "Merge table '" + _table.getName() + "', foreign key '" + _constraintName
             + "' has different number of reference columns";
             LOG.error(message);
            throw new GeneratorException(message); 
@@ -285,10 +264,10 @@ public class ForeignKey extends AbstractSchemaObject  {
         
         for (int i = 0; i < len; i++) {
             if (_referenceKeyList[i] == null 
-                || !_referenceKeyList[i].equalsIgnoreCase(fk.getReferenceKeyList()[i])
+                || !_referenceKeyList[i].equalsIgnoreCase(fk._referenceKeyList[i])
                 || _fkkeyList[i] == null 
-                || !_fkkeyList[i].equalsIgnoreCase(fk.getFkkeyList()[i])) {
-               message = "Merge table '" + _table.getName() + "', foreign key '" + _fkName
+                || !_fkkeyList[i].equalsIgnoreCase(fk._fkkeyList[i])) {
+               message = "Merge table '" + _table.getName() + "', foreign key '" + _constraintName
                + "' has different reference column names";
                 LOG.error(message);
                throw new GeneratorException(message); 
@@ -297,26 +276,23 @@ public class ForeignKey extends AbstractSchemaObject  {
         }
     }
 
-    /** (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
      * {@inheritDoc}
      */
     public final boolean equals(final Object obj) {
         if (obj != null && obj instanceof ForeignKey) {
             ForeignKey f = (ForeignKey) obj;
-            if (_fkName != null && _fkName.equalsIgnoreCase(f.getFkName())) {
+            if (_constraintName != null && _constraintName.equalsIgnoreCase(f._constraintName)) {
                 return true;
             }
         }
         return false;
     }
 
-    /** (non-Javadoc)
-     * @see java.lang.Object#hashCode()
+    /**
      * {@inheritDoc}
      */
     public final int hashCode() {
         return super.hashCode();
     }
-
 }

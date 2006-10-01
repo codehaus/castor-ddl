@@ -50,7 +50,6 @@ public final class PointBaseGenerator extends AbstractGenerator {
     }
 
     /**
-     * @see org.castor.ddl.Generator#initialize()
      * {@inheritDoc}
      */
     public void initialize() {
@@ -62,19 +61,16 @@ public final class PointBaseGenerator extends AbstractGenerator {
     //--------------------------------------------------------------------------
 
     /**
-     * @see org.castor.ddl.Generator#getEngineName()
      * {@inheritDoc}
      */
     public String getEngineName() { return NAME; }
     
     /**
-     * @see org.castor.ddl.Generator#getEngineConfigPath()
      * {@inheritDoc}
      */
     public String getEngineConfigPath() { return ENGINE_CONFIG_PATH; }
 
     /**
-     * @see org.castor.ddl.Generator#getEngineConfigName()
      * {@inheritDoc}
      */
     public String getEngineConfigName() { return ENGINE_CONFIG_NAME; }
@@ -82,7 +78,6 @@ public final class PointBaseGenerator extends AbstractGenerator {
     //--------------------------------------------------------------------------
 
     /**
-     * @see org.castor.ddl.AbstractGenerator#generateHeader()
      * {@inheritDoc}
      */
     public String generateHeader() {

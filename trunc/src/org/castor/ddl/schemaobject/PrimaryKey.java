@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.schemaobject;
 
 import java.util.Iterator;
@@ -45,6 +44,8 @@ public class PrimaryKey extends AbstractSchemaObject {
         super();
         _primaryKeyColumns = new Vector();
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * 
@@ -123,8 +124,8 @@ public class PrimaryKey extends AbstractSchemaObject {
      */
     public String toCreateDdl() {
         if (_primaryKeyColumns.size() == 0) { return ""; }
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-        buff.append(getConf().getLineSeparator());
+        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+        buff.append(getConfiguration().getLineSeparator());
 
         buff.append("ALTER TABLE ").append(_table.getName());
         buff.append(" ADD PRIMARY KEY (");
@@ -133,14 +134,16 @@ public class PrimaryKey extends AbstractSchemaObject {
         for (Iterator i = _primaryKeyColumns.iterator(); i.hasNext();) {
             String columnName = (String) i.next();
                 if (!isFirstField) {
-                    buff.append(getConf().getSqlFieldDelimeter());
+                    buff.append(getConfiguration().getSqlFieldDelimeter());
                     buff.append(" ");
                 }
                 isFirstField = false;
                 buff.append(columnName);
         }
-        buff.append(")").append(getConf().getSqlStatDelimeter());
+        buff.append(")").append(getConfiguration().getSqlStatDelimeter());
 
         return buff.toString();
     }
+
+    //--------------------------------------------------------------------------
 }

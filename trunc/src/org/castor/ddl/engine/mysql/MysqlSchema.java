@@ -34,16 +34,15 @@ public final class MysqlSchema extends Schema {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.Schema#toDDL() 
      * {@inheritDoc}
      */
     public String toDDL() {
-        if (!getConf().getBoolValue(
+        if (!getConfiguration().getBoolValue(
                 BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true)) {
             return "";
         }
 
-        String schema = getConf().getStringValue(
+        String schema = getConfiguration().getStringValue(
                 BaseConfiguration.SCHEMA_NAME_KEY, "");
         if (schema == null || "".equals(schema)) {
             return "";

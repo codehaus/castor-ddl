@@ -47,10 +47,10 @@ public final class PointBaseTypeMapper extends AbstractTypeMapper {
     }
 
     /**
-     * @see org.castor.ddl.AbstractTypeMapper#initialize(org.castor.ddl.Configuration)
      * {@inheritDoc}
-     * refer to http://www.ipd.uka.de/~oosem/mobiledb/pb/docs/server_embedded/html
-     * /htmlfiles/dev_datatypesandconversionsFIN.html#1027969
+     * <br/>
+     * Refer to http://www.ipd.uka.de/~oosem/mobiledb/pb/docs/server_embedded/html
+     * /htmlfiles/dev_datatypesandconversionsFIN.html#1027969.
      */
     protected void initialize(final Configuration conf) {
         // numeric types

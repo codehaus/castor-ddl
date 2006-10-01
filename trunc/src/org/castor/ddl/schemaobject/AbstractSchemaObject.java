@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.schemaobject;
 
 import org.castor.ddl.Configuration;
@@ -23,27 +22,22 @@ import org.castor.ddl.Configuration;
  * KeyGenerator...
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public abstract class AbstractSchemaObject implements SchemaObject {
     /**configuration */
     private Configuration _conf;
     
     /**
-     * @see org.castor.ddl.schemaobject.SchemaObject#setConf
-     * (org.castor.ddl.Configuration)
      * {@inheritDoc}
      */
-    public final void setConf(final Configuration conf) {
+    public final void setConfiguration(final Configuration conf) {
         _conf = conf;
         
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaObject#getConf()
      * {@inheritDoc}
      */
-    public final Configuration getConf() {
+    public final Configuration getConfiguration() {
         return _conf;
     }
-
 }

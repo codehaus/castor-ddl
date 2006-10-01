@@ -36,7 +36,7 @@ public interface Generator {
     /**global configuration file name*/
     String GLOBAL_CONFIG_NAME = "ddl.properties";
 
-    //-------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     /**
      * initialize
@@ -109,4 +109,6 @@ public interface Generator {
      * @param keygenRegistry key gen registry
      */
     void setKeyGenRegistry(KeyGeneratorRegistry keygenRegistry);
+
+    //--------------------------------------------------------------------------
 }

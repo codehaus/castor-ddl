@@ -119,7 +119,6 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
     }
 
     /** 
-     * @see junit.framework.TestCase#setUp()
      * {@inheritDoc}
      */
     protected void setUp() throws Exception {
@@ -139,7 +138,6 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
     }
 
     /** 
-     * @see junit.framework.TestCase#tearDown()
      * {@inheritDoc}
      */
     protected void tearDown() throws Exception {
@@ -148,7 +146,6 @@ public final class Db2GeneratorTest extends BaseGeneratorTest {
     }
 
     /**
-     * @see utf.org.castor.ddl.BaseGeneratorTest#testSingleFieldForAll()
      * {@inheritDoc}
      */
     public void testSingleFieldForAll() {

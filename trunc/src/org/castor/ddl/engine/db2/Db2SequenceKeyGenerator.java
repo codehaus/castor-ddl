@@ -34,7 +34,7 @@ public final class Db2SequenceKeyGenerator extends SequenceKeyGeneratorFactory {
      */
     public String generateDDL(final KeyGenerator key) {
         SequenceKey sequenceKey = (SequenceKey) key;
-        Configuration conf = sequenceKey.getConf();
+        Configuration conf = sequenceKey.getConfiguration();
         StringBuffer buff = new StringBuffer();
         String tableName = sequenceKey.getTable().getName();
         String pkList = toPrimaryKeyList(key.getTable());

@@ -43,14 +43,14 @@ public abstract class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
     /**
      * {@inheritDoc}
      */
-    public KeyGenerator createKeyGenerator() throws GeneratorException {
+    public final KeyGenerator createKeyGenerator() throws GeneratorException {
         return new SequenceKey(this);
     }
     
     /**
      * {@inheritDoc}
      */
-    public KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
+    public final KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
     throws GeneratorException {
         return new SequenceKey(this, definition);
     }

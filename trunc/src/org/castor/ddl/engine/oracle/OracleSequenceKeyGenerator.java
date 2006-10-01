@@ -35,7 +35,7 @@ public final class OracleSequenceKeyGenerator extends SequenceKeyGeneratorFactor
     public String generateDDL(final KeyGenerator key) {
         SequenceKey sequenceKey = (SequenceKey) key;
         StringBuffer buff = new StringBuffer();
-        Configuration conf = sequenceKey.getConf();
+        Configuration conf = sequenceKey.getConfiguration();
         
         String tableName = sequenceKey.getTable().getName();
         String pkList = toPrimaryKeyList(key.getTable());

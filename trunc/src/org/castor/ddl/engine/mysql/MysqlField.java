@@ -33,7 +33,6 @@ public final class MysqlField extends Field {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.Field#toDDL()
      * {@inheritDoc}
      */
     public String toDDL() throws GeneratorException {

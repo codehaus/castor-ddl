@@ -31,49 +31,48 @@ public final class MysqlForeignKey extends ForeignKey {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.ForeignKey#toDDL() 
      * {@inheritDoc}
      */
     public String toDDL() {
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
+        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
 
         buff.append("ALTER TABLE ").append(getTable().getName());
 
         // constraint
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
         buff.append("ADD CONSTRAINT ").append(getConstraintName());
 
         // foreign key
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
-        buff.append("FOREIGN KEY ").append(getFkName()).append(" ");
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
+        buff.append("FOREIGN KEY ").append(getConstraintName()).append(" ");
         buff.append(makeListofParams(getFkkeyList()));
 
         // references
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
         buff.append("REFERENCES ").append(getReferenceTableName()).append(" ");
         buff.append(makeListofParams(getReferenceKeyList()));
 
         // on delete
-        String opt = getConf().getStringValue(
+        String opt = getConfiguration().getStringValue(
                 MysqlConfigurationKey.FOREIGN_KEY_ON_DELETE, null);
         if (opt != null && !"".equals(opt)) {
-            buff.append(getConf().getLineSeparator()).append(
-                    getConf().getLineIndent());
+            buff.append(getConfiguration().getLineSeparator()).append(
+                    getConfiguration().getLineIndent());
             buff.append("ON DELETE ").append(opt);
         }
 
-        opt = getConf().getStringValue(
+        opt = getConfiguration().getStringValue(
                 MysqlConfigurationKey.FOREIGN_KEY_ON_UPDATE, null);
         if (opt != null && !"".equals(opt)) {
-            buff.append(getConf().getLineSeparator()).append(
-                    getConf().getLineIndent());
+            buff.append(getConfiguration().getLineSeparator()).append(
+                    getConfiguration().getLineIndent());
             buff.append("ON UPDATE ").append(opt);
         }
 
-        buff.append(getConf().getSqlStatDelimeter());
+        buff.append(getConfiguration().getSqlStatDelimeter());
         return buff.toString();
     }
 }

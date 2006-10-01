@@ -40,7 +40,6 @@ public final class GeneratorFactoryTest extends TestCase {
     }
 
     /**
-     * @see TestCase#setUp() 
      * {@inheritDoc}
      */
     protected void setUp() throws Exception {
@@ -48,7 +47,6 @@ public final class GeneratorFactoryTest extends TestCase {
     }
 
     /**
-     * @see TestCase#tearDown()
      * {@inheritDoc}
      */
     protected void tearDown() throws Exception {

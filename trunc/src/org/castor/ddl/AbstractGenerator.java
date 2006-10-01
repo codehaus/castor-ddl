@@ -28,7 +28,6 @@ import org.castor.ddl.schemaobject.ForeignKey;
 import org.castor.ddl.schemaobject.KeyGenerator;
 import org.castor.ddl.schemaobject.PrimaryKey;
 import org.castor.ddl.schemaobject.Schema;
-import org.castor.ddl.schemaobject.SchemaFactory;
 import org.castor.ddl.schemaobject.Table;
 import org.castor.ddl.typeinfo.TypeInfo;
 import org.exolab.castor.mapping.Mapping;
@@ -164,7 +163,6 @@ public abstract class AbstractGenerator implements Generator {
     /** handle schema factory */
     private SchemaFactory _schemaFactory;
 
-
     /** handle the _mapping document */
     private Mapping _mapping;
 
@@ -279,7 +277,6 @@ public abstract class AbstractGenerator implements Generator {
     //--------------------------------------------------------------------------
 
     /**
-     * @see org.castor.ddl.Generator#generateDDL(java.lang.String) 
      * {@inheritDoc}
      */
     public final void generateDDL(final String mappingFile)
@@ -297,7 +294,6 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /**
-     * @see org.castor.ddl.Generator#generateDDL(Mapping) 
      * {@inheritDoc}
      */
     public final void generateDDL(final Mapping mappingDoc) throws GeneratorException {
@@ -613,7 +609,7 @@ public abstract class AbstractGenerator implements Generator {
         // _schema
         MappingRoot root = _mapping.getRoot();
         _schema = _schemaFactory.createSchema();
-        _schema.setConf(_configuration);
+        _schema.setConfiguration(_configuration);
 
         // generate key generator definition
         Enumeration ekg = root.enumerateKeyGeneratorDef();
@@ -660,11 +656,11 @@ public abstract class AbstractGenerator implements Generator {
 
         Table table = _schemaFactory.createTable();
         table.setName(tableName);
-        table.setConf(_configuration);
+        table.setConfiguration(_configuration);
         table.setSchema(_schema);
         
         PrimaryKey primarykey = _schemaFactory.createPrimaryKey();
-        primarykey.setConf(_configuration);
+        primarykey.setConfiguration(_configuration);
         primarykey.setTable(table);
         primarykey.setName("pk_" + tableName);
         table.setPrimaryKey(primarykey);
@@ -755,7 +751,7 @@ public abstract class AbstractGenerator implements Generator {
                 // create fields
                 for (int i = 0; i < sqlnames.length; i++) {
                     Field field = _schemaFactory.createField();
-                    field.setConf(_configuration);
+                    field.setConfiguration(_configuration);
 
                     // group_moderator mediumint(8) DEFAULT '0' NOT NULL,
                     if (isUseReferenceType) {
@@ -905,7 +901,7 @@ public abstract class AbstractGenerator implements Generator {
                 // create fields
                 for (int i = 0; i < sqlnames.length; i++) {
                     Field field = _schemaFactory.createField();
-                    field.setConf(_configuration);
+                    field.setConfiguration(_configuration);
 
                     // group_moderator mediumint(8) DEFAULT '0' NOT NULL,
                     if (isUseReferenceType) {
@@ -1056,13 +1052,12 @@ public abstract class AbstractGenerator implements Generator {
             final FieldMapping fm, final String tableName)
             throws GeneratorException {
         ForeignKey fk = _schemaFactory.createForeignKey();
-        fk.setConf(_configuration);
+        fk.setConfiguration(_configuration);
         String s;
 
         fk.setTable(table);
         s = tableName + "_" + fm.getName();
         fk.setConstraintName(s);
-        fk.setFkName(s);
         fk.setFkkeyList(fm.getSql().getName());
 
         ClassMapping cm = _mappingHelper.getClassMappingByName(fm.getType());
@@ -1182,4 +1177,6 @@ public abstract class AbstractGenerator implements Generator {
     protected final void write(final String s) {
         _printer.println(format(s));
     }
+
+    //--------------------------------------------------------------------------
 }

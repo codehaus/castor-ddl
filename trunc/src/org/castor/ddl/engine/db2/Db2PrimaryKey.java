@@ -26,34 +26,33 @@ import org.castor.ddl.schemaobject.PrimaryKey;
  */
 public final class Db2PrimaryKey extends PrimaryKey {
     /**
-     * @see org.castor.ddl.schemaobject.PrimaryKey#toCreateDdl()
      * {@inheritDoc}
      */
     public String toCreateDdl() {
         if (getPrimaryKeyColumnCount() <= 0) { return ""; }
         
-        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-        buff.append(getConf().getLineSeparator());
+        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+        buff.append(getConfiguration().getLineSeparator());
 
         buff.append("ALTER TABLE ").append(getTable().getName());
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
         buff.append("ADD CONSTRAINT ").append(getName());
-        buff.append(getConf().getLineSeparator()).append(
-                getConf().getLineIndent());
+        buff.append(getConfiguration().getLineSeparator()).append(
+                getConfiguration().getLineIndent());
         buff.append("PRIMARY KEY (");
 
         boolean isFirstField = true;
         for (Iterator i = getPrimaryKeyColumns().iterator(); i.hasNext();) {
             String columnname = (String) i.next();
                 if (!isFirstField) {
-                    buff.append(getConf().getSqlFieldDelimeter());
+                    buff.append(getConfiguration().getSqlFieldDelimeter());
                     buff.append(" ");
                 }
                 isFirstField = false;
                 buff.append(columnname);
         }
-        buff.append(")").append(getConf().getSqlStatDelimeter());
+        buff.append(")").append(getConfiguration().getSqlStatDelimeter());
 
         return buff.toString();
     }

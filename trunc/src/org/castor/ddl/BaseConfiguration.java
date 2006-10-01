@@ -23,7 +23,8 @@ package org.castor.ddl;
  */
 
 public class BaseConfiguration {
-    //----------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    
     /** Generator classes of supported database engines. */
     public static final String GENERATORS_KEY = "org.castor.ddl.Generators";
 
@@ -34,7 +35,8 @@ public class BaseConfiguration {
     public static final String KEYGEN_FACTORIES_KEY =
         "org.castor.ddl.KeyGeneratorFactories";
 
-    //----------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    
     /** option for generate DDL for CREATE statement */
     public static final String GENERATE_DDL_FOR_SCHEMA_KEY = "generate_ddl_for_schema";
 
@@ -65,7 +67,8 @@ public class BaseConfiguration {
     /** define ddl generator configuration file */
     public static final String DDLGEN_CONFIGURATION_KEY = "ddlgen_config_file";
 
-    //----------------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    
     /** true string */
     public static final String TRUE = "true";
 
@@ -104,7 +107,6 @@ public class BaseConfiguration {
     
     /** Line indent */
     private String _sqlBlocSeparator = "\n";
-    
 
     /** ddl format case key */
     public static final String DDL_FORMAT_CASE_KEY = "ddl_format_case";
@@ -240,4 +242,6 @@ public class BaseConfiguration {
     public final void setSqlBlocSeparator(final String sqlBlocSeparator) {
         _sqlBlocSeparator = sqlBlocSeparator;
     }
+
+    //--------------------------------------------------------------------------
 }

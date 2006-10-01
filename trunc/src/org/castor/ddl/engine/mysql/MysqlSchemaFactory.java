@@ -16,10 +16,10 @@
 
 package org.castor.ddl.engine.mysql;
 
+import org.castor.ddl.SchemaFactory;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.ForeignKey;
 import org.castor.ddl.schemaobject.Schema;
-import org.castor.ddl.schemaobject.SchemaFactory;
 import org.castor.ddl.schemaobject.Table;
 
 /**
@@ -35,7 +35,6 @@ public final class MysqlSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
      * {@inheritDoc}
      */
     public Field createField() {
@@ -43,7 +42,6 @@ public final class MysqlSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createTable()
      * {@inheritDoc}
      */
     public Table createTable() {
@@ -51,7 +49,6 @@ public final class MysqlSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createForeignKey()
      * {@inheritDoc}
      */
     public ForeignKey createForeignKey() {
@@ -59,7 +56,6 @@ public final class MysqlSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createSchema()
      * {@inheritDoc}
      */
     public Schema createSchema() {

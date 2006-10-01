@@ -16,8 +16,8 @@
 
 package org.castor.ddl.engine.derby;
 
+import org.castor.ddl.SchemaFactory;
 import org.castor.ddl.schemaobject.Field;
-import org.castor.ddl.schemaobject.SchemaFactory;
 
 /**
  * Derby Schema Factory
@@ -32,7 +32,6 @@ public final class DerbySchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
      * {@inheritDoc}
      */
     public Field createField() {

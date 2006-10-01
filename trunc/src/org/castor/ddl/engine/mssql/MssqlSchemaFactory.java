@@ -16,9 +16,9 @@
 
 package org.castor.ddl.engine.mssql;
 
+import org.castor.ddl.SchemaFactory;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.PrimaryKey;
-import org.castor.ddl.schemaobject.SchemaFactory;
 
 /**
  * Microsoft SQL server schema factory
@@ -33,7 +33,6 @@ public final class MssqlSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createField()
      * {@inheritDoc}
      */
     public Field createField() {
@@ -41,7 +40,6 @@ public final class MssqlSchemaFactory extends SchemaFactory {
     }
 
     /**
-     * @see org.castor.ddl.schemaobject.SchemaFactory#createPrimaryKey()
      * {@inheritDoc}
      */
     public PrimaryKey createPrimaryKey() {

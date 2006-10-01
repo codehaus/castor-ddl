@@ -13,7 +13,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.castor.ddl.schemaobject;
 
 import org.apache.commons.logging.Log;
@@ -27,7 +26,6 @@ import org.castor.ddl.typeinfo.TypeInfo;
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
 public class Field extends AbstractSchemaObject {
     /**LOGGING*/
     private static final Log LOG = LogFactory.getLog(Field.class);
@@ -49,18 +47,17 @@ public class Field extends AbstractSchemaObject {
     
     /** handle to table in which contains this field */
     private Table _table;
+
     /**
      * Constructor for Field
      */
-    protected Field() {
+    public Field() {
         super();
         _name = null;
         _type = null;
         _keyGenerator = null;
         _isRequired = false;
     }
-    
-
 
     /**
      * 
@@ -129,8 +126,6 @@ public class Field extends AbstractSchemaObject {
         return _table;
     }
 
-
-
     /**
      * Set the table by _table.
      * @param table table
@@ -138,8 +133,6 @@ public class Field extends AbstractSchemaObject {
     public final void setTable(final Table table) {
         _table = table;
     }
-
-
 
     /**
      * Set the keyGenerator by _keyGenerator.
@@ -175,8 +168,6 @@ public class Field extends AbstractSchemaObject {
         return _isRequired;
     }
 
-
-
     /**
      * Set the isRequired by _isRequired.
      * @param isRequired is required
@@ -184,8 +175,6 @@ public class Field extends AbstractSchemaObject {
     public final void setRequired(final boolean isRequired) {
         _isRequired = isRequired;
     }
-
-
 
     /**
      * Create DDL for field
@@ -206,8 +195,6 @@ public class Field extends AbstractSchemaObject {
         
         return buff.toString();
     }
-
-
 
     /**
      * 
@@ -234,10 +221,7 @@ public class Field extends AbstractSchemaObject {
         _type.merge(field._type);
     }
 
-
-
-    /** (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
      * {@inheritDoc}
      */
     public final boolean equals(final Object obj) {
@@ -250,14 +234,10 @@ public class Field extends AbstractSchemaObject {
         return false;
     }
 
-
-
-    /** (non-Javadoc)
-     * @see java.lang.Object#hashCode()
+    /**
      * {@inheritDoc}
      */
     public final int hashCode() {
         return super.hashCode();
     }
-    
 }
