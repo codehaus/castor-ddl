@@ -13,40 +13,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+package org.castor.ddl.schemaobject;
 
-package org.castor.ddl.engine.mysql;
-
-import org.castor.ddl.BaseConfiguration;
-import org.castor.ddl.schemaobject.Schema;
+import org.castor.ddl.GeneratorException;
+import org.castor.ddl.keygenerator.IdentityKeyGenerator;
 
 /**
- * My SQL Schema
+ * Default field. 
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public final class MysqlSchema extends Schema {
+public final class DefaultField extends Field {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() {
-        if (!getConfiguration().getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true)) {
-            return "";
+    public String toCreateDDL() throws GeneratorException {
+        StringBuffer sb = new StringBuffer();
+        sb.append(getName()).append(" ").append(getType().toDDL(this));
+        if (isIdentity() || isRequired()) { sb.append(" NOT NULL"); }
+
+        if (isIdentity() && (getKeyGenerator() instanceof IdentityKeyGenerator)) {
+            String msg = "IDENTITY key generator is not supported for this database";
+            throw new GeneratorException(msg);
         }
-
-        String schema = getConfiguration().getStringValue(
-                BaseConfiguration.SCHEMA_NAME_KEY, "");
-        if (schema == null || "".equals(schema)) {
-            return "";
-        }
-
-        return "USE " + schema + ";";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String toDropDDL() {
-        return "";
+        
+        return sb.toString();
     }
 }

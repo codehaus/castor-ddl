@@ -29,7 +29,7 @@ public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * {@inheritDoc}
      */
-    public String getAlgorithmName() { return IdentityKey.ALGORITHM_NAME; }
+    public String getAlgorithmName() { return IdentityKeyGenerator.ALGORITHM_NAME; }
     
     /**
      * {@inheritDoc}
@@ -40,7 +40,7 @@ public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
      * {@inheritDoc}
      */
     public KeyGenerator createKeyGenerator() {
-        return new IdentityKey();
+        return new IdentityKeyGenerator();
     }
     
     /**
@@ -48,6 +48,6 @@ public final class IdentityKeyGeneratorFactory implements KeyGeneratorFactory {
      */
     public KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
     throws GeneratorException {
-        return new IdentityKey(definition);
+        return new IdentityKeyGenerator(definition);
     }
 }

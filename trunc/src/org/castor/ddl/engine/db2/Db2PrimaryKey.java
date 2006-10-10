@@ -13,47 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.engine.db2;
-
-import java.util.Iterator;
 
 import org.castor.ddl.schemaobject.PrimaryKey;
 
 /**
- * final Db2 Primary key class
+ * Primary key of DB2 database engine.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public final class Db2PrimaryKey extends PrimaryKey {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDdl() {
-        if (getPrimaryKeyColumnCount() <= 0) { return ""; }
+    public String toCreateDDL() {
+        if (getFieldCount() <= 0) { return ""; }
         
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
-        buff.append(getConfiguration().getLineSeparator());
+        String separator = getConfiguration().getLineSeparator();
+        String delimiter = getConfiguration().getSqlStatDelimeter();
 
-        buff.append("ALTER TABLE ").append(getTable().getName());
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("ADD CONSTRAINT ").append(getName());
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("PRIMARY KEY (");
-
-        boolean isFirstField = true;
-        for (Iterator i = getPrimaryKeyColumns().iterator(); i.hasNext();) {
-            String columnname = (String) i.next();
-                if (!isFirstField) {
-                    buff.append(getConfiguration().getSqlFieldDelimeter());
-                    buff.append(" ");
-                }
-                isFirstField = false;
-                buff.append(columnname);
-        }
-        buff.append(")").append(getConfiguration().getSqlStatDelimeter());
-
-        return buff.toString();
+        StringBuffer sb = new StringBuffer();
+        sb.append(separator).append(separator);
+        sb.append("ALTER TABLE ").append(getTable().getName());
+        sb.append(separator);
+        sb.append("ADD CONSTRAINT ").append(getName());
+        sb.append(separator);
+        sb.append("PRIMARY KEY (").append(fieldNames()).append(')');
+        sb.append(delimiter);
+        return sb.toString();
     }
 }

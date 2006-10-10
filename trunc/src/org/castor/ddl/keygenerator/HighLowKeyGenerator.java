@@ -26,7 +26,9 @@ import org.exolab.castor.mapping.xml.Param;
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class HighLowKey extends KeyGenerator {
+public final class HighLowKeyGenerator extends KeyGenerator {
+    //--------------------------------------------------------------------------
+
     /** Name of key generator algorithm. */
     public static final String ALGORITHM_NAME = "HIGH-LOW";
     
@@ -70,13 +72,16 @@ public final class HighLowKey extends KeyGenerator {
     /** Shell globally unique keys be generated. Defaults to "false". */
     private boolean _isGlobal = false;
 
+    //--------------------------------------------------------------------------
+
     /**
      * Constructor for HIGH-LOW key generator specified by given defintion.
      * 
      * @param definition Key generator definition.
      * @throws GeneratorException If grab size parameter can't be parsed as integer.
      */
-    public HighLowKey(final KeyGeneratorDef definition) throws GeneratorException {
+    public HighLowKeyGenerator(final KeyGeneratorDef definition)
+    throws GeneratorException {
         super(ALGORITHM_NAME, definition.getAlias());
         
         Param[] params = definition.getParam();
@@ -103,6 +108,8 @@ public final class HighLowKey extends KeyGenerator {
             }
         }
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Get name of the special sequence table.
@@ -149,8 +156,17 @@ public final class HighLowKey extends KeyGenerator {
      */
     public boolean isGlobal() { return _isGlobal; }
 
-    /** 
+    //--------------------------------------------------------------------------
+
+    /**
      * {@inheritDoc}
      */
-    public String toDDL() { return ""; }
+    public String toCreateDDL() { return ""; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String toDropDDL() { return ""; }
+
+    //--------------------------------------------------------------------------
 }

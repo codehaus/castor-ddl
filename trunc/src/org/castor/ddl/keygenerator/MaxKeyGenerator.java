@@ -23,14 +23,18 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class MaxKey extends KeyGenerator {
+public final class MaxKeyGenerator extends KeyGenerator {
+    //--------------------------------------------------------------------------
+
     /** Name of key generator algorithm. */
     public static final String ALGORITHM_NAME = "MAX";
+
+    //--------------------------------------------------------------------------
 
     /**
      * Constructor for default MAX key generator.
      */
-    public MaxKey() {
+    public MaxKeyGenerator() {
         super(ALGORITHM_NAME, ALGORITHM_NAME);
     }
 
@@ -39,12 +43,21 @@ public final class MaxKey extends KeyGenerator {
      * 
      * @param definition Key generator definition.
      */
-    public MaxKey(final KeyGeneratorDef definition) {
+    public MaxKeyGenerator(final KeyGeneratorDef definition) {
         super(ALGORITHM_NAME, definition.getAlias());
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
-    public String toDDL() { return ""; }
+    public String toCreateDDL() { return ""; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String toDropDDL() { return ""; }
+
+    //--------------------------------------------------------------------------
 }

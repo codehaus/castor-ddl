@@ -1076,7 +1076,7 @@ public abstract class BaseGeneratorTest extends TestCase {
             String schema = "test";
             conf.setProperty(BaseConfiguration.SCHEMA_NAME_KEY, schema);
 
-            String ddl = _generator.getSchema().toDDL();
+            String ddl = _generator.getSchema().toCreateDDL();
             boolean b = _expectedDDL.match(_engine, 0, ddl,
                     new String[] {schema});
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
@@ -1084,7 +1084,7 @@ public abstract class BaseGeneratorTest extends TestCase {
 
             schema = "";
             conf.setProperty(BaseConfiguration.SCHEMA_NAME_KEY, schema);
-            ddl = _generator.getSchema().toDDL();
+            ddl = _generator.getSchema().toCreateDDL();
             b = _expectedDDL.match(_engine, 1, ddl, new String[] {});
             assertTrue("Generated DDL:\n" + ddl + "\nExpected DDL:\n"
                     + _expectedDDL.getMessage(), b);

@@ -17,7 +17,7 @@
 package org.castor.ddl.engine.mysql;
 
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.keygenerator.IdentityKey;
+import org.castor.ddl.keygenerator.IdentityKeyGenerator;
 import org.castor.ddl.schemaobject.Field;
 
 /**
@@ -35,12 +35,12 @@ public final class MysqlField extends Field {
     /**
      * {@inheritDoc}
      */
-    public String toDDL() throws GeneratorException {
+    public String toCreateDDL() throws GeneratorException {
         StringBuffer buff = new StringBuffer();
         buff.append(getName()).append(" ");
         buff.append(getType().toDDL(this));
 
-        if (isIdentity() && (getKeyGenerator() instanceof IdentityKey)) {
+        if (isIdentity() && (getKeyGenerator() instanceof IdentityKeyGenerator)) {
             buff.append(" AUTO_INCREMENT");
         }
         

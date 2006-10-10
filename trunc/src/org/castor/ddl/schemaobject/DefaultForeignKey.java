@@ -13,22 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.ddl.engine.hsql;
-
-import org.castor.ddl.schemaobject.PrimaryKey;
+package org.castor.ddl.schemaobject;
 
 /**
- * Primary key of HSQL database engine.
+ * Default foreign key.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class HsqlPrimaryKey extends PrimaryKey {
+public final class DefaultForeignKey extends ForeignKey  {
     /**
      * {@inheritDoc}
      */
     public String toCreateDDL() {
-        if (getFieldCount() <= 0) { return ""; }
-        
         String separator = getConfiguration().getLineSeparator();
         String delimiter = getConfiguration().getSqlStatDelimeter();
 
@@ -38,7 +34,10 @@ public final class HsqlPrimaryKey extends PrimaryKey {
         sb.append(separator);
         sb.append("ADD CONSTRAINT ").append(getName());
         sb.append(separator);
-        sb.append("PRIMARY KEY (").append(fieldNames()).append(')');
+        sb.append("FOREIGN KEY (").append(fieldNames()).append(')');
+        sb.append(separator);
+        sb.append("REFERENCES ").append(getReferenceTable().getName());
+        sb.append(" (").append(referencedFieldNames()).append(')');
         sb.append(delimiter);
         return sb.toString();
     }

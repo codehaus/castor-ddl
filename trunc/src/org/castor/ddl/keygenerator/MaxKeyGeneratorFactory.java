@@ -29,7 +29,7 @@ public final class MaxKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * {@inheritDoc}
      */
-    public String getAlgorithmName() { return MaxKey.ALGORITHM_NAME; }
+    public String getAlgorithmName() { return MaxKeyGenerator.ALGORITHM_NAME; }
     
     /**
      * {@inheritDoc}
@@ -40,7 +40,7 @@ public final class MaxKeyGeneratorFactory implements KeyGeneratorFactory {
      * {@inheritDoc}
      */
     public KeyGenerator createKeyGenerator() {
-        return new MaxKey();
+        return new MaxKeyGenerator();
     }
     
     /**
@@ -48,6 +48,6 @@ public final class MaxKeyGeneratorFactory implements KeyGeneratorFactory {
      */
     public KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
     throws GeneratorException {
-        return new MaxKey(definition);
+        return new MaxKeyGenerator(definition);
     }
 }

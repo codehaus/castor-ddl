@@ -13,34 +13,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
-package org.castor.ddl.engine.mysql;
-
-import org.castor.ddl.BaseConfiguration;
-import org.castor.ddl.schemaobject.Schema;
+package org.castor.ddl.schemaobject;
 
 /**
- * My SQL Schema
+ * Default schema.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-
-public final class MysqlSchema extends Schema {
+public final class DefaultSchema extends Schema {
     /**
      * {@inheritDoc}
      */
     public String toCreateDDL() {
-        if (!getConfiguration().getBoolValue(
-                BaseConfiguration.GENERATE_DDL_FOR_SCHEMA_KEY, true)) {
-            return "";
-        }
-
-        String schema = getConfiguration().getStringValue(
-                BaseConfiguration.SCHEMA_NAME_KEY, "");
-        if (schema == null || "".equals(schema)) {
-            return "";
-        }
-
-        return "USE " + schema + ";";
+        return "";
     }
 
     /**

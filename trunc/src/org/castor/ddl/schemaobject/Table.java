@@ -15,394 +15,253 @@
  */
 package org.castor.ddl.schemaobject;
 
-import java.util.Iterator;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 
 /**
- * Table contains fields, foreignkeys, indexes and table's options
+ * Abstract base class of all table implementations.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class Table extends AbstractSchemaObject {
+public abstract class Table extends AbstractSchemaObject {
     //--------------------------------------------------------------------------
     
-    /**logging*/
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(Table.class);
 
-    /**table name*/
-    private String _name = null;
+    /** List of indices for this table. */
+    private List _indices = new ArrayList();
     
-    /** handle key generator */
+    /** List of foreign keys for this table. */
+    private List _foreignKeys = new ArrayList();
+    
+    /** List of field for this table. */
+    private List _fields = new ArrayList();
+    
+    /** Map of fields assoizated with their name. */
+    private Map _fieldMap = new HashMap();
+    
+    /** Key generator used for identities of this table. */
     private KeyGenerator _keyGenerator;
     
-    /**list of field*/
-    private Vector _fields;
-    
-    /**indexes*/
-    private Vector _indexes;
-    
-    /** foriegn key*/
-    private Vector _foreignKey;
-    
-    /** schema key*/
-    private Schema _schema;  
-    
-    /**handle primary key*/
+    /** Primary key with identities of this table. */
     private PrimaryKey _primaryKey;
 
-    //--------------------------------------------------------------------------
+    /** Schema this table belongs to. */
+    private Schema _schema;  
     
-    /**
-     * Constructor for Table
-     */
-    public Table() {
-        super();
-        _fields = new Vector();
-        _indexes = new Vector();
-        _foreignKey = new Vector();
-        _keyGenerator = null;
-        _primaryKey = null;
-    }
-
     //--------------------------------------------------------------------------
 
     /**
+     * Add given index to list of indices.
      * 
-     * @return Returns the primaryKey.
+     * @param index Index to add to list of indices.
      */
-    public final PrimaryKey getPrimaryKey() {
-        return _primaryKey;
-    }
-
-    /**
-     * Set the primaryKey by _primaryKey.
-     * @param primaryKey primary key
-     */
-    public final void setPrimaryKey(final PrimaryKey primaryKey) {
-        _primaryKey = primaryKey;
-    }
-
-    /**
-     * 
-     * @return Returns the fields.
-     */
-    public final Vector getFields() {
-        return _fields;
-    }
-
-    /**
-     * Set the fields by _fields.
-     * @param fields fields
-     */
-    public final void setFields(final Vector fields) {
-        _fields = fields;
-    }
-
-    /**
-     * 
-     * @param field field
-     * @throws GeneratorException cannot merge field if it already exists in table
-     */
-    public final void addField(final Field field) throws GeneratorException {
-        if (_fields.contains(field)) {
-           Field f = (Field) _fields.get(_fields.indexOf(field));
-           f.merge(field);
-        } else {
-            _fields.add(field);
-        }
+    public final void addIndex(final Index index) {        
+        _indices.add(index);
     }
     
     /**
+     * Get number of indices.
      * 
-     * @param index index
-     * @return field field
+     * @return Number of indices.
      */
-    public final Field getField(final int index) {
-        return (Field) _fields.get(index);
-        
+    public final int getIndexCount() {
+        return _indices.size();
     }
     
     /**
+     * Get index at given index.
      * 
-     * @param field field
-     * @return field field which has the same name of field
+     * @param index Index of index to return.
+     * @return Index at given index.
      */
-    public final Field getField(final Field field) {
-        if (_fields.contains(field)) {
-            return (Field) _fields.get(_fields.indexOf(field));
-        }
-        return null;
-        
+    public final Index getIndex(final int index) {
+        return (Index) _indices.get(index);        
     }
     
     /**
+     * Add given foreign key to list of foreign keys.
      * 
-     * @return field count
+     * @param foreignKey Foreign key to add to list of foreign keys.
+     */
+    public final void addForeignKey(final ForeignKey foreignKey) {
+        _foreignKeys.add(foreignKey);       
+    }
+    
+    /**
+     * Get number of foreign keys.
+     * 
+     * @return Number of foreign keys.
+     */
+    public final int getForeignKeyCount() {
+        return _foreignKeys.size();
+    }
+
+    /**
+     * Get foreign key at given index.
+     * 
+     * @param index Index of foreign key to return.
+     * @return Foreign key at given index.
+     */
+    public final ForeignKey getForeignKey(final int index) {
+        return (ForeignKey) _foreignKeys.get(index);
+    }
+
+    /**
+     * Add given field to list of fields.
+     * 
+     * @param field Field to add to list of fields.
+     */
+    public final void addField(final Field field) {
+        _fields.add(field);
+        _fieldMap.put(field.getName(), field);
+    }
+    
+    /**
+     * Get number of fields.
+     * 
+     * @return Number of fields.
      */
     public final int getFieldCount() {
         return _fields.size();
     }
-
-    /**
-     * 
-     * @return Returns the indexes.
-     */
-    public final Vector getIndexes() {
-        return _indexes;
-    }
-
-    /**
-     * Set the indexes by _indexes.
-     * @param indexes index 
-     */
-    public final void setIndexes(final Vector indexes) {
-        _indexes = indexes;
-    }
-
-//    /**
-//     * 
-//     * @param index index
-//     */
-//    public void setIndex(final Index index) {        
-//        _indexes.put(index. index);
-//    }
-    
-//    /**
-//     * 
-//     * @param index index
-//     * @return Index
-//     */
-//    public Index getIndex(final int index) {
-//        return (Index) _indexes.get(index);        
-//    }
     
     /**
+     * Get field at given index.
      * 
-     * @return Returns the name.
+     * @param index Index of field to return.
+     * @return Field at given index.
      */
-    public final String getName() {
-        return _name;
-    }
-
-    /**
-     * Set the name by _name.
-     * @param name name
-     */
-    public final void setName(final String name) {
-        _name = name;
-    }
-
-    /**
-     * 
-     * @return Returns the foreignKey.
-     */
-    public final Vector getForeignKey() {
-        return _foreignKey;
-    }
-
-    /**
-     * Set the foreignKey by _foreignKey.
-     * @param foreignKey foreign key
-     */
-    public final void setForeignKey(final Vector foreignKey) {
-        _foreignKey = foreignKey;
-    }
-
-    /**
-     * 
-     * @param fk foreign key
-     * @throws GeneratorException if cannot be merged.
-     */
-    public final void addForeignKey(final ForeignKey fk) throws GeneratorException {
-        if (_foreignKey.contains(fk)) {
-            ForeignKey f = (ForeignKey) _foreignKey.get(_foreignKey.indexOf(fk));
-            f.merge(fk);
-        } else {
-            _foreignKey.add(fk);       
-        }
+    public final Field getField(final int index) {
+        return (Field) _fields.get(index);
     }
     
     /**
+     * Get field with given name.
      * 
-     * @return foreign key count
+     * @param name Name of field to return.
+     * @return Field with given name.
      */
-    public final int getForeignKeyCount() {
-        return _foreignKey.size();
+    public final Field getField(final String name) {
+        return (Field) _fieldMap.get(name);
     }
-
+    
     /**
+     * Set key generator used for identities of this table.
      * 
-     * @return Returns the keyGenerator.
-     */
-    public final KeyGenerator getKeyGenerator() {
-        return _keyGenerator;
-    }
-
-    /**
-     * Set the keyGenerator by _keyGenerator.
-     * @param keyGenerator key generator
+     * @param keyGenerator Key generator used for identities of this table.
      */
     public final void setKeyGenerator(final KeyGenerator keyGenerator) {
         _keyGenerator = keyGenerator;
     }
 
     /**
+     * Get key generator used for identities of this table.
      * 
-     * @return pre-create table
+     * @return Key generator used for identities of this table.
      */
-    protected final String preCreateTable() {
-        return "CREATE TABLE " + _name + " (";
+    public final KeyGenerator getKeyGenerator() {
+        return _keyGenerator;
     }
 
     /**
-     * @return DDL script for creating table
-     */
-    protected String postCreateTable() {
-        return ")";
-    }
-
-    /**
+     * Set primary key with identities of this table.
      * 
-     * @return Returns the schema.
+     * @param primaryKey Primary key with identities of this table.
      */
-    public final Schema getSchema() {
-        return _schema;
+    public final void setPrimaryKey(final PrimaryKey primaryKey) {
+        _primaryKey = primaryKey;
     }
 
     /**
-     * Set the schema by _schema.
-     * @param schema schema
+     * Get primary key with identities of this table.
+     * 
+     * @return Primary key with identities of this table.
+     */
+    public final PrimaryKey getPrimaryKey() {
+        return _primaryKey;
+    }
+
+    /**
+     * Set schema this table belongs to.
+     * 
+     * @param schema Schema this table belongs to.
      */
     public final void setSchema(final Schema schema) {
         _schema = schema;
     }
 
-    /** create CREADDL
-     * @return create creation ddl
-     * @throws GeneratorException generator error
-     */
-    public final String toCreateDDL() throws GeneratorException {
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
-        buff.append(getConfiguration().getLineSeparator());
-        
-        //pre create table ddl
-        buff.append(preCreateTable());
-        
-        for (Iterator i = _fields.iterator(); i.hasNext();) {
-            Field field = (Field) i.next();
-            buff.append(getConfiguration().getLineSeparator()).append(getConfiguration().getLineIndent());
-            buff.append(field.toDDL());
-            if (i.hasNext()) {
-                buff.append(getConfiguration().getSqlFieldDelimeter());
-            }
-        }
-        
-        buff.append(getConfiguration().getLineSeparator());
-        buff.append(postCreateTable());
-        buff.append(getConfiguration().getSqlStatDelimeter());
-        
-        return buff.toString();
-    }
-
     /**
-     * @return DDL script for dropping table 
+     * Get schema this table belongs to.
+     * 
+     * @return Schema this table belongs to.
      */
-    public String toDropDDL() {
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
-        buff.append(getConfiguration().getLineSeparator());
-
-        buff.append("DROP TABLE ").append(_name);
-        buff.append(getConfiguration().getSqlStatDelimeter());
-
-        return buff.toString();
+    public final Schema getSchema() {
+        return _schema;
     }
 
-    /**
-     * create unique index tc1x_pks_add_pk on tc1x_pks_address( id );
-     * @return DDL script for creating index for primary key
-     */
-    public final String toIndexDDL() {
-//        boolean isHasPK = false;
-//        StringBuffer buff = new StringBuffer(getConf().getLineSeparator());
-//        buff.append(getConf().getLineSeparator());
-//
-//        buff.append("CREATE UNIQUE INDEX ").append(_name).append("_idx_pk");
-//        buff.append(getConf().getLineSeparator()).append(
-//                getConf().getLineIndent());
-//        buff.append("ON ").append(_name).append("(");
-//
-//        boolean isFirstField = true;
-//        for (Iterator i = _fields.iterator(); i.hasNext();) {
-//            Field field = (Field) i.next();
-//            if (field.isIdentity()) {
-//                isHasPK = true;
-//                if (!isFirstField) {
-//                    buff.append(getConf().getSqlFieldDelimeter()).append(" ");
-//                }
-//                isFirstField = false;
-//                buff.append(field.getName());
-//            }
-//        }
-//        buff.append(")").append(getConf().getSqlStatDelimeter());
-//
-//        //have no primary key
-//        if (!isHasPK) {
-//            buff = new StringBuffer(getConf().getLineSeparator());
-//            buff.append(getConf().getLineSeparator());
-//        }
-//        
-//        for (Iterator i = getForeignKey().iterator(); i.hasNext();) {
-//            ForeignKey fk = (ForeignKey) i.next();
-//            buff.append(fk.toIndexDDL());
-//        }
-//        
-//        return buff.toString();
-        return "";
-    }
-
-    /**
-     * @return DDL script for creating primary key
-     */
-    public final String toKeyGeneratorDDL() {
-        if (_keyGenerator == null) { return ""; }
-        _keyGenerator.setTable(this);
-        return _keyGenerator.toDDL();
-    }
+    //--------------------------------------------------------------------------
     
     /**
+     * Concatenate all fields names delimited by line separator.
      * 
-     * @param table table to be merged
-     * @throws GeneratorException throw an exception if tables cannot be merged
+     * @return Field names delimited by field delimiter and whitespace.
+     * @throws GeneratorException If generation of the script failed or is not supported.
+     */
+    protected final String fields() throws GeneratorException {
+        String delimiter = getConfiguration().getSqlFieldDelimeter();
+        String separator = getConfiguration().getLineSeparator();
+        String indent = getConfiguration().getLineIndent();
+        
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < getFieldCount(); i++) {
+            if (i > 0) { sb.append(delimiter).append(separator); }
+            sb.append(indent).append(getField(i).toCreateDDL());
+        }
+        return sb.toString();
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Check if given table can be merged with this one.
+     * 
+     * @param table Table to check if it is able to be merged.
+     * @throws GeneratorException If tables cannot be merged.
      */
     public final void merge(final Table table) throws GeneratorException {
-        if (table == null || table.getFieldCount() != getFieldCount()) {
-            LOG.error("Merge table: table '" + _name + "' which is mapped to multiple"
-                    + " table has difference the number of field");
-            throw new GeneratorException("Merge table: table '" + _name + "' which is"
-                    + "  mapped to multiple table has difference the number of field"
-                    + table.getFieldCount() + ", " + getFieldCount());
+        if (table == null) {
+            String msg = "Table to merge is missing.";
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
         }
         
-        if (_name != null && !_name.equalsIgnoreCase(table.getName())) {
-            LOG.error("Merge table: table '" + _name + "' has difference names");
-            throw new GeneratorException("Merge table: table '" + _name 
-                    + "' has difference names");
+        if (!equals(getName(), table.getName())) {
+            String msg = "Name of table differs from: " + getName();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
         }
         
+        if (getFieldCount() != table.getFieldCount()) {
+            String msg = "Field count of table differs from: " + getFieldCount();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
         
         for (int i = 0; i < getFieldCount(); i++) {
             Field field1 = getField(i);
             Field field2 = null;
             for (int j = 0; j < table.getFieldCount(); j++) {
-                Field f = table.getField(j); 
-                if (f != null && f.getName().equalsIgnoreCase(field1.getName())) {
-                    field2 = f;
-                    break;
-                } 
+                field2 = table.getField(j);
+                if (!equals(field1.getName(), field2.getName())) { break; }
             }
             field1.merge(field2);
         }
@@ -411,47 +270,54 @@ public class Table extends AbstractSchemaObject {
             ForeignKey fk1 = getForeignKey(i);
             ForeignKey fk2 = null;
             for (int j = 0; j < table.getForeignKeyCount(); j++) {
-                ForeignKey f = table.getForeignKey(j); 
-                if (f != null && f.getConstraintName().equalsIgnoreCase(fk1.getConstraintName())) {
-                    fk2 = f;
-                    break;
-                } 
+                fk2 = table.getForeignKey(j); 
+                if (!equals(fk1.getName(), fk2.getName())) { break; }
             }
             fk1.merge(fk2);
         }
         
-        if (_keyGenerator != null) {
-            _keyGenerator.merge(table.getKeyGenerator());
-        }
-        
+        if (_keyGenerator != null) { _keyGenerator.merge(table.getKeyGenerator()); }
     }
 
-    /**
-     * @param index index
-     * @return foreign key
-     */
-    public final ForeignKey getForeignKey(final int index) {
-        return (ForeignKey) _foreignKey.get(index);
-    }
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
-    public final boolean equals(final Object obj) {
-        if (obj != null && obj instanceof Table) {
-            Table t = (Table) obj;
-            if (_name != null && _name.equalsIgnoreCase(t.getName())) {
-                return true;
-            }
-        }
-        return false;
+    public final boolean equals(final Object other) {
+        if (other == this) { return true; }
+        if (other == null) { return false; }
+        if (other.getClass() != this.getClass()) { return false; }
+        
+        Table table = (Table) other;
+        return equals(getName(), table.getName())
+            && equals(_schema, table._schema)
+            && equals(_primaryKey, table._primaryKey)
+            && equals(_keyGenerator, table._keyGenerator)
+            && equals(_fields, table._fields)
+            && equals(_foreignKeys, table._foreignKeys)
+            && equals(_indices, table._indices);
     }
 
     /**
      * {@inheritDoc}
      */
     public final int hashCode() {
-        return super.hashCode();
+        int hashCode = 0;
+        if (getName() != null) { hashCode += getName().hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_schema != null) { hashCode += _schema.hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_primaryKey != null) { hashCode += _primaryKey.hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_keyGenerator != null) { hashCode += _keyGenerator.hashCode(); }
+        hashCode *= HASHFACTOR;
+        hashCode += _fields.hashCode();
+        hashCode *= HASHFACTOR;
+        hashCode += _foreignKeys.hashCode();
+        hashCode *= HASHFACTOR;
+        hashCode += _indices.hashCode();
+        return hashCode;
     }
 
     //--------------------------------------------------------------------------

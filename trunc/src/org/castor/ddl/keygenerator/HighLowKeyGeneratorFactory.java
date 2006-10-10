@@ -29,7 +29,7 @@ public final class HighLowKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * {@inheritDoc}
      */
-    public String getAlgorithmName() { return HighLowKey.ALGORITHM_NAME; }
+    public String getAlgorithmName() { return HighLowKeyGenerator.ALGORITHM_NAME; }
     
     /**
      * {@inheritDoc}
@@ -48,6 +48,6 @@ public final class HighLowKeyGeneratorFactory implements KeyGeneratorFactory {
      */
     public KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
     throws GeneratorException {
-        return new HighLowKey(definition);
+        return new HighLowKeyGenerator(definition);
     }
 }

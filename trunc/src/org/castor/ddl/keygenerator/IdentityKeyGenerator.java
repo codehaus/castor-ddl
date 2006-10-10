@@ -28,14 +28,18 @@ import org.exolab.castor.mapping.xml.KeyGeneratorDef;
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class IdentityKey extends KeyGenerator {
+public final class IdentityKeyGenerator extends KeyGenerator {
+    //--------------------------------------------------------------------------
+
     /** Name of key generator algorithm. */
     public static final String ALGORITHM_NAME = "IDENTITY";
+
+    //--------------------------------------------------------------------------
 
     /**
      * Constructor for default IDENTITY key generator.
      */
-    public IdentityKey() {
+    public IdentityKeyGenerator() {
         super(ALGORITHM_NAME, ALGORITHM_NAME);
     }
     
@@ -44,12 +48,21 @@ public final class IdentityKey extends KeyGenerator {
      * 
      * @param definition Key generator definition.
      */
-    public IdentityKey(final KeyGeneratorDef definition) {
+    public IdentityKeyGenerator(final KeyGeneratorDef definition) {
         super(ALGORITHM_NAME, definition.getAlias());
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
-    public String toDDL() { return ""; }
+    public String toCreateDDL() { return ""; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String toDropDDL() { return ""; }
+
+    //--------------------------------------------------------------------------
 }

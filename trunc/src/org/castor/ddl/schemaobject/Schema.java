@@ -15,101 +15,65 @@
  */
 package org.castor.ddl.schemaobject;
 
-import java.util.Vector;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.castor.ddl.GeneratorException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Schema contains a set of table and schema options.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class Schema extends AbstractSchemaObject {
-    /**logging*/
-    private static final Log LOG = LogFactory.getLog(Schema.class);
+public abstract class Schema extends AbstractSchemaObject {
+    //--------------------------------------------------------------------------
 
-    /** schema name */
-    private String _name = null;
+    /** List of tables for this schema. */
+    private List _tables = new ArrayList();
 
-    /** table list */
-    private Vector _tables;
+    /** Map of tables assoizated with their name. */
+    private Map _tableMap = new HashMap();
+    
+    //--------------------------------------------------------------------------
 
     /**
+     * Add given table to list of tables.
      * 
-     * @return Returns the name.
+     * @param table Table to add to list of tables.
      */
-    public final String getName() {
-        return _name;
+    public final void addTable(final Table table) {
+        _tables.add(table);
+        _tableMap.put(table.getName(), table);
     }
 
     /**
-     * Constructor for Schema
-     */
-    public Schema() {
-        super();
-        _tables = new Vector();
-    }
-
-    /**
-     * Set the name by _name.
+     * Get number of tables.
      * 
-     * @param name
-     *            name
-     */
-    public final void setName(final String name) {
-        _name = name;
-    }
-
-    /**
-     * 
-     * @return Returns the tables.
-     */
-    public final Vector getTables() {
-        return _tables;
-    }
-
-    /**
-     * Set the tables by _tables.
-     * 
-     * @param tables
-     *            tables
-     */
-    public final void setTables(final Vector tables) {
-        _tables = tables;
-    }
-
-    /**
-     * 
-     * @param table
-     *            table
-     * @throws GeneratorException generator exception
-     */
-    public final void addTable(final Table table) throws GeneratorException {
-        if (_tables.contains(table)) {
-            Table oldTable = (Table) _tables.get(_tables.indexOf(table));
-            LOG.warn("merge table which is defined in two or more classes");
-            oldTable.merge(table);
-        } else {
-            _tables.add(table);
-        }
-    }
-
-    /**
-     * 
-     * @return table count
+     * @return Number of tables.
      */
     public final int getTableCount() {
         return _tables.size();
     }
+    
+    /**
+     * Get table at given index.
+     * 
+     * @param index Index of table to return.
+     * @return Table at given index.
+     */
+    public final Table getTable(final int index) {
+        return (Table) _tables.get(index);
+    }
 
     /**
-     * Create DDL for schema
-     * @return ddl string
+     * Get table with given name.
+     * 
+     * @param name Name of table to return.
+     * @return Table with given name.
      */
-
-    public String toDDL() {
-        return "";
+    public final Table getTable(final String name) {
+        return (Table) _tableMap.get(name);
     }
+    
+    //--------------------------------------------------------------------------
 }

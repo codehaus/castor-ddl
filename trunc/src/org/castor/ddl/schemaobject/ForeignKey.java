@@ -15,284 +15,307 @@
  */
 package org.castor.ddl.schemaobject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
 
 /**
- * ForeignKey handle information for foreign key creation.
- * <pre>ALTER TABLE `prod_group` ADD CONSTRAINT `FK_prod_group_1` 
- * FOREIGN KEY `FK_prod_group_1` (`id`, `name`)
- * REFERENCES `category` (`id`, `name`)
- * </pre> 
+ * Abstract base class for all foreign keys.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class ForeignKey extends AbstractSchemaObject  {
-    /**logging */
+public abstract class ForeignKey extends AbstractSchemaObject  {
+    //--------------------------------------------------------------------------
+
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(ForeignKey.class);
 
-    /** table */
-    private Table _table = null;
-
-    /** constraint name*/
-    private String _constraintName = null;
-    
-    /** foreign key key list*/
-    private String []_fkkeyList = null;
-
-    /** reference table*/
-    private String _referenceTableName = null;
-    
-    /** reference key key list*/
-    private String []_referenceKeyList = null;
-
-    /** relationship type */
-    private int _relationshipType = ONE_ONE;
-    
-    /** one-one ralationship*/
+    /** Relation type: one-one. */
     public static final int ONE_ONE = 0;
     
-    /** one-many ralationship*/
+    /** Relation type: one-many. */
     public static final int ONE_MANY = 1;
     
-    /** many-many ralationship*/
+    /** Relation type: many-many. */
     public static final int MANY_MANY = 2;
 
-    /**
-     * Constructor for ForeignKey
-     */
-    public ForeignKey() {
-        super();
-    }
+    /** Type of the relation. */
+    private int _relationType = ONE_ONE;
+    
+    /** List of fields referenced by the foreign key. */
+    private List _referencedFields = new ArrayList();
+
+    /** Table referenced by the foreign key. */
+    private Table _referencedTable;
+    
+    /** List of foreign key fields. */
+    private List _fields = new ArrayList();
+
+    /** Table that holds foreign key. */
+    private Table _table;
+
+    //--------------------------------------------------------------------------
 
     /**
+     * Set type of relation.
      * 
-     * @return Returns the _constraintName.
+     * @param relationType Type of relation.
      */
-    public final String getConstraintName() {
-        return _constraintName;
+    public final void setRelationType(final int relationType) {
+        _relationType = relationType;
     }
 
     /**
-     * Set the _constraintName by _constraintName.
-     * @param constraintName constraint name
-     */
-    public final void setConstraintName(final String constraintName) {
-        this._constraintName = constraintName;
-    }
-
-    /**
+     * Get type of relation.
      * 
-     * @return Returns the _fkkeyList.
+     * @return Type of relation
      */
-    public final String[] getFkkeyList() {
-        return _fkkeyList;
+    public final int getRelationType() {
+        return _relationType;
     }
 
     /**
-     * Set the _fkkeyList by _fkkeyList.
-     * @param fkkeyList foreign key list
-     */
-    public final void setFkkeyList(final String[] fkkeyList) {
-        this._fkkeyList = fkkeyList;
-    }
-
-    /**
+     * Add given field to list of fields referenced by the foreign key.
      * 
-     * @return Returns the _referenceKeyList.
+     * @param field Field to add to list of fields referenced by the foreign key.
      */
-    public final String[] getReferenceKeyList() {
-        return _referenceKeyList;
+    public final void addReferenceField(final Field field) {
+        _referencedFields.add(field);
     }
-
+    
     /**
-     * Set the _referenceKeyList by _referenceKeyList.
-     * @param referenceKeyList reference key list
-     */
-    public final void setReferenceKeyList(final String[] referenceKeyList) {
-        this._referenceKeyList = referenceKeyList;
-    }
-
-    /**
+     * Get number of fields referenced by the foreign key.
      * 
-     * @return Returns the _referenceTableName.
+     * @return Number of fields referenced by the foreign key.
      */
-    public final String getReferenceTableName() {
-        return _referenceTableName;
+    public final int getReferenceFieldCount() {
+        return _referencedFields.size();
     }
-
+    
     /**
-     * Set the _referenceTableName by _referenceTableName.
-     * @param referenceTableName reference table name
-     */
-    public final void setReferenceTableName(final String referenceTableName) {
-        this._referenceTableName = referenceTableName;
-    }
-
-    /**
+     * Get field referenced by the foreign key at given index.
      * 
-     * @return Returns the _relationshipType.
+     * @param index Index of referenced field to return.
+     * @return Referneced field at given index.
      */
-    public final int getRelationshipType() {
-        return _relationshipType;
+    public final Field getReferenceField(final int index) {
+        return (Field) _referencedFields.get(index);
     }
-
+    
     /**
-     * Set the _relationshipType by _relationshipType.
-     * @param relationshipType relationship type
-     */
-    public final void setRelationshipType(final int relationshipType) {
-        this._relationshipType = relationshipType;
-    }
-
-    /**
-     * Create DDL for Foreign Key
-     * @return ddl string
-     */
-    public String toDDL() {
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
-        buff.append(getConfiguration().getLineSeparator());
-
-        buff.append("ALTER TABLE ").append(_table.getName());
-
-        // constraint
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("ADD CONSTRAINT ").append(_constraintName);
-
-        // foreign key
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("FOREIGN KEY ");
-        buff.append(makeListofParams(_fkkeyList));
-
-        // references
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("REFERENCES ").append(_referenceTableName).append(" ");
-        buff.append(makeListofParams(_referenceKeyList));
-        buff.append(getConfiguration().getSqlStatDelimeter());
-        return buff.toString();
-    }
-
-    /**
-     * Create index DDL for Foreign Key
-     * @return ddl string
-     */
-    public String toIndexDDL() {
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
-        buff.append(getConfiguration().getLineSeparator());
-
-        buff.append("CREATE UNIQUE INDEX ").append(_table.getName()).append("_idx_fk");
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("ON ").append(_table.getName());
-
-        buff.append(makeListofParams(_fkkeyList));
-        buff.append(getConfiguration().getSqlStatDelimeter());
-        return buff.toString();
-    }
-
-    /**
-     * @param list  key list
-     * @return  formated key list
-     */
-    protected final String makeListofParams(final String[] list) {
-        StringBuffer buff = new StringBuffer();
-        boolean isFirstField = true;
-        buff.append("(");
-        for (int i = 0; i < list.length; i++) {
-            if (!isFirstField) {
-                buff.append(getConfiguration().getSqlFieldDelimeter());
-                buff.append(" ");
-            }
-            isFirstField = false;
-            buff.append(list[i]);
-        }
-        buff.append(")");
-        return buff.toString();
-    }
-
-    /**
+     * Set table referenced by the foreign key.
      * 
-     * @return Returns the table.
+     * @param table Table referenced by the foreign key.
      */
-    public final Table getTable() {
-        return _table;
+    public final void setReferenceTable(final Table table) {
+        _referencedTable = table;
     }
 
     /**
-     * Set the table by _table.
-     * @param table table
+     * Get table referenced by the foreign key.
+     * 
+     * @return Table referenced by the foreign key.
+     */
+    public final Table getReferenceTable() {
+        return _referencedTable;
+    }
+
+    /**
+     * Add given field to list of foreign key fields.
+     * 
+     * @param field Field to add to list of foreign key fields.
+     */
+    public final void addField(final Field field) {
+        _fields.add(field);
+    }
+    
+    /**
+     * Get number of foreign key fields.
+     * 
+     * @return Number of foreign key fields.
+     */
+    public final int getFieldCount() {
+        return _fields.size();
+    }
+    
+    /**
+     * Get foreign key field at given index.
+     * 
+     * @param index Index of foreign key field to return.
+     * @return Foreign key field at given index.
+     */
+    public final Field getField(final int index) {
+        return (Field) _fields.get(index);
+    }
+    
+    /**
+     * Set table that holds foreign key.
+     * 
+     * @param table Table that holds foreign key.
      */
     public final void setTable(final Table table) {
         _table = table;
     }
 
     /**
-     * @param fk a foreign key
-     * @exception GeneratorException throw an exception if foreign keys cannot be merged
+     * Get table that holds foreign key.
+     * 
+     * @return Table that holds foreign key.
      */
-    public final void merge(final ForeignKey fk) throws GeneratorException {
-        String message = "";
-        int len;
-        if (fk == null || fk._constraintName == null 
-                || !fk._constraintName.equalsIgnoreCase(_constraintName)) {
-            message = "Merge table '" + _table.getName() + "': foreign Key '" 
-            + _constraintName + "' has different name or not found";
-            LOG.error(message);
-           throw new GeneratorException(message); 
-        }
-        
-        if (fk._referenceTableName == null 
-                ||  !fk._referenceTableName.equalsIgnoreCase(_referenceTableName)) {
-            message = "Merge table '" + _table.getName() + "', foreign key '" + _constraintName
-            + "' has different reference table '" + fk._referenceTableName 
-            + "' vs '" + _referenceTableName + "'";
-            LOG.error(message);
-           throw new GeneratorException(message); 
-        }
-        
-        len = _fkkeyList.length;
-        if (len != fk._fkkeyList.length 
-                || _referenceKeyList.length != fk._referenceKeyList.length) {
-            message = "Merge table '" + _table.getName() + "', foreign key '" + _constraintName
-            + "' has different number of reference columns";
-            LOG.error(message);
-           throw new GeneratorException(message); 
-        }
-        
-        for (int i = 0; i < len; i++) {
-            if (_referenceKeyList[i] == null 
-                || !_referenceKeyList[i].equalsIgnoreCase(fk._referenceKeyList[i])
-                || _fkkeyList[i] == null 
-                || !_fkkeyList[i].equalsIgnoreCase(fk._fkkeyList[i])) {
-               message = "Merge table '" + _table.getName() + "', foreign key '" + _constraintName
-               + "' has different reference column names";
-                LOG.error(message);
-               throw new GeneratorException(message); 
-                
-            }
-        }
+    public final Table getTable() {
+        return _table;
     }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Concatenate all field names delimited by field delimiter and whitespace.
+     * 
+     * @return Field names delimited by field delimiter and whitespace.
+     */
+    protected final String fieldNames() {
+        String delimiter = getConfiguration().getSqlFieldDelimeter();
+        
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < getFieldCount(); i++) {
+            if (i > 0) { sb.append(delimiter).append(' '); }
+            sb.append(getField(i).getName());
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Concatenate all referenced field names delimited by field delimiter and whitespace.
+     * 
+     * @return Referenced field names delimited by field delimiter and whitespace.
+     */
+    protected final String referencedFieldNames() {
+        String delimiter = getConfiguration().getSqlFieldDelimeter();
+        
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < getReferenceFieldCount(); i++) {
+            if (i > 0) { sb.append(delimiter).append(' '); }
+            sb.append(getReferenceField(i).getName());
+        }
+        return sb.toString();
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
-    public final boolean equals(final Object obj) {
-        if (obj != null && obj instanceof ForeignKey) {
-            ForeignKey f = (ForeignKey) obj;
-            if (_constraintName != null && _constraintName.equalsIgnoreCase(f._constraintName)) {
-                return true;
+    public final String toDropDDL() {
+        return "";
+    }
+    
+    //--------------------------------------------------------------------------
+
+    /**
+     * Check if given foreign key can be merged with this one.
+     * 
+     * @param fk Foreign key to check if it is able to be merged.
+     * @throws GeneratorException If foreign keys cannot be merged.
+     */
+    public final void merge(final ForeignKey fk) throws GeneratorException {
+        if (fk == null) {
+            String msg = "Foreign key to merge is missing.";
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
+        
+        if (!equals(getName(), fk.getName())) {
+            String msg = "Name of foreign key differs from: " + getName();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
+        
+        if (!equals(getTable(), fk.getTable())) {
+            String msg = "Table of foreign key differs from: " + getTable().getName();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
+        
+        if (getFieldCount() != fk.getFieldCount()) {
+            String msg = "Field count of foreign key differs from: " + getFieldCount();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
+        
+        for (int i = 0; i < getFieldCount(); i++) {
+            if (!equals(getField(i), fk.getField(i))) {
+                String msg = "Field of foreign key differs from: "
+                           + getField(i).getName();
+                LOG.error(msg);
+                throw new GeneratorException(msg); 
             }
         }
-        return false;
+        
+        if (!equals(getReferenceTable().getName(), fk.getReferenceTable().getName())) {
+            String msg = "Referenced table of foreign key differs from: "
+                       + getReferenceTable().getName();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
+        
+        if (getReferenceFieldCount() != fk.getReferenceFieldCount()) {
+            String msg = "Referenced field count of foreign key differs from: "
+                       + getReferenceFieldCount();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
+        
+        for (int i = 0; i < getReferenceFieldCount(); i++) {
+            if (!equals(getReferenceField(i), fk.getReferenceField(i))) {
+                String msg = "Referenced field of foreign key differs from: "
+                           + getReferenceField(i).getName();
+                LOG.error(msg);
+                throw new GeneratorException(msg); 
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public final boolean equals(final Object other) {
+        if (other == this) { return true; }
+        if (other == null) { return false; }
+        if (other.getClass() != this.getClass()) { return false; }
+        
+        ForeignKey fk = (ForeignKey) other;
+        return equals(getName(), fk.getName())
+            && equals(_table, fk._table)
+            && equals(_fields, fk._fields)
+            && equals(_referencedTable, fk._referencedTable)
+            && equals(_referencedFields, fk._referencedFields)
+            && (_relationType == fk._relationType);
     }
 
     /**
      * {@inheritDoc}
      */
     public final int hashCode() {
-        return super.hashCode();
+        int hashCode = 0;
+        if (getName() != null) { hashCode += getName().hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_table != null) { hashCode += _table.hashCode(); }
+        hashCode *= HASHFACTOR;
+        hashCode += _fields.hashCode();
+        hashCode *= HASHFACTOR;
+        if (_referencedTable != null) { hashCode += _referencedTable.hashCode(); }
+        hashCode *= HASHFACTOR;
+        hashCode += _referencedFields.hashCode();
+        hashCode *= HASHFACTOR;
+        hashCode += _relationType;
+        return hashCode;
     }
+
+    //--------------------------------------------------------------------------
 }

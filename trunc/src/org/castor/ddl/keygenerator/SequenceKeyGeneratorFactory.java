@@ -15,8 +15,6 @@
  */
 package org.castor.ddl.keygenerator;
 
-import java.util.Iterator;
-
 import org.castor.ddl.GeneratorException;
 import org.castor.ddl.KeyGeneratorFactory;
 import org.castor.ddl.schemaobject.Field;
@@ -33,7 +31,7 @@ public abstract class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
     /**
      * {@inheritDoc}
      */
-    public final String getAlgorithmName() { return SequenceKey.ALGORITHM_NAME; }
+    public final String getAlgorithmName() { return SequenceKeyGenerator.ALGORITHM_NAME; }
     
     /**
      * {@inheritDoc}
@@ -44,7 +42,7 @@ public abstract class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
      * {@inheritDoc}
      */
     public final KeyGenerator createKeyGenerator() throws GeneratorException {
-        return new SequenceKey(this);
+        return new SequenceKeyGenerator(this);
     }
     
     /**
@@ -52,16 +50,24 @@ public abstract class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
      */
     public final KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
     throws GeneratorException {
-        return new SequenceKey(this, definition);
+        return new SequenceKeyGenerator(this, definition);
     }
 
     /**
-     * Generate DDL for given SEQUENCE key generator.
+     * Generate create script for given SEQUENCE key generator.
      * 
      * @param key SEQUENCE key generator to generate DDL for.
-     * @return DDL string.
+     * @return Create script of SEQUENCE key generator.
      */
-    public abstract String generateDDL(final KeyGenerator key);
+    public abstract String toCreateDDL(final KeyGenerator key);
+
+    /**
+     * Generate drop script for given SEQUENCE key generator.
+     * 
+     * @param key SEQUENCE key generator to generate DDL for.
+     * @return Drop script of SEQUENCE key generator.
+     */
+    public abstract String toDropDDL(final KeyGenerator key);
 
     /**
      * Build a string containing names of all primary key columns separated by '_'.
@@ -74,8 +80,8 @@ public abstract class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
         StringBuffer sb = new StringBuffer();
 
         boolean isFirstField = true;
-        for (Iterator i = table.getFields().iterator(); i.hasNext();) {
-            Field field = (Field) i.next();
+        for (int i = 0; i < table.getFieldCount(); i++) {
+            Field field = table.getField(i);
             if (field.isIdentity()) {
                 hasPrimaryKey = true;
                 if (!isFirstField) { sb.append("_"); }
@@ -100,8 +106,8 @@ public abstract class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
         StringBuffer sb = new StringBuffer();
 
         boolean isFirstField = true;
-        for (Iterator i = table.getFields().iterator(); i.hasNext();) {
-            Field field = (Field) i.next();
+        for (int i = 0; i < table.getFieldCount(); i++) {
+            Field field = table.getField(i);
             if (field.isIdentity()) {
                 hasPrimaryKey = true;
                 if (!isFirstField) { sb.append("_"); }
@@ -110,7 +116,6 @@ public abstract class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
             }
         }
         
-        //have no primary key
         if (!hasPrimaryKey) { return ""; }
         return sb.toString();
     }

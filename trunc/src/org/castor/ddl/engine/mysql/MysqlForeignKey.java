@@ -13,66 +13,51 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.castor.ddl.engine.mysql;
 
 import org.castor.ddl.schemaobject.ForeignKey;
 
 /**
- * MySQL foreign key.
+ * Foreign key of MySQL database engine.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
 public final class MysqlForeignKey extends ForeignKey {
     /**
-     * Constructor for MysqlForeignKey
-     */
-    protected MysqlForeignKey() {
-        super();
-    }
-
-    /**
      * {@inheritDoc}
      */
-    public String toDDL() {
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+    public String toCreateDDL() {
+        String separator = getConfiguration().getLineSeparator();
+        String delimiter = getConfiguration().getSqlStatDelimeter();
 
-        buff.append("ALTER TABLE ").append(getTable().getName());
-
-        // constraint
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("ADD CONSTRAINT ").append(getConstraintName());
-
-        // foreign key
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("FOREIGN KEY ").append(getConstraintName()).append(" ");
-        buff.append(makeListofParams(getFkkeyList()));
-
-        // references
-        buff.append(getConfiguration().getLineSeparator()).append(
-                getConfiguration().getLineIndent());
-        buff.append("REFERENCES ").append(getReferenceTableName()).append(" ");
-        buff.append(makeListofParams(getReferenceKeyList()));
+        StringBuffer sb = new StringBuffer();
+        sb.append(separator).append(separator);
+        sb.append("ALTER TABLE ").append(getTable().getName());
+        sb.append(separator);
+        sb.append("ADD CONSTRAINT ").append(getName());
+        sb.append(separator);
+        sb.append("FOREIGN KEY ").append(getName());
+        sb.append(" (").append(fieldNames()).append(')');
+        sb.append(separator);
+        sb.append("REFERENCES ").append(getReferenceTable().getName());
+        sb.append(" (").append(referencedFieldNames()).append(')');
 
         // on delete
         String opt = getConfiguration().getStringValue(
                 MysqlConfigurationKey.FOREIGN_KEY_ON_DELETE, null);
         if (opt != null && !"".equals(opt)) {
-            buff.append(getConfiguration().getLineSeparator()).append(
-                    getConfiguration().getLineIndent());
-            buff.append("ON DELETE ").append(opt);
+            sb.append(separator);
+            sb.append("ON DELETE ").append(opt);
         }
 
         opt = getConfiguration().getStringValue(
                 MysqlConfigurationKey.FOREIGN_KEY_ON_UPDATE, null);
         if (opt != null && !"".equals(opt)) {
-            buff.append(getConfiguration().getLineSeparator()).append(
-                    getConfiguration().getLineIndent());
-            buff.append("ON UPDATE ").append(opt);
+            sb.append(separator);
+            sb.append("ON UPDATE ").append(opt);
         }
 
-        buff.append(getConfiguration().getSqlStatDelimeter());
-        return buff.toString();
+        sb.append(delimiter);
+        return sb.toString();
     }
 }

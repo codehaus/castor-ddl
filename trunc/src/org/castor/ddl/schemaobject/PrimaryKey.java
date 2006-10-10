@@ -15,134 +15,125 @@
  */
 package org.castor.ddl.schemaobject;
 
-import java.util.Iterator;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Primary key encapsulates information for create a primary key for
- * a table
+ * Abstract base class for all primary keys.
+ * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class PrimaryKey extends AbstractSchemaObject {
+public abstract class PrimaryKey extends AbstractSchemaObject {
     //--------------------------------------------------------------------------
 
-    /** table */
-    private Table _table = null;
+    /** List of primary key fields. */
+    private List _fields = new ArrayList();
 
-    /** constraint name*/
-    private String _name = null;
-
-    /**primary key list*/
-    private Vector _primaryKeyColumns = null;
+    /** Table the primary key is used for. */
+    private Table _table;
 
     //--------------------------------------------------------------------------
     
     /**
-     * Constructor for PrimaryKey
-     */
-    public PrimaryKey() {
-        super();
-        _primaryKeyColumns = new Vector();
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
+     * Add given field to list of primary key fields.
      * 
-     * @return Returns the constraintName.
+     * @param field Field to add to list of primary key fields.
      */
-    public final String getName() {
-        return _name;
-    }
-
-    /**
-     * Set the name by _name.
-     * @param name of primary key
-     */
-    public final void setName(final String name) {
-        _name = name;
-    }
-
-    /**
-     * @return return number of primary key column 
-     */
-    public final int getPrimaryKeyColumnCount() {
-        return _primaryKeyColumns.size();
+    public final void addField(final Field field) {
+        _fields.add(field);
     }
     
     /**
-     * add a columnname to primary key list
-     * @param columnname name of column
-     */
-    public final void addPrimaryKeyColumn(final String columnname) {
-        _primaryKeyColumns.add(columnname);
-    }
-
-    /**
-     * @param index index
-     * @return a column name at index
-     */
-    public final String getPrimaryKeyColumn(final int index) {
-        return (String) _primaryKeyColumns.get(index);
-    }
-    
-    /**
-     * @return Returns the primaryKeyLists.
-     */
-    public final Vector getPrimaryKeyColumns() {
-        return _primaryKeyColumns;
-    }
-
-    /**
-     * Set the primaryKeyLists by _primaryKeyColumns.
-     * @param primaryKeyLists primary key list
-     */
-    public final void setPrimaryKeyColumns(final Vector primaryKeyLists) {
-        _primaryKeyColumns = primaryKeyLists;
-    }
-
-    /**
+     * Get number of primary key fields.
      * 
-     * @return Returns the table.
+     * @return Number of primary key fields.
      */
-    public final Table getTable() {
-        return _table;
+    public final int getFieldCount() {
+        return _fields.size();
     }
-
+    
     /**
-     * Set the table by _table.
-     * @param table table
+     * Get primary key field at given index.
+     * 
+     * @param index Index of primary key field to return.
+     * @return Primary key field at given index.
+     */
+    public final Field getField(final int index) {
+        return (Field) _fields.get(index);
+    }
+    
+    /**
+     * Set table the primary key is used for.
+     * 
+     * @param table Table the primary key is used for.
      */
     public final void setTable(final Table table) {
         _table = table;
     }
 
+    /**
+     * Get table the primary key is used for.
+     * 
+     * @return Table the primary key is used for.
+     */
+    public final Table getTable() {
+        return _table;
+    }
+
     //--------------------------------------------------------------------------
 
     /**
-     * @return return a string represents for create primary key a primary key ddl
+     * Concatenate all field names delimited by field delimiter and whitespace.
+     * 
+     * @return Field names delimited by field delimiter and whitespace.
      */
-    public String toCreateDdl() {
-        if (_primaryKeyColumns.size() == 0) { return ""; }
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
-        buff.append(getConfiguration().getLineSeparator());
-
-        buff.append("ALTER TABLE ").append(_table.getName());
-        buff.append(" ADD PRIMARY KEY (");
-
-        boolean isFirstField = true;
-        for (Iterator i = _primaryKeyColumns.iterator(); i.hasNext();) {
-            String columnName = (String) i.next();
-                if (!isFirstField) {
-                    buff.append(getConfiguration().getSqlFieldDelimeter());
-                    buff.append(" ");
-                }
-                isFirstField = false;
-                buff.append(columnName);
+    protected final String fieldNames() {
+        String delimiter = getConfiguration().getSqlFieldDelimeter();
+        
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < getFieldCount(); i++) {
+            if (i > 0) { sb.append(delimiter).append(' '); }
+            sb.append(getField(i).getName());
         }
-        buff.append(")").append(getConfiguration().getSqlStatDelimeter());
+        return sb.toString();
+    }
 
-        return buff.toString();
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public final String toDropDDL() {
+        return "";
+    }
+    
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public final boolean equals(final Object other) {
+        if (other == this) { return true; }
+        if (other == null) { return false; }
+        if (other.getClass() != this.getClass()) { return false; }
+        
+        PrimaryKey pk = (PrimaryKey) other;
+        return equals(getName(), pk.getName())
+            && equals(_table, pk._table)
+            && equals(_fields, pk._fields);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final int hashCode() {
+        int hashCode = 0;
+        if (getName() != null) { hashCode += getName().hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_table != null) { hashCode += _table.hashCode(); }
+        hashCode *= HASHFACTOR;
+        hashCode += _fields.hashCode();
+        return hashCode;
     }
 
     //--------------------------------------------------------------------------

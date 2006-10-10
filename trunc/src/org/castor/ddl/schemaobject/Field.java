@@ -18,196 +18,195 @@ package org.castor.ddl.schemaobject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.ddl.GeneratorException;
-import org.castor.ddl.keygenerator.IdentityKey;
 import org.castor.ddl.typeinfo.TypeInfo;
 
 /**
- * Field handles informations for creating field's sql. For example, 
+ * Abstract base class of all field implementations.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class Field extends AbstractSchemaObject {
-    /**LOGGING*/
+public abstract class Field extends AbstractSchemaObject {
+    //--------------------------------------------------------------------------
+
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(Field.class);
         
-    /** field name */
-    private String _name;
-
-    /** type infor */
-    private TypeInfo _type;
-
-    /** is identity */
-    private boolean _isIdentity;
-
-    /** handle key generator */
+    /** Key generator for this field. */
     private KeyGenerator _keyGenerator;
     
-    /**is required*/
+    /** Is this field part of the identity? */
+    private boolean _isIdentity;
+
+    /** Is this field a required one? */
     private boolean _isRequired;
     
-    /** handle to table in which contains this field */
+    /** Type information of this field. */
+    private TypeInfo _type;
+
+    /** Table which contains this field. */
     private Table _table;
 
-    /**
-     * Constructor for Field
-     */
-    public Field() {
-        super();
-        _name = null;
-        _type = null;
-        _keyGenerator = null;
-        _isRequired = false;
-    }
+    //--------------------------------------------------------------------------
 
     /**
+     * Set key generator for this field. <code>null</code> if the field has no key
+     * generator.
      * 
-     * @return Returns the isIdentity.
-     */
-    public final boolean isIdentity() {
-        return _isIdentity;
-    }
-
-    /**
-     * Set the isIdentity by _isIdentity.
-     * 
-     * @param isIdentity is identity
-     */
-    public final void setIdentity(final boolean isIdentity) {
-        _isIdentity = isIdentity;
-    }
-
-    /**
-     * 
-     * @return Returns the name.
-     */
-    public final String getName() {
-        return _name;
-    }
-
-    /**
-     * Set the name by _name.
-     * 
-     * @param name field name
-     */
-    public final void setName(final String name) {
-        _name = name;
-    }
-
-    /**
-     * 
-     * @return Returns the type.
-     */
-    public final TypeInfo getType() {
-        return _type;
-    }
-
-    /**
-     * Set the type by _type.
-     * 
-     * @param type type info
-     */
-    public final void setType(final TypeInfo type) {
-        _type = type;
-    }
-
-    /**
-     * 
-     * @return Returns the keyGenerator.
-     */
-    public final KeyGenerator getKeyGenerator() {
-        return _keyGenerator;
-    }
-
-    /**
-     * 
-     * @return Returns the table.
-     */
-    public final Table getTable() {
-        return _table;
-    }
-
-    /**
-     * Set the table by _table.
-     * @param table table
-     */
-    public final void setTable(final Table table) {
-        _table = table;
-    }
-
-    /**
-     * Set the keyGenerator by _keyGenerator.
-     * @param keyGenerator key generator
+     * @param keyGenerator Key generator for this field.
      */
     public final void setKeyGenerator(final KeyGenerator keyGenerator) {
         _keyGenerator = keyGenerator;
     }
     
     /**
+     * Get key generator for this field.
      * 
-     * @return length
+     * @return Key generator for this field.
      */
-    public final Integer getLength() { return null; }
-
-    /**
-     * 
-     * @return precision
-     */
-    public final Integer getPrecision() { return null; }
-
-    /**
-     * 
-     * @return decimals
-     */
-    public final Integer getDecimals() { return null; }
-
-    /**
-     * 
-     * @return Returns the isRequired.
-     */
-    public final boolean isRequired() {
-        return _isRequired;
+    public final KeyGenerator getKeyGenerator() {
+        return _keyGenerator;
     }
 
     /**
-     * Set the isRequired by _isRequired.
-     * @param isRequired is required
+     * Set if this field is part of the identity?
+     * 
+     * @param isIdentity <code>true</code> if the field is part of the identity,
+     *        <code>true</code> otherwise.
+     */
+    public final void setIdentity(final boolean isIdentity) {
+        _isIdentity = isIdentity;
+    }
+
+    /**
+     * Get if this field is part of the identity?
+     * 
+     * @return <code>true</code> if the field is part of the identity,
+     *         <code>true</code> otherwise.
+     */
+    public final boolean isIdentity() {
+        return _isIdentity;
+    }
+
+    /**
+     * Set if this field is a required one?
+     * 
+     * @param isRequired <code>true</code> if the field is required, <code>true</code>
+     *        otherwise.
      */
     public final void setRequired(final boolean isRequired) {
         _isRequired = isRequired;
     }
 
     /**
-     * Create DDL for field
-     * @return ddl string
-     * @throws GeneratorException exception
+     * Get if this field is a required one?
+     * 
+     * @return <code>true</code> if the field is required, <code>true</code>
+     *         otherwise.
      */
-    public String toDDL() throws GeneratorException {
-        StringBuffer buff = new StringBuffer();
-        buff.append(_name).append(" ");
-        buff.append(_type.toDDL(this));
-        if (_isIdentity || _isRequired) {
-            buff.append(" NOT NULL");
-        }
-
-        if (isIdentity() && (getKeyGenerator() instanceof IdentityKey)) {
-            LOG.warn("IDENTITY key generator is not supported for this database");
-        }
-        
-        return buff.toString();
+    public final boolean isRequired() {
+        return _isRequired;
     }
 
     /**
+     * Set type information of this field.
      * 
-     * @param field field to be merged
-     * @throws GeneratorException throw an exception if fields cannot be merged
+     * @param type Type information of this field.
+     */
+    public final void setType(final TypeInfo type) {
+        _type = type;
+    }
+
+    /**
+     * Get type information of this field.
+     * 
+     * @return Type information of this field.
+     */
+    public final TypeInfo getType() {
+        return _type;
+    }
+
+    /**
+     * Set table which contains this field.
+     * 
+     * @param table Table which contains this field.
+     */
+    public final void setTable(final Table table) {
+        _table = table;
+    }
+
+    /**
+     * Get table which contains this field.
+     * 
+     * @return Table which contains this field.
+     */
+    public final Table getTable() {
+        return _table;
+    }
+
+    //--------------------------------------------------------------------------
+    
+    /**
+     * Get length parameter from mapping of sql field.
+     * <br/>
+     * Returns <code>null</code> as it is not supported yet.
+     * 
+     * @return length Length parameter from mapping of sql field.
+     */
+    public final Integer getLength() { return null; }
+
+    /**
+     * Get precision parameter from mapping of sql field.
+     * <br/>
+     * Returns <code>null</code> as it is not supported yet.
+     * 
+     * @return precision Precision parameter from mapping of sql field.
+     */
+    public final Integer getPrecision() { return null; }
+
+    /**
+     * Get decimals parameter from mapping of sql field.
+     * <br/>
+     * Returns <code>null</code> as it is not supported yet.
+     * 
+     * @return decimals Decimals parameter from mapping of sql field.
+     */
+    public final Integer getDecimals() { return null; }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public final String toDropDDL() {
+        return "";
+    }
+    
+    //--------------------------------------------------------------------------
+
+    /**
+     * Check if given field can be merged with this one.
+     * 
+     * @param field Field to check if it is able to be merged.
+     * @throws GeneratorException If fields cannot be merged.
      */
     public final void merge(final Field field) throws GeneratorException {
-        if (field == null || _name == null 
-                || !_name.equalsIgnoreCase(field.getName())) {
-            LOG.error("Merge table '" + _table.getName()  
-                    + "': Field '" + _name + "' has difference name or not found");
-           throw new GeneratorException("Merge table '" + _table.getName()  
-                    + "': Field '" + _name + "' has difference name or not found"); 
+        if (field == null) {
+            String msg = "Field to merge is missing.";
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
+        
+        if (!equals(getName(), field.getName())) {
+            String msg = "Name of field differs from: " + getName();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
+        }
+        
+        if (!equals(getTable(), field.getTable())) {
+            String msg = "Table of field differs from: " + getTable().getName();
+            LOG.error(msg);
+            throw new GeneratorException(msg); 
         }
         
         if (_isIdentity != field._isIdentity) {
@@ -221,23 +220,43 @@ public class Field extends AbstractSchemaObject {
         _type.merge(field._type);
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
-    public final boolean equals(final Object obj) {
-        if (obj != null && obj instanceof Field) {
-           Field f = (Field) obj;
-           if (_name != null && _name.equalsIgnoreCase(f.getName())) {
-               return true;
-           }
-        }
-        return false;
+    public final boolean equals(final Object other) {
+        if (other == this) { return true; }
+        if (other == null) { return false; }
+        if (other.getClass() != this.getClass()) { return false; }
+        
+        Field field = (Field) other;
+        return equals(getName(), field.getName())
+            && equals(_table, field._table)
+            && equals(_type, field._type)
+            && (_isRequired == field._isRequired)
+            && (_isIdentity == field._isIdentity)
+            && equals(_keyGenerator, field._keyGenerator);
     }
 
     /**
      * {@inheritDoc}
      */
     public final int hashCode() {
-        return super.hashCode();
+        int hashCode = 0;
+        if (getName() != null) { hashCode += getName().hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_table != null) { hashCode += _table.hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_type != null) { hashCode += _type.hashCode(); }
+        hashCode *= HASHFACTOR;
+        hashCode += Boolean.valueOf(_isRequired).hashCode();
+        hashCode *= HASHFACTOR;
+        hashCode += Boolean.valueOf(_isIdentity).hashCode();
+        hashCode *= HASHFACTOR;
+        if (_keyGenerator != null) { hashCode += _keyGenerator.hashCode(); }
+        return hashCode;
     }
+
+    //--------------------------------------------------------------------------
 }

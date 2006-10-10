@@ -13,32 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.ddl.engine.hsql;
+package org.castor.ddl.schemaobject;
 
-import org.castor.ddl.schemaobject.PrimaryKey;
+import org.castor.ddl.GeneratorException;
 
 /**
- * Primary key of HSQL database engine.
+ * Table contains fields, foreignkeys, indexes and table's options
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class HsqlPrimaryKey extends PrimaryKey {
+public class DefaultTable extends Table {
     /**
      * {@inheritDoc}
      */
-    public String toCreateDDL() {
-        if (getFieldCount() <= 0) { return ""; }
-        
+    public final String toCreateDDL() throws GeneratorException {
         String separator = getConfiguration().getLineSeparator();
         String delimiter = getConfiguration().getSqlStatDelimeter();
 
         StringBuffer sb = new StringBuffer();
         sb.append(separator).append(separator);
-        sb.append("ALTER TABLE ").append(getTable().getName());
+        sb.append("CREATE TABLE ").append(getName()).append(" (");
         sb.append(separator);
-        sb.append("ADD CONSTRAINT ").append(getName());
+        sb.append(fields());
         sb.append(separator);
-        sb.append("PRIMARY KEY (").append(fieldNames()).append(')');
+        sb.append(')');
+        sb.append(delimiter);
+        return sb.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final String toDropDDL() {
+        String separator = getConfiguration().getLineSeparator();
+        String delimiter = getConfiguration().getSqlStatDelimeter();
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(separator).append(separator);
+        sb.append("DROP TABLE ").append(getName());
         sb.append(delimiter);
         return sb.toString();
     }

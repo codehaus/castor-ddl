@@ -29,7 +29,7 @@ public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory {
     /**
      * {@inheritDoc}
      */
-    public String getAlgorithmName() { return UUIDKey.ALGORITHM_NAME; }
+    public String getAlgorithmName() { return UUIDKeyGenerator.ALGORITHM_NAME; }
     
     /**
      * {@inheritDoc}
@@ -40,7 +40,7 @@ public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory {
      * {@inheritDoc}
      */
     public KeyGenerator createKeyGenerator() {
-        return new UUIDKey();
+        return new UUIDKeyGenerator();
     }
     
     /**
@@ -48,6 +48,6 @@ public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory {
      */
     public KeyGenerator createKeyGenerator(final KeyGeneratorDef definition)
     throws GeneratorException {
-        return new UUIDKey(definition);
+        return new UUIDKeyGenerator(definition);
     }
 }

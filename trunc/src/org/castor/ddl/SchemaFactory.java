@@ -16,6 +16,12 @@
 
 package org.castor.ddl;
 
+import org.castor.ddl.schemaobject.DefaultField;
+import org.castor.ddl.schemaobject.DefaultForeignKey;
+import org.castor.ddl.schemaobject.DefaultIndex;
+import org.castor.ddl.schemaobject.DefaultPrimaryKey;
+import org.castor.ddl.schemaobject.DefaultSchema;
+import org.castor.ddl.schemaobject.DefaultTable;
 import org.castor.ddl.schemaobject.Field;
 import org.castor.ddl.schemaobject.ForeignKey;
 import org.castor.ddl.schemaobject.Index;
@@ -47,7 +53,7 @@ public class SchemaFactory {
      * @return table
      */
     public Table createTable() {
-        return new Table();
+        return new DefaultTable();
     }
 
     /**
@@ -56,7 +62,7 @@ public class SchemaFactory {
      * @return field
      */
     public Field createField() {
-        return new Field();
+        return new DefaultField();
     }
 
     /**
@@ -65,7 +71,7 @@ public class SchemaFactory {
      * @return schema
      */
     public Schema createSchema() {
-        return new Schema();
+        return new DefaultSchema();
     }
 
     /**
@@ -74,7 +80,7 @@ public class SchemaFactory {
      * @return foreign key
      */
     public ForeignKey createForeignKey() {
-        return new ForeignKey();
+        return new DefaultForeignKey();
     }
 
     /**
@@ -83,7 +89,7 @@ public class SchemaFactory {
      * @return index
      */
     public Index createIndex() {
-        return new Index();
+        return new DefaultIndex();
     }
 
     /**
@@ -91,6 +97,6 @@ public class SchemaFactory {
      * @return primary key
      */
     public PrimaryKey createPrimaryKey() {
-        return new PrimaryKey();
+        return new DefaultPrimaryKey();
     }
 }

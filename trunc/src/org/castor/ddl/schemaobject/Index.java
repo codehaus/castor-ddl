@@ -15,28 +15,117 @@
  */
 package org.castor.ddl.schemaobject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Current implemetation is not supported INDEX creation.
- * 
- * CREATE INDEX IDX_PCPC_ARTIKEL
- * ON TAB_PCV_PROBECARD (PCPC_ARTIKEL)
- * TABLESPACE IDX_FIM1_PPT
+ * Abstract base class for all indices.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public class Index extends AbstractSchemaObject {
+public abstract class Index extends AbstractSchemaObject {
+    //--------------------------------------------------------------------------
+
+    /** List of index fields. */
+    private List _fields = new ArrayList();
+
+    /** Table the index is used for. */
+    private Table _table;
+
+    //--------------------------------------------------------------------------
+
     /**
-     * Constructor for Index
+     * Add given field to list of index fields.
+     * 
+     * @param field Field to add to list of index fields.
      */
-    public Index() {
-        super();
+    public final void addField(final Field field) {
+        _fields.add(field);
+    }
+    
+    /**
+     * Get number of index fields.
+     * 
+     * @return Number of index fields.
+     */
+    public final int getFieldCount() {
+        return _fields.size();
+    }
+    
+    /**
+     * Get index field at given index.
+     * 
+     * @param index Index of index field to return.
+     * @return Index field at given index.
+     */
+    public final Field getField(final int index) {
+        return (Field) _fields.get(index);
+    }
+    
+    /**
+     * Set table the foreign key is used for.
+     * 
+     * @param table Table the foreign key is used for.
+     */
+    public final void setTable(final Table table) {
+        _table = table;
     }
 
     /**
-     * Create DDL for Index
-     * @return ddl string
+     * Get table the foreign key is used for.
+     * 
+     * @return Table the foreign key is used for.
      */
-    public String toDDL() {
-        return "";
+    public final Table getTable() {
+        return _table;
     }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Concatenate all field names delimited by field delimiter and whitespace.
+     * 
+     * @return Field names delimited by field delimiter and whitespace.
+     */
+    protected final String fieldNames() {
+        String delimiter = getConfiguration().getSqlFieldDelimeter();
+        
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < getFieldCount(); i++) {
+            if (i > 0) { sb.append(delimiter).append(' '); }
+            sb.append(getField(i).getName());
+        }
+        return sb.toString();
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public final boolean equals(final Object other) {
+        if (other == this) { return true; }
+        if (other == null) { return false; }
+        if (other.getClass() != this.getClass()) { return false; }
+        
+        Index index = (Index) other;
+        return equals(getName(), index.getName())
+            && equals(_table, index._table)
+            && equals(_fields, index._fields);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final int hashCode() {
+        int hashCode = 0;
+        if (getName() != null) { hashCode += getName().hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_table != null) { hashCode += _table.hashCode(); }
+        hashCode *= HASHFACTOR;
+        hashCode += _fields.hashCode();
+        return hashCode;
+    }
+
+    //--------------------------------------------------------------------------
 }

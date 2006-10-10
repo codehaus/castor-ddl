@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.castor.ddl.engine.hsql;
 
+import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Table;
 
 /**
@@ -24,22 +24,34 @@ import org.castor.ddl.schemaobject.Table;
  */
 public final class HsqlTable extends Table {
     /**
-     * Constructor for HsqlTable
+     * {@inheritDoc}
      */
-    public HsqlTable() {
-        super();
+    public String toCreateDDL() throws GeneratorException {
+        String separator = getConfiguration().getLineSeparator();
+        String delimiter = getConfiguration().getSqlStatDelimeter();
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(separator).append(separator);
+        sb.append("CREATE TABLE ").append(getName()).append(" (");
+        sb.append(separator);
+        sb.append(fields());
+        sb.append(separator);
+        sb.append(')');
+        sb.append(delimiter);
+        return sb.toString();
     }
 
     /**
      * {@inheritDoc}
      */
     public String toDropDDL() {
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+        String separator = getConfiguration().getLineSeparator();
+        String delimiter = getConfiguration().getSqlStatDelimeter();
 
-        buff.append("DROP TABLE IF EXISTS ").append(getName());
-        buff.append(getConfiguration().getSqlStatDelimeter());
-
-        return buff.toString();
-        
+        StringBuffer sb = new StringBuffer();
+        sb.append(separator).append(separator);
+        sb.append("DROP TABLE IF EXISTS ").append(getName());
+        sb.append(delimiter);
+        return sb.toString();
     }
 }

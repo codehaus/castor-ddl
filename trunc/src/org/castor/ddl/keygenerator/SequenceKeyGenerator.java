@@ -26,7 +26,9 @@ import org.exolab.castor.mapping.xml.Param;
  *
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class SequenceKey extends KeyGenerator {
+public final class SequenceKeyGenerator extends KeyGenerator {
+    //--------------------------------------------------------------------------
+
     /** Name of key generator algorithm. */
     public static final String ALGORITHM_NAME = "SEQUENCE";
     
@@ -58,13 +60,15 @@ public final class SequenceKey extends KeyGenerator {
     /** Increment for the sequence. Used for interbase only. Defaults to "1". */
     private int _increment = 1;
     
+    //--------------------------------------------------------------------------
+
     /**
      * Constructor for default SEQUENCE key generator.
      * 
      * @param factory The key generator factory that has created this key generator and
      *        will also be responsible to generate the DDL for the sequence.
      */
-    protected SequenceKey(final SequenceKeyGeneratorFactory factory)  {
+    protected SequenceKeyGenerator(final SequenceKeyGeneratorFactory factory)  {
         super(ALGORITHM_NAME, ALGORITHM_NAME);
         
         _factory = factory;
@@ -78,7 +82,7 @@ public final class SequenceKey extends KeyGenerator {
      * @param definition Key generator definition.
      * @throws GeneratorException If increment parameter can't be parsed as integer.
      */
-    protected SequenceKey(final SequenceKeyGeneratorFactory factory,
+    protected SequenceKeyGenerator(final SequenceKeyGeneratorFactory factory,
                           final KeyGeneratorDef definition)
     throws GeneratorException {
         super(ALGORITHM_NAME, definition.getAlias());
@@ -105,6 +109,8 @@ public final class SequenceKey extends KeyGenerator {
             }            
         }                
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Get name of the sequence.
@@ -135,12 +141,25 @@ public final class SequenceKey extends KeyGenerator {
      */
     public int getIncrement() { return _increment; }
 
+    //--------------------------------------------------------------------------
+
     /**
-     * Delegate generation of DDL to factory.
+     * Delegate generation of create script to factory.
      * <br/>
      * {@inheritDoc}
      */
-    public String toDDL() {
-        return _factory.generateDDL(this);
+    public String toCreateDDL() {
+        return _factory.toCreateDDL(this);
     }
+
+    /**
+     * Delegate generation of drop script to factory.
+     * <br/>
+     * {@inheritDoc}
+     */
+    public String toDropDDL() {
+        return _factory.toDropDDL(this);
+    }
+
+    //--------------------------------------------------------------------------
 }

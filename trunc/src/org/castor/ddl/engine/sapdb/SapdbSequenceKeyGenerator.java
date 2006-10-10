@@ -19,7 +19,7 @@ import java.text.MessageFormat;
 
 import org.castor.ddl.BaseConfiguration;
 import org.castor.ddl.Configuration;
-import org.castor.ddl.keygenerator.SequenceKey;
+import org.castor.ddl.keygenerator.SequenceKeyGenerator;
 import org.castor.ddl.keygenerator.SequenceKeyGeneratorFactory;
 import org.castor.ddl.schemaobject.KeyGenerator;
 
@@ -32,8 +32,8 @@ public final class SapdbSequenceKeyGenerator extends SequenceKeyGeneratorFactory
     /**
      * {@inheritDoc}
      */
-    public String generateDDL(final KeyGenerator key) {
-        SequenceKey sequenceKey = (SequenceKey) key;
+    public String toCreateDDL(final KeyGenerator key) {
+        SequenceKeyGenerator sequenceKey = (SequenceKeyGenerator) key;
         Configuration conf = sequenceKey.getConfiguration();
         StringBuffer buff = new StringBuffer();
         String tableName = sequenceKey.getTable().getName();
@@ -72,5 +72,12 @@ public final class SapdbSequenceKeyGenerator extends SequenceKeyGeneratorFactory
         }
         
         return buff.toString();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toDropDDL(final KeyGenerator key) {
+        return "";
     }
 }

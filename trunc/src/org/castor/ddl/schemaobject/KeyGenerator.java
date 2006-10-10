@@ -30,11 +30,8 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(KeyGenerator.class);
     
-    /** Name of the key generator algorithm. */
-    private final String _name;
-    
     /** Alias of the key generator. */
-    private final String _alias;
+    private String _alias;
 
     /** Table the key generator creates keys for. */
     private Table _table;
@@ -50,19 +47,19 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
     protected KeyGenerator(final String name, final String alias) {
         super();
         
-        _name = name;
-        _alias = (alias != null) ? alias : name;
+        setName(name);
+        setAlias((alias != null) ? alias : name);
     }
 
     //--------------------------------------------------------------------------
 
     /**
-     * Get name of the key generator algorithm.
+     * Set alias of the key generator.
      * 
-     * @return Name of the key generator algorithm.
+     * @param alias Alias of the key generator.
      */
-    public final String getName() { return _name; }
-
+    public final void setAlias(final String alias) { _alias = alias; }
+    
     /**
      * Get alias of the key generator.
      * 
@@ -88,31 +85,54 @@ public abstract class KeyGenerator extends AbstractSchemaObject {
         return _table;
     }
 
-    /**
-     * Generate DDL for key generator.
-     * 
-     * @return DDL script.
-     */
-    public abstract String toDDL();
+    //--------------------------------------------------------------------------
 
     /**
      * Check wether this key generator is compatible with the given one to allow merge
      * of table definitions.
      * 
-     * @param keygenerator Key generator to merge.
+     * @param keygen Key generator to merge.
      */
-    public final void merge(final KeyGenerator keygenerator) {
-        if (keygenerator == null) {
+    public final void merge(final KeyGenerator keygen) {
+        if (keygen == null) {
             String msg = "Merge table has no key generator";
             LOG.warn(msg);
         } else {
-            String alias = getAlias();
-            if ((alias == null) || !alias.equalsIgnoreCase(keygenerator.getAlias())) {
+            if ((getAlias() == null) || !getAlias().equalsIgnoreCase(keygen.getAlias())) {
                 String msg = "Merge table has different key generator: "
-                    + alias + " / " + keygenerator.getAlias();
+                    + getAlias() + " / " + keygen.getAlias();
                 LOG.warn(msg);
             }
         }
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public final boolean equals(final Object other) {
+        if (other == this) { return true; }
+        if (other == null) { return false; }
+        if (other.getClass() != this.getClass()) { return false; }
+        
+        KeyGenerator kg = (KeyGenerator) other;
+        return equals(getName(), kg.getName())
+            && equals(_alias, kg._alias)
+            && equals(_table, kg._table);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final int hashCode() {
+        int hashCode = 0;
+        if (getName() != null) { hashCode += getName().hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_alias != null) { hashCode += _alias.hashCode(); }
+        hashCode *= HASHFACTOR;
+        if (_table != null) { hashCode += _table.hashCode(); }
+        return hashCode;
     }
 
     //--------------------------------------------------------------------------

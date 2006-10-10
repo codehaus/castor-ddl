@@ -13,9 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package org.castor.ddl.engine.mysql;
 
+import org.castor.ddl.GeneratorException;
 import org.castor.ddl.schemaobject.Table;
 
 /**
@@ -24,41 +24,39 @@ import org.castor.ddl.schemaobject.Table;
  */
 public final class MysqlTable extends Table {
     /**
-     * Constructor for MysqlTable
-     */
-    protected MysqlTable() {
-        super();
-    }
-
-    /**
-     * 
-     * @return engine creation statement
-     */
-    private String createEngineStatement() {
-        String engine = getConfiguration().getStringValue(
-                MysqlConfigurationKey.STORAGE_ENGINE, null);
-        if (engine == null || "".equals(engine)) {
-            return "";
-        }
-        return " ENGINE=" + engine;
-    }
-
-    /** 
      * {@inheritDoc}
      */
-    protected String postCreateTable() {
-        return ")" + createEngineStatement();
+    public String toCreateDDL() throws GeneratorException {
+        String separator = getConfiguration().getLineSeparator();
+        String delimiter = getConfiguration().getSqlStatDelimeter();
+        String engine = getConfiguration().getStringValue(
+                MysqlConfigurationKey.STORAGE_ENGINE, null);
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(separator).append(separator);
+        sb.append("CREATE TABLE ").append(getName()).append(" (");
+        sb.append(separator);
+        sb.append(fields());
+        sb.append(separator);
+        sb.append(')');
+        if ((engine != null) && !"".equals(engine)) {
+            sb.append(" ENGINE=").append(engine);
+        }
+        sb.append(delimiter);
+        return sb.toString();
     }
 
     /** 
      * {@inheritDoc}
      */
     public String toDropDDL() {
-        StringBuffer buff = new StringBuffer(getConfiguration().getLineSeparator());
+        String separator = getConfiguration().getLineSeparator();
+        String delimiter = getConfiguration().getSqlStatDelimeter();
 
-        buff.append("DROP TABLE IF EXISTS ").append(getName());
-        buff.append(getConfiguration().getSqlStatDelimeter());
-
-        return buff.toString();
+        StringBuffer sb = new StringBuffer();
+        sb.append(separator).append(separator);
+        sb.append("DROP TABLE IF EXISTS ").append(getName());
+        sb.append(delimiter);
+        return sb.toString();
     }
 }

@@ -13,33 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.ddl.engine.hsql;
-
-import org.castor.ddl.schemaobject.PrimaryKey;
+package org.castor.ddl.schemaobject;
 
 /**
- * Primary key of HSQL database engine.
+ * Default index.
  * 
  * @author <a href="mailto:leducbao@gmail.com">Le Duc Bao</a>
  */
-public final class HsqlPrimaryKey extends PrimaryKey {
+public final class DefaultIndex extends Index {
     /**
      * {@inheritDoc}
      */
     public String toCreateDDL() {
-        if (getFieldCount() <= 0) { return ""; }
-        
         String separator = getConfiguration().getLineSeparator();
         String delimiter = getConfiguration().getSqlStatDelimeter();
 
         StringBuffer sb = new StringBuffer();
         sb.append(separator).append(separator);
-        sb.append("ALTER TABLE ").append(getTable().getName());
+        sb.append("CREATE UNIQUE INDEX ").append(getName());
         sb.append(separator);
-        sb.append("ADD CONSTRAINT ").append(getName());
-        sb.append(separator);
-        sb.append("PRIMARY KEY (").append(fieldNames()).append(')');
+        sb.append("ON ").append(getTable().getName());
+        sb.append(" (").append(fieldNames()).append(')');
         sb.append(delimiter);
         return sb.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String toDropDDL() {
+        return "";
     }
 }
